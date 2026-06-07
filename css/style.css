@@ -50,7 +50,7 @@ body {
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   overflow-x: hidden;
   word-break: keep-all;
   overflow-wrap: break-word;
@@ -98,7 +98,7 @@ img, svg { display: block; max-width: 100%; }
 
 /* ---------- layout helpers ---------- */
 .container { width: 100%; max-width: var(--maxw); margin: 0 auto; padding-inline: var(--pad); }
-.section { padding-block: clamp(72px, 11vw, 140px); position: relative; }
+.section { padding-block: clamp(72px, 11vw, 140px); position: relative; scroll-margin-top: 88px; }
 .section--tight { padding-block: clamp(56px, 8vw, 100px); }
 .section--alt { background:
   linear-gradient(180deg, transparent, rgba(255,255,255,0.014) 12%, rgba(255,255,255,0.014) 88%, transparent);
@@ -125,14 +125,14 @@ img, svg { display: block; max-width: 100%; }
 }
 
 /* ---------- section head ---------- */
-.section__head { margin-bottom: clamp(40px, 6vw, 68px); }
+.section__head { margin-bottom: clamp(40px, 6vw, 68px); scroll-margin-top: 96px; }
 .section__no {
   font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent);
   letter-spacing: 0.1em; display: block; margin-bottom: 12px; opacity: 0.85;
 }
 .section__title {
   font-family: var(--font-display); font-weight: 600;
-  font-size: clamp(2rem, 5vw, 3.1rem); line-height: 1.05; letter-spacing: -0.02em;
+  font-size: clamp(2rem, 5vw, 3.1rem); line-height: 1.05; letter-spacing: 0;
 }
 .section__sub { color: var(--text-2); margin-top: 12px; font-size: clamp(0.95rem, 2vw, 1.08rem); }
 
@@ -168,7 +168,7 @@ img, svg { display: block; max-width: 100%; }
   padding-block: 12px;
 }
 .nav__brand { display: flex; align-items: center; gap: 11px; font-family: var(--font-display);
-  font-weight: 700; font-size: 1.08rem; letter-spacing: 0.02em; margin-right: auto; }
+  font-weight: 700; font-size: 1.08rem; letter-spacing: 0; margin-right: auto; }
 .nav__logo { width: 30px; height: 30px; color: var(--accent); display: grid; place-items: center;
   border: 1px solid var(--line-2); border-radius: 9px; background: var(--surface); }
 .nav__logo svg { width: 17px; height: 17px; }
@@ -205,7 +205,7 @@ img, svg { display: block; max-width: 100%; }
 .hero__copy { max-width: 620px; }
 .hero__title {
   font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(2.3rem, 5vw, 3.8rem); line-height: 1.06; letter-spacing: -0.03em;
+  font-size: clamp(2.3rem, 5vw, 3.8rem); line-height: 1.06; letter-spacing: 0;
   margin: 22px 0 24px;
 }
 .hero__lede { color: var(--text-2); font-size: clamp(1rem, 2vw, 1.15rem); max-width: 540px; }
@@ -302,7 +302,7 @@ img, svg { display: block; max-width: 100%; }
 .about { display: grid; grid-template-columns: 1fr; gap: clamp(36px, 5vw, 56px); }
 .about__lead p:first-child {
   font-family: var(--font-display); font-weight: 500;
-  font-size: clamp(1.3rem, 3vw, 2rem); line-height: 1.4; letter-spacing: -0.02em; max-width: 900px;
+  font-size: clamp(1.3rem, 3vw, 2rem); line-height: 1.4; letter-spacing: 0; max-width: 900px;
 }
 .about__lead em { color: var(--accent); font-style: normal; }
 .about__lead strong { color: var(--text); }
@@ -404,12 +404,12 @@ img, svg { display: block; max-width: 100%; }
   background: var(--surface); transition: transform 0.4s var(--ease), border-color 0.4s, background 0.4s; }
 .bizcat:hover { transform: translateY(-4px); border-color: var(--line-2); background: var(--surface-2); }
 .bizcat__h { display: flex; align-items: baseline; gap: 9px; font-size: 1.02rem; font-weight: 600;
-  padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--line); letter-spacing: -0.01em; }
+  padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--line); letter-spacing: 0; }
 .bizcat__no { font-family: var(--font-mono); font-size: 0.76rem; color: var(--accent); }
 .bizcat__list { display: flex; flex-direction: column; gap: 11px; }
 .bizcat__list li { display: flex; flex-direction: column; gap: 2px; }
 .bizcat__list b { font-weight: 600; font-size: 0.95rem; color: var(--text); }
-.bizcat__list span { font-family: var(--font-mono); font-size: 0.71rem; color: var(--text-3); letter-spacing: 0.01em; }
+.bizcat__list span { font-family: var(--font-sans); font-size: 0.78rem; line-height: 1.45; color: var(--text-3); letter-spacing: 0; }
 
 /* =========================================================
    WORK / PROJECTS
@@ -428,7 +428,7 @@ img, svg { display: block; max-width: 100%; }
 .proj__cat { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; color: var(--accent);
   border: 1px solid rgba(44,232,166,0.3); padding: 5px 11px; border-radius: 999px; background: var(--accent-soft); white-space: nowrap; }
 .proj__period { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-3); letter-spacing: 0.02em; white-space: nowrap; }
-.proj__title { font-size: clamp(1.15rem, 2.3vw, 1.45rem); font-weight: 600; margin-bottom: 10px; letter-spacing: -0.01em; }
+.proj__title { font-size: clamp(1.15rem, 2.3vw, 1.45rem); font-weight: 600; margin-bottom: 10px; letter-spacing: 0; }
 .proj__desc { color: var(--text-2); font-size: 0.95rem; margin-bottom: 14px; }
 .proj__desc strong { color: var(--text); font-weight: 600; }
 .proj__insight { font-size: 0.9rem; color: var(--text); line-height: 1.55; margin-bottom: 18px;
@@ -524,7 +524,7 @@ img, svg { display: block; max-width: 100%; }
 .section--contact { padding-block: clamp(90px, 14vw, 170px); text-align: center; }
 .contact { max-width: 720px; margin: 0 auto; }
 .contact__title { font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1.04; letter-spacing: -0.03em; margin: 22px 0 16px; }
+  font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1.04; letter-spacing: 0; margin: 22px 0 16px; }
 .contact__sub { color: var(--text-2); font-size: clamp(1rem, 2vw, 1.15rem); margin-bottom: 40px; }
 .contact__mail { display: inline-flex; align-items: center; gap: 14px; flex-wrap: wrap; justify-content: center;
   font-family: var(--font-display); font-size: clamp(1.2rem, 3.5vw, 2rem); font-weight: 600;
