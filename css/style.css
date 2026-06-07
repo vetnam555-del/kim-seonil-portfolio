@@ -610,3 +610,7 @@ img, svg { display: block; max-width: 100%; }
   .hero__title { font-size: 2.5rem; }
   .panel__value { font-size: 2.2rem; }
 }
+
+
+#brands .bizgrid > div:nth-of-type(9) ul li:nth-child(3) b{font-size:0}
+#brands .bizgrid > div:nth-of-type(9) ul li:nth-child(3) b:after{content:"\b808\c624\bc84\b137";font-size:.95rem}
