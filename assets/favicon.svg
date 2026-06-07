@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="SEONIL portfolio">
+  <rect width="100" height="100" rx="22" fill="#070b12"/>
+  <path d="M22 66 L42 46 L56 58 L78 30" fill="none" stroke="#2ce8a6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="78" cy="30" r="7" fill="#2ce8a6"/>
+</svg>

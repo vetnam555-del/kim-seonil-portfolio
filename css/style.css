@@ -342,6 +342,7 @@ img, svg { display: block; max-width: 100%; }
   -webkit-background-clip: text; background-clip: text; color: transparent; }
 .metric__label { display: block; margin-top: 14px; color: var(--text-2); font-size: 0.92rem; line-height: 1.5; }
 .metric__label em { color: var(--text-3); font-style: normal; font-size: 0.84rem; }
+.metrics__note { margin-top: 14px; color: var(--text-3); font-size: 0.82rem; line-height: 1.6; }
 
 /* =========================================================
    TIMELINE
@@ -400,6 +401,11 @@ img, svg { display: block; max-width: 100%; }
    BRANDS
    ========================================================= */
 .bizgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
+.brand-highlights { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: -26px 0 22px;
+  padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); }
+.brand-highlights span { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.12em; color: var(--accent); margin-right: 4px; }
+.brand-highlights b { font-size: 0.82rem; font-weight: 600; color: var(--text-2); padding: 6px 10px;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--bg-2); }
 .bizcat { border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 22px 18px;
   background: var(--surface); transition: transform 0.4s var(--ease), border-color 0.4s, background 0.4s; }
 .bizcat:hover { transform: translateY(-4px); border-color: var(--line-2); background: var(--surface-2); }
@@ -415,6 +421,14 @@ img, svg { display: block; max-width: 100%; }
    WORK / PROJECTS
    ========================================================= */
 .work { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.project-focus { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: -28px 0 24px; }
+.project-focus a { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 16px 18px;
+  border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface);
+  transition: transform 0.35s var(--ease), border-color 0.35s, background 0.35s; }
+.project-focus a:hover { transform: translateY(-3px); border-color: rgba(44,232,166,0.36); background: var(--surface-2); }
+.project-focus span { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); }
+.project-focus b { font-size: 0.94rem; font-weight: 700; color: var(--text); white-space: nowrap; }
+.project-focus em { margin-left: auto; font-style: normal; font-size: 0.78rem; color: var(--text-3); white-space: nowrap; }
 .proj { border: 1px solid var(--line); border-radius: var(--radius); padding: 0;
   background: var(--surface); position: relative; overflow: hidden;
   transition: transform 0.45s var(--ease), border-color 0.45s, background 0.45s; }
@@ -423,6 +437,8 @@ img, svg { display: block; max-width: 100%; }
   opacity: 0; transition: opacity 0.4s; }
 .proj:hover { transform: translateY(-6px); border-color: var(--line-2); background: var(--surface-2); }
 .proj:hover::after { opacity: 1; }
+.proj--priority { border-color: rgba(56,189,248,0.26);
+  background: linear-gradient(145deg, rgba(56,189,248,0.07), rgba(44,232,166,0.03), var(--surface)); }
 .proj__inner { padding: 28px 28px 26px; display: flex; flex-direction: column; height: 100%; position: relative; z-index: 1; }
 .proj__meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
 .proj__cat { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; color: var(--accent);
@@ -578,6 +594,7 @@ img, svg { display: block; max-width: 100%; }
   .pillars { grid-template-columns: 1fr; }
   .metrics { grid-template-columns: repeat(2, 1fr); }
   .bizgrid { grid-template-columns: repeat(2, 1fr); }
+  .project-focus { grid-template-columns: 1fr; }
   .proj--feature { grid-template-columns: 1fr; }
   .proj--feature .proj__inner { padding: 32px 30px 4px; }
   .proj__viz { margin: 0 30px 30px; min-height: 190px; }
@@ -595,6 +612,11 @@ img, svg { display: block; max-width: 100%; }
   .work { grid-template-columns: 1fr; }
   .metrics { grid-template-columns: 1fr; }
   .bizgrid { grid-template-columns: 1fr; }
+  .brand-highlights { margin-top: -18px; }
+  .brand-highlights span { width: 100%; }
+  .project-focus { margin-top: -18px; }
+  .project-focus a { padding: 14px 15px; }
+  .project-focus em { margin-left: 0; }
   .award__list { grid-template-columns: 1fr; }
   .award__list li { grid-template-columns: 56px 1fr auto; }
   .award--hero { flex-wrap: wrap; }
@@ -610,7 +632,3 @@ img, svg { display: block; max-width: 100%; }
   .hero__title { font-size: 2.5rem; }
   .panel__value { font-size: 2.2rem; }
 }
-
-
-#brands .bizgrid > div:nth-of-type(9) ul li:nth-child(3) b{font-size:0}
-#brands .bizgrid > div:nth-of-type(9) ul li:nth-child(3) b:after{content:"\b808\c624\bc84\b137";font-size:.95rem}
