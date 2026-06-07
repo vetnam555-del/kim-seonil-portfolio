@@ -400,13 +400,13 @@ img, svg { display: block; max-width: 100%; }
 /* =========================================================
    BRANDS
    ========================================================= */
-.bizgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
+.bizgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
 .brand-highlights { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: -26px 0 22px;
   padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); }
 .brand-highlights span { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.12em; color: var(--accent); margin-right: 4px; }
 .brand-highlights b { font-size: 0.82rem; font-weight: 600; color: var(--text-2); padding: 6px 10px;
   border: 1px solid var(--line); border-radius: 999px; background: var(--bg-2); }
-.bizcat { border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 22px 18px;
+.bizcat { height: 100%; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 22px 18px;
   background: var(--surface); transition: transform 0.4s var(--ease), border-color 0.4s, background 0.4s; }
 .bizcat:hover { transform: translateY(-4px); border-color: var(--line-2); background: var(--surface-2); }
 .bizcat__h { display: flex; align-items: baseline; gap: 9px; font-size: 1.02rem; font-weight: 600;
