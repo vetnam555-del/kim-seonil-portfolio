@@ -451,12 +451,18 @@ img, svg { display: block; max-width: 100%; }
   padding: 11px 14px; border-radius: 10px; background: var(--accent-soft); border: 1px solid rgba(44,232,166,0.2); }
 .proj__insight b { display: inline-block; font-family: var(--font-mono); font-size: 0.64rem; font-weight: 700;
   letter-spacing: 0.08em; color: var(--accent); margin-right: 8px; vertical-align: 1px; }
+.proj__automation { display: grid; gap: 8px; margin: -4px 0 18px; }
+.proj__automation p { margin: 0; padding: 10px 12px; border-left: 2px solid rgba(56,189,248,0.58);
+  border-radius: 8px; background: rgba(56,189,248,0.055); color: var(--text-2); font-size: 0.88rem; line-height: 1.55; }
+.proj__automation b { display: inline-block; margin-right: 8px; color: var(--accent); font-family: var(--font-mono);
+  font-size: 0.63rem; letter-spacing: 0.08em; text-transform: uppercase; vertical-align: 1px; }
 .proj__tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 22px; }
 .proj__tags li { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-3);
   padding: 4px 10px; border-radius: 7px; background: var(--bg-2); border: 1px solid var(--line); }
 
 /* KPI stat tiles */
 .proj__stats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; }
+.proj__stats--quad { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .stat { flex: 1 1 0; min-width: 90px; border: 1px solid var(--line); border-radius: var(--radius-sm);
   background: var(--bg-2); padding: 13px 14px; transition: border-color 0.3s, transform 0.3s var(--ease); }
 .proj:hover .stat { border-color: var(--line-2); }
@@ -610,6 +616,7 @@ img, svg { display: block; max-width: 100%; }
   .nav.open .nav__links a { padding: 12px 13px; font-size: 1rem; }
   .skills { grid-template-columns: 1fr; }
   .work { grid-template-columns: 1fr; }
+  .proj__stats--quad { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .metrics { grid-template-columns: 1fr; }
   .bizgrid { grid-template-columns: 1fr; }
   .brand-highlights { margin-top: -18px; }
