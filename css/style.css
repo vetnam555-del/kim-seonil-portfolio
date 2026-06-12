@@ -505,6 +505,11 @@ img, svg { display: block; max-width: 100%; }
 .proj__tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 22px; }
 .proj__tags li { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-3);
   padding: 4px 10px; border-radius: 7px; background: var(--bg-2); border: 1px solid var(--line); }
+.proj__proof { margin-top: 14px; padding: 12px 14px; border-radius: 10px;
+  border: 1px solid rgba(167,139,250,0.24); background: rgba(167,139,250,0.065); }
+.proj__proof span { display: block; margin-bottom: 5px; font-family: var(--font-mono); font-size: 0.63rem;
+  letter-spacing: 0.12em; color: var(--accent-3); text-transform: uppercase; }
+.proj__proof p { margin: 0; color: var(--text-2); font-size: 0.82rem; line-height: 1.55; }
 
 /* KPI stat tiles */
 .proj__stats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; }
@@ -512,7 +517,7 @@ img, svg { display: block; max-width: 100%; }
 .stat { flex: 1 1 0; min-width: 90px; border: 1px solid var(--line); border-radius: var(--radius-sm);
   background: var(--bg-2); padding: 13px 14px; transition: border-color 0.3s, transform 0.3s var(--ease); }
 .proj:hover .stat { border-color: var(--line-2); }
-.stat__v { display: block; font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; line-height: 1; color: var(--text); }
+.stat__v { display: block; font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; line-height: 1; color: var(--text); white-space: nowrap; }
 .stat__v small { font-size: 0.78rem; color: var(--accent); font-weight: 600; margin-left: 1px; }
 .stat__l { display: block; margin-top: 8px; font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-3); letter-spacing: 0.01em; }
 
@@ -554,6 +559,13 @@ img, svg { display: block; max-width: 100%; }
 .js .in .ba__bar { animation: grow 1.4s var(--ease) 0.4s forwards; }
 .ba__v { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-2); white-space: nowrap; }
 .ba__note { font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-3); margin-top: 2px; line-height: 1.5; }
+
+.proof-panel { margin-top: 24px; display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 22px;
+  border: 1px solid var(--line-2); border-radius: var(--radius); padding: 24px 26px;
+  background: linear-gradient(135deg, rgba(167,139,250,0.09), rgba(44,232,166,0.035), var(--surface)); }
+.proof-panel__label { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent-3); letter-spacing: 0.14em; }
+.proof-panel h3 { font-size: 1.08rem; font-weight: 700; margin-bottom: 8px; }
+.proof-panel p { margin: 0; color: var(--text-2); font-size: 0.92rem; line-height: 1.7; }
 
 /* =========================================================
    AWARDS
@@ -670,7 +682,9 @@ img, svg { display: block; max-width: 100%; }
   .tool-wall__head p { margin-top: 8px; text-align: left; }
   .logo-list { grid-template-columns: 1fr; }
   .work { grid-template-columns: 1fr; }
+  .proj__stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .proj__stats--quad { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .proof-panel { grid-template-columns: 1fr; gap: 10px; padding: 20px; }
   .metrics { grid-template-columns: 1fr; }
   .bizgrid { grid-template-columns: 1fr; }
   .brand-highlights { margin-top: -18px; }
@@ -696,4 +710,6 @@ img, svg { display: block; max-width: 100%; }
   .hero__title { font-size: clamp(2.05rem, 11vw, 2.5rem); }
   .hero__lede { font-size: 0.98rem; }
   .panel__value { font-size: 2.2rem; }
+  .stat { min-width: 0; padding: 12px; }
+  .stat__v { font-size: 1.35rem; }
 }
