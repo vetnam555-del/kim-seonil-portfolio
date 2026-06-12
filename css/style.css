@@ -136,6 +136,13 @@ img, svg { display: block; max-width: 100%; }
 }
 .section__sub { color: var(--text-2); margin-top: 12px; font-size: clamp(0.95rem, 2vw, 1.08rem); }
 
+:where(.hero__copy, .hero__visual, .panel, .pillar, .metric, .skillcard, .bizcat, .proj, .proj__inner, .award, .contact) {
+  min-width: 0;
+}
+:where(.hero__lede, .about__lead, .about__body, .about__edge, .section__sub, .proj__desc, .proj__insight, .proj__automation p, .contact__sub) {
+  overflow-wrap: break-word;
+}
+
 /* ---------- buttons ---------- */
 .btn {
   display: inline-flex; align-items: center; gap: 9px;
@@ -590,6 +597,9 @@ img, svg { display: block; max-width: 100%; }
 .reveal { transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
 .js .reveal { opacity: 0; transform: translateY(28px); }
 .js .reveal.in { opacity: 1; transform: none; }
+.static .reveal { opacity: 1; transform: none; transition: none; }
+.static .viz-line { stroke-dashoffset: 0; }
+.static .viz-area { opacity: 1; }
 
 /* =========================================================
    RESPONSIVE
@@ -622,8 +632,11 @@ img, svg { display: block; max-width: 100%; }
   .brand-highlights { margin-top: -18px; }
   .brand-highlights span { width: 100%; }
   .project-focus { margin-top: -18px; }
-  .project-focus a { padding: 14px 15px; }
-  .project-focus em { margin-left: 0; }
+  .project-focus a { padding: 14px 15px; flex-wrap: wrap; }
+  .project-focus b, .project-focus em { white-space: normal; }
+  .project-focus em { margin-left: 0; width: 100%; }
+  .hero__inner, .hero__copy, .hero__visual, .panel { width: 100%; max-width: 100%; }
+  .hero__lede, .hero__chips, .proj__automation p { overflow-wrap: anywhere; }
   .award__list { grid-template-columns: 1fr; }
   .award__list li { grid-template-columns: 56px 1fr auto; }
   .award--hero { flex-wrap: wrap; }
@@ -636,6 +649,7 @@ img, svg { display: block; max-width: 100%; }
   .proj__viz { margin: 0 22px 22px; min-height: 170px; }
 }
 @media (max-width: 420px) {
-  .hero__title { font-size: 2.5rem; }
+  .hero__title { font-size: clamp(2.05rem, 11vw, 2.5rem); }
+  .hero__lede { font-size: 0.98rem; }
   .panel__value { font-size: 2.2rem; }
 }

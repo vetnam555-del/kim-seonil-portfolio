@@ -3,10 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- enable JS-only entrance animations without FOUC; content stays visible if JS is off -->
-  <script>document.documentElement.classList.add("js");</script>
+  <!-- enable JS-only entrance animations without FOUC; ?static=1 keeps the final state visible for QA/screenshots -->
+  <script>
+    if (location.search.indexOf("static") === -1) document.documentElement.classList.add("js");
+    else document.documentElement.classList.add("static");
+  </script>
   <title>김선일 · 디지털 퍼포먼스 마케터 Portfolio</title>
-  <meta name="description" content="검색·디스플레이·SNS를 하나의 전략으로 잇고 GA4·SQL로 성과를 증명하는 디지털 퍼포먼스 마케터 김선일. 20여 개 브랜드의 IMC 캠페인을 운영해 온 데이터 기반 마케터." />
+  <meta name="description" content="검색·디스플레이·SNS를 하나의 전략으로 잇고 GA4·SQL로 성과를 증명하는 디지털 퍼포먼스 마케터 김선일. 30여 개 브랜드의 IMC 캠페인을 운영해 온 데이터 기반 마케터." />
   <meta name="author" content="김선일 (KIM SEONIL)" />
 
   <meta property="og:type" content="website" />
@@ -29,7 +32,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
-  <link rel="stylesheet" href="css/style.css?v=20260607-polish" />
+  <link rel="stylesheet" href="css/style.css?v=20260612-quality" />
 </head>
 <body>
   <div class="scroll-progress" id="scrollProgress"></div>
@@ -72,7 +75,7 @@
         </h1>
         <p class="hero__lede">
           검색·디스플레이·SNS를 하나의 전략으로 잇고, <strong>GA4와 SQL</strong>로 그 성과를 숫자로 증명합니다.
-          20여 개 브랜드의 <strong>IMC 캠페인</strong>을 운영하며 전환과 매출을 끌어올려 온 디지털 퍼포먼스 마케터입니다.
+          30여 개 브랜드의 <strong>IMC 캠페인</strong>을 운영하며 전환과 매출을 끌어올려 온 디지털 퍼포먼스 마케터입니다.
         </p>
         <div class="hero__id">
           <span class="hero__id-name">김선일 <em>KIM SEONIL</em></span>
@@ -530,8 +533,8 @@
             <p class="proj__desc"><strong>인지–전환 퍼널 전 채널</strong>을 직접 설계·운용합니다. 브랜드검색(BSA)·검색·쇼핑부터 디스플레이·리타겟까지, 네이버·구글·메타·카카오·크리테오·RTB House·페이코를 아우르는 통합 미디어믹스로 효율을 관리합니다.</p>
             <p class="proj__insight"><b>전략 판단</b>채널별 분절 운영이 아닌, 인지–전환을 하나의 퍼널로 묶어 매체 간 시너지와 중복 노출을 함께 관리합니다.</p>
             <div class="proj__automation" aria-label="뉴발란스 자동화 성과">
-              <p><b>재고 모니터링</b>AI 기반 자동화 시스템을 구축해 일 평균 약 2시간 소요되던 수작업 재고 확인을 약 5분 수준으로 단축했습니다.</p>
-              <p><b>리포트 자동화</b>광고 매체 API 연동으로 키워드·소재(상품)별 상세 성과 데이터를 자동 수집·전달해 데일리 리포트 작성 시간을 약 30분에서 5분 수준으로 줄였습니다.</p>
+              <p><b>재고 모니터링</b>AI 기반 자동화 시스템을 구축해 일 평균 약 2시간(120분) 걸리던 수작업 재고 확인을 약 5분으로 줄여 <strong>약 96% 단축</strong>했습니다.</p>
+              <p><b>리포트 자동화</b>광고 매체 API 연동으로 키워드·소재(상품)별 상세 성과 데이터를 자동 수집·전달해 데일리 리포트 작성 시간을 약 60분에서 5분으로 줄여 <strong>약 92% 단축</strong>했습니다.</p>
             </div>
             <ul class="proj__tags">
               <li>네이버 BSA·SA</li><li>쇼핑검색</li><li>구글 SA</li><li>크리테오</li><li>RTB House</li><li>페이코</li><li>GFA 카탈로그·애드부스트</li><li>카카오 비즈보드</li><li>메타</li>
@@ -775,7 +778,7 @@
 
   <a href="#hero" class="totop" id="toTop" aria-label="맨 위로">↑</a>
 
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=20260612-quality"></script>
   <script>
     /* Failsafe: if main.js fails to load or the IntersectionObserver never
        fires, make sure nothing stays permanently hidden. */
