@@ -32,7 +32,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
-  <link rel="stylesheet" href="css/style.css?v=20260612-gangwon" />
+  <link rel="stylesheet" href="css/style.css?v=20260612-caseup" />
 </head>
 <body>
   <div class="scroll-progress" id="scrollProgress"></div>
@@ -70,13 +70,13 @@
   <section class="hero" id="hero">
     <div class="hero__inner">
       <div class="hero__copy reveal">
-        <span class="eyebrow"><span class="pulse"></span>PERFORMANCE · IMC · DATA</span>
+        <span class="eyebrow"><span class="pulse"></span>PAID MEDIA · COMMERCE GROWTH · AUTOMATION</span>
         <h1 class="hero__title">
-          브랜드의 <span class="grad">성장</span>을<br />데이터로 증명합니다
+          <span class="grad">Paid Media</span>와<br />커머스 성장을 데이터로 연결합니다
         </h1>
         <p class="hero__lede">
-          검색·디스플레이·SNS를 하나의 전략으로 잇고, <strong>GA4와 SQL</strong>로 그 성과를 숫자로 증명합니다.
-          30여 개 브랜드의 <strong>IMC 캠페인</strong>을 운영하며 전환과 매출을 끌어올려 온 디지털 퍼포먼스 마케터입니다.
+          검색·쇼핑·디스플레이·리타겟팅 운영을 전환 경로와 연결하고, <strong>GA4·SQL·매체 API</strong>로 성과를 검증합니다.
+          30여 개 브랜드에서 <strong>성과 개선과 운영 자동화</strong>를 함께 만든 퍼포먼스 마케터입니다.
         </p>
         <div class="hero__id">
           <span class="hero__id-name">김선일 <em>KIM SEONIL</em></span>
@@ -85,6 +85,7 @@
         </div>
         <div class="hero__actions">
           <a href="#work" class="btn btn--primary">프로젝트 보기 <span class="arr">→</span></a>
+          <a href="assets/kim-seonil-resume-remember.pdf" class="btn btn--ghost" download>이력서 다운로드</a>
           <a href="#contact" class="btn btn--ghost">연락하기</a>
         </div>
         <ul class="hero__chips" aria-label="핵심 역량 키워드">
@@ -567,9 +568,35 @@
         <a href="#project-gangwon"><span>04</span><b>강원심층수</b><em>스토어 전환</em></a>
       </div>
 
+      <div class="case-rail reveal" aria-label="대표 케이스스터디 요약">
+        <article class="case-mini">
+          <span>PROBLEM</span>
+          <h3>검색 의존 구조로 신규 유입 한계</h3>
+          <p>제이에스티나에서 SA 중심 운영을 SA+DA 통합 IMC로 재설계해 신규 접점을 넓혔습니다.</p>
+        </article>
+        <article class="case-mini">
+          <span>ACTION</span>
+          <h3>반복 운영 업무를 자동화 구조로 전환</h3>
+          <p>뉴발란스에서 재고 확인과 데일리 리포트 병목을 API·AI 기반 점검 체계로 줄였습니다.</p>
+        </article>
+        <article class="case-mini">
+          <span>RESULT</span>
+          <h3>자사몰 한계를 스토어 전환으로 보완</h3>
+          <p>강원심층수는 네이버스토어 중심 구조로 전환해 매출 볼륨과 구매 전환 효율을 개선했습니다.</p>
+        </article>
+      </div>
+
+      <div class="project-controls reveal" aria-label="프로젝트 필터">
+        <button class="filter-btn active" type="button" data-filter="all" aria-pressed="true">전체</button>
+        <button class="filter-btn" type="button" data-filter="commerce" aria-pressed="false">커머스</button>
+        <button class="filter-btn" type="button" data-filter="brand" aria-pressed="false">브랜드·IMC</button>
+        <button class="filter-btn" type="button" data-filter="automation" aria-pressed="false">자동화</button>
+        <button class="filter-btn" type="button" data-filter="content" aria-pressed="false">콘텐츠</button>
+      </div>
+
       <div class="work">
         <!-- FLAGSHIP -->
-        <article class="proj proj--feature reveal" id="project-jestina">
+        <article class="proj proj--feature reveal" id="project-jestina" data-filter="brand commerce">
           <div class="proj__inner">
             <div class="proj__meta">
               <span class="proj__cat">FLAGSHIP · IMC</span>
@@ -582,6 +609,11 @@
               <strong>UTM Builder</strong>로 성과 분석·리포팅을 자동화해 보고 시간을 60% 단축했습니다.
             </p>
             <p class="proj__insight"><b>전략 판단</b>검색만으로는 신규 확보에 한계 — DA를 더해 ‘인지부터’ 재설계한 결정이 ROAS 2.8배의 핵심이었습니다.</p>
+            <ul class="case-steps" aria-label="제이에스티나 케이스 흐름">
+              <li><b>문제</b><span>검색광고 중심 구조라 신규 접점 확장에 한계가 있었습니다.</span></li>
+              <li><b>실행</b><span>재구매·신규 유입 세그먼트를 분리하고 SA+DA 미디어믹스로 전환했습니다.</span></li>
+              <li><b>결과</b><span>ROAS와 전환매출을 동시에 끌어올리며 IMC 운영 구조를 검증했습니다.</span></li>
+            </ul>
             <ul class="proj__tags">
               <li>SA + DA</li><li>GA4</li><li>UTM 자동화</li><li>세그먼트 분석</li><li>미디어믹스</li>
             </ul>
@@ -595,6 +627,7 @@
               <span>Case Detail</span>
               <p>GA4·매체 리포트·UTM 기준으로 검색 중심 구조에서 SA+DA 통합 IMC 구조로 전환한 성과를 비교했습니다.</p>
             </div>
+            <p class="source-note">Source: GA4, 매체 리포트, UTM 기준 집계. 원본 계정·상품 정보는 비식별 처리.</p>
           </div>
           <div class="proj__viz" aria-hidden="true">
             <span class="proj__viz-label">ROAS GROWTH</span>
@@ -614,12 +647,17 @@
         </article>
 
         <!-- grid cards -->
-        <article class="proj proj--priority reveal" id="project-newbalance">
+        <article class="proj proj--priority reveal" id="project-newbalance" data-filter="commerce automation brand">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">현재 · 풀퍼널 운영</span><span class="proj__period">중앙그룹 HLL중앙 · 기여도 50%</span></div>
             <h3 class="proj__title">뉴발란스 — 전 채널 통합 매체 운영</h3>
             <p class="proj__desc"><strong>인지–전환 퍼널 전 채널</strong>을 직접 설계·운용합니다. 브랜드검색(BSA)·검색·쇼핑부터 디스플레이·리타겟까지, 네이버·구글·메타·카카오·크리테오·RTB 하우스·페이코를 아우르는 통합 미디어믹스로 효율을 관리합니다.</p>
             <p class="proj__insight"><b>전략 판단</b>채널별 분절 운영이 아닌, 인지–전환을 하나의 퍼널로 묶어 매체 간 시너지와 중복 노출을 함께 관리합니다.</p>
+            <ul class="case-steps" aria-label="뉴발란스 케이스 흐름">
+              <li><b>문제</b><span>운영 채널과 상품 수가 많아 리포트·재고 확인 업무가 반복적으로 쌓였습니다.</span></li>
+              <li><b>실행</b><span>매체 API와 재고 모니터링을 연결해 키워드·소재·상품 단위 데이터를 자동 수집했습니다.</span></li>
+              <li><b>결과</b><span>재고 확인과 데일리 리포트 시간을 줄이고, 운영 판단에 쓰는 시간을 늘렸습니다.</span></li>
+            </ul>
             <div class="proj__automation" aria-label="뉴발란스 자동화 성과">
               <p><b>재고 모니터링</b>AI 기반 자동화 시스템을 구축해 일 평균 약 2시간(120분) 걸리던 수작업 재고 확인을 약 5분으로 줄여 <strong>약 96% 단축</strong>했습니다.</p>
               <p><b>리포트 자동화</b>광고 매체 API 연동으로 키워드·소재(상품)별 상세 성과 데이터를 자동 수집·전달해 데일리 리포트 작성 시간을 약 60분에서 5분으로 줄여 <strong>약 92% 단축</strong>했습니다.</p>
@@ -637,10 +675,11 @@
               <span>Case Detail</span>
               <p>매체 API·재고 모니터링·데일리 리포트 자동화까지 운영 병목을 줄인 업무 개선 성과를 별도 산정했습니다.</p>
             </div>
+            <p class="source-note">Source: 내부 자동화 로그, 매체 API 수집 데이터, 운영 시간 산정 기준.</p>
           </div>
         </article>
 
-        <article class="proj reveal">
+        <article class="proj reveal" data-filter="commerce brand">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">자사몰 · 스마트스토어</span><span class="proj__period">2023.10–25.09</span></div>
             <h3 class="proj__title">쌤소나이트 (투미·그레고리)</h3>
@@ -653,12 +692,17 @@
           </div>
         </article>
 
-        <article class="proj proj--feature reveal" id="project-dyson">
+        <article class="proj proj--feature reveal" id="project-dyson" data-filter="brand content">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">YOUTUBE · 라이브커머스</span><span class="proj__period">2023.10–24.01 · 기여도 40%</span></div>
             <h3 class="proj__title">다이슨 — 유튜브 라이브커머스</h3>
             <p class="proj__desc">총예산 <strong>2억 규모</strong>로 브랜드 유튜브 커머스 채널을 구축하고, 제품 체험형 콘텐츠와 YouTube VAC를 운영해 채널을 브랜드의 핵심 매체로 키웠습니다.</p>
             <p class="proj__insight"><b>전략 판단</b>단기 할인이 아닌 ‘콘텐츠 채널 자산화’를 택해, 광고비 의존도를 낮추고 지속 가능한 구매 동력을 확보했습니다.</p>
+            <ul class="case-steps" aria-label="다이슨 케이스 흐름">
+              <li><b>문제</b><span>단기 매출 중심 광고만으로는 브랜드 채널의 장기 자산화가 어려웠습니다.</span></li>
+              <li><b>실행</b><span>YouTube VAC와 라이브커머스 콘텐츠를 연결해 제품 경험형 접점을 만들었습니다.</span></li>
+              <li><b>결과</b><span>구독자 성장과 구매 전환을 함께 확인하며 채널 운영 방향을 검증했습니다.</span></li>
+            </ul>
             <ul class="proj__tags">
               <li>YouTube VAC</li><li>콘텐츠 큐레이션</li><li>라이브커머스</li><li>GDN</li>
             </ul>
@@ -671,6 +715,7 @@
               <span>Case Detail</span>
               <p>YouTube VAC·라이브커머스·콘텐츠 큐레이션을 연결해 단기 매출과 채널 자산화를 함께 확인했습니다.</p>
             </div>
+            <p class="source-note">Source: YouTube 캠페인 리포트, 라이브커머스 성과 데이터 기준.</p>
           </div>
           <div class="proj__viz proj__viz--ba" aria-hidden="true">
             <span class="proj__viz-label">BEFORE → AFTER · 유튜브 구독자</span>
@@ -685,12 +730,17 @@
           </div>
         </article>
 
-        <article class="proj proj--feature reveal">
+        <article class="proj proj--feature reveal" data-filter="commerce automation">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">AI 자동입찰 · MOP</span><span class="proj__period">2024.10–25.07 · 기여도 35%</span></div>
             <h3 class="proj__title">동원몰 — 신규 고객 유입 확대</h3>
             <p class="proj__desc">데이터 기반 세그먼트 타겟팅과 <strong>MOP 자동입찰</strong>(Prediction·Planning·Control)을 도입해 키워드·소재 총 5,000개를 실시간으로 최적화했습니다.</p>
             <p class="proj__insight"><b>전략 판단</b>사람이 따라가기 어려운 키워드·소재 총 5,000개 운영을 AI 자동입찰로 전환 — 운영 리소스를 줄이고 신규 고객 효율을 함께 끌어올렸습니다.</p>
+            <ul class="case-steps" aria-label="동원몰 케이스 흐름">
+              <li><b>문제</b><span>키워드·소재 수가 많아 수동 입찰만으로는 빠른 최적화가 어려웠습니다.</span></li>
+              <li><b>실행</b><span>MOP 자동입찰과 세그먼트 타겟팅으로 운영 단위를 세분화했습니다.</span></li>
+              <li><b>결과</b><span>신규 고객과 ROAS를 함께 개선하며 대량 소재 운영의 효율을 높였습니다.</span></li>
+            </ul>
             <ul class="proj__tags">
               <li>MOP 자동입찰</li><li>세그먼트 타겟팅</li><li>A/B 테스트</li><li>카탈로그</li>
             </ul>
@@ -717,7 +767,7 @@
           </div>
         </article>
 
-        <article class="proj proj--priority reveal" id="project-gangwon">
+        <article class="proj proj--priority reveal" id="project-gangwon" data-filter="commerce">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">STORE CONVERSION · COMMERCE</span><span class="proj__period">2026.01–05 · HLL중앙</span></div>
             <h3 class="proj__title">강원심층수 — 네이버스토어 전환 구조 개선</h3>
@@ -726,6 +776,11 @@
               구매 신뢰도와 전환 편의성이 높은 <strong>네이버스토어 중심 구조</strong>를 제안·운영했습니다.
             </p>
             <p class="proj__insight"><b>전략 판단</b>유입을 자사몰에만 묶기보다 스토어 구매 경로로 재배치해, 전환율과 매출 볼륨을 함께 끌어올리는 방향으로 운영 구조를 전환했습니다.</p>
+            <ul class="case-steps" aria-label="강원심층수 케이스 흐름">
+              <li><b>문제</b><span>자사몰과 스토어로 유입이 분산되며 자사몰 전환 효율이 낮게 나타났습니다.</span></li>
+              <li><b>실행</b><span>구매 신뢰도와 편의성이 높은 네이버스토어 랜딩과 쇼핑검색 확장을 제안했습니다.</span></li>
+              <li><b>결과</b><span>스토어 중심 전환 구조로 매출 볼륨과 네이버 매체 성과를 개선했습니다.</span></li>
+            </ul>
             <ul class="proj__tags">
               <li>네이버스토어</li><li>쇼핑검색</li><li>파워링크</li><li>ADVOOST</li><li>전환 경로 개선</li>
             </ul>
@@ -739,10 +794,11 @@
               <span>Case Detail</span>
               <p>전년 동기간 대비 네이버(SA+DA) 매출 +96.2%, 쇼핑검색 전환매출 +75.2% 개선을 확인했고, 월평균 2천만원대였던 매출 흐름을 4천만원대까지 확대했습니다.</p>
             </div>
+            <p class="source-note">Source: 월간 운영보고서, 네이버 SA·쇼핑검색 리포트 기준. 원본 시트는 비공개.</p>
           </div>
         </article>
 
-        <article class="proj reveal">
+        <article class="proj reveal" data-filter="commerce">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">자사몰 · 전환</span><span class="proj__period">2025.04–10</span></div>
             <h3 class="proj__title">KT알파쇼핑 — 자사몰 마케팅</h3>
@@ -754,7 +810,7 @@
           </div>
         </article>
 
-        <article class="proj reveal">
+        <article class="proj reveal" data-filter="content brand">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">SNS · 콘텐츠</span><span class="proj__period">2024.09–25.10</span></div>
             <h3 class="proj__title">후지필름BI — SNS 콘텐츠 캠페인</h3>
@@ -767,7 +823,7 @@
           </div>
         </article>
 
-        <article class="proj reveal">
+        <article class="proj reveal" data-filter="commerce">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">앱 · CPA 최적화</span><span class="proj__period">2022.12–23.06</span></div>
             <h3 class="proj__title">현대글로비스 ‘오토벨’</h3>
@@ -779,7 +835,7 @@
           </div>
         </article>
 
-        <article class="proj reveal">
+        <article class="proj reveal" data-filter="brand">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">O2O · 지역 타겟</span><span class="proj__period">2023.09–24.02</span></div>
             <h3 class="proj__title">한샘 — 온·오프라인 결합 IMC</h3>
@@ -791,7 +847,7 @@
           </div>
         </article>
 
-        <article class="proj reveal">
+        <article class="proj reveal" data-filter="commerce">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">자사몰 · 그로스</span><span class="proj__period">2024.09–25.10</span></div>
             <h3 class="proj__title">생활백서 — 자사몰 매출 확대</h3>
@@ -944,7 +1000,7 @@
 
   <a href="#hero" class="totop" id="toTop" aria-label="맨 위로">↑</a>
 
-  <script src="js/main.js?v=20260612-quality"></script>
+  <script src="js/main.js?v=20260612-caseup2"></script>
   <script>
     /* Failsafe: if main.js fails to load or the IntersectionObserver never
        fires, make sure nothing stays permanently hidden. */

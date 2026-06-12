@@ -73,23 +73,19 @@
     .map((a) => document.querySelector(a.getAttribute("href")))
     .filter(Boolean);
 
-  if (sections.length && "IntersectionObserver" in window) {
-    const map = new Map();
-    const secObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => map.set(e.target, e.intersectionRatio));
-        let best = null, bestRatio = 0;
-        map.forEach((ratio, sec) => {
-          if (ratio > bestRatio) { bestRatio = ratio; best = sec; }
-        });
-        if (best) {
-          const id = "#" + best.id;
-          navLinks.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === id));
-        }
-      },
-      { threshold: [0.15, 0.4, 0.7], rootMargin: "-30% 0px -45% 0px" }
-    );
-    sections.forEach((s) => secObserver.observe(s));
+  if (sections.length) {
+    function setActiveSection() {
+      const marker = Math.min(window.innerHeight * 0.72, 680);
+      let current = sections[0];
+      sections.forEach((sec) => {
+        if (sec.getBoundingClientRect().top <= marker) current = sec;
+      });
+      const id = "#" + current.id;
+      navLinks.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === id));
+    }
+    window.addEventListener("scroll", setActiveSection, { passive: true });
+    window.addEventListener("resize", setActiveSection);
+    setActiveSection();
   }
 
   /* ---------- animated counters (decimal-aware) ---------- */
@@ -145,6 +141,27 @@
     });
   }
 
+  /* ---------- project filter ---------- */
+  const filterBtns = $$(".filter-btn");
+  const projectCards = $$(".work .proj");
+  if (filterBtns.length && projectCards.length) {
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const key = btn.dataset.filter || "all";
+        filterBtns.forEach((b) => {
+          const active = b === btn;
+          b.classList.toggle("active", active);
+          b.setAttribute("aria-pressed", String(active));
+        });
+        projectCards.forEach((card) => {
+          const tags = (card.dataset.filter || "").split(/\s+/);
+          const visible = key === "all" || tags.includes(key);
+          card.classList.toggle("is-hidden", !visible);
+        });
+      });
+    });
+  }
+
   /* ---------- copy email ---------- */
   const EMAIL = "vetnam@nate.com";
   const copyBtn = $("#copyBtn");
@@ -183,4 +200,20 @@
       history.replaceState(null, "", id);
     });
   });
+
+  function alignInitialHash() {
+    const id = window.location.hash;
+    if (!id || id.length < 2) return;
+    const target = document.querySelector(id);
+    if (!target) return;
+    const top = target.getBoundingClientRect().top + window.scrollY - 64;
+    window.scrollTo({ top, behavior: "auto" });
+    onScroll();
+  }
+  window.addEventListener("load", () => setTimeout(alignInitialHash, 0));
+  setTimeout(alignInitialHash, 0);
+  setTimeout(alignInitialHash, 350);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(alignInitialHash).catch(() => {});
+  }
 })();
