@@ -495,13 +495,13 @@ img, svg { display: block; max-width: 100%; }
    WORK / PROJECTS
    ========================================================= */
 .work { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
-.project-focus { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: -28px 0 24px; }
-.project-focus a { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 16px 18px;
+.project-focus { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: -28px 0 24px; }
+.project-focus a { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 15px 16px;
   border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface);
   transition: transform 0.35s var(--ease), border-color 0.35s, background 0.35s; }
 .project-focus a:hover { transform: translateY(-3px); border-color: rgba(44,232,166,0.36); background: var(--surface-2); }
 .project-focus span { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); }
-.project-focus b { font-size: 0.94rem; font-weight: 700; color: var(--text); white-space: nowrap; }
+.project-focus b { font-size: 0.9rem; font-weight: 700; color: var(--text); white-space: nowrap; }
 .project-focus em { margin-left: auto; font-style: normal; font-size: 0.78rem; color: var(--text-3); white-space: nowrap; }
 .proj { border: 1px solid var(--line); border-radius: var(--radius); padding: 0;
   background: var(--surface); position: relative; overflow: hidden;
@@ -543,12 +543,18 @@ img, svg { display: block; max-width: 100%; }
 /* KPI stat tiles */
 .proj__stats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; }
 .proj__stats--quad { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1180px) {
+  .proj__stats--quad { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 .stat { flex: 1 1 0; min-width: 90px; border: 1px solid var(--line); border-radius: var(--radius-sm);
   background: var(--bg-2); padding: 13px 14px; transition: border-color 0.3s, transform 0.3s var(--ease); }
 .proj:hover .stat { border-color: var(--line-2); }
 .stat__v { display: block; font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; line-height: 1; color: var(--text); white-space: nowrap; }
 .stat__v small { font-size: 0.78rem; color: var(--accent); font-weight: 600; margin-left: 1px; }
 .stat__l { display: block; margin-top: 8px; font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-3); letter-spacing: 0.01em; }
+@media (max-width: 1180px) {
+  .stat__v { font-size: 1.35rem; }
+}
 
 /* flagship feature card */
 .proj--feature { grid-column: 1 / -1; display: grid; grid-template-columns: 1.08fr 0.92fr; align-items: stretch;
