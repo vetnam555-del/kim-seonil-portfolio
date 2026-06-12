@@ -32,7 +32,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
-  <link rel="stylesheet" href="css/style.css?v=20260612-polish" />
+  <link rel="stylesheet" href="css/style.css?v=20260612-evidence" />
 </head>
 <body>
   <div class="scroll-progress" id="scrollProgress"></div>
@@ -784,6 +784,44 @@
         <div>
           <h3>성과 수치는 운영 리포트와 매체 데이터 기준으로 정리했습니다.</h3>
           <p>브랜드별 원본 리포트와 내부 자료는 대외 공개 범위가 제한되어 있어, 공개 페이지에는 집계 수치와 역할·운영 범위를 중심으로 표기했습니다. 상세 근거 자료는 필요 시 개인정보와 계정 정보를 제외한 형태로 별도 공유 가능합니다.</p>
+        </div>
+      </div>
+      <div class="evidence-lab reveal" aria-label="비식별 근거 예시">
+        <div class="evidence-lab__head">
+          <span>ANONYMIZED PROOF</span>
+          <h3>민감 정보는 가리고, 실제 운영 방식은 보이게 구성했습니다.</h3>
+          <p>계정명·예산·상품명은 공개하지 않고 리포트 구조, 자동화 흐름, 점검 기준만 확인할 수 있도록 요약했습니다.</p>
+        </div>
+        <div class="evidence-grid">
+          <article class="evidence-card evidence-card--report">
+            <div class="evidence-card__top"><span>Daily Report</span><b>자동 수집</b></div>
+            <div class="mini-dashboard" aria-hidden="true">
+              <div class="mini-kpis"><i></i><i></i><i></i></div>
+              <div class="mini-table">
+                <span>Media</span><span>Spend</span><span>CV</span>
+                <b>Naver</b><em>••••••</em><strong>▲</strong>
+                <b>Meta</b><em>••••••</em><strong>●</strong>
+                <b>Criteo</b><em>••••••</em><strong>▼</strong>
+              </div>
+            </div>
+            <p>매체 API와 시트 데이터를 연결해 키워드·소재 단위 성과를 자동 취합하고, 데일리 리포트 작성 시간을 줄였습니다.</p>
+          </article>
+          <article class="evidence-card evidence-card--stock">
+            <div class="evidence-card__top"><span>Inventory Monitor</span><b>96% 단축</b></div>
+            <div class="status-board" aria-hidden="true">
+              <div><span class="ok"></span><b>Stock Check</b><em>5 min</em></div>
+              <div><span class="ok"></span><b>Risk SKU</b><em>Auto flag</em></div>
+              <div><span class="warn"></span><b>Action Log</b><em>Review</em></div>
+            </div>
+            <p>수작업 재고 확인을 자동 모니터링 구조로 바꾸고, 위험 상품을 빠르게 분류해 운영 리스크를 낮췄습니다.</p>
+          </article>
+          <article class="evidence-card evidence-card--flow">
+            <div class="evidence-card__top"><span>API Flow</span><b>운영 표준화</b></div>
+            <div class="flow-map" aria-hidden="true">
+              <span>Media API</span><i></i><span>Normalize</span><i></i><span>Report</span>
+            </div>
+            <p>매체별로 다른 데이터 구조를 표준화해 성과 확인, 이상 징후 점검, 보고서 작성까지 같은 기준으로 연결했습니다.</p>
+          </article>
         </div>
       </div>
     </div>
