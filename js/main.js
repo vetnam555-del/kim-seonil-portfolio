@@ -163,7 +163,7 @@
   }
 
   /* ---------- copy email ---------- */
-  const EMAIL = "vetnam@nate.com";
+  const EMAIL = "makefair@naver.com";
   const copyBtn = $("#copyBtn");
   function flash(btn, text, cls) {
     const orig = btn.textContent;
