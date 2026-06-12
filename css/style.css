@@ -421,6 +421,10 @@ img, svg { display: block; max-width: 100%; }
 .logo-chip--kakao span { background: #fee500; color: #111; }
 .logo-chip--criteo span { background: #f36f21; }
 .logo-chip--rtb span { background: #111827; border: 1px solid rgba(255,255,255,0.18); }
+.logo-chip--twitter span { background: #111827; border: 1px solid rgba(255,255,255,0.18); }
+.logo-chip--payco span { background: #fa2828; }
+.logo-chip--danggeun span { background: #ff6f0f; }
+.logo-chip--toss span { background: #0064ff; }
 .logo-chip--ga span { background: #f9ab00; color: #111; }
 .logo-chip--sql span { background: #2563eb; font-size: 0.68rem; }
 .logo-chip--looker span { background: #0f9d58; }
@@ -429,6 +433,8 @@ img, svg { display: block; max-width: 100%; }
 .logo-chip--mop span { background: #7c3aed; }
 .logo-chip--excel span { background: #217346; }
 .logo-chip--ppt span { background: #d24726; }
+.logo-chip--photoshop span { background: #001e36; color: #31a8ff; border: 1px solid rgba(49,168,255,0.55); }
+.logo-chip--illustrator span { background: #330000; color: #ff9a00; border: 1px solid rgba(255,154,0,0.55); }
 
 .certs { margin-top: 28px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
   padding: 22px 26px; border: 1px dashed var(--line-2); border-radius: var(--radius); background: var(--surface); }
