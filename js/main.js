@@ -6,6 +6,7 @@
 
   const $ = (s, ctx = document) => ctx.querySelector(s);
   const $$ = (s, ctx = document) => Array.from(ctx.querySelectorAll(s));
+  const isStatic = document.documentElement.classList.contains("static");
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------- year ---------- */
@@ -114,7 +115,7 @@
     requestAnimationFrame(tick);
   }
   const counters = $$("[data-count]");
-  if (prefersReduced || !("IntersectionObserver" in window)) {
+  if (isStatic || prefersReduced || !("IntersectionObserver" in window)) {
     counters.forEach((el) => {
       el.textContent = (el.dataset.prefix || "") + formatNum(parseFloat(el.dataset.count || "0")) + (el.dataset.suffix || "");
     });
