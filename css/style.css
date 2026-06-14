@@ -408,6 +408,7 @@ img, svg { display: block; max-width: 100%; }
   padding-bottom: 16px; border-bottom: 1px solid var(--line); }
 .skillcard__idx { font-family: var(--font-mono); color: var(--accent); font-size: 0.85rem; }
 .skillcard h3 { font-size: 1.2rem; font-weight: 600; }
+.skillcard--wide { grid-column: 1 / -1; }
 .tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .tags li { font-size: 0.85rem; color: var(--text-2); padding: 7px 14px; border-radius: 999px;
   border: 1px solid var(--line); background: var(--bg-2); transition: 0.3s; }
@@ -420,7 +421,7 @@ img, svg { display: block; max-width: 100%; }
 .tool-wall__head { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
 .tool-wall__head span { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.16em; color: var(--accent); }
 .tool-wall__head p { color: var(--text-2); font-size: 0.92rem; text-align: right; }
-.tool-groups { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: 14px; }
+.tool-groups { display: grid; grid-template-columns: minmax(0, 1.25fr) repeat(3, minmax(0, 1fr)); gap: 14px; }
 .toolgroup { border: 1px solid var(--line); border-radius: var(--radius-sm); background: rgba(9, 13, 20, 0.72); padding: 18px; }
 .toolgroup h3 { font-size: 0.98rem; font-weight: 700; margin-bottom: 14px; color: var(--text); }
 .logo-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
@@ -453,6 +454,11 @@ img, svg { display: block; max-width: 100%; }
 .logo-chip--ppt span { background: #d24726; }
 .logo-chip--photoshop span { background: #001e36; color: #31a8ff; border: 1px solid rgba(49,168,255,0.55); }
 .logo-chip--illustrator span { background: #330000; color: #ff9a00; border: 1px solid rgba(255,154,0,0.55); }
+.logo-chip--claude span { background: #d97757; }
+.logo-chip--openai span { background: #111827; border: 1px solid rgba(255,255,255,0.2); font-size: 0.64rem; }
+.logo-chip--manus span { background: linear-gradient(135deg, #111827, #6366f1); }
+.logo-chip--genspark span { background: linear-gradient(135deg, #7c3aed, #38bdf8); }
+.logo-chip--higgsfield span { background: linear-gradient(135deg, #0f172a, #ec4899); }
 .logo-chip--naver span { background: #03c75a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='white' d='M12 11h9.1l6.5 9.8V11H36v26h-9.1l-6.5-9.8V37H12z'/%3E%3C/svg%3E") center/72% no-repeat; color: transparent; }
 .logo-chip--google span { background: #111827 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M17 33 28 13' stroke='%234285f4' stroke-width='8' stroke-linecap='round'/%3E%3Cpath d='M31 18 39 33' stroke='%23fbbc05' stroke-width='8' stroke-linecap='round'/%3E%3Ccircle cx='14' cy='34' r='7' fill='%2334a853'/%3E%3C/svg%3E") center/78% no-repeat; color: transparent; }
 .logo-chip--meta span { background: #1877f2 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M9 30c4-13 8-17 14-7l2 3c5 8 10 7 14-4' fill='none' stroke='white' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M39 30c-4-13-8-17-14-7l-2 3c-5 8-10 7-14-4' fill='none' stroke='white' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E") center/78% no-repeat; color: transparent; }
