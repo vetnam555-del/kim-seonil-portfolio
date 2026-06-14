@@ -421,19 +421,18 @@ img, svg { display: block; max-width: 100%; }
 .tool-wall__head { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
 .tool-wall__head span { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.16em; color: var(--accent); }
 .tool-wall__head p { color: var(--text-2); font-size: 0.92rem; text-align: right; }
-.tool-groups { display: grid; grid-template-columns: minmax(0, 1.25fr) repeat(3, minmax(0, 1fr)); gap: 14px; }
+.tool-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .toolgroup { border: 1px solid var(--line); border-radius: var(--radius-sm); background: rgba(9, 13, 20, 0.72); padding: 18px; }
 .toolgroup h3 { font-size: 0.98rem; font-weight: 700; margin-bottom: 14px; color: var(--text); }
 .logo-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
-.toolgroup:not(:first-child) .logo-list { grid-template-columns: 1fr; }
 .logo-chip { display: grid; grid-template-columns: 38px minmax(0, 1fr); grid-template-rows: auto auto; column-gap: 10px;
-  align-items: center; padding: 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg-2);
+  align-items: center; min-height: 62px; padding: 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg-2);
   transition: transform 0.28s var(--ease), border-color 0.28s, background 0.28s; }
 .logo-chip:hover { transform: translateY(-2px); border-color: var(--line-2); background: rgba(255,255,255,0.045); }
 .logo-chip span { grid-row: 1 / 3; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px;
   border-radius: 10px; color: #fff; font-family: var(--font-display); font-weight: 800; font-size: 0.8rem; letter-spacing: 0; }
-.logo-chip b { display: block; min-width: 0; color: var(--text); font-size: 0.88rem; line-height: 1.15; overflow-wrap: break-word; }
-.logo-chip em { display: block; min-width: 0; color: var(--text-3); font-size: 0.68rem; line-height: 1.25; font-style: normal; overflow-wrap: break-word; }
+.logo-chip b { display: block; min-width: 0; color: var(--text); font-size: 0.88rem; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; word-break: keep-all; overflow-wrap: normal; }
+.logo-chip em { display: block; min-width: 0; color: var(--text-3); font-size: 0.68rem; line-height: 1.3; font-style: normal; word-break: keep-all; overflow-wrap: normal; }
 .logo-chip--naver span { background: #03c75a; }
 .logo-chip--google span { background: linear-gradient(135deg, #4285f4, #34a853 45%, #fbbc05 72%, #ea4335); }
 .logo-chip--meta span { background: #1877f2; }
@@ -795,8 +794,7 @@ img, svg { display: block; max-width: 100%; }
   .tool-wall { padding: 20px; }
   .tool-wall__head { display: block; }
   .tool-wall__head p { margin-top: 8px; text-align: left; }
-  .logo-list,
-  .toolgroup:not(:first-child) .logo-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .logo-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .logo-chip { grid-template-columns: 32px minmax(0, 1fr); padding: 8px; column-gap: 8px; }
   .logo-chip span { width: 32px; height: 32px; border-radius: 9px; font-size: 0.72rem; }
   .logo-chip b { font-size: 0.8rem; }
@@ -833,6 +831,7 @@ img, svg { display: block; max-width: 100%; }
 }
 @media (max-width: 620px) {
   .process { grid-template-columns: 1fr; }
+  .logo-list { grid-template-columns: 1fr; }
   .proj--feature .proj__inner { padding: 26px 22px 2px; }
   .proj__viz { margin: 0 22px 22px; min-height: 170px; }
 }
@@ -844,6 +843,5 @@ img, svg { display: block; max-width: 100%; }
   .stat__v { font-size: 1.35rem; }
 }
 @media (max-width: 340px) {
-  .logo-list,
-  .toolgroup:not(:first-child) .logo-list { grid-template-columns: 1fr; }
+  .logo-list { grid-template-columns: 1fr; }
 }
