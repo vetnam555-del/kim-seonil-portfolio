@@ -456,6 +456,7 @@ img, svg { display: block; max-width: 100%; }
 .logo-chip--illustrator span { background: #330000; color: #ff9a00; border: 1px solid rgba(255,154,0,0.55); }
 .logo-chip--claude span { background: #d97757; }
 .logo-chip--openai span { background: #111827; border: 1px solid rgba(255,255,255,0.2); font-size: 0.64rem; }
+.logo-chip--gemini span { background: linear-gradient(135deg, #4285f4, #a855f7 52%, #ec4899); }
 .logo-chip--manus span { background: linear-gradient(135deg, #111827, #6366f1); }
 .logo-chip--genspark span { background: linear-gradient(135deg, #7c3aed, #38bdf8); }
 .logo-chip--higgsfield span { background: linear-gradient(135deg, #0f172a, #ec4899); }
