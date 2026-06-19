@@ -225,8 +225,24 @@ img, svg { display: block; max-width: 100%; }
 .hero__id-name em { color: var(--text-3); font-style: normal; font-weight: 400; margin-left: 4px; }
 .hero__id .sep { width: 30px; height: 1px; background: var(--line-2); }
 .hero__id-role { color: var(--accent); }
-.hero__actions { display: flex; gap: 14px; margin-top: 30px; flex-wrap: wrap; }
-.hero__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 34px; }
+.hero__proofs {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px;
+  margin-top: 22px; max-width: 620px;
+}
+.hero__proofs div {
+  min-width: 0; padding: 13px 12px; border: 1px solid var(--line);
+  border-radius: var(--radius-sm); background: rgba(255,255,255,0.035);
+}
+.hero__proofs b {
+  display: block; font-family: var(--font-display); font-size: clamp(1.15rem, 2vw, 1.45rem);
+  line-height: 1; color: var(--accent); white-space: nowrap;
+}
+.hero__proofs span {
+  display: block; margin-top: 7px; font-family: var(--font-mono); font-size: 0.62rem;
+  line-height: 1.35; color: var(--text-3);
+}
+.hero__actions { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
+.hero__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
 .hero__chips li {
   font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-2);
   padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface);
@@ -810,6 +826,18 @@ img, svg { display: block; max-width: 100%; }
   .proj__viz { margin: 0 30px 30px; min-height: 190px; }
 }
 @media (max-width: 760px) {
+  .section { padding-block: 58px; }
+  .section--tight { padding-block: 46px; }
+  .section__head { margin-bottom: 28px; }
+  .hero { min-height: auto; padding-top: 92px; padding-bottom: 54px; }
+  .hero__title { margin: 18px 0 18px; }
+  .hero__id { margin-top: 22px; gap: 10px; }
+  .hero__id .sep { display: none; }
+  .hero__proofs { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 18px; }
+  .hero__actions { margin-top: 22px; }
+  .hero__actions .btn { flex: 1 1 100%; justify-content: center; }
+  .hero__chips { margin-top: 22px; }
+  .hero__scroll { display: none; }
   .nav__links, .nav__cta { display: none; }
   .nav__toggle { display: flex; }
   .nav.open .nav__links {
@@ -828,6 +856,10 @@ img, svg { display: block; max-width: 100%; }
   .logo-chip b { font-size: 0.8rem; }
   .logo-chip em { font-size: 0.62rem; }
   .work { grid-template-columns: 1fr; }
+  .case-rail { display: none; }
+  .proj__desc { font-size: 0.92rem; }
+  .proj__insight { margin-bottom: 12px; }
+  .source-note { display: none; }
   .proj__stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .proj__stats--quad { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .proof-panel { grid-template-columns: 1fr; gap: 10px; padding: 20px; }
@@ -860,8 +892,15 @@ img, svg { display: block; max-width: 100%; }
 @media (max-width: 620px) {
   .process { grid-template-columns: 1fr; }
   .logo-list { grid-template-columns: 1fr; }
-  .proj--feature .proj__inner { padding: 26px 22px 2px; }
-  .proj__viz { margin: 0 22px 22px; min-height: 170px; }
+  .hero__visual { display: none; }
+  .hero__proofs div { padding: 12px 11px; }
+  .metrics { border-radius: 14px; }
+  .metric { padding: 22px 18px; }
+  .metric__num { font-size: 2.25rem; }
+  .proj--feature .proj__inner { padding: 24px 20px; }
+  .proj__inner { padding: 22px 20px; }
+  .proj__viz { display: none; }
+  .case-steps { display: none; }
 }
 @media (max-width: 420px) {
   .hero__title { font-size: clamp(2.05rem, 11vw, 2.5rem); }
