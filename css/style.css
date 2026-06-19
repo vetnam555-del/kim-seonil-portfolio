@@ -210,12 +210,13 @@ img, svg { display: block; max-width: 100%; }
   display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(32px, 5vw, 72px); align-items: center;
 }
 .hero__copy { max-width: 620px; }
+.hero__position { margin: 14px 0 -8px; color: var(--text); font-weight: 600; font-size: clamp(0.95rem, 1.7vw, 1.08rem); letter-spacing: -0.01em; }
 .hero__title {
   font-family: var(--font-display); font-weight: 700;
   font-size: clamp(2.3rem, 5vw, 3.8rem); line-height: 1.06; letter-spacing: 0;
   margin: 22px 0 24px;
 }
-.hero__lede { color: var(--text-2); font-size: clamp(1rem, 2vw, 1.15rem); max-width: 540px; }
+.hero__lede { color: var(--text-2); font-size: clamp(1rem, 2vw, 1.15rem); max-width: 620px; line-height: 1.72; }
 .hero__lede strong { color: var(--text); font-weight: 600; }
 .hero__id {
   display: flex; align-items: center; gap: 16px; margin-top: 30px; flex-wrap: wrap;
@@ -899,7 +900,7 @@ img, svg { display: block; max-width: 100%; }
   .project-controls { gap: 7px; }
   .filter-btn { padding: 8px 10px; font-size: 0.68rem; }
   .hero__inner, .hero__copy, .hero__visual, .panel { width: 100%; max-width: 100%; }
-  .hero__lede, .hero__chips, .proj__automation p { overflow-wrap: anywhere; }
+  .hero__lede, .hero__scope, .hero__position, .proj__automation p { word-break: keep-all; overflow-wrap: break-word; }
   .award__summary { grid-template-columns: 1fr; }
   .award__list { grid-template-columns: 1fr; }
   .award__list li { grid-template-columns: 56px 1fr auto; }
