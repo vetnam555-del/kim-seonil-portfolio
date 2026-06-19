@@ -25,7 +25,7 @@
 
   /* type */
   --font-sans: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Apple SD Gothic Neo", sans-serif;
-  --font-display: "Space Grotesk", var(--font-sans);
+  --font-display: var(--font-sans);
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* layout */
@@ -210,22 +210,22 @@ img, svg { display: block; max-width: 100%; }
   display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(32px, 5vw, 72px); align-items: center;
 }
 .hero__copy { max-width: 620px; }
-.hero__position { margin: 14px 0 -8px; color: var(--text); font-weight: 600; font-size: clamp(0.95rem, 1.7vw, 1.08rem); letter-spacing: -0.01em; }
+.hero__position { margin: 14px 0 -8px; color: var(--text); font-weight: 600; font-size: clamp(0.95rem, 1.7vw, 1.08rem); letter-spacing: 0; }
 .hero__title {
-  font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(2.3rem, 5vw, 3.8rem); line-height: 1.06; letter-spacing: 0;
-  margin: 22px 0 24px;
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(2.55rem, 5.35vw, 4.35rem); line-height: 1.08; letter-spacing: 0;
+  margin: 24px 0 24px;
 }
-.hero__lede { color: var(--text-2); font-size: clamp(1rem, 2vw, 1.15rem); max-width: 620px; line-height: 1.72; }
+.hero__lede { color: var(--text-2); font-size: clamp(1rem, 2vw, 1.14rem); max-width: 620px; line-height: 1.76; }
 .hero__lede strong { color: var(--text); font-weight: 600; }
 .hero__id {
   display: flex; align-items: center; gap: 16px; margin-top: 30px; flex-wrap: wrap;
-  font-family: var(--font-mono); font-size: 0.9rem;
+  font-family: var(--font-sans); font-size: 0.92rem;
 }
 .hero__id-name { font-weight: 700; }
-.hero__id-name em { color: var(--text-3); font-style: normal; font-weight: 400; margin-left: 4px; }
+.hero__id-name em { color: var(--text-3); font-family: var(--font-mono); font-size: 0.82rem; font-style: normal; font-weight: 400; margin-left: 6px; }
 .hero__id .sep { width: 30px; height: 1px; background: var(--line-2); }
-.hero__id-role { color: var(--accent); }
+.hero__id-role { color: var(--accent); font-weight: 600; }
 .hero__proofs {
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;
   margin-top: 22px; max-width: 660px;
@@ -243,11 +243,11 @@ img, svg { display: block; max-width: 100%; }
   line-height: 1.35; color: var(--text-3);
 }
 .hero__scope { max-width: 720px; margin: 13px 0 0; color: var(--text-3); font-size: 0.82rem; line-height: 1.55; }
-.hero__actions { display: flex; gap: 14px; margin-top: 24px; flex-wrap: wrap; }
+.hero__actions { display: flex; gap: 14px; margin-top: 32px; flex-wrap: wrap; }
 .hero__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
 .hero__chips li {
-  font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-2);
-  padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface);
+  font-size: 0.82rem; font-weight: 600; color: var(--text-2);
+  padding: 7px 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface);
 }
 
 /* hero visual: live campaign dashboard panel */
@@ -410,12 +410,12 @@ img, svg { display: block; max-width: 100%; }
 .metric__num { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.1rem, 4.2vw, 3rem);
   line-height: 1; display: block; background: linear-gradient(120deg, #fff, var(--accent));
   -webkit-background-clip: text; background-clip: text; color: transparent; white-space: nowrap; }
-.metric--proof-card h3 { margin-top: 18px; font-size: 1.02rem; font-weight: 700; letter-spacing: -0.01em; }
+.metric--proof-card h3 { margin-top: 18px; font-size: 1.02rem; font-weight: 700; letter-spacing: 0; }
 .metric--proof-card p { margin-top: 9px; color: var(--text-2); font-size: 0.88rem; line-height: 1.62; }
 .metric__label { display: block; margin-top: 14px; color: var(--text-2); font-size: 0.92rem; line-height: 1.5; }
 .metric__label em { color: var(--text-3); font-style: normal; font-size: 0.84rem; }
 .metric--recognition { background: linear-gradient(145deg, rgba(44,232,166,0.08), rgba(167,139,250,0.075), var(--bg-2)); }
-.metric__num--word { font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: -0.02em; }
+.metric__num--word { font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: 0; }
 .metrics__note { margin-top: 14px; color: var(--text-3); font-size: 0.82rem; line-height: 1.6; }
 
 /* =========================================================
@@ -566,7 +566,7 @@ img, svg { display: block; max-width: 100%; }
 .featured-case:hover { transform: translateY(-4px); border-color: rgba(44,232,166,0.35); background: var(--surface-2); }
 .featured-case--primary { border-color: rgba(44,232,166,0.28); background: linear-gradient(145deg, rgba(44,232,166,0.09), rgba(56,189,248,0.045), var(--surface)); }
 .featured-case span { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.13em; color: var(--accent); }
-.featured-case h3 { font-size: clamp(1.05rem, 2vw, 1.34rem); line-height: 1.35; font-weight: 750; letter-spacing: -0.02em; }
+.featured-case h3 { font-size: clamp(1.05rem, 2vw, 1.34rem); line-height: 1.35; font-weight: 750; letter-spacing: 0; }
 .featured-case p { color: var(--text-2); font-size: 0.9rem; line-height: 1.6; }
 .featured-case b { display: block; margin-top: auto; color: var(--text); font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.55; font-weight: 600; }
 .case-rail { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0 0 16px; }
