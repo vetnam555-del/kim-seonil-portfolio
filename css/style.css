@@ -408,6 +408,8 @@ img, svg { display: block; max-width: 100%; }
   -webkit-background-clip: text; background-clip: text; color: transparent; }
 .metric__label { display: block; margin-top: 14px; color: var(--text-2); font-size: 0.92rem; line-height: 1.5; }
 .metric__label em { color: var(--text-3); font-style: normal; font-size: 0.84rem; }
+.metric--recognition { background: linear-gradient(145deg, rgba(44,232,166,0.08), rgba(167,139,250,0.055), var(--bg-2)); }
+.metric__num--word { font-size: clamp(1.9rem, 4vw, 2.8rem); letter-spacing: -0.02em; }
 .metrics__note { margin-top: 14px; color: var(--text-3); font-size: 0.82rem; line-height: 1.6; }
 
 /* =========================================================
@@ -792,11 +794,10 @@ img, svg { display: block; max-width: 100%; }
 /* =========================================================
    REVEAL ANIMATION
    ========================================================= */
-/* Progressive enhancement: content is visible by default.
-   Only when JS is active (html.js) do we hide-then-reveal on scroll,
-   so a JS/observer failure can never leave the page blank. */
-.reveal { transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
-.js .reveal { opacity: 0; transform: translateY(28px); }
+/* Final portfolio rule: never hide content while waiting for scroll observers.
+   Recruiters must see proof immediately, even if JS/animation timing fails. */
+.reveal { opacity: 1; transform: none; transition: opacity 0.45s var(--ease), transform 0.45s var(--ease); }
+.js .reveal { opacity: 1; transform: none; }
 .js .reveal.in { opacity: 1; transform: none; }
 .static .reveal { opacity: 1; transform: none; transition: none; }
 .static .viz-line { stroke-dashoffset: 0; }
