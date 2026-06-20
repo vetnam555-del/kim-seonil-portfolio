@@ -549,7 +549,7 @@ img, svg { display: block; max-width: 100%; }
 /* =========================================================
    WORK / PROJECTS
    ========================================================= */
-.work { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.work { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: dense; align-items: start; gap: 18px; }
 .featured-cases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: -16px 0 20px; }
 .featured-case { display: flex; min-height: 250px; flex-direction: column; justify-content: space-between; gap: 16px;
   padding: 24px 24px 22px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface);
