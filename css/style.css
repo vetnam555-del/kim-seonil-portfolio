@@ -103,6 +103,10 @@ img, svg { display: block; max-width: 100%; }
 .section--alt { background:
   linear-gradient(180deg, transparent, rgba(255,255,255,0.014) 12%, rgba(255,255,255,0.014) 88%, transparent);
   border-block: 1px solid var(--line); }
+#experience { padding-bottom: clamp(52px, 6vw, 84px); }
+#skills { padding-top: clamp(52px, 7vw, 86px); padding-bottom: clamp(50px, 6vw, 80px); }
+#brands { padding-top: clamp(52px, 7vw, 86px); padding-bottom: clamp(46px, 6vw, 76px); }
+#work { padding-top: clamp(52px, 7vw, 86px); }
 
 .eyebrow {
   display: inline-flex; align-items: center; gap: 9px;
