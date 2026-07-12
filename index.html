@@ -8,21 +8,21 @@
     if (location.search.indexOf("static") === -1) document.documentElement.classList.add("js");
     else document.documentElement.classList.add("static");
   </script>
-  <title>김선일 · 디지털 퍼포먼스 마케터 Portfolio</title>
+  <title>김선일 · 디지털 퍼포먼스 마케터 포트폴리오</title>
   <meta name="description" content="대표 브랜드 기준 월 10억~15억 규모의 미디어 예산을 운영하고 GA4·SQL·매체 API·AI 워크플로우로 성과를 검증·자동화하는 디지털 퍼포먼스 마케터 김선일 포트폴리오." />
   <meta name="author" content="김선일 (KIM SEONILL)" />
   <meta name="theme-color" content="#07120f" />
 
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://vetnam555-del.github.io/kim-seonil-portfolio/" />
-  <meta property="og:title" content="김선일 · 디지털 퍼포먼스 마케터 Portfolio" />
+  <meta property="og:title" content="김선일 · 디지털 퍼포먼스 마케터 포트폴리오" />
   <meta property="og:description" content="대표 브랜드 기준 월 10억~15억 규모 매체 운영, GA4·SQL 분석, API 자동화와 AI 워크플로우까지 연결한 디지털 퍼포먼스 마케터 포트폴리오." />
   <meta property="og:image" content="https://vetnam555-del.github.io/kim-seonil-portfolio/assets/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="ko_KR" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="김선일 · 디지털 퍼포먼스 마케터 Portfolio" />
+  <meta name="twitter:title" content="김선일 · 디지털 퍼포먼스 마케터 포트폴리오" />
   <meta name="twitter:description" content="대표 브랜드 기준 월 10억~15억 규모 매체 운영과 데이터·API·AI 기반 자동화 사례를 담은 대표 캠페인 포트폴리오." />
   <meta name="twitter:image" content="https://vetnam555-del.github.io/kim-seonil-portfolio/assets/og-image.png" />
 
@@ -34,9 +34,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
-  <link rel="stylesheet" href="css/style.css?v=20260630-case-story" />
+  <link rel="stylesheet" href="css/style.css?v=20260713-final-audit" />
 </head>
 <body>
+  <a class="skip-link" href="#main">본문 바로가기</a>
   <div class="scroll-progress" id="scrollProgress"></div>
 
   <div class="bg-grid" aria-hidden="true"></div>
@@ -50,9 +51,9 @@
       <span class="nav__logo" aria-hidden="true">
         <svg viewBox="0 0 100 100"><path d="M20 68 L42 44 L56 58 L80 28" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><circle cx="80" cy="28" r="8" fill="currentColor"/></svg>
       </span>
-      <span class="nav__name">SEONIL<span class="dot">.</span></span>
+      <span class="nav__name">SEONILL<span class="dot">.</span></span>
     </a>
-    <nav class="nav__links" aria-label="주요 섹션">
+    <nav class="nav__links" id="primaryNav" aria-label="주요 섹션">
       <a href="#impact" data-nav>성과</a>
       <a href="#work" data-nav>캠페인</a>
       <a href="#experience" data-nav>경력</a>
@@ -61,12 +62,12 @@
       <a href="#about" data-nav>소개</a>
     </nav>
     <a href="#contact" class="btn btn--ghost nav__cta">연락하기</a>
-              <button class="nav__toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false">
+    <button class="nav__toggle" id="navToggle" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="primaryNav">
       <span></span><span></span><span></span>
-      
     </button>
   </header>
 
+  <main id="main" tabindex="-1">
   <!-- ===== HERO ===== -->
   <section class="hero" id="hero">
     <div class="hero__inner">
@@ -136,11 +137,11 @@
                 <circle class="chart__dot" cx="320" cy="18" r="4" fill="#2ce8a6"/>
               </svg>
             </div>
-            <div class="panel__bars">
-              <div class="bar"><span class="bar__k">SEARCH</span><span class="bar__t"><i style="--w:92%"></i></span><span class="bar__v">92</span></div>
-              <div class="bar"><span class="bar__k">DISPLAY</span><span class="bar__t"><i style="--w:78%"></i></span><span class="bar__v">78</span></div>
-              <div class="bar"><span class="bar__k">SHOPPING</span><span class="bar__t"><i style="--w:88%"></i></span><span class="bar__v">88</span></div>
-              <div class="bar"><span class="bar__k">SNS</span><span class="bar__t"><i style="--w:85%"></i></span><span class="bar__v">85</span></div>
+            <div class="panel__channels">
+              <div class="channel"><span class="channel__k">SEARCH</span><b>네이버 · Google</b></div>
+              <div class="channel"><span class="channel__k">DISPLAY</span><b>Meta · 카카오</b></div>
+              <div class="channel"><span class="channel__k">SHOPPING</span><b>네이버 쇼핑검색</b></div>
+              <div class="channel"><span class="channel__k">RETARGET</span><b>크리테오 · RTB</b></div>
             </div>
           </div>
         </div>
@@ -173,8 +174,8 @@
     <div class="container">
       <div class="section__head reveal">
         <span class="section__no">01</span>
-        <h2 class="section__title">Impact in Numbers</h2>
-        <p class="section__sub">채용자가 먼저 봐야 할 운영 규모, 매출·ROAS, 자동화 임팩트</p>
+        <h2 class="section__title">핵심 성과</h2>
+        <p class="section__sub">운영 규모와 매출·ROAS, 자동화 효과를 핵심 수치로 정리했습니다.</p>
       </div>
 
       <div class="metrics">
@@ -212,7 +213,7 @@
     <div class="container">
       <div class="section__head reveal">
         <span class="section__no">02</span>
-        <h2 class="section__title">Selected Campaigns</h2>
+        <h2 class="section__title">대표 캠페인</h2>
         <p class="section__sub">각 캠페인을 배경, 판단 기준, 실행 구조, 검증 결과 순서로 정리했습니다.</p>
       </div>
       <div class="project-focus reveal" aria-label="대표 프로젝트 빠른 보기">
@@ -649,8 +650,8 @@
     <div class="container">
       <div class="section__head reveal">
         <span class="section__no">03</span>
-        <h2 class="section__title">Experience</h2>
-        <p class="section__sub">대행사에서 인하우스 전략까지, 5년의 성장</p>
+        <h2 class="section__title">경력</h2>
+        <p class="section__sub">대행사 실무에서 인하우스 통합 전략까지 이어온 경험입니다.</p>
       </div>
 
       <ol class="timeline">
@@ -715,7 +716,7 @@
     <div class="container">
       <div class="section__head reveal">
         <span class="section__no">04</span>
-        <h2 class="section__title">Skills &amp; Stack</h2>
+        <h2 class="section__title">역량과 도구</h2>
         <p class="section__sub">매체 운영 · 데이터 · 전략 · 자동화 · AI 활용</p>
       </div>
 
@@ -831,7 +832,7 @@
     <div class="container">
       <div class="section__head reveal">
         <span class="section__no">05</span>
-        <h2 class="section__title">Brands I've Worked With</h2>
+        <h2 class="section__title">운영 브랜드</h2>
         <p class="section__sub">9개 산업군 · 30여 개 브랜드의 캠페인을 운영했습니다</p>
       </div>
       <div class="brand-highlights reveal" aria-label="대표 운영 브랜드">
@@ -925,7 +926,7 @@
     <div class="container">
       <div class="section__head reveal">
         <span class="section__no">06</span>
-        <h2 class="section__title">About</h2>
+        <h2 class="section__title">소개</h2>
         <p class="section__sub">광고를 많이 집행하는 것보다, 성과가 반복되는 구조를 만드는 일에 집중합니다</p>
       </div>
 
@@ -1000,7 +1001,7 @@
     <div class="container">
       <div class="section__head reveal">
         <span class="section__no">07</span>
-        <h2 class="section__title">How I Work</h2>
+        <h2 class="section__title">일하는 방식</h2>
         <p class="section__sub">감으로 시작하지 않고, 데이터로 진단한 뒤 실행과 개선까지 연결합니다.</p>
       </div>
 
@@ -1038,7 +1039,7 @@
     <div class="container">
       <div class="section__head reveal">
         <span class="section__no">08</span>
-        <h2 class="section__title">Awards &amp; Recognition</h2>
+        <h2 class="section__title">수상 및 선정</h2>
         <p class="section__sub">마케팅 현업의 성과부터 창업·디자인·사회혁신 분야의 주요 수상·선정 이력까지</p>
       </div>
 
@@ -1097,7 +1098,7 @@
     <div class="container">
       <div class="contact reveal">
         <span class="eyebrow eyebrow--center"><span class="pulse"></span>LET'S BUILD GROWTH</span>
-        <h2 class="contact__title">브랜드의 다음 성장,<br />함께 만들어요</h2>
+        <h2 class="contact__title">브랜드의 다음 성장,<br /> 함께 만들어요</h2>
         <p class="contact__sub">새로운 기회와 협업 제안을 환영합니다.</p>
         <a href="mailto:makefair@naver.com" class="contact__mail" id="copyMail">
           <span class="contact__mail-ic" aria-hidden="true">
@@ -1122,6 +1123,7 @@
       </div>
     </div>
   </section>
+  </main>
 
   <!-- ===== FOOTER ===== -->
   <footer class="footer">
@@ -1139,7 +1141,7 @@
 
   <a href="#hero" class="totop" id="toTop" aria-label="맨 위로">↑</a>
 
-  <script src="js/main.js?v=20260613-x10"></script>
+  <script src="js/main.js?v=20260713-final-audit"></script>
   <script>
     /* Failsafe: if main.js fails to load or the IntersectionObserver never
        fires, make sure nothing stays permanently hidden. */

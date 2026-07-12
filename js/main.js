@@ -31,17 +31,25 @@
   /* ---------- mobile nav toggle ---------- */
   const navToggle = $("#navToggle");
   if (navToggle && nav) {
-    navToggle.addEventListener("click", () => {
-      const open = nav.classList.toggle("open");
+    function setNavOpen(open) {
+      nav.classList.toggle("open", open);
       navToggle.setAttribute("aria-expanded", String(open));
       navToggle.setAttribute("aria-label", open ? "메뉴 닫기" : "메뉴 열기");
+    }
+    navToggle.addEventListener("click", () => {
+      setNavOpen(!nav.classList.contains("open"));
     });
     $$(".nav__links a").forEach((a) =>
       a.addEventListener("click", () => {
-        nav.classList.remove("open");
-        navToggle.setAttribute("aria-expanded", "false");
+        setNavOpen(false);
       })
     );
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && nav.classList.contains("open")) {
+        setNavOpen(false);
+        navToggle.focus();
+      }
+    });
   }
 
   /* ---------- reveal on scroll ---------- */
@@ -82,7 +90,12 @@
         if (sec.getBoundingClientRect().top <= marker) current = sec;
       });
       const id = "#" + current.id;
-      navLinks.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === id));
+      navLinks.forEach((a) => {
+        const active = a.getAttribute("href") === id;
+        a.classList.toggle("active", active);
+        if (active) a.setAttribute("aria-current", "location");
+        else a.removeAttribute("aria-current");
+      });
     }
     window.addEventListener("scroll", setActiveSection, { passive: true });
     window.addEventListener("resize", setActiveSection);
@@ -196,6 +209,7 @@
       const target = document.querySelector(id);
       if (!target) return;
       e.preventDefault();
+      if (a.classList.contains("skip-link")) target.focus({ preventScroll: true });
       const top = target.getBoundingClientRect().top + window.scrollY - 64;
       window.scrollTo({ top, behavior: prefersReduced ? "auto" : "smooth" });
       history.replaceState(null, "", id);
