@@ -84,7 +84,7 @@
 
   if (sections.length) {
     function setActiveSection() {
-      const marker = Math.min(window.innerHeight * 0.72, 680);
+      const marker = Math.min(window.innerHeight * 0.35, 320);
       let current = sections[0];
       sections.forEach((sec) => {
         if (sec.getBoundingClientRect().top <= marker) current = sec;
@@ -158,22 +158,50 @@
   /* ---------- project filter ---------- */
   const filterBtns = $$(".filter-btn");
   const projectCards = $$(".work .proj");
+  const projectMoreBtn = $("#projectMoreBtn");
   if (filterBtns.length && projectCards.length) {
+    let activeProjectFilter = "all";
+    let showAllProjects = false;
+
+    function updateProjectVisibility() {
+      let hiddenSecondary = 0;
+      projectCards.forEach((card) => {
+        const tags = (card.dataset.filter || "").split(/\s+/);
+        const matchesFilter = activeProjectFilter === "all" || tags.includes(activeProjectFilter);
+        const hideSecondary = activeProjectFilter === "all" && !showAllProjects && card.dataset.priority === "secondary";
+        const visible = matchesFilter && !hideSecondary;
+        card.hidden = !visible;
+        if (hideSecondary) hiddenSecondary += 1;
+      });
+
+      if (projectMoreBtn) {
+        const showControl = activeProjectFilter === "all";
+        projectMoreBtn.parentElement.hidden = !showControl;
+        projectMoreBtn.setAttribute("aria-expanded", String(showAllProjects));
+        projectMoreBtn.textContent = showAllProjects ? "대표 프로젝트만 보기" : "프로젝트 " + hiddenSecondary + "개 더 보기";
+      }
+    }
+
     filterBtns.forEach((btn) => {
       btn.addEventListener("click", () => {
-        const key = btn.dataset.filter || "all";
+        activeProjectFilter = btn.dataset.filter || "all";
         filterBtns.forEach((b) => {
           const active = b === btn;
           b.classList.toggle("active", active);
           b.setAttribute("aria-pressed", String(active));
         });
-        projectCards.forEach((card) => {
-          const tags = (card.dataset.filter || "").split(/\s+/);
-          const visible = key === "all" || tags.includes(key);
-          card.classList.toggle("is-hidden", !visible);
-        });
+        updateProjectVisibility();
       });
     });
+
+    if (projectMoreBtn) {
+      projectMoreBtn.addEventListener("click", () => {
+        showAllProjects = !showAllProjects;
+        updateProjectVisibility();
+      });
+    }
+
+    updateProjectVisibility();
   }
 
   /* ---------- copy email ---------- */

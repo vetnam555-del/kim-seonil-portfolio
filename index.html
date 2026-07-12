@@ -34,7 +34,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
-  <link rel="stylesheet" href="css/style.css?v=20260713-final-audit" />
+  <link rel="stylesheet" href="css/style.css?v=20260713-benchmark-final" />
 </head>
 <body>
   <a class="skip-link" href="#main">본문 바로가기</a>
@@ -242,16 +242,16 @@
       </div>
 
       <div class="project-controls reveal" aria-label="프로젝트 필터">
-        <button class="filter-btn active" type="button" data-filter="all" aria-pressed="true">전체</button>
-        <button class="filter-btn" type="button" data-filter="commerce" aria-pressed="false">커머스</button>
-        <button class="filter-btn" type="button" data-filter="brand" aria-pressed="false">브랜드·IMC</button>
-        <button class="filter-btn" type="button" data-filter="automation" aria-pressed="false">자동화</button>
-        <button class="filter-btn" type="button" data-filter="content" aria-pressed="false">콘텐츠</button>
+        <button class="filter-btn active" type="button" data-filter="all" aria-pressed="true" aria-controls="projectList">전체</button>
+        <button class="filter-btn" type="button" data-filter="commerce" aria-pressed="false" aria-controls="projectList">커머스</button>
+        <button class="filter-btn" type="button" data-filter="brand" aria-pressed="false" aria-controls="projectList">브랜드·IMC</button>
+        <button class="filter-btn" type="button" data-filter="automation" aria-pressed="false" aria-controls="projectList">자동화</button>
+        <button class="filter-btn" type="button" data-filter="content" aria-pressed="false" aria-controls="projectList">콘텐츠</button>
       </div>
 
-      <div class="work">
+      <div class="work" id="projectList">
         <!-- FLAGSHIP -->
-        <article class="proj proj--feature reveal" id="project-jestina" data-filter="brand commerce">
+        <article class="proj proj--feature reveal" id="project-jestina" data-filter="brand commerce" data-priority="primary">
           <div class="proj__inner">
             <div class="proj__meta">
               <span class="proj__cat">FLAGSHIP · IMC</span>
@@ -303,7 +303,7 @@
         </article>
 
         <!-- grid cards -->
-        <article class="proj proj--priority reveal" id="project-newbalance" data-filter="commerce automation brand">
+        <article class="proj proj--priority reveal" id="project-newbalance" data-filter="commerce automation brand" data-priority="primary">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">현재 · 풀퍼널 운영</span><span class="proj__period">중앙그룹 HLL중앙 · 기여도 40%</span></div>
             <h3 class="proj__title">뉴발란스 — 전 채널 통합 매체 운영</h3>
@@ -337,7 +337,7 @@
           </div>
         </article>
 
-        <article class="proj reveal" data-filter="commerce brand">
+        <article class="proj reveal" data-filter="commerce brand" data-priority="secondary" hidden>
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">자사몰 · 스마트스토어</span><span class="proj__period">통합 커머스 · 기여도 100%</span></div>
             <h3 class="proj__title">쌤소나이트 (투미·그레고리)</h3>
@@ -358,7 +358,7 @@
           </div>
         </article>
 
-        <article class="proj proj--feature reveal" id="project-dyson" data-filter="brand content">
+        <article class="proj proj--feature reveal" id="project-dyson" data-filter="brand content" data-priority="primary">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">YOUTUBE · 라이브커머스</span><span class="proj__period">기여도 70%</span></div>
             <h3 class="proj__title">다이슨 — 유튜브 라이브커머스</h3>
@@ -397,7 +397,7 @@
           </div>
         </article>
 
-        <article class="proj proj--feature reveal" data-filter="commerce automation">
+        <article class="proj proj--feature reveal" data-filter="commerce automation" data-priority="primary">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">AI 자동입찰 · MOP</span><span class="proj__period">기여도 70%</span></div>
             <h3 class="proj__title">동원몰 — 신규 고객 유입 확대</h3>
@@ -440,7 +440,7 @@
           </div>
         </article>
 
-        <article class="proj proj--priority reveal" id="project-gangwon" data-filter="commerce">
+        <article class="proj proj--priority reveal" id="project-gangwon" data-filter="commerce" data-priority="primary">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">STORE CONVERSION · COMMERCE</span><span class="proj__period">HLL중앙 · 기여도 100%</span></div>
             <h3 class="proj__title">강원심층수 — 네이버스토어 전환 구조 개선</h3>
@@ -472,7 +472,7 @@
           </div>
         </article>
 
-        <article class="proj reveal" data-filter="commerce">
+        <article class="proj reveal" data-filter="commerce" data-priority="secondary" hidden>
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">COMMERCE · FULL-FUNNEL</span><span class="proj__period">검색·쇼핑 · 기여도 40%</span></div>
             <h3 class="proj__title">KT알파쇼핑 — 자사몰 마케팅</h3>
@@ -497,7 +497,7 @@
           </div>
         </article>
 
-        <article class="proj reveal" data-filter="content brand">
+        <article class="proj reveal" data-filter="content brand" data-priority="secondary" hidden>
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">SNS · 콘텐츠</span><span class="proj__period">채널 성장 · 기여도 100%</span></div>
             <h3 class="proj__title">후지필름BI — SNS 콘텐츠 캠페인</h3>
@@ -521,7 +521,7 @@
           </div>
         </article>
 
-        <article class="proj reveal" data-filter="commerce">
+        <article class="proj reveal" data-filter="commerce" data-priority="secondary" hidden>
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">앱 · CPA 최적화</span><span class="proj__period">앱 전환 · 기여도 100%</span></div>
             <h3 class="proj__title">현대글로비스 ‘오토벨’</h3>
@@ -544,7 +544,7 @@
           </div>
         </article>
 
-        <article class="proj reveal" data-filter="brand commerce">
+        <article class="proj reveal" data-filter="brand commerce" data-priority="primary">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">APP · SA/DA 통합</span><span class="proj__period">구매 전환 · 기여도 20%</span></div>
             <h3 class="proj__title">한샘 — 앱/구매 전환 IMC</h3>
@@ -572,7 +572,7 @@
           </div>
         </article>
 
-        <article class="proj reveal" data-filter="commerce">
+        <article class="proj reveal" data-filter="commerce" data-priority="secondary" hidden>
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">D2C · GROWTH TEST</span><span class="proj__period">자사몰 그로스 · 기여도 100%</span></div>
             <h3 class="proj__title">생활백서 — 자사몰 매출 확대</h3>
@@ -597,6 +597,9 @@
           </div>
         </article>
       </div>
+      <div class="project-more reveal" hidden>
+        <button class="btn btn--ghost project-more__btn" id="projectMoreBtn" type="button" aria-expanded="false" aria-controls="projectList">프로젝트 5개 더 보기</button>
+      </div>
       <div class="proof-panel reveal">
         <span class="proof-panel__label">검증 기준</span>
         <div>
@@ -604,40 +607,38 @@
           <p>브랜드별 원본 리포트와 내부 자료는 대외 공개 범위가 제한되어 있어, 공개 페이지에는 집계 수치와 역할·운영 범위를 중심으로 표기했습니다. 상세 근거 자료는 필요 시 개인정보와 계정 정보를 제외한 형태로 별도 공유 가능합니다.</p>
         </div>
       </div>
-      <div class="evidence-lab reveal" aria-label="비식별 근거 예시">
+      <div class="evidence-lab reveal" id="evidence" aria-label="비식별 운영 산출물 구조">
         <div class="evidence-lab__head">
-          <span>근거 예시</span>
-          <h3>민감 정보는 가리고, 실제 운영 방식은 보이게 구성했습니다.</h3>
-          <p>계정명·예산·상품명은 공개하지 않고 리포트 구조, 자동화 흐름, 점검 기준만 확인할 수 있도록 요약했습니다.</p>
+          <span>운영 산출물 구조</span>
+          <h3>성과를 만든 과정이 다음 운영에도 남도록 설계했습니다.</h3>
+          <p>계정명·예산·상품명은 공개하지 않고, 실제 업무에서 사용한 입력·처리·산출 기준을 비식별 형태로 정리했습니다.</p>
         </div>
         <div class="evidence-grid">
           <article class="evidence-card evidence-card--report">
             <div class="evidence-card__top"><span>Daily Report</span><b>자동 수집</b></div>
-            <div class="mini-dashboard" aria-hidden="true">
-              <div class="mini-kpis"><i></i><i></i><i></i></div>
-              <div class="mini-table">
-                <span>Media</span><span>Spend</span><span>CV</span>
-                <b>Naver</b><em>••••••</em><strong>▲</strong>
-                <b>Meta</b><em>••••••</em><strong>●</strong>
-                <b>Criteo</b><em>••••••</em><strong>▼</strong>
-              </div>
-            </div>
+            <dl class="evidence-list">
+              <div><dt>입력</dt><dd>매체 API·운영 시트</dd></div>
+              <div><dt>처리</dt><dd>키워드·소재 단위 표준화</dd></div>
+              <div><dt>산출</dt><dd>성과 요약·이상 징후</dd></div>
+            </dl>
             <p>매체 API와 시트 데이터를 연결해 키워드·소재 단위 성과를 자동 취합하고, 데일리 리포트 작성 시간을 줄였습니다.</p>
           </article>
           <article class="evidence-card evidence-card--stock">
             <div class="evidence-card__top"><span>Inventory Monitor</span><b>96% 단축</b></div>
-            <div class="status-board" aria-hidden="true">
-              <div><span class="ok"></span><b>Stock Check</b><em>5 min</em></div>
-              <div><span class="ok"></span><b>Risk SKU</b><em>Auto flag</em></div>
-              <div><span class="warn"></span><b>Action Log</b><em>Review</em></div>
-            </div>
+            <dl class="evidence-list">
+              <div><dt>입력</dt><dd>SKU별 재고 상태</dd></div>
+              <div><dt>처리</dt><dd>위험 상품 자동 분류</dd></div>
+              <div><dt>산출</dt><dd>OFF·재라이브 이력</dd></div>
+            </dl>
             <p>수작업 재고 확인을 자동 모니터링 구조로 바꾸고, 위험 상품을 빠르게 분류해 운영 리스크를 낮췄습니다.</p>
           </article>
           <article class="evidence-card evidence-card--flow">
             <div class="evidence-card__top"><span>API Flow</span><b>운영 표준화</b></div>
-            <div class="flow-map" aria-hidden="true">
-              <span>Media API</span><i></i><span>Normalize</span><i></i><span>Report</span>
-            </div>
+            <dl class="evidence-list">
+              <div><dt>입력</dt><dd>네이버·Meta·Google 등</dd></div>
+              <div><dt>처리</dt><dd>공통 지표·명칭 정규화</dd></div>
+              <div><dt>산출</dt><dd>리포트·알림·운영 판단</dd></div>
+            </dl>
             <p>매체별로 다른 데이터 구조를 표준화해 성과 확인, 이상 징후 점검, 보고서 작성까지 같은 기준으로 연결했습니다.</p>
           </article>
         </div>
@@ -1141,7 +1142,7 @@
 
   <a href="#hero" class="totop" id="toTop" aria-label="맨 위로">↑</a>
 
-  <script src="js/main.js?v=20260713-final-audit"></script>
+  <script src="js/main.js?v=20260713-benchmark-final"></script>
   <script>
     /* Failsafe: if main.js fails to load or the IntersectionObserver never
        fires, make sure nothing stays permanently hidden. */
