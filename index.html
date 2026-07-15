@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- enable JS-only entrance animations without FOUC; ?static=1 keeps the final state visible for QA/screenshots -->
   <script>
-    if (location.search.indexOf("static") === -1) document.documentElement.classList.add("js");
-    else document.documentElement.classList.add("static");
+    document.documentElement.classList.add(new URLSearchParams(location.search).has("static") ? "static" : "js");
   </script>
   <title>김선일 · 디지털 퍼포먼스 마케터 포트폴리오</title>
-  <meta name="description" content="대표 브랜드 기준 월 10억~15억 규모의 미디어 예산을 운영하고 GA4·SQL·매체 API·AI 워크플로우로 성과를 검증·자동화하는 디지털 퍼포먼스 마케터 김선일 포트폴리오." />
+  <meta name="description" content="디지털 퍼포먼스 마케터 김선일 포트폴리오. 월 10억~15억 미디어 예산 운영, GA4·SQL 분석, 매체 API·AI 자동화로 성과를 증명합니다." />
   <meta name="author" content="김선일 (KIM SEONILL)" />
   <meta name="theme-color" content="#07120f" />
 
@@ -20,19 +19,64 @@
   <meta property="og:image" content="https://vetnam555-del.github.io/kim-seonil-portfolio/assets/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:alt" content="김선일 디지털 퍼포먼스 마케터 포트폴리오 대표 이미지" />
+  <meta property="og:site_name" content="김선일 포트폴리오" />
   <meta property="og:locale" content="ko_KR" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="김선일 · 디지털 퍼포먼스 마케터 포트폴리오" />
   <meta name="twitter:description" content="대표 브랜드 기준 월 10억~15억 규모 매체 운영과 데이터·API·AI 기반 자동화 사례를 담은 대표 캠페인 포트폴리오." />
   <meta name="twitter:image" content="https://vetnam555-del.github.io/kim-seonil-portfolio/assets/og-image.png" />
+  <meta name="twitter:image:alt" content="김선일 디지털 퍼포먼스 마케터 포트폴리오 대표 이미지" />
 
   <link rel="canonical" href="https://vetnam555-del.github.io/kim-seonil-portfolio/" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=20260713-drive-evidence-final" />
+  <!-- display fonts load async (non render-blocking); body text uses self-hosted Pretendard below -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" /></noscript>
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/Pretendard-Regular.woff2" />
+  <link rel="stylesheet" href="css/style.css?v=20260715" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfilePage",
+        "@id": "https://vetnam555-del.github.io/kim-seonil-portfolio/#page",
+        "url": "https://vetnam555-del.github.io/kim-seonil-portfolio/",
+        "name": "김선일 · 디지털 퍼포먼스 마케터 포트폴리오",
+        "inLanguage": "ko",
+        "dateModified": "2026-07-15",
+        "mainEntity": { "@id": "https://vetnam555-del.github.io/kim-seonil-portfolio/#person" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://vetnam555-del.github.io/kim-seonil-portfolio/#person",
+        "name": "김선일",
+        "alternateName": ["KIM SEONILL", "Kim Seonill"],
+        "jobTitle": "디지털 퍼포먼스 마케터",
+        "worksFor": { "@type": "Organization", "name": "HLL중앙 (중앙그룹)" },
+        "email": "mailto:makefair@naver.com",
+        "url": "https://vetnam555-del.github.io/kim-seonil-portfolio/",
+        "image": "https://vetnam555-del.github.io/kim-seonil-portfolio/assets/og-image.png",
+        "sameAs": ["https://www.linkedin.com/in/%EC%84%A0%EC%9D%BC-%EA%B9%80-b28a1021b/"],
+        "knowsAbout": ["퍼포먼스 마케팅", "IMC 전략", "GA4", "SQL", "검색광고", "디스플레이 광고", "마케팅 자동화", "CRM"]
+      },
+      {
+        "@type": "WebSite",
+        "url": "https://vetnam555-del.github.io/kim-seonil-portfolio/",
+        "name": "김선일 포트폴리오",
+        "inLanguage": "ko"
+      }
+    ]
+  }
+  </script>
+
+  <script src="js/main.js?v=20260715" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">본문 바로가기</a>
@@ -56,6 +100,7 @@
       <a href="#skills" data-nav>역량</a>
       <a href="#brands" data-nav>브랜드</a>
       <a href="#about" data-nav>소개</a>
+      <a href="#contact" data-nav class="nav__contact">연락하기</a>
     </nav>
     <a href="#contact" class="btn btn--ghost nav__cta">연락하기</a>
     <button class="nav__toggle" id="navToggle" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="primaryNav">
@@ -69,77 +114,48 @@
     <div class="hero__inner">
       <div class="hero__copy reveal">
         <span class="eyebrow"><span class="pulse"></span>PERFORMANCE STRATEGY · MEDIA OPERATION · AUTOMATION</span>
+        <p class="hero__name-kicker">KIM SEONILL <span>DIGITAL PERFORMANCE MARKETER</span></p>
         <h1 class="hero__title">
-          월 10억대 예산을<br /><span class="grad">성과 구조</span>로 바꿉니다
+          <span class="sr-only">디지털 퍼포먼스 마케터 김선일 — </span>복잡한 매체 운영을<br /><span class="grad">데이터와 자동화</span>로 개선합니다
         </h1>
         <p class="hero__lede">
-          30여 개 브랜드의 검색·쇼핑·디스플레이·리타겟팅을 운영하며,
-          <strong>ROAS 개선</strong>, <strong>전환 경로 재설계</strong>, <strong>리포트·재고 자동화</strong>까지 연결한 디지털 퍼포먼스 마케터입니다.
+          월 10억~15억 규모의 통합 매체 운영 경험을 바탕으로, 성과가 막히는 구간을 찾아
+          <strong>매체 구조·전환 경로·운영 프로세스</strong>를 함께 개선합니다.
         </p>
         <div class="hero__id">
           <span class="hero__id-name">김선일 <em>KIM SEONILL</em></span>
           <span class="sep" aria-hidden="true"></span>
           <span class="hero__id-role">중앙그룹 HLL중앙 · 퍼포먼스전략국 과장</span>
         </div>
-        <div class="hero__proofs" aria-label="핵심 성과 요약">
+        <div class="hero__proofs" role="group" aria-label="핵심 성과 요약">
           <div><b>30+</b><span>운영 브랜드</span></div>
           <div><b>15억+</b><span>월 최대 예산</span></div>
           <div><b>583%</b><span>IMC GA ROAS</span></div>
           <div><b>96%</b><span>재고 확인 시간 절감</span></div>
         </div>
         <div class="hero__actions">
-          <a href="#impact" class="btn btn--primary">성과 먼저 보기 <span class="arr">→</span></a>
-          <a href="#work" class="btn btn--ghost">대표 캠페인 보기</a>
+          <a href="#work" class="btn btn--primary">대표 사례 보기 <span class="arr">→</span></a>
           <a href="mailto:makefair@naver.com?subject=%EC%9D%B4%EB%A0%A5%EC%84%9C%20%EC%9A%94%EC%B2%AD%EB%93%9C%EB%A6%BD%EB%8B%88%EB%8B%A4" class="btn btn--ghost">이력서 요청하기</a>
         </div>
         <ul class="hero__chips" aria-label="핵심 역량 키워드">
-          <li>IMC 전략</li><li>검색·디스플레이</li><li>GA4 · SQL</li><li>마케팅 자동화</li><li>CRM</li><li>데이터 분석</li>
+          <li>풀퍼널 매체 운영</li><li>GA4 · SQL 분석</li><li>API 자동화</li><li>커머스 성장</li>
         </ul>
       </div>
 
-      <!-- hero visual: live campaign dashboard -->
-      <div class="hero__visual reveal" aria-hidden="true">
-        <div class="panel">
-          <div class="panel__head">
-            <span class="panel__dotrow"><i></i><i></i><i></i></span>
-            <span class="panel__title">campaign_performance.live</span>
-            <span class="panel__live"><span class="pulse pulse--sm"></span>LIVE</span>
-          </div>
-          <div class="panel__body">
-            <div class="panel__metric">
-              <span class="panel__label">IMC 전환 캠페인 · GA ROAS</span>
-              <span class="panel__value">583<small>%</small></span>
-              <span class="panel__delta up">GA ROAS 583% · 매체 ROAS 808%</span>
-            </div>
-            <div class="chartwrap">
-              <svg class="chart" viewBox="0 0 320 140" preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="rgba(44,232,166,.45)"/>
-                    <stop offset="100%" stop-color="rgba(44,232,166,0)"/>
-                  </linearGradient>
-                  <linearGradient id="stroke" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stop-color="#38bdf8"/>
-                    <stop offset="100%" stop-color="#2ce8a6"/>
-                  </linearGradient>
-                </defs>
-                <g class="chart__grid">
-                  <line x1="0" y1="35" x2="320" y2="35"/>
-                  <line x1="0" y1="70" x2="320" y2="70"/>
-                  <line x1="0" y1="105" x2="320" y2="105"/>
-                </g>
-                <path class="chart__area" d="M0,116 L53,104 L107,108 L160,82 L213,70 L267,44 L320,18 L320,140 L0,140 Z" fill="url(#fill)"/>
-                <path class="chart__line" d="M0,116 L53,104 L107,108 L160,82 L213,70 L267,44 L320,18" fill="none" stroke="url(#stroke)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle class="chart__dot" cx="320" cy="18" r="4" fill="#2ce8a6"/>
-              </svg>
-            </div>
-            <div class="panel__channels">
-              <div class="channel"><span class="channel__k">SEARCH</span><b>네이버 · Google</b></div>
-              <div class="channel"><span class="channel__k">DISPLAY</span><b>Meta · 카카오</b></div>
-              <div class="channel"><span class="channel__k">SHOPPING</span><b>네이버 쇼핑검색</b></div>
-              <div class="channel"><span class="channel__k">RETARGET</span><b>크리테오 · RTB</b></div>
-            </div>
-          </div>
+      <div class="hero__visual hero-proof reveal">
+        <figure class="hero-proof__main">
+          <img src="assets/evidence/hll-mop-case.png" alt="LG CNS MOP 공식 HLL 도입 성공 사례 이미지" width="1366" height="261" />
+          <figcaption><span>OFFICIAL CASE</span><b>LG CNS MOP 도입 성공 사례</b></figcaption>
+        </figure>
+        <div class="hero-proof__grid">
+          <figure>
+            <img src="assets/evidence/jestina-performance.webp" alt="제이에스티나 IMC 캠페인 성과 리포트 일부" loading="eager" />
+            <figcaption>IMC PERFORMANCE</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/evidence/youtube-performance.webp" alt="다이슨 유튜브 캠페인 성과 리포트 일부" loading="eager" />
+            <figcaption>CONTENT COMMERCE</figcaption>
+          </figure>
         </div>
       </div>
     </div>
@@ -150,7 +166,7 @@
   </section>
 
   <!-- ===== MARQUEE ===== -->
-  <div class="marquee" aria-hidden="true">
+  <div class="marquee" aria-hidden="true" hidden>
     <div class="marquee__track">
       <span>PERFORMANCE MARKETING</span><span class="m-dot">●</span>
       <span>IMC STRATEGY</span><span class="m-dot">●</span>
@@ -176,28 +192,20 @@
 
       <div class="metrics">
         <div class="metric reveal">
-          <span class="metric__num" data-prefix="+" data-count="1280" data-suffix="%">0</span>
-          <span class="metric__label">유튜브 구독자 증대<br /><em>다이슨 · 2천 → 10만 명</em></span>
-        </div>
-        <div class="metric reveal">
-          <span class="metric__num" data-count="583" data-suffix="%">0</span>
+          <span class="metric__num" data-count="583" data-suffix="%">583%</span>
           <span class="metric__label">IMC 캠페인 GA ROAS<br /><em>제이에스티나 IMC</em></span>
         </div>
         <div class="metric reveal">
-          <span class="metric__num" data-prefix="+" data-count="775" data-suffix="%">0</span>
-          <span class="metric__label">전환매출 성장<br /><em>생활백서 자사몰</em></span>
+          <span class="metric__num" data-count="96" data-suffix="%">96%</span>
+          <span class="metric__label">재고 확인 시간 절감<br /><em>뉴발란스 · 120분 → 5분</em></span>
         </div>
         <div class="metric reveal">
-          <span class="metric__num" data-prefix="+" data-count="1425" data-suffix="%">0</span>
-          <span class="metric__label">카카오톡 채널 친구<br /><em>쌤소나이트 · 400 → 6,100</em></span>
+          <span class="metric__num" data-prefix="+" data-count="4930" data-suffix="%">+4,930%</span>
+          <span class="metric__label">유튜브 구독자 증대<br /><em>다이슨 · 2천 → 10만 명</em></span>
         </div>
         <div class="metric reveal">
-          <span class="metric__num" data-count="30" data-suffix="+">0</span>
-          <span class="metric__label">담당 브랜드<br /><em>9개 산업군 · 풀퍼널</em></span>
-        </div>
-        <div class="metric reveal">
-          <span class="metric__num" data-count="15" data-suffix="억+">0</span>
-          <span class="metric__label">월간 최대 운영 규모<br /><em>한샘 · 뉴발란스 대형 예산</em></span>
+          <span class="metric__num" data-count="15" data-suffix="억+">15억+</span>
+          <span class="metric__label">월 최대 운영 규모<br /><em>한샘 · 통합 매체 운영</em></span>
         </div>
       </div>
       <p class="metrics__note reveal">* 대표 캠페인 및 운영 리포트 기준으로 정리한 주요 성과입니다. 브랜드·매체별 집계 기준은 프로젝트별로 상이할 수 있습니다.</p>
@@ -205,14 +213,161 @@
   </section>
 
   <!-- ===== WORK / PROJECTS ===== -->
-  <section class="section" id="work">
+  <section class="section portfolio-work" id="work">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="section__no">02</span>
+        <h2 class="section__title">대표 사례</h2>
+        <p class="section__sub">성과 수치만 나열하지 않고, 어떤 문제를 어떻게 판단하고 바꿨는지 실제 산출물과 함께 정리했습니다.</p>
+      </div>
+
+      <nav class="case-index reveal" aria-label="대표 사례 바로가기">
+        <a href="#case-jestina"><span>01</span><b>제이에스티나</b><em>IMC 전환 구조</em></a>
+        <a href="#case-newbalance"><span>02</span><b>뉴발란스</b><em>풀퍼널 자동화</em></a>
+        <a href="#case-dyson"><span>03</span><b>다이슨</b><em>콘텐츠 커머스</em></a>
+      </nav>
+
+      <div class="case-stack">
+        <article class="case-study reveal" id="case-jestina">
+          <div class="case-study__story">
+            <header class="case-study__head">
+              <span class="case-study__tag">FLAGSHIP · IMC</span>
+              <span class="case-study__contribution">기여도 70%</span>
+            </header>
+            <p class="case-study__eyebrow">검색 효율에 갇힌 캠페인을 인지-전환 퍼널로 확장</p>
+            <h3>제이에스티나 — SA 중심 구조를 통합 IMC로 전환</h3>
+            <p class="case-study__lead">검색·쇼핑·브랜드검색은 이미 존재하는 수요를 잡는 데 유효했지만, 신규 고객을 넓히는 데는 한계가 있었습니다. 재구매 고객과 신규 유입 고객을 분리하고 SA와 DA를 하나의 전환 흐름으로 다시 설계했습니다.</p>
+            <dl class="case-flow">
+              <div><dt>문제</dt><dd>검색 수요 의존도가 높아 신규 접점과 고객군별 메시지 분리가 부족했습니다.</dd></div>
+              <div><dt>판단</dt><dd>DA로 인지 접점을 넓히되 GA4와 매체 데이터로 실제 전환 기여를 교차 검증했습니다.</dd></div>
+              <div><dt>실행</dt><dd>고객 세그먼트, 매체 역할, 랜딩 메시지를 분리하고 UTM Builder로 분석 기준을 표준화했습니다.</dd></div>
+              <div><dt>결과</dt><dd>GA ROAS 583%, 매체 ROAS 808%, GA 전환매출 약 58.3억 원을 확인했습니다.</dd></div>
+            </dl>
+            <div class="case-metrics" aria-label="제이에스티나 주요 성과">
+              <div><strong>583%</strong><span>GA ROAS</span></div>
+              <div><strong>808%</strong><span>매체 ROAS</span></div>
+              <div><strong>58.3억</strong><span>GA 전환매출</span></div>
+            </div>
+            <p class="case-source">Source: PlayD 제이에스티나 마감보고서, Weekly Report, GA4·매체 리포트. 공개 화면은 비식별 처리했습니다.</p>
+          </div>
+          <div class="case-study__evidence" aria-label="제이에스티나 관련 산출물">
+            <figure class="evidence-figure evidence-figure--primary">
+              <a href="assets/evidence/jestina-performance.webp" target="_blank" rel="noopener">
+                <img src="assets/evidence/jestina-performance.webp" alt="제이에스티나 IMC 전환 프로젝트 성과 리포트 일부" loading="lazy" />
+              </a>
+              <figcaption><b>성과 리포트</b><span>캠페인 구조와 핵심 KPI를 한 화면에서 검증</span></figcaption>
+            </figure>
+            <figure class="evidence-figure evidence-figure--secondary">
+              <a href="assets/evidence/utm-builder.webp" target="_blank" rel="noopener">
+                <img src="assets/evidence/utm-builder.webp" alt="제이에스티나 캠페인 UTM Builder 화면 일부" loading="lazy" />
+              </a>
+              <figcaption><b>UTM Builder</b><span>채널별 분석 기준을 표준화한 운영 도구</span></figcaption>
+            </figure>
+          </div>
+        </article>
+
+        <article class="case-study case-study--reverse reveal" id="case-newbalance">
+          <div class="case-study__story">
+            <header class="case-study__head">
+              <span class="case-study__tag">CURRENT · FULL FUNNEL</span>
+              <span class="case-study__contribution">기여도 40%</span>
+            </header>
+            <p class="case-study__eyebrow">월 10억 규모의 다매체 운영을 재고 데이터와 자동화로 개선</p>
+            <h3>뉴발란스 — 성과 운영과 반복 업무를 하나의 시스템으로 연결</h3>
+            <p class="case-study__lead">시즌별 SKU와 재고 변동이 큰 브랜드에서는 ROAS만으로 예산을 판단하기 어렵습니다. 검색 수요, 상품 재고, 매체 역할을 함께 보고 예산을 조정하고, 반복 확인 업무는 자동화해 분석과 의사결정 시간을 확보했습니다.</p>
+            <dl class="case-flow">
+              <div><dt>문제</dt><dd>10개 채널과 다수 상품을 운영하며 재고·소진·소재 상태를 수기로 확인하는 시간이 누적됐습니다.</dd></div>
+              <div><dt>판단</dt><dd>재고 상태와 상품군, 검색 수요, 리타겟 모수를 함께 봐야 안전한 예산 이관이 가능했습니다.</dd></div>
+              <div><dt>실행</dt><dd>매체 API와 재고 모니터링을 연결해 쇼핑검색 OFF·재라이브, 소진 현황, 리포트 수집을 자동화했습니다.</dd></div>
+              <div><dt>결과</dt><dd>재고 확인은 120분에서 5분, 데일리 리포트는 60분에서 5분으로 단축했습니다.</dd></div>
+            </dl>
+            <div class="case-metrics" aria-label="뉴발란스 주요 성과">
+              <div><strong>월 10억</strong><span>운영 규모</span></div>
+              <div><strong>96%</strong><span>재고 확인 단축</span></div>
+              <div><strong>92%</strong><span>리포트 단축</span></div>
+            </div>
+            <p class="case-source">Source: 내부 자동화 로그, 매체 API 수집 데이터, 운영 시간 산정 기준. HLL 사례는 LG CNS MOP 공식 콘텐츠로 공개되었습니다.</p>
+          </div>
+          <div class="case-study__evidence case-study__evidence--official">
+            <figure class="evidence-figure evidence-figure--official">
+              <a href="https://blog.mop.co.kr/hll" target="_blank" rel="noopener" aria-label="LG CNS MOP 공식 HLL 도입 성공 사례 새 창 열기">
+                <img src="assets/evidence/hll-mop-case.png" alt="LG CNS MOP 공식 HLL 도입 성공 사례 대표 이미지" loading="lazy" width="1366" height="261" />
+              </a>
+              <figcaption><b>LG CNS MOP 공식 도입 성공 사례</b><span>재고 기반 입찰 최적화와 운영 자동화 사례로 소개</span></figcaption>
+            </figure>
+            <div class="automation-before-after" aria-label="자동화 적용 전후">
+              <div><span>재고 확인</span><b>120분</b><i aria-hidden="true">→</i><strong>5분</strong></div>
+              <div><span>리포트 작성</span><b>60분</b><i aria-hidden="true">→</i><strong>5분</strong></div>
+            </div>
+            <a class="case-proof-link" href="https://blog.mop.co.kr/hll" target="_blank" rel="noopener">공식 사례 확인하기 <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+
+        <article class="case-study reveal" id="case-dyson">
+          <div class="case-study__story">
+            <header class="case-study__head">
+              <span class="case-study__tag">YOUTUBE · COMMERCE</span>
+              <span class="case-study__contribution">기여도 70%</span>
+            </header>
+            <p class="case-study__eyebrow">광고가 끝나도 남는 콘텐츠와 구독자 기반 구축</p>
+            <h3>다이슨 — 제품 경험 콘텐츠를 구매 전환으로 연결</h3>
+            <p class="case-study__lead">프리미엄 가전은 단기 할인보다 제품 사용 경험과 신뢰 형성이 중요합니다. 제품 체험형 콘텐츠와 YouTube VAC, 라이브커머스를 연결해 탐색부터 구매까지 이어지는 채널 구조를 만들었습니다.</p>
+            <dl class="case-flow">
+              <div><dt>문제</dt><dd>단기 매출 광고만으로는 제품 체험 가치 전달과 채널 자산화가 부족했습니다.</dd></div>
+              <div><dt>판단</dt><dd>광고 종료 후에도 콘텐츠와 구독자가 남는 구조가 장기 효율에 유리했습니다.</dd></div>
+              <div><dt>실행</dt><dd>제품 경험형 영상, YouTube VAC, 라이브커머스를 연결해 유입과 구매를 함께 설계했습니다.</dd></div>
+              <div><dt>결과</dt><dd>구독자 2천 명에서 10만 명 이상, 구매 전환율 12.27%, 노출 1.4억을 기록했습니다.</dd></div>
+            </dl>
+            <div class="case-metrics" aria-label="다이슨 주요 성과">
+              <div><strong>10만+</strong><span>구독자</span></div>
+              <div><strong>12.27%</strong><span>구매 전환율</span></div>
+              <div><strong>1.4억</strong><span>노출</span></div>
+            </div>
+            <p class="case-source">Source: YouTube 캠페인 리포트, 라이브커머스 성과 데이터. 공개 화면은 비식별 처리했습니다.</p>
+          </div>
+          <div class="case-study__evidence case-study__evidence--single">
+            <figure class="evidence-figure evidence-figure--youtube">
+              <a href="assets/evidence/youtube-performance.webp" target="_blank" rel="noopener">
+                <img src="assets/evidence/youtube-performance.webp" alt="다이슨 유튜브 캠페인 운영 성과 리포트 일부" loading="lazy" />
+              </a>
+              <figcaption><b>YouTube 캠페인 리포트</b><span>콘텐츠 유입부터 구독·구매까지 성과를 연결해 검증</span></figcaption>
+            </figure>
+          </div>
+        </article>
+      </div>
+
+      <div class="more-results reveal">
+        <div class="more-results__head">
+          <span>MORE RESULTS</span>
+          <div><h3>추가 성과</h3><p>산업과 과제는 달라도, 성과가 막힌 구간을 찾아 운영 기준으로 남겼습니다.</p></div>
+        </div>
+        <div class="result-grid">
+          <article><span>커머스 · 기여도 100%</span><h4>쌤소나이트</h4><p>신규·재구매 고객군별 상품 노출을 분리해 구매 효율을 개선했습니다.</p><strong>TUMI ROAS 747%</strong><em>그레고리 CVR YoY +647%</em></article>
+          <article><span>검색·쇼핑 · 기여도 70%</span><h4>동원몰</h4><p>5,000개 키워드·소재를 상품군과 목적별로 재구성했습니다.</p><strong>월 목표 +32%</strong><em>브랜드검색 ROAS 21,158%</em></article>
+          <article><span>커머스 · 기여도 100%</span><h4>강원심층수</h4><p>낮은 자사몰 CVR을 확인하고 스마트스토어 중심 구조로 전환했습니다.</p><strong>스토어 CVR 약 3%</strong><em>네이버 매출 YoY +96.2%</em></article>
+          <article><span>APP·커머스 · 기여도 20%</span><h4>한샘</h4><p>GA·Appsflyer로 유입부터 실제 구매까지 기여를 나눠 검증했습니다.</p><strong>월 15억 운영</strong><em>ROAS 1,184% · 앱 설치 18.3만</em></article>
+          <article><span>커머스 · 기여도 40%</span><h4>KT알파쇼핑</h4><p>구매전환·회원가입·상품상세 지표를 분리해 예산 기준을 만들었습니다.</p><strong>ROAS 2,487%</strong><em>구매전환 15,480건</em></article>
+          <article><span>D2C · 기여도 100%</span><h4>생활백서</h4><p>쇼핑정보 확장소재와 GFA 맞춤타겟으로 고관여 리타겟팅을 정교화했습니다.</p><strong>전환매출 +775%</strong><em>CTR 12% · CVR 8%</em></article>
+        </div>
+        <p class="more-results__foot">그 외 후지필름BI(유튜브 구독자 YoY +16%), 다이슨, 메트릭도레도코리아, 휴먼웍스 등 30여 개 브랜드의 매체 운영·분석 경험이 있습니다.</p>
+      </div>
+
+      <aside class="proof-standard reveal" aria-label="포트폴리오 수치 표기 기준">
+        <span>PROOF STANDARD</span>
+        <p>수치는 내부 리포트, GA4·매체 데이터, 자동화 로그 등 확인 가능한 자료를 기준으로 표기했습니다. 공개 제한 정보는 비식별 처리했고, 공동 프로젝트는 기여도를 함께 기재했습니다.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 기존 상세 프로젝트 원문은 데이터 보존용으로 유지하고 화면에서는 숨깁니다. -->
+  <section class="section legacy-work" id="work-archive" hidden>
     <div class="container">
       <div class="section__head reveal">
         <span class="section__no">02</span>
         <h2 class="section__title">대표 캠페인</h2>
         <p class="section__sub">각 캠페인을 배경, 판단 기준, 실행 구조, 검증 결과 순서로 정리했습니다.</p>
       </div>
-      <div class="project-focus reveal" aria-label="대표 프로젝트 1분 요약">
+      <div class="project-focus reveal" role="group" aria-label="대표 프로젝트 1분 요약">
         <a href="#project-jestina"><span>01</span><b>제이에스티나</b><em>GA ROAS 583%</em></a>
         <a href="#project-newbalance"><span>02</span><b>뉴발란스</b><em>월 10억 · 자동화</em></a>
         <a href="#project-dyson"><span>03</span><b>다이슨</b><em>구독자 10만+</em></a>
@@ -221,7 +376,7 @@
         <a href="#project-hanssem"><span>06</span><b>한샘</b><em>월 15억 운영</em></a>
       </div>
 
-      <div class="case-rail reveal" aria-label="대표 케이스스터디 요약">
+      <div class="case-rail reveal" role="group" aria-label="대표 케이스스터디 요약">
         <article class="case-mini">
           <span>WHERE IT STARTS</span>
           <h3>문제가 생긴 구간부터 분리합니다</h3>
@@ -239,13 +394,14 @@
         </article>
       </div>
 
-      <div class="project-controls reveal" aria-label="프로젝트 필터">
+      <div class="project-controls reveal" role="group" aria-label="프로젝트 필터">
         <button class="filter-btn active" type="button" data-filter="all" aria-pressed="true" aria-controls="projectList">전체</button>
         <button class="filter-btn" type="button" data-filter="commerce" aria-pressed="false" aria-controls="projectList">커머스</button>
         <button class="filter-btn" type="button" data-filter="brand" aria-pressed="false" aria-controls="projectList">브랜드·IMC</button>
         <button class="filter-btn" type="button" data-filter="automation" aria-pressed="false" aria-controls="projectList">자동화</button>
         <button class="filter-btn" type="button" data-filter="content" aria-pressed="false" aria-controls="projectList">콘텐츠</button>
       </div>
+      <p class="sr-only" role="status" id="projectStatus"></p>
 
       <div class="work" id="projectList">
         <!-- FLAGSHIP -->
@@ -261,7 +417,7 @@
               이에 <strong>연간 약 10억 원 규모</strong>의 운영 구조를 <strong>SA+DA 통합 IMC</strong>로 확장하고,
               재구매 충성고객과 MZ 신규 유입을 나눠 메시지와 랜딩을 다시 설계했습니다.
             </p>
-            <p class="proj__insight"><b>전략 판단</b>검색 수요에만 의존하지 않고 DA로 인지 접점을 넓힌 뒤, GA4 KPI와 UTM 기준을 재정리해 채널별 기여를 검증했습니다. 그 결과 GA ROAS 583%, 매체 ROAS 808%, GA 기준 약 58.3억 원 규모의 전환매출을 확인했습니다.</p>
+            <p class="proj__insight"><b>전략 판단</b>검색 수요에만 의존하지 않고 DA로 인지 접점을 넓힌 뒤, GA4 KPI와 UTM 기준을 재정리해 채널별 기여를 검증했습니다. 확장한 DA 예산이 실제 전환매출 성장으로 이어졌는지를 GA와 매체 데이터로 교차 확인하는 구조를 만든 것이 이 캠페인의 핵심 판단이었습니다.</p>
             <ul class="case-steps" aria-label="제이에스티나 케이스 흐름">
               <li><b>배경</b><span>검색광고 중심 구조라 신규 접점 확장과 고객군별 메시지 분리가 부족했습니다.</span></li>
               <li><b>전략</b><span>재구매 고객과 신규 유입 고객을 분리하고 SA+DA를 하나의 IMC 퍼널로 묶었습니다.</span></li>
@@ -313,7 +469,7 @@
               <li><b>실행</b><span>매체 API, 재고 모니터링, 수동 OFF 이력을 연결해 키워드·소재·상품 단위 데이터를 자동 수집했습니다.</span></li>
               <li><b>성과</b><span>재고 확인 96%, 리포트 작성 92% 단축으로 반복 업무를 줄이고 판단 시간을 확보했습니다.</span></li>
             </ul>
-            <div class="proj__automation" aria-label="뉴발란스 자동화 성과">
+            <div class="proj__automation" role="group" aria-label="뉴발란스 자동화 성과">
               <p><b>재고 모니터링</b>AI 기반 자동화 시스템을 구축해 일 평균 약 2시간(120분) 걸리던 수작업 재고 확인을 약 5분으로 줄여 <strong>약 96% 단축</strong>했습니다.</p>
               <p><b>리포트 자동화</b>광고 매체 API 연동으로 키워드·소재(상품)별 상세 성과 데이터를 자동 수집·전달해 데일리 리포트 작성 시간을 약 60분에서 5분으로 줄여 <strong>약 92% 단축</strong>했습니다.</p>
               <p><b>공식 도입사례</b>HLL의 MOP 활용 사례가 LG CNS MOP 공식 블로그의 도입 성공 사례로 소개되었습니다.</p>
@@ -331,11 +487,11 @@
               <span>담당 범위</span>
               <p>전 채널 매체 운영, 쇼핑검색 재고 모니터링, 네이버 검색광고 소진 현황, 수동 OFF 이력 관리, MOP 기반 자동화 사례 정리를 함께 진행했습니다.</p>
             </div>
-            <p class="source-note">Source: 내부 자동화 로그, 매체 API 수집 데이터, 운영 시간 산정 기준, <a href="https://blog.mop.co.kr/hll" target="_blank" rel="noopener">LG CNS MOP 공식 블로그 HLL 도입 성공 사례</a>.</p>
+            <p class="source-note">Source: 내부 자동화 로그, 매체 API 수집 데이터, 운영 시간 산정 기준, <a href="https://blog.mop.co.kr/hll" target="_blank" rel="noopener" aria-label="LG CNS MOP 공식 블로그 HLL 도입 성공 사례 (새 창 열림)">LG CNS MOP 공식 블로그 HLL 도입 성공 사례</a>.</p>
           </div>
         </article>
 
-        <article class="proj reveal" data-filter="commerce brand" data-priority="secondary" hidden>
+        <article class="proj reveal" data-filter="commerce brand" data-priority="secondary">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">자사몰 · 스마트스토어</span><span class="proj__period">통합 커머스 · 기여도 100%</span></div>
             <h3 class="proj__title">쌤소나이트 (투미·그레고리)</h3>
@@ -345,7 +501,7 @@
               <li><b>배경</b><span>월별 프로모션과 브랜드별 주력 상품이 달라 동일 지표만으로 효율 판단이 어려웠습니다.</span></li>
               <li><b>전략</b><span>신규 고객과 재구매 고객군을 나누고 상품 특성에 맞춰 노출 상품과 메시지를 구분했습니다.</span></li>
               <li><b>실행</b><span>브랜드검색·쇼핑검색·리타겟팅·채널 메시지를 분리해 ROAS, CVR, CPA를 월별로 비교했습니다.</span></li>
-              <li><b>성과</b><span>TUMI 대표 월 ROAS 747%, 그레고리 전년동월 대비 CVR +647%를 확인했습니다.</span></li>
+              <li><b>성과</b><span>TUMI 대표 월 ROAS 747%, 그레고리 전년동월 대비 CVR +647%를 기록했습니다.</span></li>
             </ul>
             <div class="proj__stats">
               <div class="stat"><span class="stat__v">747<small>%</small></span><span class="stat__l">TUMI ROAS</span></div>
@@ -451,7 +607,7 @@
               <li><b>배경</b><span>자사몰과 스토어로 유입이 분산되며 자사몰 전환 효율이 낮게 나타났습니다.</span></li>
               <li><b>전략</b><span>구매 신뢰도와 편의성이 높은 네이버스토어를 중심 경로로 제안했습니다.</span></li>
               <li><b>실행</b><span>쇼핑검색 확장과 스토어 랜딩 연결로 탐색부터 구매까지 이어지는 흐름을 단순화했습니다.</span></li>
-              <li><b>성과</b><span>네이버 매출 YoY +96.2%, 쇼핑검색 전환매출 +75.2%, 스토어 CVR 3%대를 확인했습니다.</span></li>
+              <li><b>성과</b><span>네이버 매출 YoY +96.2%, 쇼핑검색 전환매출 +75.2%, 스토어 CVR 3%대를 기록했습니다.</span></li>
             </ul>
             <ul class="proj__tags">
               <li>네이버스토어</li><li>쇼핑검색</li><li>파워링크</li><li>ADVoost</li><li>전환 경로 개선</li>
@@ -470,7 +626,7 @@
           </div>
         </article>
 
-        <article class="proj reveal" data-filter="commerce" data-priority="secondary" hidden>
+        <article class="proj reveal" data-filter="commerce" data-priority="secondary">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">COMMERCE · FULL-FUNNEL</span><span class="proj__period">검색·쇼핑 · 기여도 40%</span></div>
             <h3 class="proj__title">KT알파쇼핑 — 자사몰 마케팅</h3>
@@ -495,7 +651,7 @@
           </div>
         </article>
 
-        <article class="proj reveal" data-filter="content brand" data-priority="secondary" hidden>
+        <article class="proj reveal" data-filter="content brand" data-priority="secondary">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">SNS · 콘텐츠</span><span class="proj__period">채널 성장 · 기여도 100%</span></div>
             <h3 class="proj__title">후지필름BI — SNS 콘텐츠 캠페인</h3>
@@ -505,7 +661,7 @@
               <li><b>배경</b><span>제품 설명 중심 콘텐츠만으로는 SNS에서 지속적인 반응을 만들기 어려웠습니다.</span></li>
               <li><b>전략</b><span>매체별 소비 방식에 맞춰 메시지 길이, 시각 요소, 후속 리마케팅 경로를 나눴습니다.</span></li>
               <li><b>실행</b><span>YouTube, Facebook, Instagram의 조회·클릭 데이터를 비교해 콘텐츠 스타일을 조정했습니다.</span></li>
-              <li><b>성과</b><span>유튜브 조회율 28%, 페북·인스타 CTR 8.5%, 구독자 전년 대비 +16%를 확인했습니다.</span></li>
+              <li><b>성과</b><span>유튜브 조회율 28%, 페북·인스타 CTR 8.5%, 구독자 전년 대비 +16%를 달성했습니다.</span></li>
             </ul>
             <div class="proj__stats">
               <div class="stat"><span class="stat__v">28<small>%</small></span><span class="stat__l">유튜브 조회율</span></div>
@@ -519,7 +675,7 @@
           </div>
         </article>
 
-        <article class="proj reveal" data-filter="commerce" data-priority="secondary" hidden>
+        <article class="proj reveal" data-filter="commerce" data-priority="secondary">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">앱 · CPA 최적화</span><span class="proj__period">앱 전환 · 기여도 100%</span></div>
             <h3 class="proj__title">현대글로비스 ‘오토벨’</h3>
@@ -570,7 +726,7 @@
           </div>
         </article>
 
-        <article class="proj reveal" data-filter="commerce" data-priority="secondary" hidden>
+        <article class="proj reveal" data-filter="commerce" data-priority="secondary">
           <div class="proj__inner">
             <div class="proj__meta"><span class="proj__cat">D2C · GROWTH TEST</span><span class="proj__period">자사몰 그로스 · 기여도 100%</span></div>
             <h3 class="proj__title">생활백서 — 자사몰 매출 확대</h3>
@@ -580,7 +736,7 @@
               <li><b>배경</b><span>상품군이 넓어 하나의 메시지로는 클릭 이후 구매 설득력이 떨어졌습니다.</span></li>
               <li><b>전략</b><span>상품 USP, 사용 상황, 문제 해결 장면을 나눠 소재와 랜딩 메시지를 세분화했습니다.</span></li>
               <li><b>실행</b><span>확장소재 쇼핑정보와 GFA 맞춤타겟 모수로 고관여 리타겟팅 노출을 조정했습니다.</span></li>
-              <li><b>성과</b><span>전환매출 +775%, CTR 12%, CVR 8% 수준의 성과를 확인했습니다.</span></li>
+              <li><b>성과</b><span>전환매출 +775%, CTR 12%, CVR 8% 수준의 성과를 기록했습니다.</span></li>
             </ul>
             <div class="proj__stats">
               <div class="stat"><span class="stat__v">+775<small>%</small></span><span class="stat__l">전환매출</span></div>
@@ -605,7 +761,7 @@
           <p>성과 수치는 월간·주간 운영 리포트와 매체 데이터로 교차 확인했습니다. 계정·상품 식별 정보를 제외한 성과표, UTM 설계, 매체 리포트, 자동입찰 구조를 통해 전략과 실행의 연결 과정을 확인할 수 있습니다.</p>
         </div>
       </div>
-      <div class="evidence-lab reveal" id="evidence" aria-label="비식별 운영 산출물 미리보기">
+      <div class="evidence-lab reveal" id="evidence" role="region" aria-label="비식별 운영 산출물 미리보기">
         <div class="evidence-lab__head">
           <span>CASE EVIDENCE</span>
           <h3>전략을 판단하고 실행한 근거를 실제 자료로 확인할 수 있습니다.</h3>
@@ -613,23 +769,23 @@
         </div>
         <div class="evidence-gallery">
           <figure class="evidence-shot evidence-shot--score">
-            <div class="evidence-shot__frame"><img src="assets/evidence/jestina-performance.webp" alt="제이에스티나 IMC 캠페인의 월별 운영 성과표" loading="lazy" decoding="async" /></div>
+            <a class="evidence-shot__frame" href="assets/evidence/jestina-performance.webp" target="_blank" rel="noopener" aria-label="제이에스티나 IMC 성과표 원본 크게 보기 (새 창 열림)"><img src="assets/evidence/jestina-performance.webp" alt="제이에스티나 IMC 캠페인의 월별 운영 성과표" loading="lazy" decoding="async" /></a>
             <figcaption><span>01 · IMC SCORECARD</span><h4>매체와 GA 성과를 같은 화면에서 비교</h4><p>월별 비용·구매·매출·ROAS와 GA 전환을 함께 놓고, 채널 확장이 실제 매출 개선으로 이어졌는지 검증했습니다.</p></figcaption>
           </figure>
           <figure class="evidence-shot evidence-shot--utm">
-            <div class="evidence-shot__frame"><img src="assets/evidence/utm-builder.webp" alt="매체와 캠페인 단위로 표준화한 UTM Builder 설계표" loading="lazy" decoding="async" /></div>
+            <a class="evidence-shot__frame" href="assets/evidence/utm-builder.webp" target="_blank" rel="noopener" aria-label="UTM Builder 설계표 원본 크게 보기 (새 창 열림)"><img src="assets/evidence/utm-builder.webp" alt="매체와 캠페인 단위로 표준화한 UTM Builder 설계표" loading="lazy" decoding="async" /></a>
             <figcaption><span>02 · UTM BUILDER</span><h4>캠페인·카테고리·소재 단위 추적 표준화</h4><p>매체마다 달랐던 파라미터를 공통 규칙으로 바꿔 GA4 분석과 리포트 자동화가 같은 기준으로 작동하도록 설계했습니다.</p></figcaption>
           </figure>
           <figure class="evidence-shot evidence-shot--youtube">
-            <div class="evidence-shot__frame"><img src="assets/evidence/youtube-performance.webp" alt="다이슨 유튜브 캠페인의 매체 운영 리포트" loading="lazy" decoding="async" /></div>
+            <a class="evidence-shot__frame" href="assets/evidence/youtube-performance.webp" target="_blank" rel="noopener" aria-label="다이슨 유튜브 운영 리포트 원본 크게 보기 (새 창 열림)"><img src="assets/evidence/youtube-performance.webp" alt="다이슨 유튜브 캠페인의 매체 운영 리포트" loading="lazy" decoding="async" /></a>
             <figcaption><span>03 · MEDIA REPORT</span><h4>콘텐츠 유입부터 구독·구매까지 성과 확인</h4><p>노출과 조회만 보지 않고 캠페인별 전환과 구독 성과를 함께 분석해 콘텐츠가 브랜드 채널 자산으로 남는지 판단했습니다.</p></figcaption>
           </figure>
           <figure class="evidence-shot evidence-shot--mop">
-            <div class="evidence-shot__frame"><img src="assets/evidence/mop-optimization.webp" alt="MOP 자동입찰의 Prediction Planning Control 운영 구조" loading="lazy" decoding="async" /></div>
+            <a class="evidence-shot__frame" href="assets/evidence/mop-optimization.webp" target="_blank" rel="noopener" aria-label="MOP 자동입찰 운영 구조 원본 크게 보기 (새 창 열림)"><img src="assets/evidence/mop-optimization.webp" alt="MOP 자동입찰의 Prediction Planning Control 운영 구조" loading="lazy" decoding="async" /></a>
             <figcaption><span>04 · AUTOMATION FLOW</span><h4>성과 예측·입찰 계획·이상 감지를 운영에 연결</h4><p>대량 키워드와 소재를 사람이 반복 조정하던 방식에서 벗어나, 예측과 자동입찰을 예산 최적화 기준으로 활용했습니다.</p></figcaption>
           </figure>
         </div>
-        <div class="evidence-flow" aria-label="데이터 운영 흐름">
+        <div class="evidence-flow" role="group" aria-label="데이터 운영 흐름">
           <div><b>수집</b><span>매체 API · GA4 · 운영 시트</span></div>
           <div><b>정규화</b><span>공통 지표 · UTM · 상품 단위</span></div>
           <div><b>판단</b><span>예산 이관 · 소재 교체 · 재고 대응</span></div>
@@ -677,7 +833,7 @@
             <h3 class="tl__role">데이터마케팅본부 · PM</h3>
             <p class="tl__org">플레이디 (PLAYD)</p>
             <ul class="tl__list">
-              <li>20여 개 브랜드의 매체를 통합 운영하며 SA·DA·SNS 캠페인을 기획·집행</li>
+              <li>30여 개 브랜드의 매체를 통합 운영하며 SA·DA·SNS 캠페인을 기획·집행</li>
               <li>GA4 세그먼트 기반 전환 분석과 A/B 테스트로 미디어 효율을 최적화</li>
               <li>경쟁사·다매체 실적 분석, 제안서·미디어믹스 설계, 광고 이슈 대응 및 전환 측정</li>
               <li>제이에스티나·다이슨·쌤소나이트·동원·KT알파쇼핑·한샘 등 <strong>대형 캠페인의 성과를 리드</strong></li>
@@ -752,7 +908,7 @@
         </article>
       </div>
 
-      <div class="tool-wall reveal" aria-label="운영 매체 및 업무 툴">
+      <div class="tool-wall reveal" role="group" aria-label="운영 매체 및 업무 툴">
         <div class="tool-wall__head">
           <span>MEDIA &amp; TOOLS</span>
           <p>실제 캠페인 운영과 분석, 자동화 업무에서 다뤄온 플랫폼입니다.</p>
@@ -829,7 +985,7 @@
         <h2 class="section__title">운영 브랜드</h2>
         <p class="section__sub">9개 산업군 · 30여 개 브랜드의 캠페인을 운영했습니다</p>
       </div>
-      <div class="brand-highlights reveal" aria-label="대표 운영 브랜드">
+      <div class="brand-highlights reveal" role="group" aria-label="대표 운영 브랜드">
         <span>대표 운영 브랜드</span>
         <b>뉴발란스</b>
         <b>제이에스티나</b>
@@ -933,7 +1089,7 @@
           </p>
           <p class="about__body">
             시작은 디자인과 창업 경험이었습니다. 제품을 만들고, 고객에게 설명하고, 시장의 반응을 확인하는 과정을 직접 겪었습니다.
-            이후 <strong>KT그룹 플레이디</strong>에서 20여 개 브랜드의 SA·DA·SNS 캠페인을 운영하며
+            이후 <strong>KT그룹 플레이디</strong>에서 30여 개 브랜드의 SA·DA·SNS 캠페인을 운영하며
             감이 아니라 <em>GA4·SQL·매체 데이터</em>로 의사결정하는 방식을 익혔습니다.
             현재는 <strong>중앙그룹 HLL중앙</strong> 퍼포먼스전략국에서 대형 예산과 외부 대행사, 매체사를 함께 관리하며
             성과를 운영 체계로 남기는 일에 집중하고 있습니다.
@@ -945,7 +1101,7 @@
           </p>
         </div>
 
-        <div class="storyline reveal" aria-label="성장 방식 스토리라인">
+        <div class="storyline reveal" role="group" aria-label="성장 방식 스토리라인">
           <div class="storyline__item">
             <span>01</span>
             <h3>문제를 먼저 분리합니다</h3>
@@ -1015,7 +1171,7 @@
         <li class="pstep reveal">
           <span class="pstep__no">STEP 03</span>
           <h3 class="pstep__t">운영</h3>
-          <p>소재, 예산, 입찰, 지면을 반복 조정하며 전환 효율을 관리하고, 자동화 가능한 업무는 운영 리스크를 줄입니다.</p>
+          <p>소재, 예산, 입찰, 지면을 반복 조정하며 전환 효율을 관리하고, 반복 업무는 자동화해 운영 리스크를 줄입니다.</p>
           <span class="pstep__tools">A/B 테스트 · 자동입찰 · API 자동화</span>
         </li>
         <li class="pstep reveal">
@@ -1048,7 +1204,7 @@
           <span class="award__hero-tag">현업 성과</span>
         </div>
 
-        <div class="award__summary reveal" aria-label="수상 이력 요약">
+        <div class="award__summary reveal" role="group" aria-label="수상 이력 요약">
           <div><b>2년 연속</b><span>대한민국 디지털 광고 대상</span></div>
           <div><b>30여 회</b><span>창업·디자인·사회혁신 수상/선정</span></div>
           <div><b>정부지원</b><span>예비창업패키지·사회적기업가육성사업</span></div>
@@ -1094,12 +1250,12 @@
         <span class="eyebrow eyebrow--center"><span class="pulse"></span>LET'S BUILD GROWTH</span>
         <h2 class="contact__title">브랜드의 다음 성장,<br /> 함께 만들어요</h2>
         <p class="contact__sub">새로운 기회와 협업 제안을 환영합니다.</p>
-        <a href="mailto:makefair@naver.com" class="contact__mail" id="copyMail">
+        <a href="mailto:makefair@naver.com" class="contact__mail">
           <span class="contact__mail-ic" aria-hidden="true">
             <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </span>
           makefair@naver.com
-          <span class="contact__copy" id="copyHint">클릭해 메일 보내기</span>
+          <span class="contact__copy">클릭해 메일 보내기</span>
         </a>
         <div class="contact__actions">
           <a href="mailto:makefair@naver.com?subject=%EC%9D%B4%EB%A0%A5%EC%84%9C%20%EC%9A%94%EC%B2%AD%EB%93%9C%EB%A6%BD%EB%8B%88%EB%8B%A4" class="btn btn--primary">
@@ -1107,13 +1263,14 @@
               <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>이력서 요청하기
           </a>
-          <a href="https://www.linkedin.com/in/%EC%84%A0%EC%9D%BC-%EA%B9%80-b28a1021b/" class="btn btn--ghost" target="_blank" rel="noopener">
+          <a href="https://www.linkedin.com/in/%EC%84%A0%EC%9D%BC-%EA%B9%80-b28a1021b/" class="btn btn--ghost" target="_blank" rel="noopener" aria-label="LinkedIn 프로필 (새 창 열림)">
             <span class="btn-ic" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M4.98 3.5a2 2 0 11-.02 4 2 2 0 01.02-4zM3.5 9h3v11h-3zM9.5 9h2.86v1.5h.04c.4-.74 1.38-1.52 2.84-1.52 3.04 0 3.6 2 3.6 4.6V20h-3v-4.84c0-1.16-.02-2.64-1.6-2.64-1.6 0-1.84 1.25-1.84 2.55V20h-3z" fill="currentColor"/></svg>
             </span>LinkedIn
           </a>
           <button class="btn btn--ghost" id="copyBtn" type="button">이메일 복사</button>
         </div>
+        <span class="sr-only" role="status" id="copyStatus"></span>
       </div>
     </div>
   </section>
@@ -1125,7 +1282,7 @@
       <span class="footer__brand">김선일 · KIM SEONILL</span>
       <span class="footer__role">Digital Performance Marketer</span>
       <nav class="footer__links" aria-label="외부 링크">
-        <a href="https://www.linkedin.com/in/%EC%84%A0%EC%9D%BC-%EA%B9%80-b28a1021b/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://www.linkedin.com/in/%EC%84%A0%EC%9D%BC-%EA%B9%80-b28a1021b/" target="_blank" rel="noopener" aria-label="LinkedIn 프로필 (새 창 열림)">LinkedIn</a>
         <a href="mailto:makefair@naver.com?subject=%EC%9D%B4%EB%A0%A5%EC%84%9C%20%EC%9A%94%EC%B2%AD%EB%93%9C%EB%A6%BD%EB%8B%88%EB%8B%A4">이력서 요청하기</a>
         <a href="mailto:makefair@naver.com">Email</a>
       </nav>
@@ -1135,21 +1292,14 @@
 
   <a href="#hero" class="totop" id="toTop" aria-label="맨 위로">↑</a>
 
-  <script src="js/main.js?v=20260713-benchmark-final"></script>
   <script>
     /* Failsafe: if main.js fails to load or the IntersectionObserver never
-       fires, make sure nothing stays permanently hidden. */
+       fires, make sure nothing stays permanently hidden. Counters keep their
+       final values in markup, so only the reveal state needs recovery. */
     window.addEventListener("load", function () {
       setTimeout(function () {
         if (!document.querySelector(".reveal.in")) {
-          document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
-          document.querySelectorAll("[data-count]").forEach(function (el) {
-            var raw = el.dataset.count || "0";
-            var dec = (String(raw).split(".")[1] || "").length;
-            el.textContent = (el.dataset.prefix || "") +
-              parseFloat(raw).toLocaleString("en-US", { minimumFractionDigits: dec, maximumFractionDigits: dec }) +
-              (el.dataset.suffix || "");
-          });
+          document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in", "settled"); });
         }
       }, 2000);
     });

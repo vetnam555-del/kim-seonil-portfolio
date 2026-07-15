@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /scripts/
+Disallow: /assets/kim-seonill-resume-remember.pdf
+Disallow: /assets/fonts/original/
+
+Sitemap: https://vetnam555-del.github.io/kim-seonil-portfolio/sitemap.xml
