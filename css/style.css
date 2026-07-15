@@ -235,7 +235,7 @@ body.nav-locked { overflow: hidden; }
 .nav__name .dot { color: var(--accent); }
 .nav__links { display: flex; gap: 4px; }
 .nav__links a {
-  display: inline-flex; align-items: center; min-height: 44px;
+  display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px;
   font-size: 0.9rem; color: var(--text-2); padding: 8px 13px; border-radius: 8px;
   position: relative; transition: color 0.25s, background 0.25s;
 }
