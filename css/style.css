@@ -1555,7 +1555,20 @@ body.nav-locked { overflow: hidden; }
 
 @media (max-width: 700px) {
   .section, .section--tight { padding-block: 58px; }
-  .hero { padding-bottom: 42px; }
+  .hero { padding-top: 88px; padding-bottom: 18px; }
+  .hero-proof { display: none !important; }
+  .hero__chips { display: none; }
+  .hero__actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .hero__actions .btn {
+    width: 100%;
+    padding-inline: 12px;
+    font-size: 0.86rem;
+  }
+  .portfolio-work { padding-top: 36px; }
   .career-note { grid-template-columns: 1fr; gap: 10px; margin-top: 32px; }
   .tool-wall__head { display: block; }
   .tool-wall__head p { margin-top: 8px; text-align: left; }
