@@ -1415,6 +1415,160 @@ body.nav-locked { overflow: hidden; }
   .automation-before-after > div { grid-template-columns: minmax(0, 1fr) auto auto auto; }
 }
 
+/* =========================================================
+   2026-07 FINAL EDITORIAL SIMPLIFICATION
+   One clear promise, selected work first, evidence over repetition.
+   ========================================================= */
+[hidden] { display: none !important; }
+
+.hero {
+  min-height: min(820px, 88svh);
+  padding-bottom: 54px;
+}
+.hero__title { max-width: 720px; }
+.hero__lede { max-width: 625px; }
+.portfolio-work { padding-top: clamp(72px, 8vw, 104px); }
+.section { padding-block: clamp(70px, 9vw, 112px); }
+.section--tight { padding-block: clamp(58px, 7vw, 88px); }
+.section__head { max-width: 850px; }
+
+.career-note {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 28px;
+  margin-top: 46px;
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.career-note > span {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+}
+.career-note p {
+  max-width: 900px;
+  margin: 0;
+  color: var(--text-2);
+  font-size: 0.92rem;
+  line-height: 1.75;
+}
+.career-note strong { color: var(--text); font-weight: 650; }
+
+.tool-wall {
+  margin-top: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+.tool-wall__head {
+  align-items: center;
+  margin-bottom: 0;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line-2);
+}
+.tool-groups {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 42px;
+}
+.toolgroup {
+  padding: 26px 0 28px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: none;
+}
+.toolgroup h3 { margin-bottom: 13px; }
+.logo-list { gap: 0 18px; }
+.logo-chip {
+  min-height: 56px;
+  padding: 8px 0;
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.055);
+  border-radius: 0;
+  background: none;
+}
+.logo-chip:hover {
+  transform: none;
+  border-color: rgba(255, 255, 255, 0.09);
+  background: none;
+}
+.certs {
+  margin-top: 0;
+  padding: 24px 0 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+
+.brand-highlights {
+  margin: -10px 0 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  gap: 12px 18px;
+}
+.brand-highlights span { width: 100%; margin: 0 0 5px; }
+.brand-highlights b {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2vw, 1.38rem);
+  font-weight: 650;
+}
+.brand-ledger {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--line-2);
+  border-bottom: 1px solid var(--line-2);
+}
+.brand-ledger > div { min-width: 0; padding: 23px 24px; }
+.brand-ledger > div + div { border-left: 1px solid var(--line); }
+.brand-ledger strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+}
+.brand-ledger span { color: var(--text-2); font-size: 0.82rem; line-height: 1.55; }
+
+.awards { max-width: 1080px; }
+.award--hero { margin-bottom: 18px; }
+.award__origin { margin-bottom: 34px; }
+.award__group-label { margin-top: 0; }
+.award__list--selected { margin-bottom: 20px; }
+.award__archive { background: transparent; }
+
+@media (max-width: 900px) {
+  .hero { min-height: 0; }
+  .tool-groups { gap: 0 26px; }
+  .brand-ledger { grid-template-columns: 1fr; }
+  .brand-ledger > div + div { border-left: 0; border-top: 1px solid var(--line); }
+}
+
+@media (max-width: 700px) {
+  .section, .section--tight { padding-block: 58px; }
+  .hero { padding-bottom: 42px; }
+  .career-note { grid-template-columns: 1fr; gap: 10px; margin-top: 32px; }
+  .tool-wall__head { display: block; }
+  .tool-wall__head p { margin-top: 8px; text-align: left; }
+  .tool-groups { grid-template-columns: 1fr; }
+  .logo-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .brand-highlights { gap: 10px 15px; }
+}
+
+@media (max-width: 430px) {
+  .logo-list { grid-template-columns: 1fr; }
+  .brand-highlights b { font-size: 1rem; }
+}
+
 /* touch devices: no sticky hover lift after a tap */
 @media (hover: none) {
   .pillar:hover, .pstep:hover, .proj:hover, .skillcard:hover, .bizcat:hover,
