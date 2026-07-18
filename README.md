@@ -29,8 +29,9 @@ py -m http.server 8932
 
 수치 하나를 바꾸면 아래를 전부 확인한다. 특히 **차트 SVG는 rect 폭이 수치에 비례**하므로 함께 수정.
 
-1. `<head>` — meta description, og:description
+1. `<head>` — meta description, og:description (+ 수치 변경 시 `scripts/og-source.html` 수정 후 OG 이미지 재캡처)
 2. 히어로 스탯 4타일 — `data-count` 속성 + 주변 텍스트(210% 등)
+2-1. 히어로 OPS.CONSOLE 보드 — 가동 주기·GA ROAS 미터(`--w` 퍼센트도 수치 비례)·푸터 시간 수치
 3. 케이스 인덱스(#cases) — 3개 행의 `caseindex__nums`
 4. 케이스 01 — 메타 표, 본문(210→583, 808%, 58.3억, CPC −21%, CTR +7.3%), 차트 SVG(text+rect width), 판정 박스
 5. 케이스 02 — 본문(17.6%/98.5%, 120분→5분, 60분→5분, 662건), 차트 SVG, 판정 박스

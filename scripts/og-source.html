@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face { font-family: "Pretendard"; src: url("../assets/fonts/original/Pretendard-Regular.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Pretendard"; src: url("../assets/fonts/original/Pretendard-Bold.woff2") format("woff2"); font-weight: 700; }
+  * { margin: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    font-family: "Pretendard", sans-serif;
+    background: #0d0d0f;
+    color: #f4f2ec;
+    padding: 64px 72px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative;
+  }
+  .kicker { font-family: Consolas, monospace; font-size: 17px; letter-spacing: 0.22em; color: #ff6a3d; font-weight: 700; }
+  h1 { font-size: 76px; line-height: 1.14; letter-spacing: -0.035em; font-weight: 700; }
+  h1 em { font-style: normal; color: #ff6a3d; box-shadow: inset 0 -0.14em 0 rgba(255, 77, 0, 0.42); }
+  .stats { display: flex; gap: 0; border: 1px solid #2c2c31; width: fit-content; }
+  .stat { padding: 20px 34px; border-right: 1px solid #2c2c31; }
+  .stat:last-child { border-right: none; }
+  .stat b { display: block; font-size: 40px; letter-spacing: -0.02em; }
+  .stat span { display: block; font-family: Consolas, monospace; font-size: 13px; color: #b9b6ab; margin-top: 6px; }
+  .foot { display: flex; justify-content: space-between; align-items: baseline; }
+  .name { font-size: 22px; font-weight: 700; }
+  .name i { font-style: normal; font-family: Consolas, monospace; font-size: 14px; color: #b9b6ab; margin-left: 10px; letter-spacing: 0.1em; }
+  .role { font-family: Consolas, monospace; font-size: 14px; color: #b9b6ab; }
+  .giant {
+    position: absolute; right: -30px; bottom: -68px;
+    font-family: Consolas, monospace; font-weight: 700; font-size: 300px; line-height: 0.8;
+    color: transparent; -webkit-text-stroke: 3px #ff4d00; opacity: 0.5; letter-spacing: -0.04em;
+  }
+</style>
+</head>
+<body>
+  <div>
+    <p class="kicker">PERFORMANCE MARKETING PORTFOLIO</p>
+    <h1 style="margin-top:22px">한 번의 성과는 운일 수 있습니다.<br />반복되는 성과는 <em>구조</em>입니다.</h1>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>58.3억</b><span>GA 전환매출</span></div>
+    <div class="stat"><b>210→583%</b><span>GA ROAS</span></div>
+    <div class="stat"><b>월 10억</b><span>통합 운영</span></div>
+    <div class="stat"><b>30+</b><span>브랜드</span></div>
+  </div>
+  <div class="foot">
+    <p class="name">김선일<i>KIM SEONILL</i></p>
+    <p class="role">중앙그룹 HLL중앙 · 퍼포먼스전략국 과장</p>
+  </div>
+  <div class="giant">583</div>
+</body>
+</html>
