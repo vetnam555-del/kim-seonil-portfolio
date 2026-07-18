@@ -1,328 +1,258 @@
-/* =========================================================
-   김선일 Portfolio — interactions
-   ========================================================= */
 (function () {
   "use strict";
 
-  const $ = (s, ctx = document) => ctx.querySelector(s);
-  const $$ = (s, ctx = document) => Array.from(ctx.querySelectorAll(s));
-  const isStatic = document.documentElement.classList.contains("static");
-  const reducedMq = window.matchMedia("(prefers-reduced-motion: reduce)");
-  let prefersReduced = reducedMq.matches;
+  document.documentElement.classList.add("js");
 
-  /* ---------- year ---------- */
-  const yearEl = $("#year");
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-  /* ---------- scroll-driven UI: progress bar, nav state, active section
-     Single rAF-throttled handler; all layout reads happen before writes. */
-  const nav = $("#nav");
-  const progress = $("#scrollProgress");
-  const toTop = $("#toTop");
-  const navLinks = $$(".nav__links a[data-nav]");
-  const sections = navLinks
-    .map((a) => document.querySelector(a.getAttribute("href")))
-    .filter(Boolean);
-
-  function handleScroll() {
-    const y = window.scrollY || document.documentElement.scrollTop;
-    const h = document.documentElement.scrollHeight - window.innerHeight;
-    let currentId = "";
-    if (sections.length) {
-      const marker = Math.min(window.innerHeight * 0.35, 320);
-      let current = null;
-      sections.forEach((sec) => {
-        if (sec.getBoundingClientRect().top <= marker) current = sec;
+  var staticMode = /[?&]static=1/.test(window.location.search);
+  /* QA 전용: ?from=섹션id — 해당 섹션 이전을 숨겨 하단부 캡처를 가능하게 함 */
+  var fromMatch = window.location.search.match(/[?&]from=([a-zA-Z-]+)/);
+  if (fromMatch) {
+    var main = document.getElementById("main");
+    if (main) {
+      var found = false;
+      Array.prototype.forEach.call(main.children, function (child) {
+        if (child.id === fromMatch[1]) found = true;
+        if (!found) child.style.display = "none";
       });
-      if (current) currentId = "#" + current.id;
+      if (!found) {
+        Array.prototype.forEach.call(main.children, function (child) {
+          child.style.display = "";
+        });
+      }
     }
-    if (progress) progress.style.transform = "scaleX(" + (h > 0 ? y / h : 0) + ")";
-    if (nav) nav.classList.toggle("scrolled", y > 30);
-    if (toTop) toTop.classList.toggle("show", y > 600);
-    navLinks.forEach((a) => {
-      const active = a.getAttribute("href") === currentId;
-      a.classList.toggle("active", active);
-      if (active) a.setAttribute("aria-current", "location");
-      else a.removeAttribute("aria-current");
-    });
   }
-  let scrollTicking = false;
-  function requestScrollUpdate() {
-    if (scrollTicking) return;
-    scrollTicking = true;
-    requestAnimationFrame(() => {
-      handleScroll();
-      scrollTicking = false;
-    });
-  }
-  window.addEventListener("scroll", requestScrollUpdate, { passive: true });
-  window.addEventListener("resize", requestScrollUpdate);
-  handleScroll();
 
-  /* ---------- mobile nav toggle ---------- */
-  const navToggle = $("#navToggle");
-  function setNavOpen(open) {
-    if (!nav) return;
-    nav.classList.toggle("open", open);
-    document.body.classList.toggle("nav-locked", open);
-    if (navToggle) {
-      navToggle.setAttribute("aria-expanded", String(open));
-      navToggle.setAttribute("aria-label", open ? "메뉴 닫기" : "메뉴 열기");
+  /* 지원사 맞춤 클로징: ?to=회사명 → 컨택트 문구 치환 */
+  var toMatch = window.location.search.match(/[?&]to=([^&]+)/);
+  if (toMatch) {
+    try {
+      var toName = decodeURIComponent(toMatch[1]).trim();
+      var contactTo = document.getElementById("contactTo");
+      if (contactTo && toName && toName.length <= 24) contactTo.textContent = toName;
+    } catch (e) { /* 잘못된 인코딩은 무시 */ }
+  }
+
+  var prefersReduced = staticMode || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- scroll progress (top bar + left rail) ---------- */
+  var progressBar = document.getElementById("progressBar");
+  var railPct = document.getElementById("railPct");
+  var railFill = document.getElementById("railFill");
+  var toTop = document.getElementById("toTop");
+
+  function onScroll() {
+    var doc = document.documentElement;
+    var max = doc.scrollHeight - window.innerHeight;
+    var pct = max > 0 ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0;
+    var rounded = Math.round(pct);
+    if (progressBar) progressBar.style.width = pct + "%";
+    if (railFill) railFill.style.height = pct + "%";
+    if (railPct) railPct.textContent = rounded + "%";
+    if (toTop) toTop.classList.toggle("is-visible", window.scrollY > 700);
+    syncHeaderTheme();
+  }
+
+  /* ---------- header light/dark theme sync ---------- */
+  var header = document.getElementById("siteHeader");
+  var rail = document.getElementById("rail");
+  var darkSections = Array.prototype.slice.call(document.querySelectorAll(".section--dark, .footer"));
+
+  function syncHeaderTheme() {
+    var probeY = (header ? header.offsetHeight : 64) / 2;
+    var onDark = darkSections.some(function (sec) {
+      var r = sec.getBoundingClientRect();
+      return r.top <= probeY && r.bottom >= probeY;
+    });
+    if (header) header.classList.toggle("on-light", !onDark);
+    if (rail) {
+      var midY = window.innerHeight / 2;
+      var railOnDark = darkSections.some(function (sec) {
+        var r = sec.getBoundingClientRect();
+        return r.top <= midY && r.bottom >= midY;
+      });
+      rail.classList.toggle("is-dark", railOnDark);
     }
   }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  onScroll();
+
+  /* ---------- mobile nav ---------- */
+  var navToggle = document.getElementById("navToggle");
+  var nav = document.getElementById("primaryNav");
   if (navToggle && nav) {
-    navToggle.addEventListener("click", () => {
-      setNavOpen(!nav.classList.contains("open"));
+    navToggle.addEventListener("click", function () {
+      var open = nav.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", String(open));
     });
-    $$(".nav__links a").forEach((a) =>
-      a.addEventListener("click", () => {
-        setNavOpen(false);
-      })
-    );
-    document.addEventListener("click", (e) => {
-      if (nav.classList.contains("open") && !nav.contains(e.target)) setNavOpen(false);
+    nav.addEventListener("click", function (e) {
+      if (e.target.tagName === "A") {
+        nav.classList.remove("is-open");
+        navToggle.setAttribute("aria-expanded", "false");
+      }
     });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && nav.classList.contains("open")) {
-        setNavOpen(false);
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("is-open")) {
+        nav.classList.remove("is-open");
+        navToggle.setAttribute("aria-expanded", "false");
         navToggle.focus();
       }
     });
   }
 
-  /* ---------- reveal on scroll ---------- */
-  const revealEls = $$(".reveal");
-  function settle(el) {
-    el.style.transitionDelay = "";
-    el.classList.add("settled");
-  }
-  function revealAll() {
-    revealEls.forEach((el) => {
-      el.classList.add("in");
-      settle(el);
-    });
-  }
-  if (prefersReduced || !("IntersectionObserver" in window)) {
-    revealAll();
-  } else {
-    const revObserver = new IntersectionObserver(
-      (entries, obs) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // small stagger for siblings
-            const el = entry.target;
-            const sibs = el.parentElement ? Array.from(el.parentElement.children).filter((c) => c.classList.contains("reveal")) : [el];
-            const idx = Math.max(0, sibs.indexOf(el));
-            el.style.transitionDelay = Math.min(idx * 70, 350) + "ms";
-            el.classList.add("in");
-            // release the entrance transition afterwards so component hover styles apply
-            el.addEventListener("transitionend", () => settle(el), { once: true });
-            setTimeout(() => settle(el), 1400);
-            obs.unobserve(el);
-          }
+  /* ---------- active nav link ---------- */
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll("[data-nav]"));
+  var navTargets = navLinks
+    .map(function (a) { return document.querySelector(a.getAttribute("href")); })
+    .filter(Boolean);
+  if ("IntersectionObserver" in window && navTargets.length) {
+    var navObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach(function (a) {
+          var current = a.getAttribute("href") === "#" + entry.target.id;
+          if (current) a.setAttribute("aria-current", "true");
+          else a.removeAttribute("aria-current");
         });
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
-    );
-    revealEls.forEach((el) => revObserver.observe(el));
-  }
-  if (typeof reducedMq.addEventListener === "function") {
-    reducedMq.addEventListener("change", (e) => {
-      prefersReduced = e.matches;
-      if (e.matches) revealAll();
-    });
+      });
+    }, { rootMargin: "-40% 0px -55% 0px" });
+    navTargets.forEach(function (t) { navObserver.observe(t); });
   }
 
-  /* ---------- animated counters (decimal-aware) ----------
-     Markup ships with the final values (correct for SEO, screen readers and
-     no-JS); JS only rewinds to 0 and counts up when the tile scrolls in. */
-  function decimalsOf(raw) {
-    const dot = String(raw).split(".")[1];
-    return dot ? dot.length : 0;
+  /* ---------- reveal ---------- */
+  var reveals = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+  if (prefersReduced || !("IntersectionObserver" in window)) {
+    reveals.forEach(function (el) { el.classList.add("is-in"); });
+  } else {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-in");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    reveals.forEach(function (el) { revealObserver.observe(el); });
   }
-  function formatNum(n, dec) {
-    return n.toLocaleString("en-US", { minimumFractionDigits: dec, maximumFractionDigits: dec });
+
+  /* ---------- count-up stats ---------- */
+  var counters = Array.prototype.slice.call(document.querySelectorAll("[data-count]"));
+  function formatNumber(value, decimals) {
+    return decimals > 0
+      ? value.toFixed(decimals)
+      : Math.round(value).toLocaleString("ko-KR");
   }
-  function finalizeCount(el) {
-    const raw = el.dataset.count || "0";
-    el.textContent = (el.dataset.prefix || "") + formatNum(parseFloat(raw), decimalsOf(raw)) + (el.dataset.suffix || "");
-  }
-  function animateCount(el) {
-    const raw = el.dataset.count || "0";
-    const dec = decimalsOf(raw);
-    const target = parseFloat(raw);
-    const prefix = el.dataset.prefix || "";
-    const suffix = el.dataset.suffix || "";
-    const dur = 1700;
-    const start = performance.now();
-    function tick(now) {
-      const t = Math.min((now - start) / dur, 1);
-      const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
-      el.textContent = prefix + formatNum(target * eased, dec) + suffix;
+  function runCounter(el) {
+    var target = parseFloat(el.getAttribute("data-count"));
+    var decimals = parseInt(el.getAttribute("data-decimals") || "0", 10);
+    if (isNaN(target)) return;
+    if (prefersReduced) { el.textContent = formatNumber(target, decimals); return; }
+    var duration = 1200;
+    var start = null;
+    function tick(ts) {
+      if (start === null) start = ts;
+      var t = Math.min(1, (ts - start) / duration);
+      var eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = formatNumber(target * eased, decimals);
       if (t < 1) requestAnimationFrame(tick);
-      else el.textContent = prefix + formatNum(target, dec) + suffix;
     }
     requestAnimationFrame(tick);
   }
-  const counters = $$("[data-count]");
-  if (isStatic || prefersReduced || !("IntersectionObserver" in window)) {
-    counters.forEach(finalizeCount);
-  } else {
-    const cObserver = new IntersectionObserver(
-      (entries, obs) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) { animateCount(e.target); obs.unobserve(e.target); }
+  if (counters.length) {
+    if (prefersReduced || !("IntersectionObserver" in window)) {
+      counters.forEach(runCounter);
+    } else {
+      var counterObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            runCounter(entry.target);
+            counterObserver.unobserve(entry.target);
+          }
         });
-      },
-      { threshold: 0.15 }
-    );
-    counters.forEach((el) => cObserver.observe(el));
+      }, { threshold: 0.4 });
+      counters.forEach(function (el) { counterObserver.observe(el); });
+    }
   }
 
-  /* ---------- project card pointer glow ---------- */
-  if (!prefersReduced && window.matchMedia("(hover: hover)").matches) {
-    $$(".proj").forEach((card) => {
-      card.addEventListener("mousemove", (e) => {
-        const r = card.getBoundingClientRect();
-        card.style.setProperty("--mx", e.clientX - r.left + "px");
-        card.style.setProperty("--my", e.clientY - r.top + "px");
-      });
+  /* ---------- evidence lightbox ---------- */
+  var lightbox = document.getElementById("lightbox");
+  var lightboxImg = document.getElementById("lightboxImg");
+  var lightboxClose = document.getElementById("lightboxClose");
+  var canDialog = lightbox && typeof lightbox.showModal === "function";
+  Array.prototype.forEach.call(document.querySelectorAll("[data-lightbox]"), function (btn) {
+    btn.addEventListener("click", function () {
+      var src = btn.getAttribute("data-lightbox");
+      if (!canDialog) { window.open(src, "_blank", "noopener"); return; }
+      var img = btn.querySelector("img");
+      lightboxImg.src = src;
+      lightboxImg.alt = img ? img.alt : "";
+      lightbox.showModal();
     });
-  }
-
-  /* ---------- project filter ---------- */
-  const filterBtns = $$(".filter-btn");
-  const projectCards = $$(".work .proj");
-  const projectMoreBtn = $("#projectMoreBtn");
-  const projectStatus = $("#projectStatus");
-  if (filterBtns.length && projectCards.length) {
-    let activeProjectFilter = "all";
-    let showAllProjects = false;
-
-    function updateProjectVisibility() {
-      let hiddenSecondary = 0;
-      let visibleCount = 0;
-      projectCards.forEach((card) => {
-        const tags = (card.dataset.filter || "").split(/\s+/);
-        const matchesFilter = activeProjectFilter === "all" || tags.includes(activeProjectFilter);
-        const hideSecondary = activeProjectFilter === "all" && !showAllProjects && card.dataset.priority === "secondary";
-        const visible = matchesFilter && !hideSecondary;
-        card.hidden = !visible;
-        if (visible) visibleCount += 1;
-        if (hideSecondary) hiddenSecondary += 1;
-      });
-
-      if (projectMoreBtn) {
-        const showControl = activeProjectFilter === "all";
-        projectMoreBtn.parentElement.hidden = !showControl;
-        projectMoreBtn.setAttribute("aria-expanded", String(showAllProjects));
-        projectMoreBtn.textContent = showAllProjects ? "대표 프로젝트만 보기" : "프로젝트 " + hiddenSecondary + "개 더 보기";
-      }
-      if (projectStatus) {
-        projectStatus.textContent = "프로젝트 " + visibleCount + "개 표시 중" + (hiddenSecondary > 0 ? " · 보조 프로젝트 " + hiddenSecondary + "개 접힘" : "");
-      }
-    }
-
-    filterBtns.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        activeProjectFilter = btn.dataset.filter || "all";
-        filterBtns.forEach((b) => {
-          const active = b === btn;
-          b.classList.toggle("active", active);
-          b.setAttribute("aria-pressed", String(active));
-        });
-        updateProjectVisibility();
-      });
+  });
+  if (canDialog) {
+    lightboxClose.addEventListener("click", function () { lightbox.close(); });
+    lightbox.addEventListener("click", function (e) {
+      if (e.target === lightbox) lightbox.close();
     });
-
-    if (projectMoreBtn) {
-      projectMoreBtn.addEventListener("click", () => {
-        showAllProjects = !showAllProjects;
-        updateProjectVisibility();
-      });
-    }
-
-    updateProjectVisibility();
+    lightbox.addEventListener("close", function () { lightboxImg.removeAttribute("src"); });
   }
 
   /* ---------- copy email ---------- */
-  const EMAIL = "makefair@naver.com";
-  const copyBtn = $("#copyBtn");
-  const copyStatus = $("#copyStatus");
-  function announceCopy(msg) {
+  var copyBtn = document.getElementById("copyEmail");
+  var copyStatus = document.getElementById("copyStatus");
+  var EMAIL = "makefair@naver.com";
+  var statusTimer = null;
+  function setStatus(msg) {
     if (!copyStatus) return;
     copyStatus.textContent = msg;
-    setTimeout(() => { copyStatus.textContent = ""; }, 2400);
-  }
-  function flash(btn, text, cls) {
-    const orig = btn.textContent;
-    btn.textContent = text;
-    btn.classList.add(cls);
-    setTimeout(() => { btn.textContent = orig; btn.classList.remove(cls); }, 1600);
+    if (statusTimer) window.clearTimeout(statusTimer);
+    statusTimer = window.setTimeout(function () { copyStatus.textContent = ""; }, 2600);
   }
   if (copyBtn) {
-    copyBtn.addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(EMAIL);
-        flash(copyBtn, "복사 완료 ✓", "copied");
-        announceCopy("이메일 주소가 복사되었습니다.");
-      } catch (err) {
-        // fallback
-        const ta = document.createElement("textarea");
-        ta.value = EMAIL; document.body.appendChild(ta); ta.select();
-        try {
-          document.execCommand("copy");
-          flash(copyBtn, "복사 완료 ✓", "copied");
-          announceCopy("이메일 주소가 복사되었습니다.");
-        }
-        catch (_) { flash(copyBtn, EMAIL, "copied"); }
-        document.body.removeChild(ta);
+    copyBtn.addEventListener("click", function () {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(EMAIL).then(
+          function () { setStatus("복사되었습니다: " + EMAIL); },
+          function () { fallbackCopy(); }
+        );
+      } else {
+        fallbackCopy();
       }
     });
   }
+  function fallbackCopy() {
+    var ta = document.createElement("textarea");
+    ta.value = EMAIL;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "absolute";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, EMAIL.length);
+    var ok = false;
+    try {
+      ok = document.execCommand("copy");
+    } catch (err) {
+      ok = false;
+    }
+    document.body.removeChild(ta);
+    setStatus(ok ? "복사되었습니다: " + EMAIL : "복사에 실패했습니다. " + EMAIL + " 주소를 직접 입력해 주세요.");
+  }
 
-  /* ---------- anchor navigation ----------
-     Scrolling is delegated to the browser (scroll-behavior + scroll-margin-top
-     keep the fixed-nav offset in one place); JS only moves keyboard focus so
-     the next Tab lands inside the target section. */
-  $$('a[href^="#"]').forEach((a) => {
-    a.addEventListener("click", () => {
-      const id = a.getAttribute("href");
-      if (!id || id.length < 2) return;
-      const target = document.querySelector(id);
-      if (!target) return;
-      if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
-      target.focus({ preventScroll: true });
+  /* ---------- print: 수치 확정 + 아카이브 펼침 ---------- */
+  window.addEventListener("beforeprint", function () {
+    counters.forEach(function (el) {
+      var target = parseFloat(el.getAttribute("data-count"));
+      var decimals = parseInt(el.getAttribute("data-decimals") || "0", 10);
+      if (!isNaN(target)) el.textContent = formatNumber(target, decimals);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("details"), function (d) {
+      d.setAttribute("open", "");
     });
   });
 
-  /* re-align a hash landing once, after load (late layout shifts) */
-  function alignInitialHash() {
-    const id = window.location.hash;
-    if (!id || id.length < 2) return;
-    const target = document.querySelector(id);
-    if (!target) return;
-    target.scrollIntoView({ behavior: "auto", block: "start" });
-    handleScroll();
-  }
-  if (window.location.hash) {
-    window.addEventListener("load", () => setTimeout(alignInitialHash, 60));
-  }
-
-  /* ---------- marquee: pause while offscreen ---------- */
-  const marquee = $(".marquee");
-  const marqueeTrack = $(".marquee__track");
-  if (marquee && marqueeTrack && "IntersectionObserver" in window) {
-    new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        marqueeTrack.style.animationPlayState = e.isIntersecting ? "" : "paused";
-      });
-    }).observe(marquee);
-  }
-
-  /* ---------- print: make every section visible before printing ---------- */
-  window.addEventListener("beforeprint", () => {
-    revealAll();
-    counters.forEach(finalizeCount);
-  });
+  /* ---------- year ---------- */
+  var year = document.getElementById("year");
+  if (year) year.textContent = String(new Date().getFullYear());
 })();

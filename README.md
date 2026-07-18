@@ -1,48 +1,67 @@
-# 김선일 포트폴리오
+# 김선일 포트폴리오 — PROOF OF STRUCTURE (2026-07-18 전면 리빌드)
 
-디지털 퍼포먼스 마케터 김선일의 경력과 대표 프로젝트를 정리한 정적 포트폴리오 사이트입니다.
+디지털 퍼포먼스 마케터 김선일의 포트폴리오 사이트. 모든 케이스를
+**문제 정의 → 분석 근거 → 실행 → 결과 → 나의 역할** 5단 구조로 기록한 데이터 에디토리얼.
 
 ## 구성
 
-- `index.html`: 페이지 콘텐츠, SEO 메타데이터, 구조화 데이터
-- `css/style.css`: 반응형 레이아웃과 시각 스타일
-- `js/main.js`: 내비게이션, 프로젝트 필터, 카운터, 접근성 보조 동작
-- `assets/evidence/`: 대표 프로젝트의 비식별 성과 근거 이미지
-- `assets/fonts/`: 자체 호스팅 Pretendard 서브셋 폰트
-- `robots.txt`, `sitemap.xml`: 검색 엔진 등록 파일
-
-## 콘텐츠 구조
-
-1. 핵심 포지셔닝과 주요 성과
-2. 제이에스티나, 뉴발란스, 다이슨 대표 사례
-3. 쌤소나이트, 동원몰, 강원심층수, 한샘, KT알파쇼핑, 생활백서 추가 성과
-4. 경력, 역량과 도구, 운영 브랜드, 수상 및 초기 프로젝트
-5. 연락 및 이력서 요청 동선
+- `index.html` — 전체 콘텐츠, SEO 메타, JSON-LD
+- `css/style.css` — 디자인 토큰(ink/bone/orange + 케이스별 액센트), 반응형, print
+- `js/main.js` — 진행 게이지, 헤더 테마 동기화, 리빌, 카운트업, 라이트박스, 이메일 복사
+- `assets/evidence/` — 비식별 증빙 이미지
+- `assets/fonts/` — Pretendard 서브셋(400/600/700), 원본은 `original/`
+- `assets/kim-seonill-resume.pdf` — 이력서 (헤더·히어로·연락 섹션에서 다운로드)
+- `docs/DESIGN_BRIEF.md` — 설계 근거 문서 (배포 제외)
+- `qa/` — QA 스크린샷 (배포 제외)
 
 ## 로컬 확인
 
 ```powershell
-python -m http.server 8017
+py -m http.server 8932
+# http://localhost:8932/?static=1  → 애니메이션 제거된 최종 배치
+# http://localhost:8932/?static=1&from=experience  → 해당 섹션부터 렌더(QA용)
 ```
 
-브라우저에서 `http://127.0.0.1:8017/?static=1`로 접속하면 애니메이션이 제거된 최종 배치를 확인할 수 있습니다.
+헤드리스 크롬 캡처 시 주의: 크롬 최소 창 너비가 500px라 `--window-size=390`은
+레이아웃이 500px로 잡힘. 모바일 확인은 실브라우저 뷰포트로 할 것.
 
-## QA 체크리스트
+## 수치 업데이트 체크리스트 (하드코딩 위치)
 
-- 1440px 데스크톱과 390px 모바일에서 가로 넘침이 없는지 확인
-- 대표 사례 이미지, 외부 근거 링크, 메일 링크가 정상 동작하는지 확인
-- 한글 폰트 로딩, 텍스트 잘림, 버튼 터치 영역을 확인
-- 이미지 대체텍스트, 제목 구조, 중복 ID, 로컬 파일 참조를 확인
-- 배포 후 캐시 무효화 쿼리를 붙여 GitHub Pages 결과를 재검증
+수치 하나를 바꾸면 아래를 전부 확인한다. 특히 **차트 SVG는 rect 폭이 수치에 비례**하므로 함께 수정.
 
-## 배포
+1. `<head>` — meta description, og:description
+2. 히어로 스탯 4타일 — `data-count` 속성 + 주변 텍스트(210% 등)
+3. 케이스 인덱스(#cases) — 3개 행의 `caseindex__nums`
+4. 케이스 01 — 메타 표, 본문(210→583, 808%, 58.3억, CPC −21%, CTR +7.3%), 차트 SVG(text+rect width), 판정 박스
+5. 케이스 02 — 본문(17.6%/98.5%, 120분→5분, 60분→5분, 662건), 차트 SVG, 판정 박스
+6. 케이스 03 — 본문(9.46%, 950원, 1.4억, 2,000→100,600, 12.27%), 차트 SVG, 판정 박스
+7. 시스템 6타일 — dl 수치(900개, 38종, 82그룹, 84건, 854개 등)
+8. 추가 성과 6카드 + 각주
+9. 경력·수상 연도/수치
 
-GitHub Pages는 `main` 브랜치의 루트 정적 파일을 배포합니다.
+## 폰트 서브셋 재생성 (문구 대량 수정 후 필수)
 
 ```powershell
-git add .
-git commit -m "Update portfolio"
-git push origin main
+py scripts/subset_fonts.py   # 필요: py -m pip install fonttools brotli
+```
+
+## 배포 (portfolio-github-sync → GitHub Pages)
+
+배포 대상 파일만 복사한다 — `docs/`, `qa/`, `.claude/`, `scripts/`(스크립트는 기존 리포에 이미 있음)는 제외.
+
+```powershell
+# index.html, css/, js/, assets/, robots.txt, sitemap.xml, .nojekyll
+# 복사 후 portfolio-github-sync에서: git add . ; git commit ; git push origin main
 ```
 
 배포 주소: <https://vetnam555-del.github.io/kim-seonil-portfolio/>
+커밋/푸시는 반드시 사용자 확인 후 진행.
+
+## QA 체크리스트
+
+- 1440px / 390px 가로 넘침 없음 (`document.documentElement.scrollWidth === clientWidth`)
+- 콘솔 에러 0, 이미지·이력서 PDF·외부 링크(LG CNS) 동작
+- 증빙 라이트박스 열림/닫힘(ESC 포함), 이메일 복사 동작
+- 케이스 수치 ↔ 증빙 이미지 표기 일치 (기여도·기간)
+- 폰트 서브셋 재생성 후 ①~⑤·→·× 등 특수문자 렌더 확인
+- prefers-reduced-motion, print(Ctrl+P) 확인
