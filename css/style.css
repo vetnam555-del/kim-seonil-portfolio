@@ -43,7 +43,8 @@
   --case-soft: #ffe0d2;
   --case-deep: #c93d00;
   --sans: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-  --mono: "SF Mono", "Cascadia Code", Consolas, ui-monospace, "Nanum Gothic Coding", monospace;
+  /* 한글 글리프는 Pretendard로 폴백 — 시스템 굴림 계열 노출 방지 */
+  --mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, "Pretendard", monospace;
   --max: 1200px;
   --pad: clamp(20px, 5vw, 64px);
   --header-h: 64px;
@@ -413,22 +414,29 @@ section, .case { padding: clamp(72px, 11vw, 140px) var(--pad); }
   align-items: start;
   margin-bottom: clamp(36px, 5vw, 56px);
 }
-.case__meta { display: grid; gap: 0; border: 1px solid var(--line); background: var(--card); }
+.case__meta { display: grid; gap: 0; border: 1px solid var(--line); border-top: 3px solid var(--case); background: var(--card); }
 .case__meta > div {
-  display: grid; grid-template-columns: 88px minmax(0,1fr); gap: 12px;
-  padding: 11px 16px; border-bottom: 1px solid var(--line);
-  font-size: 14px;
+  display: grid; grid-template-columns: 92px minmax(0,1fr); gap: 12px;
+  padding: 13px 18px; border-bottom: 1px solid var(--line);
+  font-size: 14.5px;
 }
 .case__meta > div:last-child { border-bottom: none; }
-.case__meta dt { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-3); align-self: center; }
+.case__meta dt { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: var(--ink-3); align-self: center; }
 .case__meta dd { margin: 0; font-weight: 600; }
 .case__claim {
-  background: var(--case-soft);
-  border-left: 4px solid var(--case);
-  padding: 16px 22px; font-size: 15.5px; color: var(--ink);
-  align-self: center;
+  border-top: 3px solid var(--case);
+  padding: 20px 0 0;
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  font-weight: 700; line-height: 1.55; letter-spacing: -0.02em;
+  color: var(--ink);
+  align-self: start;
 }
-.case__claim b { color: var(--case-deep); font-weight: 700; }
+.case__claim b {
+  display: block;
+  font-family: var(--mono); font-size: 11.5px; font-weight: 700;
+  letter-spacing: 0.16em; color: var(--case-deep);
+  margin-bottom: 14px;
+}
 
 /* flow — 5단 구조 */
 .flow { list-style: none; padding: 0; border-top: 1px solid var(--line-strong); }
