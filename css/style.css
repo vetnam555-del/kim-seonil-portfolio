@@ -321,6 +321,7 @@ section, .case { padding: clamp(72px, 11vw, 140px) var(--pad); }
 .stat__value i { font-style: normal; font-size: 0.6em; }
 .stat__value em { font-style: normal; color: var(--accent-tint); font-size: 0.62em; vertical-align: 0.12em; }
 .stat__note { font-size: 12.5px; color: var(--light-text-2); }
+.stat__note b { color: var(--accent-tint); font-weight: 700; }
 
 .hero__proofline { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 .badge {
