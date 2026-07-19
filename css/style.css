@@ -282,7 +282,7 @@ section, .case { padding: clamp(72px, 11vw, 140px) var(--pad); }
 .hero h1 {
   font-size: clamp(1.9rem, 4.5vw, 3.7rem);
   line-height: 1.14;
-  letter-spacing: 0;
+  letter-spacing: -0.02em;
   color: var(--light-text);
   margin-left: 0;
 }
@@ -399,7 +399,7 @@ section, .case { padding: clamp(72px, 11vw, 140px) var(--pad); }
   font-size: clamp(7rem, 17vw, 15rem); line-height: 0.82;
   color: transparent;
   -webkit-text-stroke: 2.5px var(--case);
-  letter-spacing: 0;
+  letter-spacing: -0.04em;
   user-select: none;
 }
 .case__brand { font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.14em; color: var(--case-lite, var(--case)); font-weight: 700; margin-bottom: 16px; }
