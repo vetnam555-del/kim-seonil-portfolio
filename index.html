@@ -13,7 +13,7 @@
   <link rel="preload" href="assets/fonts/Pretendard-Regular.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/Pretendard-SemiBold.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/Pretendard-Bold.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/style.css?v=20260718-g" />
+  <link rel="stylesheet" href="css/style.css?v=20260719-final" />
 
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ko_KR" />
@@ -100,7 +100,7 @@
             <div class="board__meter-row"><span>GA ROAS · 개선 전</span><i style="--w:36%"></i><b>210%</b></div>
             <div class="board__meter-row is-accent"><span>GA ROAS · 개선 후</span><i style="--w:100%"></i><b>583%</b></div>
           </div>
-          <p class="board__foot">재고 확인 120분 → 5분 · 데일리 리포트 60분 → 5분</p>
+          <p class="board__foot">재고 확인 120분 → 5분 · 리포트·코멘트 자동 생성</p>
         </aside>
       </div>
 
@@ -158,14 +158,14 @@
         <h2 id="cases-title" class="h-light">7개의 핵심 사례,<br />하나의 판단 구조.</h2>
         <p class="section-desc section-desc--light">
           모든 사례를 같은 구조로 기록했습니다 —
-          <span class="flowline">문제 정의 → 분석 근거 → 실행 → 결과 → 나의 역할.</span>
-          읽는 분이 검증할 수 있도록 수치의 기준과 출처를 함께 적었습니다.
+          <span class="flowline">문제 정의 → 분석 근거 → 전략 판단 → 실행 → 결과 → 나의 역할.</span>
+          01–03은 증빙과 함께 깊게, 04–07은 판단 흐름만 압축해 읽도록 나눴습니다.
         </p>
       </div>
       <ol class="caseindex__list">
         <li class="reveal">
           <a href="#case-jestina">
-            <span class="caseindex__no">01</span>
+            <span class="caseindex__no">01<i>DEEP</i></span>
             <span class="caseindex__brand">제이에스티나 <em>IMC 재설계</em></span>
             <span class="caseindex__hook">검색에 갇힌 매출을 퍼널 전체로 열다</span>
             <span class="caseindex__nums">GA ROAS 210→583% · GA 전환매출 약 58.3억</span>
@@ -173,7 +173,7 @@
         </li>
         <li class="reveal">
           <a href="#case-newbalance">
-            <span class="caseindex__no">02</span>
+            <span class="caseindex__no">02<i>DEEP</i></span>
             <span class="caseindex__brand">뉴발란스 <em>풀퍼널 운영 × 자동화</em></span>
             <span class="caseindex__hook">월 10억 운영을 자동화 위에 올리다</span>
             <span class="caseindex__nums">재고 확인 −96% · LG CNS 공식 사례</span>
@@ -181,7 +181,7 @@
         </li>
         <li class="reveal">
           <a href="#case-dyson">
-            <span class="caseindex__no">03</span>
+            <span class="caseindex__no">03<i>DEEP</i></span>
             <span class="caseindex__brand">다이슨 <em>콘텐츠 커머스</em></span>
             <span class="caseindex__hook">광고비를 구독자 자산으로 바꾸다</span>
             <span class="caseindex__nums">구독자 2천→10만 · 전환율 12.27%</span>
@@ -189,7 +189,7 @@
         </li>
         <li class="reveal">
           <a href="#case-gangwon">
-            <span class="caseindex__no">04</span>
+            <span class="caseindex__no">04<i>BRIEF</i></span>
             <span class="caseindex__brand">강원심층수 <em>스토어 집중 × RS 확장</em></span>
             <span class="caseindex__hook">분산된 매출 경로를 두 개의 성장 축으로 재편하다</span>
             <span class="caseindex__nums">전환매출 약 3배 · 공구 비중 48% · 목표 223%</span>
@@ -197,7 +197,7 @@
         </li>
         <li class="reveal">
           <a href="#case-daekyo">
-            <span class="caseindex__no">05</span>
+            <span class="caseindex__no">05<i>BRIEF</i></span>
             <span class="caseindex__brand">대교 <em>성과 진단 × 전환 경로</em></span>
             <span class="caseindex__hook">클릭률 논쟁을 전환 경로 진단으로 바꾸다</span>
             <span class="caseindex__nums">CVR 0.66→2.24% · CPA 68,869→59,169원</span>
@@ -205,7 +205,7 @@
         </li>
         <li class="reveal">
           <a href="#case-ktalpha">
-            <span class="caseindex__no">06</span>
+            <span class="caseindex__no">06<i>BRIEF</i></span>
             <span class="caseindex__brand">KT알파쇼핑 <em>풀퍼널 커머스</em></span>
             <span class="caseindex__hook">하나의 ROAS를 채널별 역할로 분해하다</span>
             <span class="caseindex__nums">ROAS 2,487% · 구매 15,480건 · 가입 9,400건</span>
@@ -213,7 +213,7 @@
         </li>
         <li class="reveal">
           <a href="#case-hanssem">
-            <span class="caseindex__no">07</span>
+            <span class="caseindex__no">07<i>BRIEF</i></span>
             <span class="caseindex__brand">한샘 <em>앱·웹 통합 측정</em></span>
             <span class="caseindex__hook">클릭·설치·재유입·주문을 하나의 퍼널로 연결하다</span>
             <span class="caseindex__nums">월 15억 · ROAS 1,184% · 앱 설치 18.3만</span>
@@ -369,7 +369,7 @@
           <div class="case__cover-copy">
             <p class="case__brand">NEW BALANCE | FULL-FUNNEL × AUTOMATION</p>
             <h3 id="nb-title">월 10억 규모의 운영을<br />자동화 위에 올렸습니다</h3>
-            <p class="case__cover-nums">재고 확인 −96% · 리포트 −92% · LG CNS 공식 사례</p>
+            <p class="case__cover-nums">재고 확인 −96% · 리포트 자동 생성 · LG CNS 공식 사례</p>
           </div>
         </div>
       </header>
@@ -418,7 +418,7 @@
                 <div class="pipeline__node"><b>알림</b><i>조치 필요할 때만 메일</i></div>
             </div>
             <ul class="flow__list">
-              <li>리포트 자동화 — 데일리 리포트는 60분에서 5분으로, 위클리 리포트는 RAW 3종만 붙여넣으면 대시보드·QC까지 자동 생성됩니다.</li>
+              <li>리포트 자동화 — 데일리·위클리 리포트는 RAW를 붙여넣으면 대시보드·QC까지 자동 생성됩니다. 수기 작성 단계를 제거했습니다.</li>
               <li>데드랜딩·소진 흐름 무인 모니터링, LG CNS <strong>MOP</strong> 기반 쇼핑검색 입찰 최적화 병행.</li>
               <li>안전장치 우선 설계 — 재고 데이터 이상(수집 실패율 급증) 시 자동 조치를 멈추고 사람을 호출합니다.</li>
             </ul>
@@ -428,24 +428,21 @@
           <div class="flow__label"><span>④</span>결과</div>
           <div class="flow__body">
             <h4>확인하던 시간이, 판단하는 시간이 됐습니다.</h4>
-            <figure class="chart" role="img" aria-label="재고 확인 시간이 120분에서 5분으로 96% 단축, 데일리 리포트 시간이 60분에서 5분으로 92% 단축">
-              <svg viewBox="0 0 640 210" preserveAspectRatio="xMidYMid meet">
-                <text x="0" y="20" class="c-label">재고 확인</text>
-                <rect x="110" y="8" width="470" height="18" class="c-bar c-bar--muted" />
-                <text x="572" y="22" class="c-value" text-anchor="end">120분</text>
-                <rect x="110" y="32" width="20" height="18" class="c-bar c-bar--accent" />
-                <text x="140" y="46" class="c-value c-value--strong">5분 (−96%)</text>
-                <text x="0" y="106" class="c-label">데일리 리포트</text>
-                <rect x="110" y="94" width="235" height="18" class="c-bar c-bar--muted" />
-                <text x="353" y="108" class="c-value">60분</text>
-                <rect x="110" y="118" width="20" height="18" class="c-bar c-bar--accent" />
-                <text x="140" y="132" class="c-value c-value--strong">5분 (−92%)</text>
-                <text x="110" y="190" class="c-note">일 단위 운영 시간 · 자동화 도입 전후 비교</text>
+            <figure class="chart" role="img" aria-label="일 평균 재고 확인 시간이 120분에서 5분으로 96% 단축">
+              <svg viewBox="0 0 640 150" preserveAspectRatio="xMidYMid meet">
+                <text x="0" y="26" class="c-label">자동화 전</text>
+                <rect x="110" y="12" width="470" height="18" class="c-bar c-bar--muted" />
+                <text x="590" y="27" class="c-value" text-anchor="end">120분</text>
+                <text x="0" y="86" class="c-label">자동화 후</text>
+                <rect x="110" y="72" width="20" height="18" class="c-bar c-bar--accent" />
+                <text x="140" y="87" class="c-value c-value--strong">5분 (−96%)</text>
+                <text x="110" y="130" class="c-note">일 평균 재고 확인 시간 · 자동화 도입 전후 비교</text>
               </svg>
             </figure>
+            <p>데일리·위클리 리포트와 6개 매체 코멘트도 수기 작성 없이 자동 생성됩니다. 확인에 쓰던 시간이 소재·입찰·예산 판단으로 옮겨갔습니다.</p>
             <div class="verdict">
               <span class="verdict__kr">검증</span>
-              <p>1회 QA에서 <strong>재고 소진 임계(1개 이하) 상태로 켜져 있던 광고 662건</strong>을 자동 감지·차단. 이 운영 방식은 <a href="https://blog.mop.co.kr/hll" target="_blank" rel="noopener">LG CNS MOP 공식 도입 성공 사례</a>로 소개됐습니다.</p>
+              <p>재고 데이터가 불확실할 때는 광고를 건드리지 않고 스스로 멈추는 <strong>fail-closed 검증</strong>을 내장 — 자동화가 속도와 함께 사고 방지까지 책임집니다. 이 운영 방식은 <a href="https://blog.mop.co.kr/hll" target="_blank" rel="noopener">LG CNS MOP 공식 도입 성공 사례</a>로 소개됐습니다.</p>
             </div>
           </div>
         </li>
@@ -579,11 +576,11 @@
       <div class="section-head">
         <p class="kicker">CORE CASE DOSSIERS</p>
         <h2 id="corecases-title">다른 산업에서도,<br />판단의 흐름은 같았습니다.</h2>
-        <p class="section-desc">핵심 의사결정이 빠르게 읽히도록 문제·근거·판단·실행·결과·역할을 한 화면에 압축했습니다.</p>
+        <p class="section-desc">제목과 수치만 훑어도 판단이 읽히도록 압축했습니다. 카드를 펼치면 문제 정의부터 나의 역할까지 6단계 기록 전체가 나옵니다.</p>
       </div>
 
-      <article class="corecase" id="case-gangwon" style="--case:#087f8c;--case-soft:#d9eff0;--case-deep:#075f68" aria-labelledby="gangwon-title">
-        <header class="corecase__header reveal">
+      <details class="corecase reveal" id="case-gangwon">
+        <summary class="corecase__summary">
           <div class="corecase__titleblock">
             <p class="corecase__eyebrow"><span>04</span> GANGWON DEEP SEA WATER · STORE GROWTH</p>
             <h3 id="gangwon-title">전환은 스토어에 집중하고,<br />성장은 공구로 확장했습니다.</h3>
@@ -594,7 +591,8 @@
             <div><dt>공구 매출 비중</dt><dd>48%</dd><small>별도 매출 경로</small></div>
             <div><dt>목표 달성률</dt><dd>223%</dd><small>내부 운영 집계</small></div>
           </dl>
-        </header>
+        </summary>
+        <div class="corecase__body">
         <ol class="corecase__story">
           <li><span>01</span><div><b>문제 정의</b><p>브랜드 인지도가 낮은 시점에 자사몰·네이버스토어·쿠팡으로 운영이 분산돼 예산과 학습 데이터가 쪼개졌고, 자사몰은 결제 단계의 이탈 부담이 컸습니다.</p></div></li>
           <li><span>02</span><div><b>분석 근거</b><p>자사몰 CVR은 약 1.5%, 네이버스토어는 약 3% 수준이었습니다. 상품별로는 일반 생수보다 베이비워터의 매출 반응이 우수했고, 유료매체는 효율을 유지한 채 증액할 수 있는 상한에 가까워지고 있었습니다.</p></div></li>
@@ -604,21 +602,23 @@
           <li><span>06</span><div><b>나의 역할 · 기여도 100%</b><p>채널 진단, 스토어 집중안 제안, 매체별 버짓 최적화, 인플루언서 선별, 소재·타겟 기획, 유료매체와 공구 매출의 분리 측정을 담당했습니다.</p></div></li>
         </ol>
         <p class="corecase__source">Source — 강원심층수 매체·스토어 운영 리포트 및 내부 공구 정산 집계. 공구 매출은 유료매체 전환매출과 별도 경로로 구분했습니다.</p>
-      </article>
+        </div>
+      </details>
 
-      <article class="corecase" id="case-daekyo" style="--case:#e47d2f;--case-soft:#f9e4d4;--case-deep:#a34d10" aria-labelledby="daekyo-title">
-        <header class="corecase__header reveal">
+      <details class="corecase reveal" id="case-daekyo">
+        <summary class="corecase__summary">
           <div class="corecase__titleblock">
             <p class="corecase__eyebrow"><span>05</span> DAEKYO · CONVERSION DIAGNOSTICS</p>
             <h3 id="daekyo-title">클릭률 논쟁을<br />전환 경로 진단으로 바꿨습니다.</h3>
             <p>소량 집행 소재의 높은 CTR을 목표로 삼기보다, 충분한 표본과 클릭 이후의 CVR·CPA를 함께 봐야 한다고 판단했습니다.</p>
           </div>
           <dl class="corecase__metrics" aria-label="대교 핵심 성과 비교">
-            <div><dt>CTR</dt><dd>2.54→2.25%</dd><small>전년 동기 대비</small></div>
             <div><dt>CVR</dt><dd>0.66→2.24%</dd><small>전환 효율 개선</small></div>
             <div><dt>CPA</dt><dd>68,869→59,169원</dd><small>획득 단가 개선</small></div>
+            <div><dt>CTR</dt><dd>2.54→2.25%</dd><small>동일 기준 재비교</small></div>
           </dl>
-        </header>
+        </summary>
+        <div class="corecase__body">
         <ol class="corecase__story">
           <li><span>01</span><div><b>문제 정의</b><p>광고주는 전년 대비 성과가 낮아졌다고 판단했지만, 비교 기준에는 약 9천 원만 소진된 고CTR 소재가 포함돼 있었습니다. 상담하기 클릭 뒤 추가 페이지와 다수 입력 항목이 이어지는 구조도 확인됐습니다.</p></div></li>
           <li><span>02</span><div><b>분석 근거</b><p>동일 기준으로 다시 비교하자 CTR은 2.54%에서 2.25%로 소폭 낮아졌지만, CVR은 0.66%에서 2.24%로 높아지고 CPA는 68,869원에서 59,169원으로 개선됐습니다.</p></div></li>
@@ -628,10 +628,11 @@
           <li><span>06</span><div><b>나의 역할 · 기여도 100%</b><p>전년 데이터 재검증, 표본 기준 수립, 광고주 설명 논리, 폼 개선안과 측정 QA 기준을 담당했습니다.</p></div></li>
         </ol>
         <p class="corecase__source">Source — 대교에듀캠프 Meta·GA 리포트 비교 기준. GTM은 검수 기준과 개선안을 제시한 범위이며 최종 운영환경 해결로 단정하지 않습니다.</p>
-      </article>
+        </div>
+      </details>
 
-      <article class="corecase" id="case-ktalpha" style="--case:#3857b7;--case-soft:#e0e6f7;--case-deep:#263f8e" aria-labelledby="ktalpha-title">
-        <header class="corecase__header reveal">
+      <details class="corecase reveal" id="case-ktalpha">
+        <summary class="corecase__summary">
           <div class="corecase__titleblock">
             <p class="corecase__eyebrow"><span>06</span> KT ALPHA SHOPPING · FULL-FUNNEL COMMERCE</p>
             <h3 id="ktalpha-title">하나의 ROAS를<br />채널별 역할로 분해했습니다.</h3>
@@ -642,7 +643,8 @@
             <div><dt>구매전환</dt><dd>15,480건</dd><small>운영 리포트</small></div>
             <div><dt>회원가입</dt><dd>9,400건</dd><small>신규 고객 지표</small></div>
           </dl>
-        </header>
+        </summary>
+        <div class="corecase__body">
         <ol class="corecase__story">
           <li><span>01</span><div><b>문제 정의</b><p>카테고리와 매체가 많은 커머스 구조에서 합산 ROAS만 보면 브랜드 수요 포착, 상품 탐색, 신규 회원 확보의 역할 차이가 사라졌습니다.</p></div></li>
           <li><span>02</span><div><b>분석 근거</b><p>브랜드검색은 고의도 구매, 쇼핑검색은 상품 탐색과 구매, ADVoost는 신규 회원과 보조 전환에 상대적으로 강했습니다. 같은 전환이라도 기여 단계가 달랐습니다.</p></div></li>
@@ -652,10 +654,11 @@
           <li><span>06</span><div><b>나의 역할 · 기여도 40%</b><p>채널 역할 정의, 상품·전환 데이터 분석, 예산 조정 기준 수립과 리포팅을 담당했습니다.</p></div></li>
         </ol>
         <p class="corecase__source">Source — PlayD KT알파쇼핑 주간·월간 운영 리포트, 매체·상품상세·회원가입 데이터 기준.</p>
-      </article>
+        </div>
+      </details>
 
-      <article class="corecase" id="case-hanssem" style="--case:#9b4635;--case-soft:#f2dfdb;--case-deep:#713124" aria-labelledby="hanssem-title">
-        <header class="corecase__header reveal">
+      <details class="corecase reveal" id="case-hanssem">
+        <summary class="corecase__summary">
           <div class="corecase__titleblock">
             <p class="corecase__eyebrow"><span>07</span> HANSSEM · APP &amp; WEB COMMERCE</p>
             <h3 id="hanssem-title">클릭·설치·재유입·주문을<br />하나의 퍼널로 연결했습니다.</h3>
@@ -666,7 +669,8 @@
             <div><dt>ROAS</dt><dd>1,184%</dd><small>운영 성과</small></div>
             <div><dt>앱 설치</dt><dd>18.3만</dd><small>누적 성과 구간</small></div>
           </dl>
-        </header>
+        </summary>
+        <div class="corecase__body">
         <ol class="corecase__story">
           <li><span>01</span><div><b>문제 정의</b><p>웹 광고, 앱 설치, 재유입, 구매 데이터가 나뉘어 있어 클릭 효율만으로는 대규모 예산의 실제 기여를 판단하기 어려웠습니다.</p></div></li>
           <li><span>02</span><div><b>분석 근거</b><p>GA와 AppsFlyer를 연결해 방문·설치·재유입·주문을 단계별로 비교하자, 클릭이 많은 매체와 실제 주문을 만드는 매체가 항상 같지 않았습니다.</p></div></li>
@@ -676,7 +680,8 @@
           <li><span>06</span><div><b>나의 역할 · 기여도 20%</b><p>매체 운영, GA·AppsFlyer 퍼널 분석, 리포팅과 예산 조정안 도출을 담당했습니다.</p></div></li>
         </ol>
         <p class="corecase__source">Source — PlayD 한샘 Daily ID Report 최종 보정본, GA·AppsFlyer 운영 데이터 기준.</p>
-      </article>
+        </div>
+      </details>
     </section>
 
     <!-- ============ SYSTEMS ============ -->
@@ -700,7 +705,7 @@
           <span class="sys__no">S2</span>
           <h3>리포트 자동화 엔진</h3>
           <p>위클리 RAW 3종을 붙여넣으면 대시보드·캠페인 리포트·QC 자동 생성. 매체 별칭 38종, 오디언스 82그룹 자동 매핑.</p>
-          <dl><div><dt>검증</dt><dd>수식 오류 0건 · 전수 QA</dd></div><div><dt>효과</dt><dd>데일리 리포트 60분 → 5분</dd></div></dl>
+          <dl><div><dt>검증</dt><dd>수식 오류 0건 · 전수 QA</dd></div><div><dt>효과</dt><dd>리포트 수기 작성 제거</dd></div></dl>
         </article>
         <article class="sys reveal">
           <span class="sys__no">S3</span>
@@ -737,8 +742,8 @@
     <section class="results" id="results" aria-labelledby="results-title">
       <div class="section-head">
         <p class="kicker">MORE RESULTS</p>
-        <h2 id="results-title">산업이 바뀌어도,<br />방식은 같았습니다.</h2>
-        <p class="section-desc">업종마다 다른 구매 여정과 KPI에 맞춰 판단 기준을 다시 세웠습니다.</p>
+        <h2 id="results-title">핵심 사례 밖에서도,<br />숫자는 남았습니다.</h2>
+        <p class="section-desc">업종마다 다른 구매 여정과 KPI에 맞춰 판단 기준을 다시 세운 기록입니다.</p>
       </div>
       <div class="results__grid">
         <article class="result reveal">
@@ -923,6 +928,6 @@
   </dialog>
 
   <a class="to-top" id="toTop" href="#hero" aria-label="맨 위로 이동">↑</a>
-  <script src="js/main.js?v=20260718-g" defer></script>
+  <script src="js/main.js?v=20260719-final" defer></script>
 </body>
 </html>

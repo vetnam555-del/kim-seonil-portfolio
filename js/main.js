@@ -256,6 +256,20 @@
     });
   });
 
+  /* ---------- 앵커로 지목된 아코디언 사례 자동 펼침 ---------- */
+  function openTargetDetails(hash) {
+    if (!hash || hash.length < 2) return;
+    var el = null;
+    try { el = document.getElementById(hash.slice(1)); } catch (e) { return; }
+    if (el && el.tagName === "DETAILS") el.setAttribute("open", "");
+  }
+  document.addEventListener("click", function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="#case-"]') : null;
+    if (a) openTargetDetails(a.getAttribute("href"));
+  });
+  openTargetDetails(window.location.hash);
+  window.addEventListener("hashchange", function () { openTargetDetails(window.location.hash); });
+
   /* ---------- year ---------- */
   var year = document.getElementById("year");
   if (year) year.textContent = String(new Date().getFullYear());
