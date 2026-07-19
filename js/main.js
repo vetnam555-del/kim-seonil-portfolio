@@ -33,6 +33,10 @@
   }
 
   var prefersReduced = staticMode || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (staticMode) {
+    var railEl = document.getElementById("rail");
+    if (railEl) railEl.style.display = "none";
+  }
 
   /* ---------- scroll progress (top bar + left rail) ---------- */
   var progressBar = document.getElementById("progressBar");

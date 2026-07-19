@@ -645,6 +645,17 @@ section, .case { padding: clamp(72px, 11vw, 140px) var(--pad); }
   font-size: 13px; font-weight: 600; border: 1px solid var(--line);
   border-radius: 999px; padding: 5px 13px; background: var(--bone);
 }
+.chips--hero { margin-top: 26px; max-width: var(--max); margin-left: auto; margin-right: auto; }
+.chips--hero li { background: transparent; border-color: var(--dark-line); color: var(--light-text-2); }
+
+/* 자격·브랜드 정적 라인 */
+.brandline {
+  max-width: var(--max); margin: 26px auto 0;
+  display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: baseline;
+  border-top: 1px solid var(--line); padding-top: 18px;
+}
+.brandline span { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; color: var(--accent-deep); font-weight: 700; }
+.brandline p { font-size: 14px; color: var(--ink-2); font-weight: 600; }
 
 /* ---------- recognition ---------- */
 .recognition { background: var(--bone-2); border-top: 1px solid var(--line); }
