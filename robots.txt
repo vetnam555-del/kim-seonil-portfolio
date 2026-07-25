@@ -1,5 +1,4 @@
-User-agent: *
+User-Agent: *
 Allow: /
-Disallow: /assets/fonts/original/
 
 Sitemap: https://vetnam555-del.github.io/kim-seonil-portfolio/sitemap.xml
