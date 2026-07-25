@@ -6,7 +6,8 @@
   <title>김선일 | 퍼포먼스 마케팅·데이터 분석·업무 자동화</title>
   <meta name="description" content="월 10~15억 규모의 예산과 9개 산업군 30여 개 브랜드를 운영한 김선일의 포트폴리오입니다. 실제 운영 사례를 통해 문제, 실행, 결과와 맡은 역할을 확인할 수 있습니다." />
   <meta name="author" content="김선일 (KIM SEONILL)" />
-  <meta name="theme-color" content="#0c111d" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f4ef" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0d0d0f" />
   <link rel="canonical" href="https://vetnam555-del.github.io/kim-seonil-portfolio/" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
@@ -14,7 +15,7 @@
   <link rel="preload" href="assets/fonts/Pretendard-Regular.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/Pretendard-SemiBold.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/Pretendard-Bold.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/style.css?v=20260726-v16" />
+  <link rel="stylesheet" href="css/style.css?v=20260725-v14" />
 
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ko_KR" />
@@ -66,15 +67,6 @@
   </script>
 </head>
 <body>
-  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
-    <defs>
-      <linearGradient id="goldbar" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stop-color="#8d6f33" />
-        <stop offset="55%" stop-color="#c9a860" />
-        <stop offset="100%" stop-color="#e6c877" />
-      </linearGradient>
-    </defs>
-  </svg>
   <a class="skip-link" href="#main">본문 바로가기</a>
   <div class="progress" id="progress" aria-hidden="true"><span id="progressBar"></span></div>
 
@@ -93,13 +85,19 @@
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav">메뉴</button>
   </header>
 
+  <aside class="rail" id="rail" aria-hidden="true">
+    <span class="rail__label">READ</span>
+    <span class="rail__pct" id="railPct">0%</span>
+    <span class="rail__track"><i id="railFill"></i></span>
+  </aside>
+
   <main id="main">
 
     <!-- ============ HERO ============ -->
-    <section class="hero" id="hero" aria-labelledby="hero-title">
+    <section class="hero section--dark" id="hero" aria-labelledby="hero-title">
       <div class="hero__grid">
         <div class="hero__copy">
-          <p class="kicker reveal">PERFORMANCE MARKETING · DATA · AUTOMATION</p>
+          <p class="kicker kicker--light reveal">PERFORMANCE MARKETING · DATA · AUTOMATION</p>
           <h1 id="hero-title" class="reveal">
             한 번의 성과는<br />운일 수 있습니다.<br />
             반복되는 성과는<br /><em>구조</em>입니다.
@@ -169,10 +167,10 @@
       <ul class="chips chips--hero reveal" aria-label="핵심 역량 키워드">
         <li>풀퍼널 운영</li><li>GA4 · SQL</li><li>매체 API · AI 자동화</li><li>예산 · 입찰 전략</li><li>IMC 전략</li>
       </ul>
-
     </section>
+
     <!-- ============ BRAND MARQUEE ============ -->
-    <div class="marquee" aria-hidden="true">
+    <div class="marquee section--dark" aria-hidden="true">
       <div class="marquee__track">
         <span>뉴발란스</span><i>●</i><span>제이에스티나</span><i>●</i><span>다이슨</span><i>●</i><span>쌤소나이트</span><i>●</i><span>한샘</span><i>●</i><span>동원몰</span><i>●</i><span>KT알파쇼핑</span><i>●</i><span>강원심층수</span><i>●</i><span>생활백서</span><i>●</i><span>대교</span><i>●</i><span>후지필름BI</span><i>●</i><span>현대글로비스</span><i>●</i><span>부산은행</span><i>●</i><span>시몬스</span><i>●</i>
         <span>뉴발란스</span><i>●</i><span>제이에스티나</span><i>●</i><span>다이슨</span><i>●</i><span>쌤소나이트</span><i>●</i><span>한샘</span><i>●</i><span>동원몰</span><i>●</i><span>KT알파쇼핑</span><i>●</i><span>강원심층수</span><i>●</i><span>생활백서</span><i>●</i><span>대교</span><i>●</i><span>후지필름BI</span><i>●</i><span>현대글로비스</span><i>●</i><span>부산은행</span><i>●</i><span>시몬스</span><i>●</i>
@@ -180,11 +178,11 @@
     </div>
 
     <!-- ============ CASE INDEX ============ -->
-    <section class="caseindex" id="cases" aria-labelledby="cases-title">
+    <section class="caseindex section--dark" id="cases" aria-labelledby="cases-title">
       <div class="section-head">
-        <p class="kicker">SELECTED CASES</p>
-        <h2 id="cases-title">7개의 대표 프로젝트로 보는<br />성과 개선 과정.</h2>
-        <p class="section-desc">
+        <p class="kicker kicker--light">SELECTED CASES</p>
+        <h2 id="cases-title" class="h-light">7개의 대표 프로젝트로 보는<br />성과 개선 과정.</h2>
+        <p class="section-desc section-desc--light">
           각 사례는 <span class="flowline">문제 → 근거 → 실행 → 결과 → 역할</span> 순서로 구성했습니다.
           01–03은 실제 증빙 화면까지 자세히, 04–07은 핵심 판단과 성과를 중심으로 담았습니다.
         </p>
@@ -265,7 +263,7 @@
     </section>
 
     <!-- ============ CASE 01 J.ESTINA ============ -->
-    <article class="case" id="case-jestina" aria-labelledby="jestina-title">
+    <article class="case" id="case-jestina" style="--case:#b08a2e;--case-soft:#f3ead3;--case-deep:#6f5518;--case-lite:#d8b45a" aria-labelledby="jestina-title">
       <header class="case__cover">
         <div class="case__cover-inner reveal">
           <span class="case__no-giant" aria-hidden="true">01</span>
@@ -409,7 +407,7 @@
     </article>
 
     <!-- ============ CASE 02 NEW BALANCE ============ -->
-    <article class="case" id="case-newbalance" aria-labelledby="nb-title">
+    <article class="case" id="case-newbalance" style="--case:#2145c9;--case-soft:#dfe6f8;--case-deep:#18349b;--case-lite:#7d97ea" aria-labelledby="nb-title">
       <header class="case__cover">
         <div class="case__cover-inner reveal">
           <span class="case__no-giant" aria-hidden="true">02</span>
@@ -518,7 +516,7 @@
     </article>
 
     <!-- ============ CASE 03 DYSON ============ -->
-    <article class="case" id="case-dyson" aria-labelledby="dyson-title">
+    <article class="case" id="case-dyson" style="--case:#7a3bd0;--case-soft:#eae0f8;--case-deep:#5f2ba6;--case-lite:#b18ce8" aria-labelledby="dyson-title">
       <header class="case__cover">
         <div class="case__cover-inner reveal">
           <span class="case__no-giant" aria-hidden="true">03</span>
@@ -742,11 +740,11 @@
     </section>
 
     <!-- ============ SYSTEMS ============ -->
-    <section class="systems" id="systems" aria-labelledby="systems-title">
+    <section class="systems section--dark" id="systems" aria-labelledby="systems-title">
       <div class="section-head">
-        <p class="kicker">AUTOMATION &amp; AI SYSTEMS</p>
-        <h2 id="systems-title">반복 확인과 보고는<br />자동화로 줄였습니다.</h2>
-        <p class="section-desc">
+        <p class="kicker kicker--light">AUTOMATION &amp; AI SYSTEMS</p>
+        <h2 id="systems-title" class="h-light">반복 확인과 보고는<br />자동화로 줄였습니다.</h2>
+        <p class="section-desc section-desc--light">
           실제 운영 중인 자동화 도구입니다. 재고·소진·랜딩·리포트·정산을 정해진 주기로 확인하고,
           담당자가 바로 이어받을 수 있도록 실행 스크립트와 운영 문서도 함께 정리했습니다.
         </p>
@@ -865,7 +863,7 @@
           </div>
           <p class="proof__foot">재고 자동화, 광고비 정산, 뉴스레터 발행에 <b>같은 원칙</b>을 적용했습니다. 정산은 당월 기준 파일이 없으면 임의 추정 대신 작업을 멈춥니다.</p>
         </article>
-        <p class="source">Source — 자동화 스케줄러 설정값과 운영 설계 기준을 재구성한 흐름도입니다. 광고주 데이터·계정·거래처 정보는 포함하지 않았습니다.</p>
+        <p class="source source--dark">Source — 자동화 스케줄러 설정값과 운영 설계 기준을 재구성한 흐름도입니다. 광고주 데이터·계정·거래처 정보는 포함하지 않았습니다.</p>
       </div>
 
       <div class="systems__stack reveal" role="group" aria-label="자동화에 사용하는 도구">
@@ -1036,8 +1034,8 @@
     </section>
 
     <!-- ============ CONTACT ============ -->
-    <section class="contact" id="contact" aria-labelledby="contact-title">
-      <p class="kicker reveal">CONTACT</p>
+    <section class="contact section--dark" id="contact" aria-labelledby="contact-title">
+      <p class="kicker kicker--light reveal">CONTACT</p>
       <h2 id="contact-title" class="h-light reveal">이 경험을 <span id="contactTo">합류할 팀</span>의<br />다음 성과로 이어가고 싶습니다.</h2>
       <p class="contact__desc reveal">사례별 상세 데이터와 운영 문서는 인터뷰에서 직접 설명드리겠습니다.</p>
       <div class="contact__actions reveal">
@@ -1064,6 +1062,6 @@
   </dialog>
 
   <a class="to-top" id="toTop" href="#hero" aria-label="맨 위로 이동">↑</a>
-  <script src="js/main.js?v=20260726-v16" defer></script>
+  <script src="js/main.js?v=20260725-v14" defer></script>
 </body>
 </html>
