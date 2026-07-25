@@ -10,10 +10,12 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0d0d0f" />
   <link rel="canonical" href="https://vetnam555-del.github.io/kim-seonil-portfolio/" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="preload" href="assets/fonts/Pretendard-Regular.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/Pretendard-SemiBold.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/Pretendard-Bold.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/style.css?v=20260725-v12" />
+  <link rel="stylesheet" href="css/style.css?v=20260725-v13" />
 
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ko_KR" />
@@ -134,10 +136,10 @@
           <strong class="stat__value"><span data-count="58.3" data-decimals="1">58.3</span>억</strong>
           <span class="stat__note">GA4 검증 기준 · <b>기여도 70%</b></span>
         </a>
-        <a class="stat reveal" href="#case-jestina">
-          <span class="stat__label">GA4 ROAS · IMC 재설계 후</span>
-          <strong class="stat__value">210<i>%</i> <em>→</em> <span data-count="583">583</span><i>%</i></strong>
-          <span class="stat__note">개선 전후 · <b>기여도 70%</b></span>
+        <a class="stat reveal" href="#systems">
+          <span class="stat__label">재고 확인 시간 · 자동화 후</span>
+          <strong class="stat__value">120<i>분</i> <em>→</em> <span data-count="5">5</span><i>분</i></strong>
+          <span class="stat__note">−96% · <b>설계·구축 단독</b></span>
         </a>
         <a class="stat reveal" href="#case-newbalance">
           <span class="stat__label">통합 운영 예산 · 뉴발란스</span>
@@ -755,6 +757,85 @@
           <dl><div><dt>원칙</dt><dd>근거 없는 답변 금지</dd></div><div><dt>부가</dt><dd>문의 메일 초안 자동 생성</dd></div></dl>
         </article>
       </div>
+      <div class="systems__proof">
+        <article class="reveal">
+          <span class="proof__tag" lang="en">DAILY SCHEDULE</span>
+          <h3>사람이 열어보지 않아도, 하루가 이렇게 돕니다.</h3>
+          <p class="proof__desc">각 자동화의 실제 스케줄러 설정 기준입니다. 확인 작업이 사람의 기억이 아니라 주기에 묶여 있습니다.</p>
+          <div class="opsclock__rows" role="img" aria-label="하루 24시간 자동 실행 스케줄. 재고 연동 쇼핑검색은 2시간 주기로 하루 12회, 검색광고 소진 흐름은 3시간 주기로 하루 8회, 데드랜딩 점검은 10시와 16시, GA4 데일리 코멘트는 11시와 14시에 실행됩니다.">
+            <div class="opsclock__row">
+              <b>재고 연동 쇼핑검색</b>
+              <span class="opsclock__track">
+                <i style="left:0%"></i><i style="left:8.333%"></i><i style="left:16.667%"></i><i style="left:25%"></i>
+                <i style="left:33.333%"></i><i style="left:41.667%"></i><i style="left:50%"></i><i style="left:58.333%"></i>
+                <i style="left:66.667%"></i><i style="left:75%"></i><i style="left:83.333%"></i><i style="left:91.667%"></i>
+              </span>
+              <em>2시간 · 12회</em>
+            </div>
+            <div class="opsclock__row">
+              <b>검색광고 소진 흐름</b>
+              <span class="opsclock__track">
+                <i style="left:0%"></i><i style="left:12.5%"></i><i style="left:25%"></i><i style="left:37.5%"></i>
+                <i style="left:50%"></i><i style="left:62.5%"></i><i style="left:75%"></i><i style="left:87.5%"></i>
+              </span>
+              <em>3시간 · 8회</em>
+            </div>
+            <div class="opsclock__row">
+              <b>데드랜딩 점검</b>
+              <span class="opsclock__track">
+                <i class="is-key" style="left:41.667%"></i><i class="is-key" style="left:66.667%"></i>
+              </span>
+              <em>10:00 · 16:00</em>
+            </div>
+            <div class="opsclock__row">
+              <b>GA4 데일리 코멘트</b>
+              <span class="opsclock__track">
+                <i class="is-key" style="left:45.833%"></i><i class="is-key" style="left:58.333%"></i>
+              </span>
+              <em>11:00 · 14:00</em>
+            </div>
+          </div>
+          <div class="opsclock__axis" aria-hidden="true">
+            <span class="opsclock__pad"></span>
+            <div class="opsclock__hours"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
+            <span></span>
+          </div>
+          <p class="proof__foot"><b>주간</b> 리포트 엔진 — RAW 3종 → 대시보드·캠페인 리포트·QC 자동 생성<br /><b>월간</b> 광고비 정산 전표 등록 · Auto Report 월간 PDF 자동 발송</p>
+        </article>
+
+        <article class="reveal">
+          <span class="proof__tag" lang="en">DESIGN PRINCIPLE</span>
+          <h3>이상하면, 실행하지 않습니다.</h3>
+          <p class="proof__desc">자동화에서 가장 위험한 건 멈추지 않는 것입니다. 판정 근거가 불확실하면 광고를 건드리지 않고 사람을 부릅니다.</p>
+          <div class="failsafe" role="img" aria-label="수집한 데이터가 검증 게이트를 통과하면 자동 실행하고, 결측이나 수집 실패 또는 기준 파일 부재가 감지되면 아무 변경도 하지 않고 담당자를 호출하는 fail-closed 구조">
+            <div class="failsafe__node">
+              <b>데이터 수집</b>
+              <span>재고 · 매체 API · 운영 시트</span>
+            </div>
+            <div class="failsafe__arrow">↓</div>
+            <div class="failsafe__node">
+              <b>검증 게이트</b>
+              <span>결측률 · 수집 실패 · 기준 파일 유무</span>
+            </div>
+            <div class="failsafe__arrow">↓</div>
+            <div class="failsafe__split">
+              <div>
+                <em>통과</em>
+                <b>자동 실행</b>
+                <span>OFF · 재라이브 · 전표 저장 후 상태 재조회</span>
+              </div>
+              <div>
+                <em>이상 감지</em>
+                <b>실행 중단</b>
+                <span>변경 0건 · 담당자 호출 · 추정으로 진행 안 함</span>
+              </div>
+            </div>
+          </div>
+          <p class="proof__foot">재고 자동화, 광고비 정산, 뉴스레터 발행에 <b>같은 원칙</b>을 적용했습니다. 정산은 당월 기준 파일이 없으면 임의 추정 대신 작업을 멈춥니다.</p>
+        </article>
+        <p class="source source--dark">Source — 자동화 스케줄러 설정값과 운영 설계 기준을 재구성한 흐름도입니다. 광고주 데이터·계정·거래처 정보는 포함하지 않았습니다.</p>
+      </div>
+
       <div class="systems__stack reveal" role="group" aria-label="자동화에 사용하는 도구">
         <span lang="en">BUILT WITH</span>
         <p>Python · Google Apps Script · 매체 API · GA4 · SQL · Claude / GPT / Gemini · Looker Studio · Sheets</p>
@@ -951,6 +1032,6 @@
   </dialog>
 
   <a class="to-top" id="toTop" href="#hero" aria-label="맨 위로 이동">↑</a>
-  <script src="js/main.js?v=20260725-v12" defer></script>
+  <script src="js/main.js?v=20260725-v13" defer></script>
 </body>
 </html>
