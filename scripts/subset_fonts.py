@@ -18,6 +18,7 @@ KS X 1001 한글 2,350자를 통째로 넣던 이전 방식 대비 약 360KB 작
 필요:  pip install fonttools brotli
 """
 import io
+import re
 import os
 import sys
 
@@ -30,16 +31,21 @@ OUT_DIR = os.path.join(ROOT, "assets", "fonts")
 WEIGHTS = ["Pretendard-Regular.woff2", "Pretendard-SemiBold.woff2", "Pretendard-Bold.woff2"]
 
 # 화면에 렌더되는 것만 넣는다.
-#  - index.html : 본문·속성
-#  - css/style.css : ::before/::after 의 content 글리프 (빼먹으면 조용히 누락된다)
-#  - js/main.js : DOM에 삽입되는 문자열 ("복사되었습니다" 등)
+#  - index.html : 본문·속성 (파일 전체)
+#  - js/main.js : DOM에 삽입되는 문자열 ("복사되었습니다" 등) (파일 전체)
 # README.md는 넣지 않는다 — 사이트에 렌더되지 않으므로, 넣으면 문서에만 쓰인
 # 글자까지 요구해서 검증이 거짓 실패한다(실제로 그랬다).
 TEXT_SOURCES = [
     "index.html",
-    os.path.join("css", "style.css"),
     os.path.join("js", "main.js"),
 ]
+
+# CSS는 파일 전체가 아니라 content: "..." 만 본다.
+# ::before/::after 로 화면에 찍히는 글리프는 반드시 포함해야 하지만,
+# 주석과 선택자에 쓰인 한글까지 요구하면 서브셋이 불필요하게 커지고
+# 검증이 거짓 실패한다.
+CSS_SOURCES = [os.path.join("css", "style.css")]
+CSS_CONTENT_RE = re.compile(r'content:\s*"([^"]*)"')
 
 # Pretendard 원본에 없는 글리프는 여기 넣어도 서브셋에 들어가지 않는다.
 # 부재 확인됨 - U+2715, U+2716, U+2718, U+274C, U+2573.
@@ -67,6 +73,19 @@ def gather_page_chars():
                 chars.update(f.read())
         else:
             print("  경고: 소스 파일 없음 - %s" % rel)
+
+    for rel in CSS_SOURCES:
+        path = os.path.join(ROOT, rel)
+        if not os.path.exists(path):
+            print("  경고: CSS 없음 - %s" % rel)
+            continue
+        with io.open(path, "r", encoding="utf-8") as f:
+            css = f.read()
+        found = CSS_CONTENT_RE.findall(css)
+        for value in found:
+            chars.update(value)
+        print("  %s content 문자열 %d개 반영" % (rel, len(found)))
+
     chars.update(chr(c) for c in range(0x20, 0x7F))
     return _strip_control(chars)
 
