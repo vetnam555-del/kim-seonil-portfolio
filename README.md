@@ -43,11 +43,26 @@ py -m http.server 8932
 8. 추가 성과 6카드 + 각주
 9. 경력·수상 연도/수치
 
-## 폰트 서브셋 재생성 (문구 대량 수정 후 필수)
+## 폰트 서브셋 재생성 — 문구를 수정하면 반드시 실행
+
+서브셋은 **페이지에 실제로 등장하는 문자만** 담는다(673자, 3종 합계 182KB).
+KS X 1001 한글 2,350자를 통째로 넣던 이전 방식보다 361KB 작지만, 그 대신
+**페이지에 없던 한글이 새로 생기면 그 글자만 시스템 폰트로 대체 렌더된다.**
+Malgun Gothic이 Pretendard와 비슷해서 눈으로 알아채기 어렵다 — 스크립트를 믿을 것.
 
 ```powershell
-py scripts/subset_fonts.py   # 필요: py -m pip install fonttools brotli
+py scripts/subset_fonts.py           # 재생성 + 자동 검증
+py scripts/subset_fonts.py --check   # 재생성 없이 검증만
 ```
+
+- 검증은 `index.html`, `css/style.css`, `js/main.js`, `README.md`의 모든 문자를 대조한다.
+  **CSS를 반드시 포함**한다 — `::after { content: "↗" }` 같은 글리프가 조용히 누락된 적이 있다.
+- 누락이 있으면 0이 아닌 코드로 종료하고 어떤 문자가 문제인지 출력한다.
+- **Pretendard 원본에 없는 글리프**는 재생성으로도 해결되지 않는다. 확인된 부재 문자:
+  `✕`(U+2715) `✖`(U+2716) `✘`(U+2718) `❌`(U+274C) `╳`(U+2573).
+  곱셈·닫기 기호는 `×`(U+00D7)를 쓸 것. (라이트박스 닫기 버튼이 이 문제로 폴백 렌더된 적 있음)
+- 문구를 크게 고쳤으면 OG 이미지도 다시 만든다 — `scripts/og-source.html` 수정 후
+  히어로 스탯 4칸과 값이 일치하는지 확인하고 1200×630으로 재캡처.
 
 ## 배포 (portfolio-github-sync → GitHub Pages)
 
@@ -77,5 +92,6 @@ py scripts/subset_fonts.py   # 필요: py -m pip install fonttools brotli
   이때는 `?static=1`로 확인할 것 (환경 문제이며 코드 문제가 아님).
 - 증빙 라이트박스 열림/닫힘(ESC 포함), 이메일 복사 동작
 - 케이스 수치 ↔ 증빙 이미지 표기 일치 (기여도·기간)
-- 폰트 서브셋 재생성 후 ①~⑤·→·× 등 특수문자 렌더 확인
+- `py scripts/subset_fonts.py --check` 통과 (누락 0). ①~⑤·→·↓·↗·−·× 렌더 확인
+- OG 이미지의 스탯 4칸이 히어로 스탯과 일치하는지 확인
 - prefers-reduced-motion, print(Ctrl+P) 확인
