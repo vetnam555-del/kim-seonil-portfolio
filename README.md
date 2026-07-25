@@ -55,8 +55,9 @@ py scripts/subset_fonts.py           # 재생성 + 자동 검증
 py scripts/subset_fonts.py --check   # 재생성 없이 검증만
 ```
 
-- 검증은 `index.html`, `css/style.css`, `js/main.js`, `README.md`의 모든 문자를 대조한다.
+- 검증 대상은 **화면에 렌더되는 것만** — `index.html`, `css/style.css`, `js/main.js`.
   **CSS를 반드시 포함**한다 — `::after { content: "↗" }` 같은 글리프가 조용히 누락된 적이 있다.
+  이 README는 대상에서 제외한다. 문서에만 쓴 글자까지 요구해 검증이 거짓 실패한다(실제로 그랬다).
 - 누락이 있으면 0이 아닌 코드로 종료하고 어떤 문자가 문제인지 출력한다.
 - **Pretendard 원본에 없는 글리프**는 재생성으로도 해결되지 않는다. 확인된 부재 문자:
   `✕`(U+2715) `✖`(U+2716) `✘`(U+2718) `❌`(U+274C) `╳`(U+2573).

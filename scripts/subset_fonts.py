@@ -29,12 +29,16 @@ SRC_DIR = os.path.join(ROOT, "assets", "fonts", "original")
 OUT_DIR = os.path.join(ROOT, "assets", "fonts")
 WEIGHTS = ["Pretendard-Regular.woff2", "Pretendard-SemiBold.woff2", "Pretendard-Bold.woff2"]
 
-# CSS를 빼먹으면 ::before/::after 의 content 글리프가 조용히 누락된다.
+# 화면에 렌더되는 것만 넣는다.
+#  - index.html : 본문·속성
+#  - css/style.css : ::before/::after 의 content 글리프 (빼먹으면 조용히 누락된다)
+#  - js/main.js : DOM에 삽입되는 문자열 ("복사되었습니다" 등)
+# README.md는 넣지 않는다 — 사이트에 렌더되지 않으므로, 넣으면 문서에만 쓰인
+# 글자까지 요구해서 검증이 거짓 실패한다(실제로 그랬다).
 TEXT_SOURCES = [
     "index.html",
     os.path.join("css", "style.css"),
     os.path.join("js", "main.js"),
-    "README.md",
 ]
 
 # Pretendard 원본에 없는 글리프는 여기 넣어도 서브셋에 들어가지 않는다.
