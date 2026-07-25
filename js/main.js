@@ -6,7 +6,7 @@
   var staticMode = /[?&]static=1/.test(window.location.search);
   /* QA 전용: ?from=섹션id — 해당 섹션 이전을 숨겨 하단부 캡처를 가능하게 함 */
   var fromMatch = window.location.search.match(/[?&]from=([a-zA-Z-]+)/);
-  if (fromMatch) {
+  if (fromMatch && staticMode) {
     var main = document.getElementById("main");
     if (main) {
       var found = false;
@@ -44,43 +44,49 @@
   var railFill = document.getElementById("railFill");
   var toTop = document.getElementById("toTop");
 
-  function onScroll() {
-    var doc = document.documentElement;
-    var max = doc.scrollHeight - window.innerHeight;
-    var pct = max > 0 ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0;
-    var rounded = Math.round(pct);
-    if (progressBar) progressBar.style.width = pct + "%";
-    if (railFill) railFill.style.height = pct + "%";
-    if (railPct) railPct.textContent = rounded + "%";
-    if (toTop) toTop.classList.toggle("is-visible", window.scrollY > 700);
-    syncHeaderTheme();
-  }
-
   /* ---------- header light/dark theme sync ---------- */
   var header = document.getElementById("siteHeader");
   var rail = document.getElementById("rail");
   var darkSections = Array.prototype.slice.call(document.querySelectorAll(".section--dark, .footer"));
 
-  function syncHeaderTheme() {
+  /* 읽기(레이아웃 측정)와 쓰기(스타일 변경)를 분리하고 rAF로 프레임당 1회만 실행 */
+  var scrollTicking = false;
+  function updateScroll() {
+    scrollTicking = false;
+
+    /* --- READ: 레이아웃 측정만 --- */
+    var doc = document.documentElement;
+    var scrollY = window.scrollY;
+    var max = doc.scrollHeight - window.innerHeight;
+    var pct = max > 0 ? Math.min(100, Math.max(0, (scrollY / max) * 100)) : 0;
     var probeY = (header ? header.offsetHeight : 64) / 2;
-    var onDark = darkSections.some(function (sec) {
-      var r = sec.getBoundingClientRect();
-      return r.top <= probeY && r.bottom >= probeY;
-    });
-    if (header) header.classList.toggle("on-light", !onDark);
-    if (rail) {
-      var midY = window.innerHeight / 2;
-      var railOnDark = darkSections.some(function (sec) {
-        var r = sec.getBoundingClientRect();
-        return r.top <= midY && r.bottom >= midY;
-      });
-      rail.classList.toggle("is-dark", railOnDark);
+    var midY = window.innerHeight / 2;
+    var headerOnDark = false;
+    var railOnDark = false;
+    for (var i = 0; i < darkSections.length; i++) {
+      var r = darkSections[i].getBoundingClientRect();
+      if (r.top <= probeY && r.bottom >= probeY) headerOnDark = true;
+      if (r.top <= midY && r.bottom >= midY) railOnDark = true;
     }
+
+    /* --- WRITE: 스타일 변경만 --- */
+    if (progressBar) progressBar.style.width = pct + "%";
+    if (railFill) railFill.style.height = pct + "%";
+    if (railPct) railPct.textContent = Math.round(pct) + "%";
+    if (toTop) toTop.classList.toggle("is-visible", scrollY > 700);
+    if (header) header.classList.toggle("on-light", !headerOnDark);
+    if (rail) rail.classList.toggle("is-dark", railOnDark);
+  }
+
+  function onScroll() {
+    if (scrollTicking) return;
+    scrollTicking = true;
+    window.requestAnimationFrame(updateScroll);
   }
 
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);
-  onScroll();
+  updateScroll();
 
   /* ---------- mobile nav ---------- */
   var navToggle = document.getElementById("navToggle");
@@ -136,7 +142,7 @@
           revealObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    }, { threshold: [0, 0.12], rootMargin: "0px 0px -6% 0px" });
     reveals.forEach(function (el) { revealObserver.observe(el); });
   }
 
@@ -244,16 +250,25 @@
     setStatus(ok ? "복사되었습니다: " + EMAIL : "복사에 실패했습니다. " + EMAIL + " 주소를 직접 입력해 주세요.");
   }
 
-  /* ---------- print: 수치 확정 + 아카이브 펼침 ---------- */
+  /* ---------- print: 수치 확정 + 아카이브 펼침(인쇄 후 원상 복구) ---------- */
+  var printExpanded = [];
   window.addEventListener("beforeprint", function () {
     counters.forEach(function (el) {
       var target = parseFloat(el.getAttribute("data-count"));
       var decimals = parseInt(el.getAttribute("data-decimals") || "0", 10);
       if (!isNaN(target)) el.textContent = formatNumber(target, decimals);
     });
+    printExpanded = [];
     Array.prototype.forEach.call(document.querySelectorAll("details"), function (d) {
-      d.setAttribute("open", "");
+      if (!d.hasAttribute("open")) {
+        printExpanded.push(d);
+        d.setAttribute("open", "");
+      }
     });
+  });
+  window.addEventListener("afterprint", function () {
+    printExpanded.forEach(function (d) { d.removeAttribute("open"); });
+    printExpanded = [];
   });
 
   /* ---------- 앵커로 지목된 아코디언 사례 자동 펼침 ---------- */

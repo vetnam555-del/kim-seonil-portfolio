@@ -10,7 +10,10 @@
 - `js/main.js` — 진행 게이지, 헤더 테마 동기화, 리빌, 카운트업, 라이트박스, 이메일 복사
 - `assets/evidence/` — 비식별 증빙 이미지
 - `assets/fonts/` — Pretendard 서브셋(400/600/700), 원본은 `original/`
-- `assets/kim-seonill-resume.pdf` — 이력서 (헤더·히어로·연락 섹션에서 다운로드)
+- `assets/kim-seonill-resume.pdf` — 이력서. **배포하지 않는다.**
+  휴대전화 번호와 학력이 담겨 있어 공개 URL에 올리면 크롤러에 노출된다.
+  사이트의 이력서 CTA 4곳(헤더·히어로·연락·푸터)은 모두 `mailto` 요청이며, 링크로 걸지 않는다.
+  robots.txt `Disallow`로 막으려 하지 말 것 — 경로만 알려주고 접근은 막지 못한다. 파일을 아예 배포에서 빼는 것이 유일한 방법이다.
 - `docs/DESIGN_BRIEF.md` — 설계 근거 문서 (배포 제외)
 - `qa/` — QA 스크린샷 (배포 제외)
 
@@ -48,7 +51,12 @@ py scripts/subset_fonts.py   # 필요: py -m pip install fonttools brotli
 
 ## 배포 (portfolio-github-sync → GitHub Pages)
 
-배포 대상 파일만 복사한다 — `docs/`, `qa/`, `.claude/`, `scripts/`(스크립트는 기존 리포에 이미 있음)는 제외.
+배포 대상 파일만 복사한다 — `docs/`, `qa/`, `.claude/`, `scripts/`(스크립트는 기존 리포에 이미 있음),
+그리고 **`assets/kim-seonill-resume.pdf`(개인정보 포함)** 는 제외.
+
+기여도 기준(2026-07-25 확정): 제이에스티나 70% · 다이슨 70% · 뉴발란스 운영 40% · 동원몰 35%(증빙 슬라이드) ·
+강원심층수/쌤소나이트/생활백서/후지필름BI/현대글로비스/브라이틀링 100% · KT알파쇼핑 40% · 한샘 20%.
+이력서 PDF·CONTENT_MASTER·사이트 세 곳이 항상 같은 값을 말해야 한다.
 
 ```powershell
 # index.html, css/, js/, assets/, robots.txt, sitemap.xml, .nojekyll
@@ -62,6 +70,11 @@ py scripts/subset_fonts.py   # 필요: py -m pip install fonttools brotli
 
 - 1440px / 390px 가로 넘침 없음 (`document.documentElement.scrollWidth === clientWidth`)
 - 콘솔 에러 0, 이미지·이력서 PDF·외부 링크(LG CNS) 동작
+- 대비(WCAG AA): 작은 라벨은 `--accent-deep`/`--ink-3` 토큰을 쓴다. `--accent`(#ff4d00)는
+  큰 디스플레이 타입·바·보더 전용 — 본문 크기 텍스트에 쓰면 4.5:1을 못 넘긴다.
+- 헤딩 레벨: 케이스 3건의 제목은 `h2`, 그 안의 5단 스텝은 `h3`. 레벨 건너뜀 0이어야 한다.
+- 브라우저 페인이 미표시면 IntersectionObserver가 발화하지 않아 reveal이 0으로 보인다.
+  이때는 `?static=1`로 확인할 것 (환경 문제이며 코드 문제가 아님).
 - 증빙 라이트박스 열림/닫힘(ESC 포함), 이메일 복사 동작
 - 케이스 수치 ↔ 증빙 이미지 표기 일치 (기여도·기간)
 - 폰트 서브셋 재생성 후 ①~⑤·→·× 등 특수문자 렌더 확인
