@@ -15,7 +15,7 @@
   <link rel="preload" href="assets/fonts/Pretendard-Regular.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/Pretendard-SemiBold.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/Pretendard-Bold.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/style.css?v=20260725-v13" />
+  <link rel="stylesheet" href="css/style.css?v=20260725-v14" />
 
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ko_KR" />
@@ -330,7 +330,7 @@
               <li>인지 단계에 DA를 배치하고, 고객군별로 소재 메시지를 분리했습니다.</li>
               <li><strong>UTM Builder</strong>를 만들어 채널·소재·랜딩의 분석 기준을 통일했습니다.</li>
               <li>SA는 풀퍼널 모니터링 체계(키워드 확장 → 미노출 관리 → T&amp;D·랜딩 점검)로 재정비했습니다.</li>
-              <li>매체·GA4 교차 리포팅을 자동화해 반복 보고 작업을 크게 줄였습니다.</li>
+              <li>신규 리포트 템플릿과 매체·GA4 교차 리포팅을 자동화해 보고 소요 시간을 <strong>60%</strong> 줄였습니다.</li>
             </ul>
             <p class="flow__result-mini">실행 구간 지표 — 검색 CPC <strong>−21%</strong> · CTR <strong>+7.3%</strong></p>
           </div>
@@ -371,15 +371,35 @@
 
       <div class="case__evidence">
         <figure class="evidence reveal">
-          <button type="button" class="evidence__zoom" data-lightbox="assets/evidence/jestina-performance.webp" aria-label="제이에스티나 성과 리포트 크게 보기">
-            <img src="assets/evidence/jestina-performance.webp" width="1200" height="675" loading="lazy" decoding="async" alt="제이에스티나 IMC 캠페인 성과 리포트 화면 (비식별 처리)" />
-          </button>
+          <div class="evidence__frame">
+            <button type="button" class="evidence__zoom" data-lightbox="assets/evidence/jestina-performance.webp" aria-label="제이에스티나 성과 리포트 크게 보기">
+              <img src="assets/evidence/jestina-performance.webp" width="1200" height="675" loading="lazy" decoding="async" alt="제이에스티나 IMC 캠페인 성과 리포트 화면. 월별·카테고리별 매체 지표와 GA4 지표를 한 표에서 대조한 마감 보고서." />
+            </button>
+            <span class="evidence__pin" style="left:72%;top:56.5%" aria-hidden="true">1</span>
+            <span class="evidence__pin" style="left:85%;top:66.5%" aria-hidden="true">2</span>
+            <span class="evidence__pin" style="left:77%;top:75.5%" aria-hidden="true">3</span>
+          </div>
+          <ol class="evidence__keys">
+            <li><b>1</b><span><strong>성과 요약</strong> 본문에 인용한 <strong>ROAS 210% → 583%</strong>가 마감 보고서에 그대로 기재된 부분입니다.</span></li>
+            <li><b>2</b><span><strong>기준 병기</strong> 매체 리포트 지표(좌)와 GA4 지표(우)를 같은 행에 두어 두 기준의 차이를 숨기지 않고 함께 검수했습니다.</span></li>
+            <li><b>3</b><span><strong>GA_ROAS 열</strong> 월별 883 / 352 / 362 / <strong>583%</strong>. 본문의 583%는 이 표의 2025년 7월 값입니다.</span></li>
+          </ol>
           <figcaption><b>실행 화면</b> 매체·GA4 기준을 함께 비교한 캠페인 리포트</figcaption>
         </figure>
         <figure class="evidence reveal">
-          <button type="button" class="evidence__zoom" data-lightbox="assets/evidence/utm-builder.webp" aria-label="UTM Builder 화면 크게 보기">
-            <img src="assets/evidence/utm-builder.webp" width="1200" height="675" loading="lazy" decoding="async" alt="채널·소재·랜딩 분석 기준을 통일한 UTM Builder 운영 화면" />
-          </button>
+          <div class="evidence__frame">
+            <button type="button" class="evidence__zoom" data-lightbox="assets/evidence/utm-builder.webp" aria-label="UTM Builder 화면 크게 보기">
+              <img src="assets/evidence/utm-builder.webp" width="1200" height="675" loading="lazy" decoding="async" alt="UTM Builder 구조 설계 화면. utm_source·medium·campaign·term·content의 코드 체계와 GA4 파라미터 매핑을 표로 규격화한 문서." />
+            </button>
+            <span class="evidence__pin" style="left:18%;top:31%" aria-hidden="true">1</span>
+            <span class="evidence__pin" style="left:82%;top:31%" aria-hidden="true">2</span>
+            <span class="evidence__pin" style="left:31%;top:88.5%" aria-hidden="true">3</span>
+          </div>
+          <ol class="evidence__keys">
+            <li><b>1</b><span><strong>채널 코드 고정</strong> 매체·상품·지면·사업부를 5자리 코드로 규격화해, 매체가 늘어도 분석 기준이 깨지지 않게 했습니다.</span></li>
+            <li><b>2</b><span><strong>소재 명명 규칙</strong> 생성일자·매체·카테고리·기획전·소재를 한 문자열로 고정 — 소재 단위 성과 추적의 전제입니다.</span></li>
+            <li><b>3</b><span><strong>보고 자동화</strong> 본문의 <strong>60% 단축</strong>이 이 문서의 마지막 항목("보고 자동화 소요 시간 60% 단축")에 기재돼 있습니다.</span></li>
+          </ol>
           <figcaption><b>실행 화면</b> 분석 기준을 통일한 UTM Builder</figcaption>
         </figure>
         <p class="source">Source — 캠페인 마감 보고서, Weekly Report, GA4·매체 리포트. 공개 화면은 비식별 처리했습니다.</p>
@@ -512,7 +532,7 @@
         <dl class="case__meta reveal">
           <div><dt>소속 · 기간</dt><dd>플레이디 (KT그룹) · 2023.10 – 2024.01</dd></div>
           <div><dt>운영 규모</dt><dd>총 예산 약 2억</dd></div>
-          <div><dt>기여도</dt><dd>70%</dd></div>
+          <div><dt>기여도</dt><dd>40%</dd></div>
           <div><dt>주요 업무</dt><dd>YouTube · 라이브커머스 전략</dd></div>
         </dl>
       </div>
@@ -578,8 +598,8 @@
         <li class="flow__step reveal">
           <div class="flow__label"><span>⑤</span>나의 역할</div>
           <div class="flow__body">
-            <h3>콘텐츠 커머스 전략 설계를 주도했습니다. <em>기여도 70%</em></h3>
-            <p>여정 설계와 캠페인 구조(VAC·라이브커머스 연결), 성과 검증 기준 수립을 담당했습니다. 콘텐츠 제작과 채널 운영은 제작·운영 파트와 함께 진행했습니다.</p>
+            <h3>콘텐츠 커머스 전략 설계에 참여했습니다. <em>기여도 40%</em></h3>
+            <p>여정 설계와 캠페인 구조(VAC·라이브커머스 연결), 성과 검증 기준 수립에 참여했습니다. 콘텐츠 제작과 채널 운영은 제작·운영 파트와 함께 진행했습니다.</p>
             <p class="lesson"><b>LESSON</b> 콘텐츠는 소재가 아니라 자산입니다. ‘집행이 끝나도 남는가’를 기준에 넣자 캠페인의 구조 자체가 달라졌습니다.</p>
           </div>
         </li>
@@ -587,9 +607,19 @@
 
       <div class="case__evidence">
         <figure class="evidence evidence--wide reveal">
-          <button type="button" class="evidence__zoom" data-lightbox="assets/evidence/youtube-performance.webp" aria-label="YouTube 캠페인 성과 리포트 크게 보기">
-            <img src="assets/evidence/youtube-performance.webp" width="1200" height="675" loading="lazy" decoding="async" alt="콘텐츠 유입부터 구독, 구매까지 연결한 YouTube 캠페인 성과 리포트 (비식별 처리)" />
-          </button>
+          <div class="evidence__frame">
+            <button type="button" class="evidence__zoom" data-lightbox="assets/evidence/youtube-performance.webp" aria-label="YouTube 캠페인 성과 리포트 크게 보기">
+              <img src="assets/evidence/youtube-performance.webp" width="1200" height="675" loading="lazy" decoding="async" alt="다이슨 YouTube 캠페인 운영 화면. 사전예약·VAC 전환·구독자 증대 캠페인을 목적별로 분리하고 입찰 목표를 전환수 최대화로 설정한 계정 구조." />
+            </button>
+            <span class="evidence__pin" style="left:26%;top:30.5%" aria-hidden="true">1</span>
+            <span class="evidence__pin" style="left:12%;top:63.5%" aria-hidden="true">2</span>
+            <span class="evidence__pin" style="left:75%;top:63.5%" aria-hidden="true">3</span>
+          </div>
+          <ol class="evidence__keys">
+            <li><b>1</b><span><strong>전환을 성과 지표로</strong> 조회수가 아니라 <strong>전환수 45,583</strong>을 상단 KPI로 두고 운영한 구간입니다.</span></li>
+            <li><b>2</b><span><strong>목적별 캠페인 분리</strong> 사전예약·VAC 전환·구독자 증대를 별도 캠페인으로 나눴습니다(점선 표시 행).</span></li>
+            <li><b>3</b><span><strong>입찰 목표</strong> 조회 최대화가 아닌 <strong>전환수 최대화</strong>로 설정 — 콘텐츠를 구매까지 연결하겠다는 판단이 계정 설정에 남아 있습니다.</span></li>
+          </ol>
           <figcaption><b>실행 화면</b> 유입–구독–구매를 연결해 검증한 YouTube 캠페인 리포트</figcaption>
         </figure>
         <p class="source">Source — YouTube 캠페인 리포트(화면은 일부 캠페인 구간 캡처), 라이브커머스 성과 데이터. 노출 1.4억은 캠페인 전체 합계 기준입니다. 구독자 2,000 → 100,600은 캠페인 종료 시점(2024.01) 실측값이며, 이후 채널 운영은 제 담당 범위가 아니므로 현재 구독자 수와는 다릅니다.</p>
@@ -1032,6 +1062,6 @@
   </dialog>
 
   <a class="to-top" id="toTop" href="#hero" aria-label="맨 위로 이동">↑</a>
-  <script src="js/main.js?v=20260725-v13" defer></script>
+  <script src="js/main.js?v=20260725-v14" defer></script>
 </body>
 </html>

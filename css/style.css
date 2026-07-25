@@ -593,6 +593,38 @@ section, .case { padding: clamp(72px, 11vw, 140px) var(--pad); }
   color: var(--ink-3); border-left: 3px solid var(--line-strong); padding-left: 14px;
 }
 
+/* ---------- evidence annotations: 증빙 화면 위 근거 지시 ---------- */
+.evidence__frame { position: relative; display: block; }
+.evidence__pin {
+  position: absolute;
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 13px; font-weight: 700;
+  background: var(--case); color: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.92), 0 2px 8px rgba(0, 0, 0, 0.35);
+  transform: translate(-50%, -50%);
+  pointer-events: none; z-index: 2;
+}
+.evidence__keys {
+  list-style: none; padding: 14px 16px 4px; margin: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 20px;
+  border-top: 1px solid var(--line);
+}
+.evidence__keys li {
+  display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 9px;
+  font-size: 13px; line-height: 1.55; color: var(--ink-2);
+}
+.evidence__keys b {
+  font-family: var(--mono); font-size: 11.5px; font-weight: 700;
+  color: var(--case-deep); padding-top: 2px;
+}
+.evidence__keys strong { color: var(--ink); }
+.evidence__readnote {
+  padding: 10px 16px 0; font-size: 12px; color: var(--ink-3);
+  font-family: var(--mono);
+}
+
 /* ---------- core case dossiers ---------- */
 .casebriefs { background: var(--bone-2); border-top: 1px solid var(--line); }
 .corecase {
@@ -989,6 +1021,8 @@ section, .case { padding: clamp(72px, 11vw, 140px) var(--pad); }
   .case__cover-inner { grid-template-columns: minmax(0,1fr); gap: 10px; }
   .case__no-giant { font-size: clamp(4.5rem, 22vw, 7rem); }
   .case__evidence { grid-template-columns: minmax(0,1fr); }
+  .evidence__keys { grid-template-columns: minmax(0, 1fr); }
+  .evidence__pin { width: 20px; height: 20px; font-size: 11px; box-shadow: 0 0 0 2px rgba(255,255,255,0.92), 0 2px 6px rgba(0,0,0,0.35); }
   .funnelmap { grid-template-columns: minmax(0,1fr); }
   .funnelmap__arrow { transform: rotate(90deg); padding: 2px 0; }
   .career li { grid-template-columns: minmax(0,1fr); gap: 10px; }
