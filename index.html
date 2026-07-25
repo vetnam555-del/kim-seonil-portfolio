@@ -6,7 +6,7 @@
   <title>김선일 | 퍼포먼스 마케팅·데이터 분석·업무 자동화</title>
   <meta name="description" content="월 10~15억 규모의 예산과 9개 산업군 30여 개 브랜드를 운영한 김선일의 포트폴리오입니다. 실제 운영 사례를 통해 문제, 실행, 결과와 맡은 역할을 확인할 수 있습니다." />
   <meta name="author" content="김선일 (KIM SEONILL)" />
-  <meta name="theme-color" content="#fbfaf8" />
+  <meta name="theme-color" content="#0c111d" />
   <link rel="canonical" href="https://vetnam555-del.github.io/kim-seonil-portfolio/" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
@@ -14,7 +14,7 @@
   <link rel="preload" href="assets/fonts/Pretendard-Regular.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/Pretendard-SemiBold.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/Pretendard-Bold.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/style.css?v=20260726-v15" />
+  <link rel="stylesheet" href="css/style.css?v=20260726-v16" />
 
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ko_KR" />
@@ -66,6 +66,15 @@
   </script>
 </head>
 <body>
+  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+    <defs>
+      <linearGradient id="goldbar" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#8d6f33" />
+        <stop offset="55%" stop-color="#c9a860" />
+        <stop offset="100%" stop-color="#e6c877" />
+      </linearGradient>
+    </defs>
+  </svg>
   <a class="skip-link" href="#main">본문 바로가기</a>
   <div class="progress" id="progress" aria-hidden="true"><span id="progressBar"></span></div>
 
@@ -157,7 +166,18 @@
         <a class="button button--text" href="mailto:makefair@naver.com">makefair@naver.com</a>
       </div>
 
+      <ul class="chips chips--hero reveal" aria-label="핵심 역량 키워드">
+        <li>풀퍼널 운영</li><li>GA4 · SQL</li><li>매체 API · AI 자동화</li><li>예산 · 입찰 전략</li><li>IMC 전략</li>
+      </ul>
+
     </section>
+    <!-- ============ BRAND MARQUEE ============ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>뉴발란스</span><i>●</i><span>제이에스티나</span><i>●</i><span>다이슨</span><i>●</i><span>쌤소나이트</span><i>●</i><span>한샘</span><i>●</i><span>동원몰</span><i>●</i><span>KT알파쇼핑</span><i>●</i><span>강원심층수</span><i>●</i><span>생활백서</span><i>●</i><span>대교</span><i>●</i><span>후지필름BI</span><i>●</i><span>현대글로비스</span><i>●</i><span>부산은행</span><i>●</i><span>시몬스</span><i>●</i>
+        <span>뉴발란스</span><i>●</i><span>제이에스티나</span><i>●</i><span>다이슨</span><i>●</i><span>쌤소나이트</span><i>●</i><span>한샘</span><i>●</i><span>동원몰</span><i>●</i><span>KT알파쇼핑</span><i>●</i><span>강원심층수</span><i>●</i><span>생활백서</span><i>●</i><span>대교</span><i>●</i><span>후지필름BI</span><i>●</i><span>현대글로비스</span><i>●</i><span>부산은행</span><i>●</i><span>시몬스</span><i>●</i>
+      </div>
+    </div>
 
     <!-- ============ CASE INDEX ============ -->
     <section class="caseindex" id="cases" aria-labelledby="cases-title">
@@ -248,6 +268,7 @@
     <article class="case" id="case-jestina" aria-labelledby="jestina-title">
       <header class="case__cover">
         <div class="case__cover-inner reveal">
+          <span class="case__no-giant" aria-hidden="true">01</span>
           <div class="case__cover-copy">
             <p class="case__brand" lang="en">J.ESTINA | IMC PERFORMANCE</p>
             <h2 id="jestina-title">검색에 갇힌 매출을<br />퍼널 전체로 열었습니다</h2>
@@ -391,6 +412,7 @@
     <article class="case" id="case-newbalance" aria-labelledby="nb-title">
       <header class="case__cover">
         <div class="case__cover-inner reveal">
+          <span class="case__no-giant" aria-hidden="true">02</span>
           <div class="case__cover-copy">
             <p class="case__brand" lang="en">NEW BALANCE | FULL-FUNNEL × AUTOMATION</p>
             <h2 id="nb-title">월 10억 규모의 운영을<br />자동화 위에 올렸습니다</h2>
@@ -499,6 +521,7 @@
     <article class="case" id="case-dyson" aria-labelledby="dyson-title">
       <header class="case__cover">
         <div class="case__cover-inner reveal">
+          <span class="case__no-giant" aria-hidden="true">03</span>
           <div class="case__cover-copy">
             <p class="case__brand" lang="en">DYSON | CONTENT COMMERCE</p>
             <h2 id="dyson-title">사라지는 광고비를<br />남는 자산으로 바꿨습니다</h2>
@@ -1041,6 +1064,6 @@
   </dialog>
 
   <a class="to-top" id="toTop" href="#hero" aria-label="맨 위로 이동">↑</a>
-  <script src="js/main.js?v=20260726-v15" defer></script>
+  <script src="js/main.js?v=20260726-v16" defer></script>
 </body>
 </html>
