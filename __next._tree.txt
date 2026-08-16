@@ -6,4 +6,4 @@
 :HL["/kim-seonil-portfolio/profile-kim-seonil.jpeg","image"]
 :HL["/kim-seonil-portfolio/evidence/jestina-performance.webp","image"]
 :HL["/kim-seonil-portfolio/evidence/hll-mop-case.jpg","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4224,"slots":null}}},"staleTime":300,"buildId":"nH3-W68rWbLAV5owritRS"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4224,"slots":null}}},"staleTime":300,"buildId":"keeq5COZ7YTceVQqlmd1K"}
