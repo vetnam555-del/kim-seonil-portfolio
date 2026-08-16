@@ -1,9 +1,7 @@
-:HL["/kim-seonil-portfolio/_next/static/chunks/0e_510l4wdh2c.css","style"]
+:HL["/kim-seonil-portfolio/_next/static/chunks/30shwyvzrkaiw.css","style"]
 :HL["/kim-seonil-portfolio/fonts/Archivo-Var.woff2","font",{"crossOrigin":"anonymous","type":"font/woff2"}]
 :HL["/kim-seonil-portfolio/fonts/Pretendard-Regular.woff2","font",{"crossOrigin":"anonymous","type":"font/woff2"}]
 :HL["/kim-seonil-portfolio/fonts/Pretendard-SemiBold.woff2","font",{"crossOrigin":"anonymous","type":"font/woff2"}]
 :HL["/kim-seonil-portfolio/fonts/Pretendard-Bold.woff2","font",{"crossOrigin":"anonymous","type":"font/woff2"}]
 :HL["/kim-seonil-portfolio/profile-kim-seonil.jpeg","image"]
-:HL["/kim-seonil-portfolio/evidence/jestina-performance.webp","image"]
-:HL["/kim-seonil-portfolio/evidence/hll-mop-case.jpg","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4224,"slots":null}}},"staleTime":300,"buildId":"keeq5COZ7YTceVQqlmd1K"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}},"staleTime":300,"buildId":"6IbdVamemaCKsMGzK_E4L"}

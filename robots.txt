@@ -1,4 +1,3 @@
 User-Agent: *
-Allow: /
+Disallow: /
 
-Sitemap: https://vetnam555-del.github.io/kim-seonil-portfolio/sitemap.xml
