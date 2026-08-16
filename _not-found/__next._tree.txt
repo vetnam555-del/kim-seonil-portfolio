@@ -3,4 +3,5 @@
 :HL["/kim-seonil-portfolio/fonts/Pretendard-Regular.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/kim-seonil-portfolio/fonts/Pretendard-SemiBold.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/kim-seonil-portfolio/fonts/Pretendard-Bold.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"Lm5SqnNHRoL2dNCwnRfC3"}
+:HL["/kim-seonil-portfolio/fonts/JetBrainsMono-Var.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"PYBk9qbRrk19EEaena83-"}
