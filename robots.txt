@@ -1,3 +1,5 @@
 User-Agent: *
-Disallow: /
+Allow: /
+Disallow: /projects/
 
+Host: https://vetnam555-del.github.io/kim-seonil-portfolio/
