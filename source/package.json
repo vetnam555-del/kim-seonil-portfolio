@@ -1,0 +1,49 @@
+{
+  "name": "kim-seonill-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "fonts": "py scripts/subset_fonts.py",
+    "fix:prefetch": "node scripts/fix_rsc_prefetch.mjs",
+    "validate:export": "node scripts/validate_export.mjs",
+    "build:full": "next build && node scripts/fix_rsc_prefetch.mjs && py scripts/subset_fonts.py",
+    "dev:general": "node scripts/dev_edition.mjs general",
+    "dev:shinsegae": "node scripts/dev_edition.mjs shinsegae",
+    "build:hll": "node scripts/build_edition.mjs hll",
+    "build:general": "node scripts/build_edition.mjs general",
+    "publish:general": "node scripts/publish_general.mjs",
+    "publish:check": "node scripts/publish_general.mjs --check",
+    "build:shinsegae": "node scripts/build_edition.mjs shinsegae",
+    "build:ably": "node scripts/build_edition.mjs ably",
+    "build:v260908": "node scripts/build_edition.mjs v260908",
+    "dev:ably": "node scripts/dev_edition.mjs ably",
+    "dev:v260908": "node scripts/dev_edition.mjs v260908 3005",
+    "build:both": "node scripts/build_edition.mjs hll && node scripts/build_edition.mjs general",
+    "qa:final": "node scripts/qa_final.mjs",
+    "qa:tone": "node scripts/qa_tone.mjs",
+    "qa:layout": "node scripts/qa_layout.mjs",
+    "qa:wrap": "node scripts/qa_wrap.mjs",
+    "qa:all": "node scripts/qa_gate.mjs",
+    "qa:release": "node scripts/qa_release.mjs",
+    "qa:en": "node scripts/check_en.mjs",
+    "build:nw": "node scripts/build_edition.mjs nw",
+    "dev:nw": "node scripts/dev_edition.mjs nw 3005"
+  },
+  "dependencies": {
+    "next": "^16.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.2"
+  }
+}

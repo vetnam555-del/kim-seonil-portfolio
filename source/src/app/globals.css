@@ -1,0 +1,2189 @@
+@import "tailwindcss" source(none);
+@source "../";
+
+/* ─────────────────────────────────────────────────────────────
+   Pretendard 의 @font-face 는 여기 두지 않는다.
+
+   CSS 안의 url() 은 webpack 이 빌드 시점에 모듈로 해석하므로
+   basePath(assetPrefix)가 반영되지 않는다. 절대경로("/fonts/...")로 쓰면
+   GitHub Pages 하위경로 배포에서 404 → 시스템 폰트로 조용히 폴백된다.
+
+   그래서 @font-face 는 layout.tsx 의 인라인 <style> 에서
+   `${basePath}/fonts/...` 로 만든다. 서브셋 대상은 그대로 public/fonts.
+   ───────────────────────────────────────────────────────────── */
+
+/* ─────────────────────────────────────────────────────────────
+   디자인 토큰 — "지면의 밝기가 곧 읽는 방식"
+
+   이 사이트의 유일한 구조 규칙: 어두운 지면은 보는 구간(저밀도·거대 수치),
+   밝은 지면은 읽는 구간(고밀도·서술과 증빙)이다. 두 지면은 절대 연속하지 않는다.
+   이전 디자인이 심심했던 원인은 색이 아니라 밀도가 3,000px 내내 한 종류였던 것이다.
+
+   폐기한 것:
+   - 형광 라임(#d8ff3e) 하이라이트 바. 화면에 20회 넘게 반복되며 학습지 인상을 만들었고,
+     "라임 + 근검정 + radius 0"은 2023~24 애시드 브루탈리즘의 지문이라 출처가 즉시 읽힌다.
+     수치를 튀게 하는 일은 이제 색이 아니라 서체·폭·크기(.figure)가 담당한다.
+   - 틸 액센트(#007f73). 의미가 없던 장식색이라 뺐다.
+
+   색은 의미를 가진 둘만 남긴다:
+   - signal = 개선·상승. 한국 증시 관례를 따라 빨강 계열을 쓴다(한국 독자에게 "상승"으로 읽힌다).
+   - limit  = 한계·기여 범위·하지 않은 것. 캐비엇을 회색으로 죽이지 않고 1급 시민으로 올린다.
+   ───────────────────────────────────────────────────────────── */
+@theme {
+  /* --- 지면 --- */
+  /* 보는 구간 */
+  --color-ink: #0b0d10;
+  /* 다크 내부의 면. ink 대비 1.1:1뿐이라 절대 단독으로 구조를 만들지 않는다 —
+     반드시 --color-rule-ink 와 함께 쓴다. */
+  --color-panel: #161c24;
+  /* 읽는 구간 */
+  --color-bone: #f2efe8;
+  /* 증거 지면(최고 밀도) */
+  --color-paper: #ffffff;
+
+  /* --- 글자 --- */
+  --color-on-ink: #f5f3ef;
+  --color-on-ink-2: #a8b0ba;
+  --color-on-bone: #0b0d10;
+  --color-on-bone-2: #5a626c;
+
+  /* --- 선 ---
+     다크 위 구조선은 3.13:1 을 지킨다. 이보다 어두우면 밝은 사무실·회의실 프로젝터·
+     저가 IPS 패널에서 선이 통째로 소실돼 다크 구간이 "검은 덩어리"가 된다. */
+  --color-rule-ink: #57626f;
+  --color-rule-ink-2: #2c343f;
+  /* 라이트 위 구조선은 잉크색 그대로 — 에디토리얼 시그니처다 */
+  --color-rule: #0b0d10;
+  --color-line: #c9c3b4;
+
+  /* --- 의미색 --- */
+  /* 개선·상승 */
+  --color-signal: #c7301b;
+  --color-signal-ink: #ff5a3d;
+  /* 한계·기여 범위·하지 않은 것 */
+  --color-limit: #8a6413;
+  --color-limit-ink: #e8ae45;
+  /* 내부에 남긴 것 — 자동화·공개 도구처럼 시장 성과가 아닌 자산.
+     액센트를 둘로 나눈 이유: 색이 브랜드를 가리키면 장식이지만, "성과의 종류"를 가리키면
+     정보가 된다. 레드=시장에서 만든 성과 / 시안=조직에 남긴 시스템.
+     케이스마다 다른 색을 쓰는 안(4색)은 버렸다 — 예뻐지지만 아무 기준도 말하지 않는다. */
+  --color-system: #1a6f6b;
+  --color-system-ink: #4fd1cd;
+
+  /* --- 서체 ---
+     역할을 인식론으로 나눈다: 측정된 값은 display/mono, 주장과 서술은 sans.
+     이 분리가 형광펜 없이 수치를 튀어나오게 만드는 유일한 정공법이다. */
+  --font-sans: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  /* 수치 전용. 가변축 wght 100–900 · wdth 62–125 를 그대로 쓴다. */
+  --font-display: "Archivo", "Pretendard", system-ui, sans-serif;
+  /* 라벨·기간·출처·각주 번호. 시스템 모노는 플랫폼마다 폭이 달라 표가 흔들렸다.
+     ★ Pretendard 가 반드시 JetBrains Mono 바로 뒤에 와야 한다.
+     JetBrains Mono 에는 한글 글리프가 없는데 이 스택에 한글 폴백이 없었다 —
+     그래서 mono 로 찍은 한글(기여 범위·집계 기준·각주 본문·판권면 전체·헤더 로고…)이
+     전부 마지막 generic `monospace` 로 떨어져 윈도우에서 굴림으로 렌더됐다.
+     사이트 텍스트의 상당량이 여기에 해당해서 "폰트가 다 깨진다"로 보였던 원인이다.
+     이제 라틴·숫자는 JetBrains Mono, 한글은 Pretendard 로 각자 제 서체를 찾아간다. */
+  --font-mono: "JetBrains Mono", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic",
+    ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* --- 타입 스케일 ---
+     최대/최소 비율을 3.3배에서 14배로 벌린다. 이전엔 가장 큰 글자가 본문의 3.3배뿐이라
+     무엇도 크게 느껴지지 않았다 — 이것이 "심심하다"의 직접 원인이었다. */
+
+  /* 지면을 점거하는 수치. 다크 밴드에서 이것 하나만 놓는다. */
+  /*
+     상한을 8.25rem(132px)에서 12.5rem(200px)으로 올렸다.
+     표지에서 이 수치는 컨테이너 1240px 중 760px만 쓰고 있었다 — 이미 캡에 걸려 있어서
+     칼럼을 넓혀도 커지지 않는 상태였고, 그게 "심심하다"의 실제 원인이었다.
+     이제 "100,600"이 지면을 가로지르고, 짧은 값("583%")은 짧은 대로 남는다.
+     길이가 곧 무게가 되는 것이 에디토리얼에서 수치를 다루는 방식이다. */
+  --text-mega: clamp(3rem, 14vw, 12.5rem);
+
+  /*
+     케이스 스프레드용. 표지와 달리 여기 수치는 12칼럼 중 8칼럼(1440px에서 763px) 안에
+     들어가야 하는데, mega 를 200px 로 올렸을 때 "100,600"이 940px 을 요구해 두 줄로 쪼개졌다.
+     숫자가 "100,6 / 00"으로 끊기면 수치 자체가 깨져 보인다 — 폭이 좁은 지면에는 별도 상한을 둔다.
+     상한 152px 기준 "100,600"은 약 714px 로 763px 칼럼 안에 들어간다. */
+  --text-mega-case: clamp(2.5rem, 11vw, 9.5rem);
+  --text-mega-case--line-height: 0.88;
+  --text-mega-case--letter-spacing: -0.035em;
+  --text-mega-case--font-weight: 900;
+  --text-mega--line-height: 0.86;
+  --text-mega--letter-spacing: -0.035em;
+  --text-mega--font-weight: 900;
+
+  --text-cover: clamp(2.5rem, 6.6vw, 5rem);
+  --text-cover--line-height: 1.02;
+  --text-cover--letter-spacing: -0.03em;
+  --text-cover--font-weight: 900;
+
+  /*
+     요약 수치(impact 성과값·method 01·02·03). 각각 text-[2.75rem]/sm:text-[3.25rem](52px)
+     와 text-[3.5rem](56px)로 흩어져 있었다. 둘은 같은 역할이므로 한 값으로 모은다.
+     섹션 제목과 같은 44px 을 쓴다 — impact 에서 제목과 수치가 나란히 서는 자리라
+     6px 차이는 실수처럼 보인다. 같은 무게로 두는 편이 읽힌다.
+     케이스 대표 수치(--text-mega-case, 141px)와는 3배 넘게 벌어져 요약과 본론이 구분된다. */
+  --text-metric: clamp(2rem, 4.6vw, 3.5rem);
+  --text-metric--line-height: 1;
+  --text-metric--letter-spacing: -0.025em;
+  --text-metric--font-weight: 900;
+
+  --text-metric-sm: 1.5rem;
+  --text-metric-sm--line-height: 1.1;
+  --text-metric-sm--font-weight: 700;
+
+  /*
+     섹션 제목. impact 만 text-[2rem]/sm:text-[2.75rem] 라는 일회성 값으로 44px 을 쓰고
+     나머지 섹션은 이 토큰으로 38px 을 써서, 같은 등급의 제목이 두 크기로 나뉘어 있었다.
+     큰 쪽(44px)으로 통일한다 — 섹션 제목은 케이스 헤드라인보다 위에 있어야 한다. */
+  --text-h2: clamp(1.75rem, 3vw, 2.5rem);
+  --text-h2--line-height: 1.22;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h2--font-weight: 900;
+
+  /*
+     케이스 헤드라인·소제목. 지금까지 text-h2 를 빌려 써서 섹션 제목과 크기가 같았다 —
+     h2 와 h3 가 한 화면에서 같은 크기로 서면 어느 쪽이 상위인지 읽히지 않는다.
+     섹션 제목(44px)과 h3 라벨(20px) 사이의 한 칸으로 30px 을 둔다. */
+  --text-case-h: clamp(1.75rem, 3vw, 2.5rem);
+  --text-case-h--line-height: 1.32;
+  --text-case-h--letter-spacing: -0.015em;
+  --text-case-h--font-weight: 800;
+
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.42;
+  --text-h3--font-weight: 700;
+
+  --text-deck: clamp(1.125rem, 1.5vw, 1.375rem);
+  --text-deck--line-height: 1.58;
+  --text-deck--font-weight: 400;
+
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.72;
+
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.66;
+
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.6;
+
+  --text-kicker: 0.6875rem;
+  --text-kicker--line-height: 1.4;
+  --text-kicker--letter-spacing: 0.16em;
+  --text-kicker--font-weight: 700;
+
+  --text-mono: 0.75rem;
+  --text-mono--line-height: 1.5;
+
+  /* 각진 모서리. 카드가 떠 있는 인상을 만들지 않는다 */
+  --radius-card: 0px;
+  --radius-btn: 0px;
+}
+
+/* 구 토큰명 별칭 — 아직 교체되지 않은 컴포넌트가 무너지지 않게 한다.
+   신규 코드는 위의 의미색 토큰을 직접 쓴다. */
+@theme {
+  --color-bg: #ffffff;
+  --color-bg-alt: #f2efe8;
+  --color-ink-bg: #0b0d10;
+  --color-ink-2: #3d4552;
+  --color-ink-3: #5a626c;
+  --color-on-dark: #a8b0ba;
+  --color-line-2: #e4e0d6;
+  --color-line-p: #ddd8ca;
+  --color-accent: #c7301b;
+  --color-accent-hover: #a82616;
+  --color-accent-soft: #f7ece9;
+  --color-mark: #e8ae45;
+  --color-up: #c7301b;
+  --color-down: #3d4552;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   base
+   ───────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  /* 헤더 64px + 여유 16px */
+  scroll-padding-top: 80px;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* 감속 선호 시에는 부드러운 스크롤도 끈다 — 기존엔 무조건 smooth라 이 설정이 무시됐다 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.72;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+  /* 한국어 줄바꿈 — 단어 중간에서 끊기지 않게 */
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Keep every menu item reachable in landscape and short browser windows. */
+.mobile-nav {
+  max-height: calc(100vh - 72px);
+  max-height: calc(100dvh - 72px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/*
+   고아 줄 방지.
+   word-break: keep-all 만으로는 마지막 줄에 한 단어(때로는 '법' 한 글자)만 떨어지는 걸
+   못 막는다 — 1024px 에서 "…만드는 / 법", "…남기는 / 법" 처럼 세 군데가 그랬다.
+   제목은 balance 로 줄 길이를 고르게 나누고(줄 수가 적어 비용이 작다),
+   본문은 pretty 로 마지막 줄만 손본다. 지원하지 않는 브라우저는 기존 동작 그대로다.
+
+   ★ @layer base 안에 둬야 한다.
+   Tailwind v4 에서 레이어 밖의 평범한 CSS 는 @layer utilities 보다 우선한다.
+   이 규칙을 레이어 없이 뒀더니 개별 요소에 붙인 text-balance 유틸리티가 전부 죽었다
+   (케이스 상세의 메타 dd 가 계산값 pretty 로 남아 있었다).
+   base 에 넣으면 기본값은 그대로 가고, 필요한 자리에서만 유틸리티로 덮을 수 있다. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  blockquote {
+    text-wrap: balance;
+  }
+
+  p,
+  li,
+  dd,
+  figcaption {
+    text-wrap: pretty;
+  }
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/*
+   공개용 포트폴리오의 복제 억제 장치.
+
+   본문 텍스트 선택 금지는 걷어냈다. 막아도 보호되는 것이 없다 — 문장은 HTML 소스에
+   그대로 실려 나간다. 반면 읽는 쪽에는 실제 비용이 생겼다. 채용담당자가 핵심 문장을
+   면접 메모에 옮기거나, 문장을 짚어 가며 읽는 동작이 전부 막혀 있었다.
+   이 사이트는 포트폴리오 PDF 와 증빙 원본 링크를 이미 공개하고 있으므로,
+   본문 복사를 막는 것은 보호 목적과도 맞지 않는다.
+
+   남기는 것은 이미지 드래그 방지다. 소재 이미지는 광고주 자산이고, 드래그로
+   끌어내는 동작에만 마찰을 준다. 접근성 트리와 입력 요소 동작은 그대로 둔다.
+*/
+body.content-protected img,
+body.content-protected [data-protected-asset="true"] {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* .content-owner-mark (세로 워터마크)는 2026.09.25 에 뺐다 — ContentProtection.tsx 참고 */
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* 숫자는 폭이 흔들리지 않게 */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 스크린리더 전용 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.print-only {
+  display: none;
+}
+
+/* 본문 바로가기 */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 200;
+  background: var(--color-ink);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 0 0 12px 0;
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   .figure — 형광펜의 대체물
+
+   이전에는 한글 문장 속 수치를 라임 하이라이트 바로 튀게 했다. 그 처리가 화면에
+   스무 번 넘게 반복되면서 "수험 요약노트" 인상을 만들었고, 이것이 촌스러움의 직접 원인이었다.
+   수치를 튀게 하는 일은 색이 아니라 서체·폭·크기가 맡는다 — 문장은 Pretendard,
+   수치는 Archivo Expanded. 같은 줄 안에서 서체가 바뀌는 것만으로 눈이 먼저 숫자에 간다.
+   ═══════════════════════════════════════════════════════════════ */
+.figure {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  /* 가변 wdth 축을 넓혀 한글 사이에서 물리적으로 더 넓은 자리를 차지하게 한다 */
+  font-stretch: 112%;
+  letter-spacing: -0.01em;
+}
+
+/* 개선 방향을 가진 수치. 한국 증시 관례대로 빨강이 상승이다. */
+/* 한계·기여 범위. 캐비엇을 회색으로 죽이지 않고 색을 가진 1급 시민으로 둔다. */
+/*
+ * 미귀속 구간(팀 성과 중 본인 몫이 아닌 부분)은 색이 아니라 45° 해치로 표기한다.
+ * 흑백 인쇄와 색각이상 양쪽에서 살아남고, 기여도를 진행바로 그렸을 때 생기는
+ * "40%밖에 안 했다"는 오독도 피한다 — 해치는 지분의 문법이지 진척도의 문법이 아니다.
+ */
+/* ═══════════════════════════════════════════════════════════════
+   등장 연출 계약 — 과거 "빈 화면" 사고의 구조적 재발 방지
+
+   규칙 셋:
+   1. 초기 상태(숨김)는 html.js 하위에만 정의한다. JS가 없으면 규칙 자체가 적용되지 않아
+      콘텐츠가 처음부터 보인다.
+   2. opacity 를 등장 연출에 절대 쓰지 않는다. transform 과 clip-path 만 쓴다.
+      opacity 0 은 실패 시 콘텐츠가 통째로 사라지지만, transform 은 최악이라도 위치만 어긋난다.
+   3. 카운트업은 대표 지표에만 쓴다. 최종값은 정적 HTML·스크린리더에 그대로 남기고,
+      화면용 숫자만 0에서 올라간다. 날짜·기간·각주·본문 수치는 움직이지 않는다.
+   ═══════════════════════════════════════════════════════════════ */
+
+/*
+ * 첫 화면은 IntersectionObserver가 붙기 전에 이미 보인다. 그래서 표지에만
+ * JS와 무관하게 끝나는 1회성 keyframe을 쓴다. animation-fill-mode를 backwards로
+ * 제한해 애니메이션이 끝나거나 취소되면 항상 원래의 완성된 레이아웃으로 돌아온다.
+ */
+@keyframes hero-rise {
+  from {
+    transform: translate3d(0, 22px, 0);
+    clip-path: inset(0 0 38% 0);
+  }
+  to {
+    transform: none;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes hero-line-reveal {
+  from {
+    transform: translate3d(0, 30px, 0);
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    transform: none;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes hero-side-reveal {
+  from {
+    transform: translate3d(24px, 0, 0);
+    clip-path: inset(0 0 0 18%);
+  }
+  to {
+    transform: none;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.hero-enter,
+.hero-fact {
+  animation: hero-rise 720ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation-delay: var(--hero-delay, 0ms);
+}
+
+.hero-title-line {
+  animation: hero-line-reveal 780ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation-delay: var(--hero-delay, 0ms);
+}
+
+.hero-enter-side {
+  animation-name: hero-side-reveal;
+}
+
+/* Keep the portrait and supporting copy intact while the headline reveals. */
+@keyframes hero-settle {
+  from { transform: translate3d(0, 10px, 0); }
+  to { transform: none; }
+}
+.general-hero .hero-enter,
+.general-hero .hero-fact {
+  animation-name: hero-settle;
+  animation-duration: 480ms;
+}
+/*
+  접기 표식은 한 가지만 쓴다.
+  여기는 브라우저 기본 마커(▶)를 그대로 쓰고 있었는데, 그 삼각형은 브라우저마다
+  모양·크기·정렬이 달라 요약 글자와 어긋난다. 260908 판의 증빙 접기와 같은 방식으로
+  맞춘다 — 기본 마커를 지우고 ASCII "+" 를 45도 돌려 "×" 로 만든다.
+  글리프를 새로 들이지 않아 폰트 서브셋 게이트를 건드리지 않는다.
+*/
+.origin-detail > summary {
+  min-height: 48px;
+  list-style: none;
+}
+.origin-detail > summary::-webkit-details-marker {
+  display: none;
+}
+.origin-detail-mark {
+  display: inline-block;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 180ms ease;
+}
+.origin-detail[open] > summary .origin-detail-mark {
+  transform: rotate(45deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .origin-detail-mark {
+    transition: none;
+  }
+}
+.origin-detail[open] > summary {
+  border-bottom: 1px solid var(--color-line);
+  margin-bottom: 16px;
+}
+@media (max-width: 639px) {
+  .general-hero .hero-masthead { display: none; }
+  .general-hero .hero-layout { padding-top: 90px; padding-bottom: 24px; }
+  .general-hero .hero-eyebrow { display: none; }
+  .general-hero .hero-profile { margin-top: 0; }
+  .general-hero h1 { font-size: 2rem; margin-top: 18px; }
+  .general-hero h1 + p { margin-top: 16px; font-size: 0.9375rem; }
+  .general-hero .hero-intro { margin-top: 14px; }
+  .general-hero .hero-interests { margin-top: 12px; }
+  .general-hero .hero-facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+  .general-hero .hero-fact { grid-column: auto; }
+  .general-hero .hero-fact dd { font-size: 1.25rem; }
+  .general-hero nav { margin-top: 18px; }
+}
+@media (max-width: 639px) and (max-height: 740px) {
+  .general-hero .hero-layout { padding-top: 82px; padding-bottom: 16px; }
+  .general-hero .hero-profile { padding-top: 8px; padding-bottom: 8px; }
+  .general-hero h1 { font-size: 1.75rem; }
+  .general-hero h1 + p { display: none; }
+  .general-hero .hero-intro { font-size: 0.875rem; line-height: 1.6; }
+  .general-hero .hero-profile img { width: 42px; height: 54px; }
+}
+@media (min-width: 1024px) and (max-height: 800px) {
+  .general-hero .hero-masthead { padding-top: 80px; }
+  .general-hero .hero-layout { padding-top: 24px; padding-bottom: 28px; }
+  .general-hero h1 { font-size: 3rem; }
+  .general-hero .hero-facts { margin-top: 20px; padding-top: 16px; }
+}
+
+html.js [data-enter] {
+  /* 아래에서 밀려 올라옴 — 사라지지 않고 위치만 어긋난 상태 */
+  transform: translate3d(0, 14px, 0);
+}
+html.js [data-enter="wipe"] {
+  /* 아래에서 위로 드러남. 수치가 "칠해지는" 인상을 만든다 */
+  transform: none;
+  clip-path: inset(100% 0 0 0);
+}
+html.js [data-enter].is-in {
+  transform: none;
+  clip-path: inset(0 0 0 0);
+  transition:
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    clip-path 680ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--enter-delay, 0ms);
+}
+
+/*
+ * 핵심 수치 카운트업. 보이지 않는 최종값이 너비를 먼저 잡아 자릿수가 늘어도
+ * 카드·라벨·화살표가 밀리지 않는다. 실제로 바뀌는 것은 절대 배치에 놓인 화면값뿐이다.
+ */
+.count-up {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.count-up-measure {
+  visibility: hidden;
+}
+
+.count-up-visual {
+  position: absolute;
+  inset: 0 auto auto 0;
+  white-space: nowrap;
+}
+
+.count-up-prose {
+  max-width: 100%;
+  white-space: normal;
+}
+.count-up-prose .count-up-visual {
+  white-space: normal;
+}
+
+html.js .section-head-motion .section-head-marker {
+  transform: scale(0);
+}
+
+html.js .section-head-motion.is-in .section-head-marker {
+  transform: scale(1);
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1) 160ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .general-hero .hero-enter,
+  .general-hero .hero-fact,
+  .hero-enter,
+  .hero-title-line,
+  .hero-fact,
+  .hero-enter-side {
+    animation: none;
+  }
+  html.js [data-enter],
+  html.js [data-enter="wipe"] {
+    transform: none;
+    clip-path: none;
+  }
+  html.js [data-enter].is-in {
+    transition: none;
+  }
+  html.js .section-head-motion .section-head-marker,
+  html.js .section-head-motion.is-in .section-head-marker {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   지속 모션 — 페이지가 "멈춰 있다"는 인상을 없애는 장치들.
+
+   원칙은 등장 연출과 같다: **값은 절대 움직이지 않는다.**
+   숫자를 세거나 굴리지 않고, 움직이는 것은 폭(wdth 축)·위치·드러남뿐이다.
+   Archivo 는 wdth 62–125% 가변축을 갖고 있어서, 장식을 하나도 더하지 않고
+   서체 자체로 움직임을 만들 수 있다 — 에디토리얼 지면에서 가장 정직한 모션이다.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* 각주 기호 색. 밝은 지면에서는 signal, 어두운 지면(.on-ink)에서는 signal-ink 다.
+   #c7301b 를 어두운 배경에 그대로 쓰면 대비가 3.58:1 로 AA 에 못 미친다
+   (#ff5a3d 로 바꾸면 6.2:1). 사이트에서 대비가 모자란 곳은 여기뿐이었다. */
+.footnote-ref {
+  color: var(--color-signal);
+}
+.on-ink .footnote-ref {
+  color: var(--color-signal-ink);
+}
+
+/* 표지 대형 수치. 스크롤에 따라 자폭이 미세하게 좁아진다.
+   --wdth 는 MotionRuntime 이 스크롤 진행도로 갱신한다(없으면 정지 상태 그대로). */
+.figure-live {
+  font-stretch: calc(var(--wdth, 118) * 1%);
+  transition: font-stretch 120ms linear;
+}
+
+/* 리스트 행·링크의 화살표가 hover 에서 밀려난다. 상태가 살아 있다는 최소 신호다. */
+.nudge {
+  display: inline-block;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.group:hover .nudge,
+.group:focus-visible .nudge {
+  transform: translateX(4px);
+}
+
+/* 다크 밴드 위에서 읽는 위치를 알려주는 얇은 룰. 케이스가 화면에 들어오면 좌→우로 그어진다 */
+.rule-draw {
+  transform: scaleX(0);
+  transform-origin: left;
+}
+html.js [data-enter].is-in .rule-draw,
+.rule-draw.is-in {
+  transform: scaleX(1);
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1) 120ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .figure-live {
+    transition: none;
+  }
+  .nudge,
+  .rule-draw {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   프로젝트 카드 스포트라이트 틸트.
+   기본 상태(transform 없음)가 이미 완성된 카드이므로 JS가 없거나 늦게 실행돼도
+   레이아웃은 그대로 유지된다 — 마우스 오버 시에만 값이 바뀌는 순수 강화(enhancement)다.
+   ───────────────────────────────────────────────────────────── */
+.tilt-card {
+  --mx: 50%;
+  --my: 50%;
+  --rx: 0deg;
+  --ry: 0deg;
+  --spot: 0;
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.25s ease-out;
+  transform-style: preserve-3d;
+}
+.tilt-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: var(--spot);
+  transition: opacity 0.3s ease-out;
+  background: radial-gradient(480px circle at var(--mx) var(--my), rgba(255, 255, 255, 0.4), transparent 60%);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce), (hover: none) {
+  .tilt-card {
+    transform: none !important;
+  }
+  .tilt-card::after {
+    display: none;
+  }
+}
+
+/* 모바일 필터는 가로 스크롤을 유지하되 OS 스크롤바는 숨긴다. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/*
+ * 읽기 진행 바 — 문서 맨 위 2px 선이 스크롤한 만큼 채워진다.
+ * 홈이 18화면을 넘어가는데 "지금 어디쯤인지"를 알려주는 장치가 없었다.
+ * 값이 아니라 위치만 움직이므로 이 사이트의 모션 원칙과 어긋나지 않는다.
+ */
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  height: 2px;
+  transform-origin: left;
+  transform: scaleX(var(--read, 0));
+  background: var(--color-signal);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress {
+    transition: none;
+  }
+}
+
+/*
+ * 카드 호버 — 자동화 시스템·공개 웹·그 외 성과 카드가 살짝 떠오른다.
+ * 지면이 전부 고정돼 있어서 무엇이 눌리는 것인지 신호가 없었다.
+ */
+.card-lift {
+  transition:
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 200ms ease-out;
+}
+.card-lift:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-signal);
+}
+
+/*
+ * 증빙은 읽는 자료이므로 크게 움직이지 않는다. 화면에 들어올 때 하단 신호선이 한 번
+ * 지나가고, 확인 포인트가 순서대로 제자리를 찾는다. 포인터에서는 원본을 가리지 않는
+ * 1.2% 확대만 허용한다.
+ */
+@keyframes evidence-scan {
+  0% {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  48% {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  49% {
+    transform-origin: right;
+  }
+  100% {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+}
+
+.evidence-frame {
+  position: relative;
+}
+
+html.js .evidence-frame::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 2;
+  height: 3px;
+  transform: scaleX(0);
+  background: var(--color-signal);
+  pointer-events: none;
+}
+
+html.js [data-enter].is-in .evidence-frame::after {
+  animation: evidence-scan 920ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+}
+
+.evidence-image {
+  transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.js [data-enter] .evidence-point {
+  transform: translate3d(0, 8px, 0);
+  clip-path: inset(0 0 45% 0);
+}
+
+html.js [data-enter].is-in .evidence-point {
+  transform: none;
+  clip-path: inset(0 0 0 0);
+  transition:
+    transform 480ms cubic-bezier(0.22, 1, 0.36, 1),
+    clip-path 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--point-delay, 180ms);
+}
+
+@media (hover: hover) {
+  .evidence-preview:hover .evidence-image,
+  .evidence-preview:focus-within .evidence-image {
+    transform: scale(1.012);
+  }
+}
+
+@media (prefers-reduced-motion: reduce), (hover: none) {
+  .card-lift:hover {
+    transform: none;
+  }
+  .evidence-image,
+  .evidence-preview:hover .evidence-image,
+  .evidence-preview:focus-within .evidence-image {
+    transform: none;
+    transition: none;
+  }
+  html.js .evidence-frame::after {
+    content: none;
+    animation: none;
+  }
+  html.js [data-enter] .evidence-point,
+  html.js [data-enter].is-in .evidence-point {
+    transform: none;
+    clip-path: none;
+    transition: none;
+  }
+}
+
+/*
+ * 브랜드 마퀴 — 표지 아래 띠를 계속 흐르게 한다.
+ *
+ * 예전에는 "움직이는 장식이 아니라 한 번에 읽을 수 있는 정적 근거"로 두었는데,
+ * 브랜드가 30여 개라 한 줄에 들어가지 않아 어차피 두 줄로 접혔고, 표지 직후가
+ * 통째로 멈춰 보였다. 접힌 목록은 근거로도 잘 읽히지 않았다.
+ *
+ * 목록을 두 벌 이어 붙이고 -50% 에서 되감으면 이음매 없이 흐른다.
+ * 두 번째 벌은 aria-hidden 이라 스크린리더에는 한 번만 읽힌다.
+ * 호버·포커스에서 멈춰, 읽고 싶은 사람은 세워 놓고 읽을 수 있다.
+ */
+@keyframes marquee-x {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  /* 양 끝을 흐리게 잘라 화면 밖으로 빠져나가는 것처럼 보이게 한다 */
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-x var(--marquee-duration, 48s) linear infinite;
+}
+
+/*
+ * 호버·포커스만으로는 마우스가 없는 환경에서 멈출 방법이 없다.
+ * 정지 버튼(MarqueePause)이 data-paused 를 켜면 여기서 받는다.
+ */
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track,
+.marquee[data-paused="true"] .marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    overflow-x: auto;
+    mask-image: none;
+  }
+  .marquee-track {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 인쇄 — 공개 이력서는 브라우저에서 바로 A4 PDF로 저장할 수 있어야 한다. */
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm 14mm;
+  }
+
+  /*
+    화면용 소유 표시는 인쇄에서 뺀다.
+    position: fixed 라 인쇄로 넘어가면 모든 쪽 같은 자리(세로 46% 지점)에 찍히고,
+    본문 칼럼이 그 자리까지 오는 줄과 겹친다. 이력서 PDF 3쪽의
+    "아래 수치는 이" 뒤 글자가 실제로 이 탭에 잘려 있었다 — 글자는 PDF 안에 있어서
+    텍스트 추출로는 안 잡히고 렌더해서 봐야 보이는 결함이다.
+    이력서는 첫 쪽 머리말에 이름·메일·포트폴리오 주소가 이미 있어 이 표시가 필요 없다.
+  */
+  .content-owner-mark {
+    display: none !important;
+  }
+
+  html.js [data-enter],
+  html.js [data-enter="wipe"],
+  html.js [data-enter].is-in {
+    transform: none !important;
+    clip-path: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .count-up-visual {
+    display: none !important;
+  }
+
+  .count-up-measure {
+    visibility: visible !important;
+  }
+
+  [style*="opacity:0"],
+  [style*="opacity: 0"] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .site-header,
+  .site-footer,
+  .skip-link,
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  body > a,
+  .resume-page ~ * {
+    display: none !important;
+  }
+
+  html,
+  body {
+    font-size: 10pt;
+    background: #fff !important;
+  }
+
+  .resume-page {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .resume-page > div {
+    max-width: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  dt {
+    break-after: avoid-page;
+  }
+
+  .resume-page {
+    font-size: 9pt;
+    line-height: 1.48;
+  }
+
+  .resume-page header {
+    margin-top: 0 !important;
+    padding-bottom: 10px !important;
+  }
+
+  .resume-page h1 {
+    margin-top: 7px !important;
+    font-size: 20pt !important;
+  }
+
+  .resume-page h2 {
+    margin-top: 18px !important;
+    padding-bottom: 4px !important;
+    font-size: 12pt !important;
+  }
+
+  .resume-page h3,
+  .resume-page dt {
+    break-after: avoid-page;
+  }
+
+  .resume-page section {
+    margin-top: 12px !important;
+  }
+
+  .resume-page .print-avoid {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .resume-page .print-break-before {
+    break-before: page;
+    page-break-before: always;
+  }
+
+  .resume-page dl {
+    break-inside: auto;
+  }
+
+  /*
+   * print-avoid 안의 dl 은 쪼개지 않는다 (2026.09.20)
+   * 위 규칙이 모든 dl 의 분할을 허용하는데, 프로젝트 항목도 section.print-avoid 안에
+   * dl 을 쓴다. 그래서 바깥의 avoid 가 무력화돼 2→3쪽에서 강원심층수가 갈라졌다 —
+   * 제목·기간·본문은 2쪽, 담당과 "ROAS 201% → 238%"는 3쪽 맨 위에 고아로 남았다.
+   * 이력서에서 프로젝트 제목과 대표 수치가 다른 쪽에 놓이면 읽는 쪽이 연결을 놓친다.
+   * 길이 때문에 쪼개야 하는 dl(보유 역량 등)은 print-avoid 밖이라 영향받지 않는다.
+   */
+  .resume-page .print-avoid dl {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .resume-page p,
+  .resume-page li,
+  .resume-page dt,
+  .resume-page dd,
+  .resume-page span {
+    line-height: 1.48 !important;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+/*
+  홈 케이스 카드의 증빙 접기.
+  기본 마커(▸)는 브라우저마다 모양과 위치가 달라 버튼 안에서 어긋난다. 지우고,
+  글리프를 새로 들이는 대신 ASCII "+" 를 45도 돌려 "×" 로 만든다 —
+  폰트 서브셋 게이트에 새 문자를 추가하지 않는 방법이다(❙❙ 로 한 번 빌드가 섰다).
+*/
+.evidence-fold > summary {
+  list-style: none;
+}
+.evidence-fold > summary::-webkit-details-marker {
+  display: none;
+}
+.evidence-fold-mark {
+  display: inline-block;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 180ms ease;
+}
+.evidence-fold[open] > summary .evidence-fold-mark {
+  transform: rotate(45deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .evidence-fold-mark {
+    transition: none;
+  }
+}
+
+/*
+  타입 스케일은 260908 개선판에서만 바꾼다.
+  공용판·HLL판·신세계판·에이블리판은 이미 지원처에 나가 있어 화면이 달라지면 안 된다.
+  판 이름은 layout.tsx 가 <html data-edition> 으로 내려준다.
+*/
+[data-edition="general"] {
+  --text-mono: 0.8125rem;
+  --text-mono--line-height: 1.65;
+  --text-caption: 0.875rem;
+  --text-mega-case--letter-spacing: 0;
+  --text-mega--letter-spacing: 0;
+  --text-cover--letter-spacing: 0;
+  --text-metric--letter-spacing: 0;
+  --text-h2--letter-spacing: 0;
+  --text-case-h--letter-spacing: 0;
+}
+
+/*
+  개편판(nw)도 공용판과 같은 작은 글자 기준을 쓴다.
+  3차 개편에서 카드에 기여 범위·보조 수치·판단 문장을 캡션 크기로 얹었더니 14px 미만
+  글자가 57% → 64% 로 늘었다(같은 측정법으로 공용판 35%). 정보를 늘리면서 읽기 어려워지면
+  더한 의미가 반감된다. 공용판이 이미 검수를 거친 값이라 그대로 따른다.
+*/
+[data-edition="nw"] {
+  --text-mono: 0.8125rem;
+  --text-mono--line-height: 1.65;
+  --text-caption: 0.875rem;
+}
+
+[data-edition="v260908"] {
+  --text-h2: clamp(1.75rem, 3.4vw, 2.75rem);
+  --text-metric: clamp(1.75rem, 3.4vw, 2.75rem);
+  --text-case-h: 1.875rem;
+  --text-case-h--line-height: 1.32;
+  --text-case-h--letter-spacing: -0.015em;
+  --text-case-h--font-weight: 800;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+ * 히어로 배경 그라디언트
+ *
+ * Shader Gradient(three.js + R3F + three-stdlib + camera-controls)를 붙이면
+ * gzip 300~400KB 가 늘어난다. 이 사이트는 지금 외부 스크립트가 0개이고,
+ * 받는 사람은 모바일에서 잠깐 여는 채용담당자다. 무엇보다 이 포트폴리오의
+ * 논지가 "낭비를 걷어내고 측정한다" 인데, 그 사이트가 셰이더로 1MB 를 쓰면
+ * 말과 행동이 어긋난다.
+ *
+ * 그래서 인상만 CSS 로 가져온다 — 추가 JS 0KB.
+ * 색은 새로 고르지 않고 이미 있는 accent·limit 토큰에서 뽑아, 배경이
+ * 사이트 정체성 밖으로 나가지 않게 한다. 아주 옅게 깔아 본문 대비를
+ * 건드리지 않는다(글자는 전부 불투명한 --color-bg 위 카드/본문에 얹힌다).
+ * ═══════════════════════════════════════════════════════════════════════ */
+/* Avoid a long animated scroll when jumping between evidence and its index. */
+html:has(.evidence-inline:target) {
+  scroll-behavior: auto;
+}
+
+/* Supporting cases keep full-size evidence and body copy, with quieter headings. */
+.reading-project-intro {
+  padding-block: 3rem 2rem;
+}
+.reading-case-index ol {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-top: 2rem;
+  border-block: 1px solid var(--color-line);
+}
+.reading-case-index li + li {
+  border-left: 1px solid var(--color-line);
+}
+.reading-case-index a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  height: 100%;
+  min-height: 6rem;
+  padding: 1rem;
+  color: var(--color-ink);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.reading-case-index a > span:last-child { margin-left: auto; }
+.reading-case-index a:hover,
+.reading-case-index a:focus-visible { background: #f4f6f5; }
+.reading-case-index strong { display: block; font-weight: 700; }
+.reading-case-index strong + span { display: block; margin-top: 0.25rem; color: #515b65; }
+.reading-index-no { align-self: flex-start; color: var(--color-signal); font-variant-numeric: tabular-nums; }
+/* 역량별 대표 사례 — 퍼포먼스 마케팅(사례 넷, 2×2) · 마케팅 오퍼레이션(사례 하나 + 자동화 입구) */
+.reading-capability-index { display: grid; grid-template-columns: minmax(0,2fr) minmax(0,1fr); gap: 0 2rem; margin-top: 2rem; }
+.reading-capability-head { padding-bottom: 0.75rem; border-bottom: 2px solid var(--color-ink); }
+.reading-capability-role { font-size: 1rem; line-height: 1.5; font-weight: 750; color: var(--color-ink); }
+.reading-capability-line { margin-top: 0.125rem; font-size: 0.875rem; line-height: 1.6; color: #515b65; }
+.reading-capability-index ol { margin-top: 0; border-block: 0; grid-template-columns: repeat(2, minmax(0,1fr)); }
+.reading-capability:last-child ol { grid-template-columns: minmax(0,1fr); }
+.reading-capability-index li + li { border-left: 0; }
+.reading-capability-index li { border-bottom: 1px solid var(--color-line); }
+.reading-capability:first-child li:nth-child(odd) { border-right: 1px solid var(--color-line); }
+.reading-capability-index a { min-height: 5.75rem; }
+.reading-index-metric { display: block; margin-top: 0.375rem; font-weight: 700; color: var(--color-ink); font-variant-numeric: tabular-nums; }
+.reading-case {
+  scroll-margin-top: 96px;
+  padding-block: 3rem;
+  border-top: 1px solid var(--color-line);
+  background: #fff;
+  color: var(--color-ink);
+}
+.reading-case-featured { border-top: 2px solid var(--color-ink); padding-block: 3.5rem; }
+.reading-case-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #515b65;
+}
+.reading-case-meta strong { font-size: 1.125rem; color: var(--color-ink); }
+.reading-case-number { font-variant-numeric: tabular-nums; color: var(--color-signal); }
+.reading-case-feature { color: var(--color-signal); font-weight: 700; }
+.reading-case-title {
+  max-width: 48rem;
+  margin-top: 1rem;
+  font-size: 1.75rem;
+  line-height: 1.4;
+  font-weight: 750;
+  letter-spacing: 0;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.reading-case-role { margin-top: 0.75rem; font-size: 0.875rem; line-height: 1.6; color: #515b65; }
+.reading-case-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 3rem;
+  margin-top: 2rem;
+}
+.reading-case-steps { display: grid; align-content: start; gap: 1.5rem; }
+.reading-case h4 { font-size: 0.875rem; font-weight: 700; line-height: 1.6; }
+.reading-case-steps h4 span { color: var(--color-signal); margin-right: 0.75rem; font-variant-numeric: tabular-nums; }
+.reading-case-steps p { margin-top: 0.5rem; font-size: 1rem; line-height: 1.8; color: #303942; }
+.reading-case-result { border-left: 1px solid var(--color-line); padding-left: 2rem; }
+.reading-case-metric-label { margin-top: 0.75rem; font-size: 0.875rem; line-height: 1.6; }
+.reading-case-metric { display: flex; flex-wrap: wrap; gap: 0.4rem 0.75rem; align-items: baseline; margin-top: 0.5rem; font-size: 2.75rem; line-height: 1.15; font-weight: 750; letter-spacing: 0; }
+.reading-case-before { font-size: 1.125rem; color: #515b65; white-space: nowrap; }
+.reading-case-basis { margin-top: 0.75rem; font-size: 0.875rem; line-height: 1.65; color: #515b65; }
+.reading-case-facts { display: grid; gap: 0.875rem; border-top: 1px solid var(--color-line); margin-top: 1.25rem; padding-top: 1rem; }
+.reading-case-facts > div { display: grid; grid-template-columns: 5rem minmax(0, 1fr); gap: 0.75rem; font-size: 0.875rem; line-height: 1.65; }
+.reading-case-facts dt { color: #515b65; }
+.reading-case-facts dd { overflow-wrap: anywhere; }
+.reading-case-extras { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.5rem; margin-top: 2rem; border-block: 1px solid var(--color-line); padding-block: 1.25rem; }
+.reading-case-extras[data-count="2"] { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.reading-case-extras dt { margin-bottom: 0.5rem; font-size: 0.875rem; line-height: 1.6; color: #515b65; }
+.reading-case-extras .reading-case-basis { margin-top: 0.5rem; }
+.reading-case-demo { margin-top: 2rem; scroll-margin-top: 96px; }
+.reading-case-evidence { margin-top: 2rem; }
+.reading-case-evidence h4 { margin-bottom: 1rem; }
+.reading-case-evidence .evidence-frame { background: #f4f6f5; border-color: #d1d6d6; }
+.reading-case-evidence .evidence-image { max-height: 28rem; }
+.reading-case:not(.reading-case-featured) .evidence-image { max-height: 26rem; }
+.reading-case-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; margin-top: 1.5rem; }
+.reading-index-return { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; font-size: 0.875rem; text-decoration: underline; text-underline-offset: 4px; }
+[data-edition="general"] { --text-h2: 2rem; --text-h2--line-height: 1.35; --text-case-h: 1.75rem; --text-case-h--line-height: 1.4; }
+[data-edition="general"] .hero-interests { font-family: var(--font-sans); }
+[data-edition="general"] :is(#projects, #automation, #skills, #method, #creative-roots, #story, #why-studio, #career):not(.folio-section) h2 {
+  font-size: 2rem;
+  line-height: 1.35;
+  font-weight: 750;
+  letter-spacing: 0;
+}
+@media (max-width: 1023px) {
+  .reading-case-index ol { grid-template-columns: 1fr; }
+  .reading-case-index li + li { border-left: 0; border-top: 1px solid var(--color-line); }
+  .reading-case-index a { min-height: 4rem; padding: 0.75rem 0; }
+  .reading-case-index a > span:nth-child(2) { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; }
+  .reading-case-index strong + span { margin: 0; }
+  .reading-index-no { align-self: center; }
+  .reading-capability-index { grid-template-columns: minmax(0,1fr); gap: 1.75rem; }
+  .reading-capability-index ol { grid-template-columns: minmax(0,1fr); }
+  .reading-capability:first-child li:nth-child(odd) { border-right: 0; }
+  .reading-capability-index li + li { border-top: 0; }
+  .reading-capability-index a { min-height: 4.5rem; }
+  .reading-index-metric { flex-basis: 100%; margin-top: 0.125rem; }
+}
+@media (max-width: 767px) {
+  .reading-project-intro { padding-block: 2rem; }
+  .reading-case, .reading-case-featured { padding-block: 2rem; }
+  .reading-case-grid { grid-template-columns: minmax(0,1fr); gap: 1.5rem; }
+  .reading-case-title { font-size: 1.5rem; }
+  .reading-case-result { border-left: 0; padding-left: 0; border-top: 1px solid var(--color-line); padding-top: 1.25rem; }
+  .reading-case-metric { font-size: 2.25rem; }
+  .reading-case-extras, .reading-case-extras[data-count="2"] { grid-template-columns: minmax(0,1fr); gap: 1.25rem; }
+  .reading-case-extras > div + div { border-top: 1px solid var(--color-line); padding-top: 1.25rem; }
+  .reading-case-meta { gap: 0.5rem 0.75rem; }
+  [data-edition="general"] { --text-h2: 1.75rem; }
+  [data-edition="general"] :is(#projects, #automation, #skills, #method, #creative-roots, #story, #why-studio, #career):not(.folio-section) h2 { font-size: 1.75rem; }
+}
+
+.case-support .case-heading-band,
+.case-support .case-reading-band {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.case-support .case-lead-metric {
+  font-size: 2.75rem;
+  line-height: 1.05;
+}
+
+.case-support .case-title {
+  font-size: 1.625rem;
+  line-height: 1.4;
+}
+
+@media (min-width: 640px) {
+  .case-support .case-heading-band,
+  .case-support .case-reading-band {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .case-support .case-lead-metric {
+    font-size: 3.5rem;
+  }
+
+  .case-support .case-title {
+    font-size: 1.875rem;
+  }
+}
+
+.hero-aurora {
+  position: relative;
+  isolation: isolate;
+  /* 색면이 좌우로 -5%, 거기에 scale(1.06) 로 더 나간다. 자르지 않으면 그만큼 문서가
+     옆으로 밀린다 — 실측에서 가로 스크롤 44px 가 생겼다. */
+  overflow: hidden;
+}
+
+/* General edition: compact introduction, paired evidence, and one-shot motion. */
+.final-hero {
+  background: #0b0e10;
+  color: #f8f9f8;
+  padding: 100px 0 32px;
+}
+.final-hero-eyebrow { color: #f7bd52; font: 700 13px/1.5 var(--font-mono); letter-spacing: 0; }
+.final-hero-grid { display: grid; grid-template-columns: minmax(0,1.15fr) minmax(0,1fr); gap: 64px; margin-top: 24px; }
+.final-hero h1 { font-size: 56px; line-height: 1.14; font-weight: 800; letter-spacing: 0; }
+.final-hero h1 span { display: block; animation: final-title 760ms cubic-bezier(.22,1,.36,1) var(--hero-delay,0ms) both; }
+.final-hero-role { max-width: 34rem; margin-top: 24px; padding-left: 16px; border-left: 3px solid #f7bd52; font-size: 17px; font-weight: 700; line-height: 1.7; }
+.final-hero-intro { margin-top: 18px; max-width: 32rem; font-size: 16px; line-height: 1.8; color: #c5ced4; }
+.final-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 26px; }
+.final-primary-action, .final-contact-action { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 14px; font-size: 14px; font-weight: 700; }
+.final-primary-action { padding: 12px 22px; color: #0b0e10; background: #f7bd52; transition: background 160ms ease; }
+.final-primary-action:hover { background: #ffd687; }
+.final-contact-action { text-decoration: underline; text-underline-offset: 5px; }
+.final-hero-profile { align-self: start; padding-left: 32px; border-left: 1px solid #394249; animation: hero-settle 600ms ease-out 170ms both; }
+.final-identity { display: flex; align-items: center; gap: 18px; }
+.final-identity img { flex: 0 0 auto; width: 72px; height: 92px; object-fit: cover; border: 1px solid #67727b; }
+.final-identity p { margin-top: 4px; font-size: 14px; line-height: 1.6; color: #c5ced4; }
+.final-identity .final-identity-name { margin-top: 0; font-size: 16px; color: #fff; font-weight: 700; }
+.final-hero-metrics { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; margin-top: 26px; padding-top: 22px; border-top: 1px solid #394249; }
+.final-hero-metrics > div { display: flex; min-width: 0; flex-direction: column-reverse; gap: 8px; }
+.final-hero-metrics dt { color: #c5ced4; font-size: 13px; line-height: 1.5; }
+.final-hero-metrics dd { font-size: 30px; line-height: 1.2; font-weight: 750; white-space: nowrap; letter-spacing: 0; }
+/* "30여 개" 는 업종별 광고주 표로 가는 링크다. 숫자 모양은 그대로 두고 밑줄로만 알린다 */
+/* 위아래 8px 여백 — 누를 수 있는 높이 29px → 45px, 숫자 배치는 그대로 (2026.09.24) */
+.final-hero-metric-link { display: inline-block; padding-block: 8px; margin-block: -8px; color: inherit; text-decoration: underline; text-decoration-thickness: 2px; text-decoration-color: rgba(247,189,82,.55); text-underline-offset: 7px; }
+.final-hero-metric-link:hover, .final-hero-metric-link:focus-visible { text-decoration-color: #f7bd52; }
+.final-hero-interests { margin-top: 24px; }
+.final-hero-interests > p { font-size: 13px; color: #f7bd52; font-weight: 700; }
+.final-hero-interests ul { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 8px; font-size: 14px; line-height: 1.6; color: #c5ced4; }
+/*
+  공용판 첫 제목은 이름이 아니라 한 문장 정의다(2026.09.24). 두 절이 각자 한 줄에 들어가야
+  "앞 절 = 퍼포먼스 마케팅, 뒤 절 = 마케팅 오퍼레이션"으로 읽힌다. 이름 두 단어일 때의 56px 는
+  문장에서는 절이 중간에서 꺾여 줄였다.
+*/
+.final-hero h1.final-hero-statement { font-size: 40px; line-height: 1.3; letter-spacing: -0.01em; text-wrap: balance; }
+/* 지나온 길 — 표지 아래 가로 세 박자(Design → Performance → Operations). 모바일에서는 세로로 쌓는다 */
+.final-hero-story { margin-top: 36px; padding-top: 18px; border-top: 1px solid #394249; }
+.final-hero-story-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 24px; }
+.final-hero-story-head > p { font-size: 13px; color: #f7bd52; font-weight: 700; }
+.final-hero-story ol { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 32px; margin-top: 6px; }
+.final-hero-story li { position: relative; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.final-hero-story li:not(:last-child)::after { content: "→"; position: absolute; top: 0; right: -24px; color: #67727b; font-size: 13px; line-height: 1.6; }
+.final-hero-story-tag { font: 700 11px/1.6 var(--font-mono); letter-spacing: .04em; text-transform: uppercase; color: #9aa5ae; }
+.final-hero-story li strong { font-size: 15px; line-height: 1.5; font-weight: 700; color: #f8f9f8; }
+.final-hero-story li strong + span { font-size: 14px; line-height: 1.6; color: #c5ced4; }
+.final-hero-story-links { display: flex; flex-wrap: wrap; gap: 0 20px; }
+.final-hero-story-links a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-size: 13px; font-weight: 700; color: #f8f9f8; text-decoration: underline; text-underline-offset: 5px; text-decoration-color: rgba(248,249,248,.4); }
+.final-hero-story-links a:hover, .final-hero-story-links a:focus-visible { text-decoration-color: #f7bd52; }
+.final-records-band { padding-block: 20px; border-bottom: 1px solid #ccd1d2; background: #f4f6f5; }
+/*
+  기록 셋(MOP · 광고 대상 2025 · 2024). 세 칸을 같은 폭(최대 371px)으로 나누면 가장 긴
+  2024 범위 줄이 1920px 에서도 두 줄로 접혔다. 칸 폭을 글자 길이에 맞추고 남는 폭을 칸
+  사이로 돌리면 1100px 이상에서 세 줄 모두 한 줄에 들어간다(실측). 1023px 이하에서 세 칸이면
+  제목의 "(2025)" 가 줄에서 떨어져 한 줄씩 쌓는다.
+*/
+.final-hero-records { display: grid; grid-template-columns: repeat(3,auto); justify-content: space-between; gap: 24px; }
+@media (max-width: 1023px) { .final-hero-records { grid-template-columns: minmax(0,1fr); justify-content: stretch; gap: 10px; } }
+.final-hero-records a { display: inline-flex; gap: 12px; align-items: center; min-height: 36px; color: #10191e; font-size: 14px; font-weight: 700; text-decoration: underline; text-underline-offset: 5px; }
+.final-hero-records p { margin-top: 4px; font-size: 13px; line-height: 1.6; color: #515b65; }
+.final-case { --case-body: #303942; --case-muted: #515b65; --case-rule: #ccd1d2; --case-highlight: #b52b19; scroll-margin-top: 24px; }
+.final-case.reading-case-featured { padding-block: 48px; }
+.final-case-grid { display: grid; grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr); grid-template-rows: auto 1fr; gap: 26px 56px; margin-top: 28px; align-items: start; }
+.final-case-proof { grid-column: 2; grid-row: 1 / span 2; }
+.final-case-grid > .reading-case-extras { grid-column: 1; grid-template-columns: repeat(2,minmax(0,1fr)); margin-top: 0; gap: 20px; }
+.final-case-grid > .reading-case-extras > div { min-width: 0; }
+.final-case .reading-case-header { padding-bottom: 22px; border-bottom: 1px solid var(--case-rule); }
+.final-case.reading-case-featured .reading-case-title { font-size: 32px; max-width: 55rem; }
+.final-case .reading-case-result { padding: 0 0 18px; border-left: 0; border-bottom: 1px solid var(--case-rule); }
+.final-case.reading-case-featured .reading-case-metric { font-size: 72px; line-height: 1.14; color: var(--case-highlight); }
+.final-case .reading-case-before { font-size: 20px; color: var(--case-muted); }
+.final-case .reading-case-basis { color: var(--case-muted); }
+/*
+ * 집계 기준과 기여 범위를 캡션 급에서 끌어올린다 (2026.09.20)
+ * 대표 수치 72px 옆에서 기준·기여 범위가 14px/400 이라 본문(17px)보다도 작았다.
+ * 이 사이트가 내건 원칙("수치마다 출처와 집계 범위를 따로 적습니다")과 시각 위계가
+ * 서로 반대로 붙어 있던 셈이다. 수치는 그대로 두고 읽어야 할 쪽만 올린다.
+ * 범위는 .final-case — general 판 홈 카드 전용이라 상세·이력서·다른 판에 닿지 않는다.
+ */
+.final-case .reading-case-basis { font-size: 0.9375rem; font-weight: 500; }
+.final-case .reading-case-facts > div { font-size: 0.9375rem; }
+.final-case .reading-case-facts dd { font-weight: 600; }
+.final-case .reading-case-role, .final-case .reading-case-meta { color: var(--case-muted); }
+.final-case .reading-case-meta strong { color: inherit; }
+.final-case .reading-case-steps p { color: var(--case-body); }
+.final-case .reading-case-facts { margin-top: 26px; border-color: var(--case-rule); }
+.final-case .reading-case-facts dt, .final-case .reading-case-extras dt { color: var(--case-muted); }
+.final-case .reading-case-evidence { margin-top: 20px; }
+.final-case .reading-case-evidence .evidence-image { max-height: 320px; }
+.final-case .evidence-preview figcaption { font-size: 14px; line-height: 1.7; color: var(--case-body); }
+.final-case .evidence-point { padding-inline: 8px; gap: 7px; }
+.final-case .evidence-point span { font-size: 13px; }
+.final-case .reading-case-extras { margin-top: 24px; border-color: var(--case-rule); }
+.final-case .reading-case-footer { margin-top: 22px; }
+.final-case-support { padding-block: 32px; }
+.final-case-support .reading-case-title { font-size: 24px; max-width: 58rem; }
+.final-case-support .reading-case-header { padding-bottom: 18px; }
+.final-case-support .reading-case-metric { font-size: 42px; color: var(--case-highlight); }
+.final-case-support .reading-case-evidence .evidence-image { max-height: 240px; }
+.final-case-dark { --case-body: #d8e0e4; --case-muted: #bac6ce; --case-rule: #3e4a52; --case-highlight: #71d8cb; background: #11191e; color: #f8f9f8; }
+.final-case-dark .reading-case-number, .final-case-dark .reading-case-feature, .final-case-dark .reading-case-steps h4 span { color: #f7bd52; }
+.final-case-dark .reading-case-meta strong { color: #fff; }
+.final-case-dark .evidence-point .text-ink, .final-case-dark .evidence-preview > a:last-child { color: #f8f9f8; }
+.final-case-dark .evidence-point .text-signal { color: #f7bd52; }
+.final-case-dark .evidence-preview :is(ol,li), .final-case-dark .evidence-preview > a:last-child { border-color: var(--case-rule); }
+.final-case-dark .evidence-frame { background: #fff; }
+.final-case-dark .reading-case-extras > div { border-color: var(--case-rule); }
+.final-case-dark .reading-case-demo { padding-top: 22px; border-top: 1px solid var(--case-rule); }
+.final-case .reading-case-demo > div { margin-top: 16px; }
+.final-case [data-enter] { --enter-delay: 0ms; }
+.final-case .reading-case-metric[data-enter] { --enter-delay: 100ms; }
+.final-hero :is(a,button):focus-visible, .final-case :is(a,button):focus-visible { outline: 3px solid #cf6b08; outline-offset: 5px; }
+.final-case-dark :is(a,button):focus-visible, .final-hero :is(a,button):focus-visible { outline-color: #f7bd52; }
+.final-workflow { margin-top: 24px; }
+.final-workflow figcaption { font-size: 14px; font-weight: 700; }
+.final-workflow ol { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 24px; margin-top: 16px; }
+.final-workflow li { position: relative; min-width: 0; border-top: 2px solid #277b75; padding-top: 14px; }
+.final-workflow li:not(:last-child)::after { content: "→"; position: absolute; right: 0; top: 12px; color: #515b65; }
+.final-workflow-number { margin-right: 12px; color: #277b75; font: 700 13px/1.6 var(--font-mono); }
+.final-workflow strong { font-size: 16px; }
+.final-workflow li p { margin-top: 8px; font-size: 14px; line-height: 1.6; color: #515b65; }
+.final-workflow-footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 20px; margin-top: 14px; }
+.final-workflow-footer > p { color: #a22b20; font-size: 14px; font-weight: 600; }
+[data-edition="general"] .automation-demo-steps { min-height: 15rem; }
+@keyframes final-title {
+  from { transform: translateY(22px); clip-path: inset(100% 0 0); }
+  to { transform: translateY(0); clip-path: inset(0); }
+}
+@media (max-width: 1279px) and (min-width: 1024px) {
+  .final-hero-grid { gap: 36px; }
+  .final-hero-profile { padding-left: 24px; }
+  .final-hero-metrics dd { font-size: 26px; }
+  .final-hero h1.final-hero-statement { font-size: 34px; }
+}
+@media (max-width: 1023px) {
+  .final-hero { padding-top: 88px; }
+  .final-hero-grid { grid-template-columns: minmax(0,1fr); gap: 28px; }
+  .final-hero-profile { border-left: 0; padding-left: 0; }
+  .final-hero h1 { font-size: 48px; }
+  .final-hero h1.final-hero-statement { font-size: 40px; }
+  .final-case-grid { grid-template-columns: minmax(0,1fr); grid-template-rows: auto; gap: 26px; }
+  .final-case-proof { grid-column: auto; grid-row: auto; }
+  .final-case-grid > .reading-case-extras { grid-column: auto; }
+  .final-case .reading-case-result { padding-top: 22px; border-top: 1px solid var(--case-rule); }
+  .final-case .reading-case-evidence .evidence-image { max-height: 380px; }
+}
+@media (max-width: 639px) {
+  .final-hero { padding-top: 84px; padding-bottom: 26px; }
+  /* 눈썹줄은 직함을 싣는다 — 모바일 헤더에는 이름만 있어서 여기서 숨기면 직함이 첫 화면에서 사라진다 */
+  .final-hero-eyebrow { font-size: 12px; line-height: 1.6; margin-bottom: 14px; }
+  .final-hero-grid { margin-top: 0; gap: 24px; }
+  .final-hero h1 { font-size: 34px; }
+  .final-hero h1.final-hero-statement { font-size: 27px; line-height: 1.35; }
+  .final-hero-story { margin-top: 26px; }
+  .final-hero-story ol { grid-template-columns: minmax(0,1fr); gap: 16px; }
+  .final-hero-story li:not(:last-child)::after { content: none; }
+  .final-hero-story li strong { font-size: 14px; }
+  .final-hero-story li strong + span { font-size: 13px; }
+  .final-hero-role { font-size: 16px; margin-top: 18px; }
+  .final-hero-intro { font-size: 14px; margin-top: 14px; }
+  .final-hero-actions { margin-top: 20px; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+  .final-primary-action, .final-contact-action { font-size: 13px; min-height: 46px; gap: 6px; padding-inline: 8px; }
+  .final-contact-action { border: 1px solid #65717b; text-decoration: none; }
+  .final-identity img { width: 48px; height: 61px; }
+  .final-identity { gap: 12px; }
+  .final-identity p { font-size: 13px; margin-top: 2px; }
+  .final-identity .final-identity-name { font-size: 14px; }
+  .final-hero-metrics { margin-top: 18px; padding-top: 18px; gap: 10px; }
+  .final-hero-metrics dd { font-size: 24px; }
+  .final-hero-interests { margin-top: 16px; }
+  .final-hero-interests ul { font-size: 13px; gap: 4px 10px; margin-top: 6px; }
+  .final-hero-records { grid-template-columns: minmax(0,1fr); gap: 10px; }
+  .final-hero-records a { font-size: 13px; min-height: 32px; }
+  .final-hero-records p { font-size: 13px; margin-top: 0; }
+  .final-case.reading-case-featured { padding-block: 30px; }
+  .final-case.reading-case-featured .reading-case-title { font-size: 26px; }
+  .final-case-support .reading-case-title { font-size: 22px; }
+  .final-case .reading-case-header { padding-bottom: 18px; }
+  .final-case-grid { margin-top: 22px; gap: 24px; }
+  .final-case.reading-case-featured .reading-case-metric { font-size: 48px; }
+  .final-case-support .reading-case-metric { font-size: 36px; }
+  .final-case .reading-case-before { font-size: 18px; flex-basis: 100%; }
+  .final-case .reading-case-evidence .evidence-image { max-height: 300px; }
+  .final-case .evidence-preview ol { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .final-case .evidence-point { border-bottom: 0; align-items: flex-start; flex-direction: column; border-right: 1px solid var(--case-rule); }
+  .final-case .evidence-point:last-child { border-right: 0; }
+  .final-case .reading-case-facts { gap: 12px; }
+  .final-workflow ol { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px 24px; }
+  .final-workflow li::after { display: none; }
+  .final-workflow li p { font-size: 13px; }
+  [data-edition="general"] .automation-demo-steps { min-height: 19rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .final-hero h1 span, .final-hero-profile { animation: none; transform: none; clip-path: none; }
+}
+
+.hero-aurora::before {
+  content: "";
+  position: absolute;
+  inset: -10% -5% auto -5%;
+  height: 130%;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+  background:
+    radial-gradient(38rem 26rem at 18% 12%, color-mix(in srgb, var(--color-accent) 14%, transparent), transparent 62%),
+    radial-gradient(32rem 24rem at 82% 8%, color-mix(in srgb, var(--color-limit-ink) 13%, transparent), transparent 60%),
+    radial-gradient(30rem 22rem at 62% 78%, color-mix(in srgb, var(--color-accent) 9%, transparent), transparent 58%);
+  /* 한 덩어리를 통째로 아주 느리게 움직인다. 눈에 띄면 실패다 —
+     배경이 말을 걸기 시작하면 본문이 진다. */
+  animation: hero-aurora-drift 34s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes hero-aurora-drift {
+  from {
+    transform: translate3d(-1.5%, -1%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(1.5%, 1.5%, 0) scale(1.06);
+  }
+}
+
+/* 움직임을 줄이라고 한 사람에게는 정지된 그라디언트만 남긴다. 지우지는 않는다 —
+   색면 자체는 정보를 가리지 않고, 없애면 화면이 도로 허옇게 빈다. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-aurora::before {
+    animation: none;
+  }
+}
+
+/* ═══════════════════════ 공용판 입구형 홈 (2026.09.24) ═══════════════════════
+   레퍼런스(dainahys · toss · playd · everuns)와 같은 조건에서 재어 보니 옛 홈은 글자의 59% 가
+   14px 이하였고 가장 많이 쓴 글자가 13px 모노였다. 여기서는 본문 16~18px, 제목 44~48px,
+   강조색은 signal 하나, 모노 서체는 쓰지 않는다. HomeFolio.tsx · app/about/page.tsx 가 쓴다. */
+.folio { background: #fff; color: #0f1216; }
+/* 헤더·다른 섹션의 Container(1240px · 좌우 40px)와 왼쪽 선을 맞춘다 */
+.folio-wrap { max-width: 1240px; margin: 0 auto; padding: 0 40px; }
+.folio-hero { padding: 128px 0 64px; background: #fff; }
+.folio-hero-grid { display: grid; grid-template-columns: minmax(0,1.4fr) minmax(0,1fr); gap: 64px; align-items: center; }
+.folio-eyebrow { font-size: 15px; font-weight: 700; color: #4a525b; }
+.folio-hero-title { margin-top: 16px; font-size: 48px; line-height: 1.24; font-weight: 800; letter-spacing: -0.03em; color: #0f1216; }
+.folio-hero-title span { display: block; }
+.folio-hero-note { margin-top: 22px; max-width: 34rem; font-size: 19px; line-height: 1.65; color: #4a525b; }
+.folio-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 32px; }
+.folio-btn { display: inline-flex; min-height: 50px; align-items: center; justify-content: center; gap: 8px; padding: 0 24px; border-radius: 999px; font-size: 15px; font-weight: 700; transition: background-color .15s ease, border-color .15s ease; }
+.folio-btn-dark { background: #0f1216; color: #fff; }
+.folio-btn-dark:hover { background: #2b3138; }
+.folio-btn-line { border: 1px solid #d5d9dd; background: #fff; color: #0f1216; }
+.folio-btn-line:hover { border-color: #0f1216; }
+.folio-link-strong { display: inline-flex; min-height: 44px; align-items: center; gap: 6px; font-size: 15px; font-weight: 700; color: #0f1216; text-decoration: underline; text-decoration-color: #c9ced3; text-underline-offset: 5px; }
+.folio-link-strong:hover { text-decoration-color: #0f1216; }
+.folio-link-quiet { display: inline-flex; min-height: 44px; align-items: center; font-size: 14px; color: #5f6870; text-decoration: underline; text-decoration-color: #d5d9dd; text-underline-offset: 4px; }
+.folio-link-quiet:hover { color: #0f1216; }
+.folio-facts { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; max-width: 34rem; margin-top: 40px; padding-top: 22px; border-top: 1px solid #e5e7ea; }
+/* 라벨 길이가 달라도 숫자는 같은 높이에 선다 — column-reverse 에서 flex-end 는 위쪽이다 */
+.folio-facts > div { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 4px; }
+.folio-facts dt { font-size: 14px; color: #5f6870; }
+.folio-facts dd { font-size: 32px; line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; white-space: nowrap; }
+.folio-hero-photo { position: relative; justify-self: end; width: 100%; max-width: 360px; }
+.folio-hero-photo img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 22px; box-shadow: 0 30px 60px -36px rgba(15,18,22,.5); }
+.folio-hero-photo figcaption { position: absolute; left: 14px; bottom: 14px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.94); font-size: 13px; font-weight: 700; color: #0f1216; }
+.folio-story { margin-top: 64px; padding-top: 28px; border-top: 1px solid #e5e7ea; }
+.folio-story-label { font-size: 14px; font-weight: 700; color: var(--color-signal); }
+.folio-story ol { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 32px; margin-top: 16px; }
+.folio-story li { display: flex; flex-direction: column; gap: 6px; }
+.folio-story-tag { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #646d76; }
+.folio-story li strong { font-size: 17px; font-weight: 700; }
+.folio-story li strong + span { font-size: 15px; line-height: 1.65; color: #4a525b; }
+.folio-records { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px 32px; margin-top: 32px; padding: 18px 24px; border-radius: 16px; background: #f5f6f7; }
+.folio-records li { display: flex; flex-direction: column; gap: 0; }
+.folio-records a { display: inline-flex; min-height: 44px; align-items: center; gap: 6px; margin-block: -6px; font-size: 15px; font-weight: 700; color: #0f1216; text-decoration: underline; text-decoration-color: #c9ced3; text-underline-offset: 4px; }
+.folio-records span { font-size: 13px; line-height: 1.55; color: #5f6870; }
+
+.folio-section { padding: 112px 0; scroll-margin-top: 72px; background: #fff; }
+.folio-tint { background: #f5f6f7; }
+.folio-kicker { font-size: 14px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--color-signal); }
+.folio-h2 { margin-top: 10px; font-size: 44px; line-height: 1.25; font-weight: 800; letter-spacing: -0.03em; color: #0f1216; }
+.folio-lead { margin-top: 16px; max-width: 42rem; font-size: 18px; line-height: 1.7; color: #4a525b; }
+.folio-grid-lg { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 32px; margin-top: 48px; }
+.folio-grid-sm { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 28px; margin-top: 56px; }
+.folio-case { display: flex; min-width: 0; flex-direction: column; }
+/* 소재 묶음을 옅은 바탕 위 타일로 (2026.09.25) — 캡처를 흰 바탕에 그대로 올리면 스크린샷처럼 읽혔다 */
+.folio-case-media { display: block; overflow: hidden; aspect-ratio: 16 / 10; padding: 22px; border-radius: 18px; background: var(--tint, #f1f2f4); }
+.folio-case-sm .folio-case-media { aspect-ratio: 4 / 3; padding: 16px; }
+.folio-case-media img { width: 100%; height: 100%; border-radius: 10px; object-fit: cover; object-position: top center; box-shadow: 0 12px 28px -12px rgba(15, 18, 22, .28); transition: transform .5s cubic-bezier(.22,1,.36,1); }
+/* 가로로 긴 소재 묶음(뉴발란스 비즈보드 8종)은 잘리면 문구가 끊긴다 — 통째로 보인다 */
+.folio-case-media.is-contain img { object-fit: contain; object-position: center; box-shadow: none; border-radius: 6px; }
+.folio-case:hover .folio-case-media img { transform: scale(1.03); }
+.folio-case-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 20px; font-size: 13px; }
+.folio-case-no { font-weight: 700; color: #646d76; font-variant-numeric: tabular-nums; }
+.folio-tag { padding: 4px 10px; border-radius: 999px; background: #f1f2f4; font-weight: 700; color: #3a4148; }
+.folio-case-brand { font-weight: 700; color: #0f1216; }
+.folio-case-title { margin-top: 12px; font-size: 24px; line-height: 1.4; font-weight: 800; letter-spacing: -0.02em; }
+.folio-case-sm .folio-case-title { font-size: 19px; }
+.folio-case-title a:hover { text-decoration: underline; text-underline-offset: 5px; }
+.folio-case-story { margin-top: 12px; font-size: 16px; line-height: 1.7; color: #4a525b; }
+.folio-case-result { margin-top: 20px; padding-top: 16px; border-top: 1px solid #e5e7ea; }
+.folio-case-label { font-size: 14px; color: #5f6870; }
+.folio-case-metric { margin-top: 4px; font-size: 34px; line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; color: #0f1216; font-variant-numeric: tabular-nums; }
+.folio-case-sm .folio-case-metric { font-size: 28px; }
+.folio-case-before { font-size: .56em; font-weight: 700; color: #8b949c; }
+.folio-case-basis { margin-top: 6px; font-size: 13px; line-height: 1.55; color: #5f6870; }
+.folio-case-scope { margin-top: 10px; font-size: 14px; line-height: 1.6; color: #3a4148; }
+.folio-case-scope span { margin-right: 8px; font-weight: 700; color: var(--color-signal); }
+.folio-case-evidence { display: flex; flex-wrap: wrap; align-items: center; gap: 0 20px; margin-top: auto; padding-top: 12px; }
+.folio-more { margin-top: 72px; }
+.folio-more-label { font-size: 14px; font-weight: 700; color: #5f6870; }
+.folio-more ul { margin-top: 12px; border-top: 1px solid #e5e7ea; }
+.folio-more li { border-bottom: 1px solid #e5e7ea; }
+.folio-more a { display: grid; grid-template-columns: 180px minmax(0,1fr) auto; align-items: center; gap: 16px; min-height: 64px; padding: 12px 4px; transition: background-color .15s ease; }
+.folio-more a:hover { background: #f7f8f9; }
+.folio-more strong { font-size: 16px; font-weight: 700; }
+.folio-more a > span:nth-of-type(1) { font-size: 15px; line-height: 1.6; color: #4a525b; }
+
+.folio-capabilities { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 24px; margin: 40px 0 16px; }
+.folio-capability { padding: 36px; border-radius: 22px; background: #fff; }
+.folio-capability h3 { font-size: 28px; line-height: 1.3; font-weight: 800; letter-spacing: -0.02em; }
+.folio-capability-line { margin-top: 8px; font-size: 17px; color: #4a525b; }
+.folio-capability ul { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+.folio-capability li { position: relative; padding-left: 18px; font-size: 16px; line-height: 1.6; color: #1f252b; }
+.folio-capability li::before { content: ""; position: absolute; left: 0; top: .66em; width: 6px; height: 6px; border-radius: 999px; background: var(--color-signal); }
+.folio-capability-proof { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; padding-top: 20px; border-top: 1px solid #e5e7ea; }
+.folio-capability-proof a { display: inline-flex; min-height: 44px; align-items: center; padding: 0 16px; border: 1px solid #d5d9dd; border-radius: 999px; font-size: 14px; font-weight: 600; color: #0f1216; }
+.folio-capability-proof a:hover { border-color: #0f1216; }
+
+.folio-demo { scroll-margin-top: 90px; }
+.folio-demo > div { overflow: hidden; border-radius: 18px; }
+.folio-systems { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0 32px; margin-top: 40px; border-top: 1px solid #e5e7ea; }
+.folio-systems li { display: grid; grid-template-columns: 32px minmax(0,1fr); grid-template-rows: auto auto 1fr; gap: 4px 10px; padding: 20px 0; border-bottom: 1px solid #e5e7ea; }
+.folio-system-no { grid-row: span 3; padding-top: 3px; font-size: 13px; font-weight: 700; color: #646d76; }
+.folio-systems strong { font-size: 16px; font-weight: 700; }
+/* 무엇을 만들었나 · 효과 (2026.09.25) — 효과 줄은 바닥에 붙여 세 칸의 선을 맞춘다 */
+.folio-system-built { font-size: 14px; line-height: 1.6; color: #4a525b; }
+.folio-system-effect { align-self: end; margin-top: 6px; font-size: 14px; line-height: 1.5; font-weight: 700; color: var(--color-signal); }
+.folio-links { display: flex; flex-wrap: wrap; gap: 0 28px; margin-top: 24px; }
+
+.folio-contact-title { margin-top: 12px; font-size: 44px; line-height: 1.3; font-weight: 800; letter-spacing: -0.03em; }
+.folio-contact-title span { display: block; }
+.folio-email { display: inline-flex; min-height: 44px; align-items: center; margin-top: 28px; font-size: 26px; font-weight: 700; text-decoration: underline; text-decoration-color: #c9ced3; text-underline-offset: 6px; }
+.folio-contact-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.folio-about-link { margin-top: 28px; }
+.folio-about-head { padding: 128px 0 56px; background: #fff; }
+.folio-about-head .folio-h2 { margin-top: 12px; }
+.folio-jumps { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+.folio-jumps a { display: inline-flex; min-height: 44px; align-items: center; padding: 0 16px; border: 1px solid #d5d9dd; border-radius: 999px; font-size: 14px; font-weight: 600; color: #0f1216; }
+.folio-jumps a:hover { border-color: #0f1216; }
+
+/* 공용판 헤더는 흰 지면에 맞춰 밝게 — 다른 판은 그대로 어둡다 (Header.tsx site-header-light) */
+.site-header.site-header-light { background-color: rgba(255,255,255,.94); }
+.site-header-light .text-on-ink { color: #0f1216; }
+.site-header-light .text-on-ink-2 { color: #5a626c; }
+.site-header-light a.text-on-ink-2:hover { color: #0f1216; }
+.site-header-light .border-rule-ink { border-color: #d5d9dd; }
+.site-header-light a.border-rule-ink:hover { border-color: #0f1216; color: #0f1216; }
+.site-header-light .border-rule-ink-2 { border-color: #e5e7ea; }
+.site-header-light .bg-ink { background-color: #fff; }
+.site-header-light .bg-on-ink { background-color: #0f1216; }
+.site-header-light .bg-on-ink.text-ink { color: #fff; }
+.site-header-light .text-signal-ink { color: var(--color-signal); }
+.site-header-light .border-signal-ink { border-color: var(--color-signal); }
+.site-header-light a.border-signal-ink:hover { background-color: var(--color-signal); color: #fff; }
+.site-header-light .bg-signal-ink { background-color: var(--color-signal); }
+
+@media (max-width: 1023px) {
+  .folio-hero { padding: 112px 0 56px; }
+  .folio-hero-grid { grid-template-columns: minmax(0,1fr) 260px; gap: 40px; }
+  .folio-hero-title { font-size: 40px; }
+  .folio-grid-sm { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .folio-systems { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .folio-capabilities { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width: 767px) {
+  .folio-hero-grid { grid-template-columns: minmax(0,1fr); gap: 24px; }
+  .folio-hero-photo { order: -1; justify-self: start; max-width: 88px; }
+  .folio-hero-photo img { border-radius: 16px; box-shadow: none; }
+  .folio-hero-photo figcaption { display: none; }
+  .folio-story ol, .folio-records { grid-template-columns: minmax(0,1fr); gap: 18px; }
+  .folio-grid-lg, .folio-grid-sm { grid-template-columns: minmax(0,1fr); gap: 48px; }
+  .folio-grid-sm { margin-top: 48px; }
+  .folio-systems { grid-template-columns: minmax(0,1fr); }
+  .folio-more a { grid-template-columns: minmax(0,1fr) auto; gap: 4px 12px; }
+  .folio-more a > span:last-child { grid-column: 2; grid-row: 1 / span 2; }
+  .folio-section { padding: 72px 0; }
+  .folio-h2 { font-size: 30px; }
+  .folio-contact-title { font-size: 28px; }
+}
+@media (max-width: 639px) {
+  .folio-wrap { padding: 0 20px; }
+  .folio-hero { padding: 96px 0 44px; }
+  .folio-hero-title { font-size: 30px; line-height: 1.32; }
+  .folio-hero-note { font-size: 16px; }
+  .folio-facts dd { font-size: 24px; }
+  .folio-case-title { font-size: 20px; }
+  .folio-case-sm .folio-case-title { font-size: 19px; }
+  .folio-case-metric, .folio-case-sm .folio-case-metric { font-size: 28px; }
+  .folio-email { font-size: 20px; }
+  .folio-capability { padding: 24px; }
+  .folio-capability h3 { font-size: 23px; }
+  .folio-lead { font-size: 16px; }
+  .folio-btn { padding: 0 20px; }
+}
+
+/*
+ * ── 2026.09.24 (2) ─────────────────────────────────────────────
+ * 사례 상세 단마다 요지 한 줄(caseLedes.ts). 이름표(h2)는 그대로 두고 본문 위에 얹는다.
+ * 본문(17px)보다 한 단계 크고 굵게 — 제목만 훑어도 흐름이 읽히게.
+ */
+.case-lede {
+  margin: 0 0 14px;
+  font-size: 19px;
+  line-height: 1.5;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  text-wrap: pretty;
+}
+@media (min-width: 768px) { .case-lede { font-size: 21px; margin-bottom: 16px; } }
+
+/* 홈 '지나온 길' 4단계 — 왜 그 길로 갔는지까지(본인 설명, 2026.09.24) */
+@media (min-width: 1100px) { .folio-story ol { grid-template-columns: repeat(4, minmax(0,1fr)); gap: 28px; } }
+@media (min-width: 768px) and (max-width: 1099px) {
+  .folio-story ol { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 24px 28px; }
+}
+
+/*
+ * /about/ 톤 통일. 옛 홈에서 가져온 두 구간(일하는 방식 #method, 경력과 수상 #career)만
+ * 검은 지면이라 흰 홈과 이어 읽으면 다른 사이트처럼 보였다. 다른 판의 홈은 그대로 두고,
+ * 공용판 about 안에서만 색 변수를 밝은 값으로 바꾼다.
+ */
+.about-light #method, .about-light #career {
+  background-color: #f5f6f7;
+  color: var(--color-ink);
+  --color-on-ink: #0b0d10;
+  --color-on-ink-2: #4a525b;
+  --color-on-dark: #4a525b;
+  --color-rule-ink: #c9ced4;
+  --color-rule-ink-2: #dfe3e7;
+  --color-signal-ink: #c7301b;
+  --color-limit-ink: #8a6413;
+  --color-system-ink: #1a6f6b;
+}
+.about-light #career { background-color: #ffffff; }
+/* 큰 번호(01·02·03)는 홈처럼 먹색, 작은 라벨은 홈의 빨강 — 황토색은 검은 지면용이었다 */
+.about-light #method { --color-limit-ink: var(--color-ink); }
+.about-light #career { --color-limit-ink: var(--color-ink); }
+.about-light #career .before\:bg-mark::before { background-color: var(--color-signal); }
+.about-light #method .text-white, .about-light #career .text-white { color: var(--color-ink); }
+.about-light #career .text-white\/64 { color: #4a525b; }
+.about-light #career .border-white\/14, .about-light #career .border-white\/20 { border-color: #dfe3e7; }
+.about-light #method .text-mark, .about-light #career .text-mark { color: var(--color-signal); }
+.about-light #career .hover\:text-white:hover { color: var(--color-signal); }
+.about-light #method .bg-on-ink, .about-light #career .bg-on-ink { color: #ffffff; }
+.about-light #method .bg-on-ink:hover, .about-light #career .bg-on-ink:hover { color: #ffffff; }
+
+/*
+ * ── 2026.09.24 (3) 사례 상세 첫 화면 ─────────────────────────────
+ * 홈 카드와 같은 [대표 수치 · 기준 · 기여 범위]와 대표 소재를 제목 바로 아래에 둔다.
+ */
+.case-hero {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .case-hero { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 48px; margin-top: 32px; }
+}
+.case-hero-label { font-size: 14px; font-weight: 700; color: #4a525b; }
+.case-hero-value {
+  margin-top: 6px;
+  font-size: 40px;
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+.case-hero-before { font-size: 0.6em; font-weight: 700; color: #646d76; }
+.case-hero-basis { margin-top: 10px; font-size: 14px; line-height: 1.6; color: #4a525b; }
+.case-hero-scope { margin-top: 12px; padding-top: 12px; border-top: 1px solid #e5e7ea; font-size: 14px; line-height: 1.6; color: var(--color-ink); font-weight: 600; }
+.case-hero-scope span { display: inline-block; margin-right: 10px; font-weight: 700; color: var(--color-signal); }
+.case-hero-media {
+  display: block;
+  aspect-ratio: 3 / 2;
+  padding: 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  /* 홈 카드와 같은 옅은 바탕 타일 (2026.09.25) */
+  background: var(--tint, #f3f4f6);
+}
+.case-hero-media img { width: 100%; height: 100%; border-radius: 10px; object-fit: cover; display: block; box-shadow: 0 12px 28px -12px rgba(15, 18, 22, .28); }
+.case-hero-media.is-contain img { object-fit: contain; box-shadow: none; border-radius: 6px; }
+.case-hero-media:hover { opacity: 0.94; }
+@media (min-width: 768px) { .case-hero-value { font-size: 48px; } }
+
+/* 연락 구간 — 면접 안내 한 줄 (PDF 29쪽과 같은 문장) */
+.folio-contact-note { margin-top: 14px; font-size: 16px; line-height: 1.6; color: #4a525b; }
+
+/* ── 사례 도식: 화살표 흐름 · 합계 나눠 읽기 (2026.09.25) ──
+   덱 5쪽 · 16쪽의 도식을 웹 사례로 옮겼다. 채도는 액센트 한 색의 농도만 바꾼다 —
+   데이터가 아니라 판단의 순서라서 새 색을 들이지 않는다. */
+.case-steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+.case-step-head {
+  display: flex; align-items: center; min-height: 52px; padding: 0 20px;
+  font-size: 16px; font-weight: 700; line-height: 1.3;
+  background: #f7e1da; color: #7a1e10;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), 50% 100%, 0 calc(100% - 10px));
+  padding-bottom: 8px;
+}
+.case-step[data-step="1"] .case-step-head { background: #eeb3a1; color: #5c160b; }
+.case-step[data-step="2"] .case-step-head { background: var(--color-accent); color: #fff; }
+.case-step-body { margin-top: 10px; font-size: 14px; line-height: 1.65; color: var(--color-ink-2); }
+@media (min-width: 768px) {
+  .case-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .case-step-head {
+    justify-content: center; text-align: center; padding: 0 30px;
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%, 18px 50%);
+  }
+  .case-step[data-step="0"] .case-step-head { clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%); }
+  .case-step-body { padding: 0 12px 0 4px; }
+}
+
+.case-split { display: flex; flex-direction: column; gap: 14px; }
+.case-split-total {
+  position: relative; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px;
+  padding: 16px 20px; border-radius: 12px; background: var(--color-bg-alt);
+}
+.case-split-total strong, .case-split-parts strong { font-size: 16px; font-weight: 700; color: var(--color-ink); }
+.case-split-total span, .case-split-parts span { font-size: 14px; line-height: 1.6; color: var(--color-ink-3); }
+.case-split-parts { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.case-split-parts li { display: flex; flex-direction: column; gap: 6px; padding: 18px 20px; border: 1px solid var(--color-line-2); border-radius: 12px; background: #fff; }
+.case-split-parts li.is-accent { border-color: #f0cfc5; background: var(--color-accent-soft); }
+.case-split-parts li.is-accent strong { color: var(--color-accent); }
+.case-split-parts li span { color: var(--color-ink-2); }
+@media (min-width: 768px) {
+  .case-split { gap: 0; }
+  .case-split-total::after { content: ""; position: absolute; left: 50%; bottom: -14px; height: 14px; border-left: 1.5px solid #b9b3a5; }
+  .case-split-parts { position: relative; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding-top: 28px; }
+  .case-split-parts::before {
+    content: ""; position: absolute; top: 14px; left: 25%; right: 25%; height: 14px;
+    border: 1.5px solid #b9b3a5; border-bottom: 0;
+  }
+}
+
+/* 사례 표지의 기간·역할 · 요약 층의 한 줄 메타 (2026.09.25) */
+.case-hero-meta { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e5e7ea; }
+.case-hero-meta > div { display: grid; grid-template-columns: 6.25rem minmax(0, 1fr); gap: 8px; font-size: 14px; line-height: 1.55; }
+.case-hero-meta dt { color: #646d76; white-space: nowrap; }
+.case-hero-meta dd { color: var(--color-ink); font-weight: 600; text-wrap: balance; }
+.case-meta-strip { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--color-line-2); }
+.case-meta-strip > div { display: flex; gap: 8px; font-size: 14px; line-height: 1.6; }
+.case-meta-strip dt { flex-shrink: 0; color: var(--color-ink-3); }
+.case-meta-strip dd { color: var(--color-ink); text-wrap: balance; }
+
+/* 두 역량 색인 — 대표 사례 머리 (2026.09.25). 따로 있던 역량 구간(약 770px)을 줄였다 */
+.folio-capindex { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0 32px; margin-top: 32px; border-top: 1px solid #e5e7ea; }
+.folio-capindex-row { display: flex; flex-direction: column; gap: 6px; padding: 18px 0 16px; border-bottom: 1px solid #e5e7ea; }
+.folio-capindex-head { display: flex; flex-direction: column; gap: 4px; }
+/* 표지의 FIND · TEST · IMPROVE 와 같은 글꼴 — 표지에서 사례로 이어진다는 표시 (2026.09.26) */
+.folio-capindex-stage { margin-right: 4px; font-family: "Archivo", "Pretendard", sans-serif; font-stretch: 125%; font-weight: 800; letter-spacing: -.01em; color: var(--color-signal); }
+.folio-capindex-head strong { font-size: 18px; font-weight: 800; color: #0f1216; }
+.folio-capindex-head span { font-size: 15px; color: #4a525b; }
+.folio-capindex-points { font-size: 14px; line-height: 1.6; color: #5f6870; }
+.folio-capindex-proof { display: flex; flex-wrap: wrap; align-items: center; gap: 0 14px; font-size: 14px; }
+.folio-capindex-proof span { font-weight: 700; color: var(--color-signal); }
+.folio-capindex-proof a { display: inline-flex; min-height: 44px; align-items: center; font-weight: 600; color: #0f1216; text-decoration: underline; text-decoration-color: #c9ced3; text-underline-offset: 4px; }
+.folio-capindex-proof a:hover { text-decoration-color: #0f1216; }
+.folio-capindex-more { grid-column: 1 / -1; justify-self: start; margin-top: 12px; }
+@media (max-width: 767px) {
+  .folio-capindex { grid-template-columns: minmax(0,1fr); }
+}
+
+/*
+ * 마지막 연락 구간을 짙은 띠로 (2026.09.25). 레퍼런스 다섯 곳 중 셋(나스미디어·플레이디·에버런스)이
+ * 강한 색 띠로 끝을 맺는다. 흰 구간이 이어지다 끝나면 어디서 멈춰야 할지 흐려졌다.
+ * 대비: 본문 #c4c9ce · 눈썹 #ff7a5c 모두 #0f1216 위 4.5:1 이상.
+ */
+.folio-contact { background: #0f1216; color: #fff; }
+.folio-contact .folio-kicker { color: #ff7a5c; }
+.folio-contact .folio-contact-title { color: #fff; }
+.folio-contact .folio-contact-note { color: #c4c9ce; }
+.folio-contact .folio-email { color: #fff; text-decoration-color: #5b636b; }
+.folio-contact .folio-email:hover { text-decoration-color: #fff; }
+.folio-contact .folio-btn-dark { background: #fff; color: #0f1216; }
+.folio-contact .folio-btn-dark:hover { background: #e4e7ea; }
+.folio-contact .folio-btn-line { border-color: rgba(255,255,255,.34); background: transparent; color: #fff; }
+.folio-contact .folio-btn-line:hover { border-color: #fff; }
+.folio-contact .folio-link-strong { color: #fff; text-decoration-color: #5b636b; }
+.folio-contact .folio-link-strong:hover { text-decoration-color: #fff; }
+
+/* 비교 막대 (2026.09.25) — 두 대상 · 같은 지표. 좋은 쪽만 액센트, 나머지는 회색 */
+.case-compare { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
+@media (min-width: 768px) { .case-compare { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; } }
+.case-compare-group { padding: 18px 20px; border: 1px solid var(--color-line-2); border-radius: 12px; background: #fff; }
+.case-compare-metric { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: 16px; font-weight: 700; color: var(--color-ink); }
+.case-compare-metric span { font-size: 13px; font-weight: 400; color: var(--color-ink-3); }
+.case-compare-group ul { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
+.case-compare-group li { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr) 4.5rem; align-items: center; gap: 10px; }
+.case-compare-name { font-size: 14px; color: var(--color-ink-2); }
+.case-compare-bar { display: block; height: 12px; border-radius: 999px; background: var(--color-bg-alt); overflow: hidden; }
+.case-compare-bar > span { display: block; height: 100%; border-radius: 999px; background: #b9b3a5; }
+.case-compare-group li b { justify-self: end; font-size: 15px; font-weight: 700; color: var(--color-ink-2); }
+.case-compare-group li.is-best .case-compare-name { color: var(--color-ink); font-weight: 600; }
+.case-compare-group li.is-best .case-compare-bar > span { background: var(--color-accent); }
+.case-compare-group li.is-best b { color: var(--color-accent); }
+
+/*
+ * 영문판 표지 제목 (2026.09.25) — 영문 문장이 한국어보다 길어 48px 에서 1440px 4줄, 1024px 5줄이 됐다.
+ * 제목 크기만 한 단계 줄이고 행간을 조인다. 한국어 화면은 건드리지 않는다.
+ */
+[lang="en"] .folio-hero-title { font-size: 42px; line-height: 1.18; letter-spacing: -0.028em; }
+@media (max-width: 1023px) { [lang="en"] .folio-hero-title { font-size: 36px; } }
+@media (max-width: 639px) { [lang="en"] .folio-hero-title { font-size: 28px; line-height: 1.26; } }
+
+/*
+ * 영문 수치 줄바꿈 (2026.09.25) — 수치는 한 덩어리로 보이게 nowrap 인데, 영문 값은
+ * "0 changes · run stops" · "All cases, up to 84 a month" 처럼 낱말이 많아 3단 결과 칸을
+ * 11~67px 넘쳐 옆 칸 글자와 겹쳤다. 영문 화면에서만 낱말 사이로 줄을 바꾸게 한다(count-up-prose 와 같은 방식).
+ */
+[lang="en"] .count-up { max-width: 100%; white-space: normal; }
+[lang="en"] .count-up .count-up-visual { white-space: normal; }
+
+/*
+ * 경력직 개편 (2026.09.25) — 표지 결과 세 칸 · 경력 두 줄 · 카드 외부 인정 한 줄.
+ */
+.folio-proof { max-width: 38rem; }
+.folio-proof > div { flex-direction: column; justify-content: flex-start; }
+.folio-proof .folio-proof-value { order: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; }
+.folio-proof dt { order: 1; }
+.folio-proof .folio-proof-basis { order: 2; white-space: normal; font-weight: 400; letter-spacing: 0; }
+.folio-proof-before { font-size: 0.5em; font-weight: 700; color: #7a828a; letter-spacing: -0.01em; }
+.folio-proof .folio-proof-basis { margin-top: 2px; font-size: 12.5px; line-height: 1.45; color: #7a828a; }
+.folio-career { margin-top: 64px; padding-top: 28px; border-top: 1px solid #e5e7ea; }
+.folio-career ol { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 32px 48px; margin-top: 16px; }
+.folio-career li { display: flex; flex-direction: column; gap: 6px; }
+.folio-career-period { font-size: 12px; font-weight: 700; letter-spacing: .04em; color: #646d76; font-variant-numeric: tabular-nums; }
+.folio-career li strong { font-size: 18px; font-weight: 700; color: #0f1216; }
+.folio-career li strong + span { font-size: 15px; line-height: 1.7; color: #4a525b; }
+.folio-brands { margin-top: 24px; font-size: 14.5px; line-height: 1.7; color: #4a525b; }
+.folio-brands > span { margin-right: 12px; font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--color-signal); }
+.folio-case-award { margin-top: 10px; display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700; color: var(--color-signal); }
+.folio-case-award::before { content: ""; width: 6px; height: 6px; border-radius: 999px; background: currentColor; }
+/* 폰에서는 세 칸을 한 줄씩 — 값 | 이름·기준. 390px 에서 세 칸이 나란히 서면 이름이 세 줄로 접혔다 */
+@media (max-width: 639px) {
+  .folio-proof { grid-template-columns: minmax(0,1fr); gap: 14px; }
+  .folio-proof > div { display: grid; grid-template-columns: 8.75rem minmax(0,1fr); column-gap: 14px; row-gap: 2px; align-items: baseline; }
+  .folio-proof .folio-proof-value { grid-row: 1 / span 2; }
+  .folio-proof dt, .folio-proof .folio-proof-basis { grid-column: 2; }
+}
+@media (max-width: 767px) {
+  .folio-career { margin-top: 44px; }
+  .folio-career ol { grid-template-columns: minmax(0,1fr); gap: 20px; }
+}
+
+
+/* ═══════════════════════ 첫 방문 인트로 · 표지 동작 (2026.09.25) ═══════════════════════
+   사용자 요청: 들어오자마자 '다르다'는 첫인상. 레퍼런스에서 형식만 가져왔다 —
+   jongwon.ai(검은 화면 · 강점 목록 옆에서 숫자가 바뀌는 롤러 · 점 격자), Nova 스플래시(한 화면 워드마크),
+   리포트 슬라이드 몽타주(숫자가 주어인 큰 수치), Shader Gradient(흐르는 색 · 여기서는 CSS 로 가볍게).
+   WebGL·3D 라이브러리는 쓰지 않는다 — 첫 화면 무게를 늘리지 않으려고. 전체 약 3초, 한 번만, 누르면 넘어간다.
+   시간표: 목록·숫자 0.2s 부터 0.44s 간격 3단(FIND·TEST·IMPROVE) → 숫자 퇴장 1.75s → 이름 1.95s → 걷힘 2.45–3.0s → 표지 올라옴 2.55s~ */
+.intro { display: none; }
+html[data-intro="play"] .intro {
+  display: block; position: fixed; inset: 0; z-index: 300; overflow: hidden; cursor: pointer;
+  background: #0b0d10; color: #f4f1ea;
+  animation: intro-wipe .55s cubic-bezier(.77,0,.18,1) 2.45s forwards;
+}
+.intro.is-skip { animation: intro-fade .3s ease forwards !important; }
+@keyframes intro-wipe { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(0 0 100% 0); visibility: hidden; } }
+@keyframes intro-fade { to { opacity: 0; visibility: hidden; } }
+/* 점 격자 — 데이터 화면의 결 */
+.intro::before {
+  content: ""; position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(244,241,234,.14) 1px, transparent 1.6px); background-size: 18px 18px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 62% 50%, #000 20%, transparent 78%);
+  mask-image: radial-gradient(ellipse 70% 60% at 62% 50%, #000 20%, transparent 78%);
+  animation: intro-in .8s ease both;
+}
+.intro-glow {
+  position: absolute; left: 38%; top: 8%; width: 72vmax; height: 72vmax; border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 34%, rgba(199,48,27,.55), transparent 58%),
+    radial-gradient(circle at 70% 62%, rgba(255,134,54,.32), transparent 55%);
+  filter: blur(70px); opacity: .9;
+  animation: intro-drift 3s cubic-bezier(.3,.6,.3,1) both;
+}
+@keyframes intro-drift { from { transform: translate(-14%, 10%) scale(.8); opacity: 0; } 30% { opacity: .9; } to { transform: translate(4%, -6%) scale(1.06); } }
+@keyframes intro-in { from { opacity: 0; } to { opacity: 1; } }
+.intro-meta, .intro-foot {
+  position: absolute; left: 40px; right: 40px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  font: 600 12px/1.2 "JetBrains Mono", ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; color: rgba(244,241,234,.58);
+  animation: intro-in .5s ease .1s both;
+}
+.intro-meta { top: 30px; }
+.intro-foot { bottom: 28px; letter-spacing: .06em; text-transform: none; }
+.intro-foot i { position: relative; flex: 1; height: 1px; overflow: hidden; background: rgba(244,241,234,.18); }
+.intro-foot i::after { content: ""; position: absolute; inset: 0; background: #f4f1ea; transform: scaleX(0); transform-origin: left; animation: intro-bar 2.45s linear forwards; }
+@keyframes intro-bar { to { transform: scaleX(1); } }
+.intro-stage {
+  position: absolute; left: 50%; top: 50%; width: min(1120px, calc(100% - 80px)); transform: translate(-50%, -50%);
+  display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: 64px; align-items: center;
+  animation: intro-stage-out .3s ease 1.75s forwards;
+}
+@keyframes intro-stage-out { to { opacity: 0; transform: translate(-50%, -54%); } }
+.intro-list { position: relative; display: grid; gap: 16px; padding-left: 20px; border-left: 1px solid rgba(244,241,234,.16); animation: intro-in .4s ease .15s both; }
+.intro-list::before { content: ""; position: absolute; left: -1px; top: 0; width: 2px; height: 100%; background: #ff5a3c; transform: scaleY(0); transform-origin: top; animation: intro-bar 1.32s linear .2s forwards; }
+.intro-list li { font-size: 17px; font-weight: 700; color: rgba(244,241,234,.3); animation: intro-li .44s linear calc(.2s + var(--i) * .44s); }
+.intro-list li:last-child { animation-duration: .9s; }
+.intro-list li span { display: inline-block; min-width: 6.2em; margin-right: 10px; font: 600 12px "JetBrains Mono", ui-monospace, monospace; letter-spacing: .08em; }
+@keyframes intro-li { from, to { color: #f4f1ea; } }
+.intro-nums { position: relative; height: clamp(170px, 20vw, 250px); }
+.intro-num { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; animation: intro-num .44s cubic-bezier(.2,.8,.2,1) calc(.2s + var(--i) * .44s) both; }
+.intro-num:last-child { animation-name: intro-num-last; }
+@keyframes intro-num { 0% { opacity: 0; transform: translateY(30%); } 20%, 82% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-24%); } }
+@keyframes intro-num-last { 0% { opacity: 0; transform: translateY(30%); } 20%, 100% { opacity: 1; transform: none; } }
+.intro-num em { display: none; font-style: normal; font-size: 14px; font-weight: 700; color: #ff7a5c; }
+.intro-num b {
+  display: flex; align-items: baseline; gap: .28em; white-space: nowrap;
+  font-family: "Archivo", "Pretendard", sans-serif; font-stretch: 125%; font-weight: 800;
+  font-size: clamp(56px, 9.4vw, 150px); line-height: .95; letter-spacing: -.02em; font-variant-numeric: tabular-nums;
+}
+.intro-before { font-size: .32em; font-weight: 700; color: rgba(244,241,234,.5); letter-spacing: 0; }
+.intro-num small { margin-top: 18px; font-size: 15px; color: rgba(244,241,234,.62); }
+.intro-name {
+  position: absolute; left: 50%; top: 50%; width: calc(100% - 48px); text-align: center; opacity: 0;
+  transform: translate(-50%, -44%); animation: intro-name .5s cubic-bezier(.2,.8,.2,1) 1.95s forwards;
+}
+.intro-name strong { display: block; font-size: clamp(64px, 11vw, 168px); font-weight: 900; line-height: 1; letter-spacing: -.045em; }
+.intro-name span { display: block; margin-top: 20px; font-size: 16px; font-weight: 600; letter-spacing: .08em; color: rgba(244,241,234,.66); }
+[lang="en"] .intro-name span { font: 600 13px "JetBrains Mono", ui-monospace, monospace; letter-spacing: .24em; text-transform: uppercase; }
+@keyframes intro-name { to { opacity: 1; transform: translate(-50%, -50%); } }
+
+/* 표지 — 인트로가 걷히는 순간 제목이 한 줄씩 올라온다. 인트로가 없으면 아무 동작 없이 그대로 보인다 */
+html[data-intro="play"] .folio-hero-title > span,
+html[data-intro="play"] .folio-hero-strengths { animation: hero-rise .8s cubic-bezier(.2,.8,.2,1) calc(2.55s + var(--l, 0) * 90ms) both; }
+html[data-intro="reveal"] .folio-hero-title > span,
+html[data-intro="reveal"] .folio-hero-strengths { animation: hero-rise-now .7s cubic-bezier(.2,.8,.2,1) calc(var(--l, 0) * 70ms) both; }
+@keyframes hero-rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+@keyframes hero-rise-now { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+
+/* 강점 네 가지 */
+.folio-hero-strengths { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.folio-hero-strengths li { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px 7px 12px; border: 1px solid #d5d9dd; border-radius: 999px; font-size: 14px; font-weight: 700; color: #1d2227; }
+.folio-hero-strengths li span { font-size: 12px; font-weight: 800; color: var(--color-signal); font-variant-numeric: tabular-nums; }
+
+/* 사진 뒤 흐르는 색 — Shader Gradient 의 인상만 CSS 로. 사진은 그대로 두고 둘레에만 번진다 */
+.folio-hero-photo { isolation: isolate; }
+.folio-hero-photo::before {
+  content: ""; position: absolute; inset: -12% -14% -10% -12%; z-index: -1; border-radius: 42%;
+  background:
+    radial-gradient(circle at 28% 30%, rgba(199,48,27,.42), transparent 58%),
+    radial-gradient(circle at 78% 72%, rgba(255,150,70,.40), transparent 55%),
+    radial-gradient(circle at 70% 18%, rgba(143,158,60,.40), transparent 52%);
+  filter: blur(42px);
+  animation: folio-aura 14s ease-in-out infinite alternate;
+}
+@keyframes folio-aura { from { transform: translate(-4%, 3%) rotate(-6deg) scale(.96); } to { transform: translate(4%, -3%) rotate(8deg) scale(1.05); } }
+/* 사진 위 소속 표시를 유리처럼 — Liquid Glass 의 인상만 */
+.folio-hero-photo figcaption { background: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.65); -webkit-backdrop-filter: blur(14px) saturate(1.5); backdrop-filter: blur(14px) saturate(1.5); box-shadow: 0 8px 24px -12px rgba(15,18,22,.35); }
+
+@media (max-width: 639px) {
+  .intro-meta, .intro-foot { left: 20px; right: 20px; font-size: 10px; }
+  .intro-meta span:last-child { display: none; }
+  .intro-stage { width: calc(100% - 40px); grid-template-columns: minmax(0,1fr); gap: 0; }
+  .intro-list { display: none; }
+  .intro-nums { height: 220px; }
+  .intro-num em { display: block; margin-bottom: 14px; }
+  .intro-num b { flex-direction: column; align-items: flex-start; gap: 6px; font-size: clamp(48px, 15vw, 72px); }
+  .intro-before { font-size: 16px; }
+  .intro-num small { font-size: 13px; }
+  .folio-hero-strengths { margin-top: 18px; gap: 6px; }
+  .folio-hero-strengths li { padding: 6px 11px 6px 10px; font-size: 13px; }
+  .folio-hero-photo::before { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro { display: none !important; }
+  .folio-hero-photo::before { animation: none; }
+}
+@media print { .intro, .folio-hero-photo::before { display: none !important; } }
+
+/* 메인 카피 K+A (2026.09.25) — 영문 세 단어는 인트로 숫자와 같은 넓은 Archivo, 둘째 줄은 신호색.
+   한국어 한 줄은 작은 회색 부제가 아니라 굵은 본문 크기로 둔다 — 영문만 보고 지나가지 않게.
+   영문 줄은 끊기면 안 되므로 nowrap 이고, 칸 폭에 맞춰 크기를 정했다(1024px 에서 약 53px · 768px 에서 43px · 360px 에서 40px). */
+.folio-hero-title .folio-hero-display {
+  font-family: "Archivo", "Pretendard", sans-serif; font-stretch: 125%; font-weight: 800;
+  font-size: clamp(44px, 5.2vw, 76px); line-height: 1.02; letter-spacing: -.02em; white-space: nowrap;
+}
+.folio-hero-title .folio-hero-display + .folio-hero-display { color: var(--color-signal); }
+.folio-hero-title .folio-hero-sub { margin-top: 20px; font-size: 32px; line-height: 1.3; font-weight: 800; letter-spacing: -.025em; color: #0f1216; }
+/* 토막마다 한 덩어리 — 칸이 좁으면 쉼표 뒤에서 줄이 바뀐다 */
+.folio-hero-title .folio-hero-sub > span { display: inline-block; }
+@media (max-width: 1023px) {
+  .folio-hero-title .folio-hero-display { font-size: clamp(40px, 5.6vw, 60px); }
+  .folio-hero-title .folio-hero-sub { font-size: 24px; margin-top: 16px; }
+}
+/* 768–1023px 는 표지가 두 단이라 성과 칸 하나가 118px 남짓이다 — '+397.3%' 가 옆 칸을 침범했다 (2026.09.26) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .folio-proof .folio-proof-value { font-size: 26px; }
+}
+@media (max-width: 639px) {
+  .folio-hero-title .folio-hero-display { font-size: clamp(36px, 11vw, 64px); }
+  .folio-hero-title .folio-hero-sub { font-size: clamp(19px, 5.6vw, 22px); margin-top: 12px; }
+}
+
+/* 단계 이름 — .folio-capindex-head span(15px 회색)보다 앞서야 한다 (2026.09.26) */
+.folio-capindex-head .folio-capindex-stage { font-size: 18px; color: var(--color-signal); }
+
+/* ═══════════════════════ 홈 FIND · TEST · IMPROVE 스크롤 구간 (2026.09.26) ═══════════════════════
+   레퍼런스: GSAP ScrollTrigger 의 고정 연출. 라이브러리 없이 sticky + IntersectionObserver(LoopStory.tsx).
+   왼쪽 단계 목록이 붙어 있고, 화면 가운데를 지나는 패널의 단계가 켜진다. 흐림은 html.js 에서만(JS 없으면 전부 보임). */
+.loop { border-top: 1px solid #e5e7ea; }
+.loop-grid { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 72px; align-items: start; }
+.loop-rail { position: sticky; top: 112px; display: flex; flex-direction: column; align-items: flex-start; }
+.loop-stages { display: grid; gap: 4px; margin-top: 36px; }
+.loop-stages a { display: flex; align-items: baseline; gap: 12px; padding: 4px 0; color: #b7bdc3; transition: color .35s ease; }
+.loop-stages b { font-family: "Archivo", "Pretendard", sans-serif; font-stretch: 125%; font-weight: 800; font-size: 40px; line-height: 1.08; letter-spacing: -.02em; transition: color .35s ease; }
+.loop-stages span { font-size: 16px; font-weight: 700; white-space: nowrap; }
+/* 영문 설명(the structure 등)이 길면 단계 이름 아래로 통째로 내려간다 */
+.loop-stages a { flex-wrap: wrap; row-gap: 0; }
+.loop-stages .is-active a { color: #0f1216; }
+.loop-stages .is-active b { color: var(--color-signal); }
+.loop-stages a:hover { color: #4a525b; }
+.loop-meter { position: relative; display: block; width: 100%; max-width: 260px; height: 2px; margin-top: 22px; overflow: hidden; background: #e5e7ea; }
+.loop-meter i { position: absolute; inset: 0; background: var(--color-signal); transform: scaleX(var(--loop-progress, .3333)); transform-origin: left; transition: transform .5s cubic-bezier(.22,1,.36,1); }
+.loop-more { margin-top: 18px; }
+.loop-panel { display: flex; min-height: 56vh; flex-direction: column; justify-content: center; padding: 48px 0; border-top: 1px solid #e5e7ea; scroll-margin-top: 90px; transition: opacity .45s ease; }
+.loop-panel:first-child { border-top: 0; padding-top: 0; }
+html.js .loop-panel { opacity: .3; }
+html.js .loop-panel.is-active { opacity: 1; }
+/* 키보드로 들어온 패널은 가운데에 오기 전이라도 바로 선명하게 (2026.09.26) */
+html.js .loop-panel:focus-within { opacity: 1; }
+.loop-panel-stage { font-size: 14px; font-weight: 800; letter-spacing: .02em; color: var(--color-signal); }
+.loop-panel-stage span { font-family: "Archivo", "Pretendard", sans-serif; font-stretch: 125%; }
+.loop-panel-line { margin-top: 10px; font-size: 32px; line-height: 1.3; font-weight: 800; letter-spacing: -.025em; color: #0f1216; }
+.loop-panel-story { max-width: 40rem; margin-top: 14px; font-size: 18px; line-height: 1.7; color: #4a525b; }
+.loop-metrics { display: grid; grid-template-columns: minmax(0,1fr); gap: 24px; max-width: 40rem; margin-top: 28px; padding-top: 22px; border-top: 1px solid #e5e7ea; }
+.loop-metrics.is-two { grid-template-columns: repeat(2, minmax(0,1fr)); }
+.loop-metrics > div { display: flex; flex-direction: column; gap: 4px; }
+.loop-metric-value { order: 1; font-family: "Archivo", "Pretendard", sans-serif; font-stretch: 118%; font-weight: 800; font-size: clamp(40px, 3.9vw, 56px); line-height: 1.02; letter-spacing: -.03em; white-space: nowrap; color: #0f1216; }
+.loop-metric-before { font-size: .38em; font-weight: 700; letter-spacing: 0; color: #8b949c; }
+.loop-metrics dt { order: 2; font-size: 15px; font-weight: 700; color: #1d2227; }
+.loop-metric-basis { order: 3; font-size: 13px; line-height: 1.5; color: #5f6870; }
+.loop-panel-points { max-width: 40rem; margin-top: 22px; font-size: 14px; line-height: 1.65; color: #5f6870; }
+.loop-panel-proof { display: flex; flex-wrap: wrap; align-items: center; gap: 0 14px; margin-top: 4px; font-size: 14px; }
+.loop-panel-proof span { font-weight: 700; color: var(--color-signal); }
+.loop-panel-proof a { display: inline-flex; min-height: 44px; align-items: center; font-weight: 600; color: #0f1216; text-decoration: underline; text-decoration-color: #c9ced3; text-underline-offset: 4px; }
+.loop-panel-proof a:hover { text-decoration-color: #0f1216; }
+@media (max-width: 1023px) {
+  .loop-grid { grid-template-columns: minmax(0,1fr); gap: 8px; }
+  .loop-rail { position: static; }
+  .loop-stages, .loop-meter { display: none; }
+  .loop-more { order: 9; }
+  html.js .loop-panel { opacity: 1; }
+  .loop-panel { min-height: 0; padding: 36px 0; }
+  .loop-panel:first-child { padding-top: 28px; }
+  .loop-panel-line { font-size: 26px; }
+}
+@media (max-width: 639px) {
+  .loop-panel-line { font-size: 22px; }
+  .loop-panel-story { font-size: 16px; }
+  .loop-metrics.is-two { grid-template-columns: minmax(0,1fr); gap: 18px; }
+  .loop-metric-value { font-size: 40px; }
+  /* 모바일은 세부 항목 줄을 뺀다 — 같은 내용이 사례 카드·방식·경력에 있고, 세 패널에서 반복처럼 읽혔다 */
+  .loop-panel-points { display: none; }
+}
+
+/* ═══════════════════════ 사례 차트가 그려지며 나타남 (2026.09.26) ═══════════════════════
+   레퍼런스: GSAP·anime.js 의 선 그리기·순차 등장. 화면에 들어올 때(MotionRuntime 의 is-in) 막대가 자라고,
+   비교 막대가 늘어나고, 단계 도식이 순서대로 켜진다. 값은 처음부터 HTML 에 있다 — 움직임만 더한다. */
+html.js [data-enter="bars"], html.js [data-enter="compare"], html.js [data-enter="steps"], html.js [data-enter="split"] { transform: none; }
+html.js [data-enter="bars"] .bars-fill { transform: scaleY(0); transform-origin: bottom; }
+html.js [data-enter="bars"] .bars-value { opacity: 0; }
+html.js [data-enter="bars"].is-in .bars-fill { transform: scaleY(1); transition: transform .9s cubic-bezier(.22,1,.36,1) var(--d, 0ms); }
+html.js [data-enter="bars"].is-in .bars-value { opacity: 1; transition: opacity .35s ease calc(var(--d, 0ms) + 550ms); }
+html.js [data-enter="compare"] .case-compare-bar > span { transform: scaleX(0); transform-origin: left; }
+html.js [data-enter="compare"].is-in .case-compare-bar > span { transform: scaleX(1); transition: transform .8s cubic-bezier(.22,1,.36,1) calc(var(--i, 0) * 110ms); }
+html.js [data-enter="steps"] .case-step { opacity: 0; transform: translateX(-12px); }
+html.js [data-enter="steps"].is-in .case-step { opacity: 1; transform: none; transition: opacity .45s ease calc(var(--i, 0) * 150ms), transform .6s cubic-bezier(.22,1,.36,1) calc(var(--i, 0) * 150ms); }
+html.js [data-enter="split"] .case-split-parts li { opacity: 0; transform: translateY(10px); }
+html.js [data-enter="split"].is-in .case-split-parts li { opacity: 1; transform: none; transition: opacity .45s ease calc(200ms + var(--i, 0) * 160ms), transform .6s cubic-bezier(.22,1,.36,1) calc(200ms + var(--i, 0) * 160ms); }
+@media (prefers-reduced-motion: reduce) {
+  .loop-panel, .loop-meter i, .loop-stages a, .loop-stages b { transition: none; }
+  html.js [data-enter="bars"] .bars-fill, html.js [data-enter="compare"] .case-compare-bar > span { transform: none !important; transition: none !important; }
+  html.js [data-enter="bars"] .bars-value, html.js [data-enter="steps"] .case-step, html.js [data-enter="split"] .case-split-parts li { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+@media print {
+  html.js .loop-panel { opacity: 1; }
+  html.js [data-enter="bars"] .bars-fill, html.js [data-enter="compare"] .case-compare-bar > span { transform: none !important; }
+  html.js [data-enter="bars"] .bars-value, html.js [data-enter="steps"] .case-step, html.js [data-enter="split"] .case-split-parts li { opacity: 1 !important; transform: none !important; }
+}
+
+/* 문장 단위 줄바꿈 (2026.09.26, Sentences.tsx) — 다음 문장이 줄 끝에 걸리면 통째로 다음 줄로. 말(괄호)은 붙여 둔다 */
+.sent { display: inline-block; max-width: 100%; }
+.nw { white-space: nowrap; }
