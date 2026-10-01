@@ -13,9 +13,13 @@ Once these files actually exist in the active session's repository:
 1. Have the main Claude worker prepare an authorized public PR in this repository
    with a title beginning `[자비스 검토]`. The PR must be open, created by
    `vetnam555-del`, with a branch in this repository.
-2. Type `@`, choose `jarvis (agent)` in the picker, and supply the PR number/URL.
-   The documented manual syntax is `@agent-jarvis 이 PR 검토해줘: <PR URL>`.
-   Bare `@자비스` is not a registered alias and mobile clients may not provide
+2. Type `@자비스 이 PR 검토해줘: <PR URL>` as an ordinary message. The project
+   instructions in `.claude/CLAUDE.md` route this text alias to the existing
+   courier. Bare `@자비스` uses the unambiguous current PR, or asks which PR.
+   Discussing the alias/setup or quoting it does not request a review.
+   This alias does not register a Korean picker entry: the native agent remains
+   `jarvis`. For explicit native selection, type `@` and choose `jarvis (agent)`,
+   or type `@agent-jarvis 이 PR 검토해줘: <PR URL>`. Mobile clients may not have
    the same picker. Do not start the whole session with `--agent jarvis`, because
    Claude should remain the main worker.
 3. If agent selection is unavailable, use `/jarvis-review <PR URL>` when the skill
@@ -36,6 +40,7 @@ Ask the main Claude worker to copy only these exact paths from the setup commit,
 without switching branches, cherry-picking a whole commit, replacing existing
 instructions, resetting/stashing work, or copying portfolio source:
 
+- `.claude/CLAUDE.md` (project-wide text alias instructions)
 - `.claude/agents/jarvis.md`
 - `.claude/skills/jarvis-review/SKILL.md`
 - `.claude/scripts/jarvis_review.py` (optional `gh` helper)
@@ -44,7 +49,11 @@ instructions, resetting/stashing work, or copying portfolio source:
 
 First inspect `git status`, the current branch and each destination. If any
 path already exists or has local/staged work, stop and reconcile instead of
-overwriting. Read the source files at the verified setup commit via an existing
+overwriting. For an existing `CLAUDE.md` or `.claude/CLAUDE.md`, merge only the
+Korean review alias section and preserve all other instructions and imports.
+If the work branch relies on `AGENTS.md`, preserve its loading (for example with
+an existing appropriate import) before adding a CLAUDE.md file; do not silently
+hide existing project instructions. Read the source files at the verified setup commit via an existing
 GitHub connection, or fetch the setup branch using the checkout's existing remote.
 Copy only those files and inspect the diff; do not commit/push/merge unless the
 user separately asks. A command using a *verified local fetch ref* can restore
@@ -60,6 +69,10 @@ an active session's workspace is different from committing for future cloud
 sessions. A new `agents` directory may require restarting/resuming Claude Code
 before the agent appears. Preserve the current work; verify `/agents`/the picker
 and `/jarvis-review` availability rather than claiming success just from a push.
+Verify the project CLAUDE.md appears in `/context` before relying on `@자비스`.
+Project instructions guide Claude rather than guaranteeing a parser-level
+dispatch. No live Claude-session invocation has been verified by the offline
+tests; use the native mention or slash command if the text alias is not followed.
 
 ## Protocol and boundaries
 
@@ -102,4 +115,5 @@ GitHub Action, hook, secret, service, token, permission grant or deployment.
 
 - [Explicit subagent invocation](https://code.claude.com/docs/en/sub-agents#invoke-subagents-explicitly)
 - [Project agents and loading](https://code.claude.com/docs/en/sub-agents#write-subagent-files)
+- [Project-wide CLAUDE.md locations and loading](https://code.claude.com/docs/en/memory#choose-where-to-put-claudemd-files)
 - [Skills in cloud sessions](https://code.claude.com/docs/en/skills#use-skills-in-cowork-and-cloud-sessions)

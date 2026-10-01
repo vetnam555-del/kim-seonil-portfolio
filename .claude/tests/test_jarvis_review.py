@@ -248,5 +248,34 @@ class ProtocolTests(unittest.TestCase):
                 b.run(object(), **kwargs)
 
 
+class AliasConfigurationTests(unittest.TestCase):
+    """Static configuration checks, not a live Claude invocation test."""
+
+    def test_project_alias_points_to_existing_courier(self):
+        root = Path(__file__).resolve().parents[2]
+        instructions = (root / ".claude/CLAUDE.md").read_text(encoding="utf-8")
+        self.assertIn("`@자비스`", instructions)
+        self.assertIn("registered `jarvis`", instructions)
+        self.assertIn("`.claude/skills/jarvis-review/SKILL.md`", instructions)
+        self.assertTrue((root / ".claude/agents/jarvis.md").is_file())
+        self.assertTrue((root / ".claude/skills/jarvis-review/SKILL.md").is_file())
+
+    def test_native_agent_and_skill_names_are_unchanged(self):
+        root = Path(__file__).resolve().parents[1]
+        agent = (root / "agents/jarvis.md").read_text(encoding="utf-8")
+        skill = (root / "skills/jarvis-review/SKILL.md").read_text(encoding="utf-8")
+        self.assertTrue(agent.startswith("---\nname: jarvis\n"))
+        self.assertTrue(skill.startswith("---\nname: jarvis-review\n"))
+        self.assertIn("disable-model-invocation: true", skill.split("---", 2)[1])
+
+    def test_alias_setup_is_documented_as_instruction_based(self):
+        root = Path(__file__).resolve().parents[1]
+        readme = (root / "README-jarvis.md").read_text(encoding="utf-8")
+        self.assertIn("`.claude/CLAUDE.md`", readme)
+        self.assertIn("`@자비스 이 PR 검토해줘: <PR URL>`", readme)
+        self.assertIn("does not register a Korean picker entry", readme)
+        self.assertIn("No live Claude-session invocation has been verified", readme)
+
+
 if __name__ == "__main__":
     unittest.main()

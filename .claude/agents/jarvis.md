@@ -1,6 +1,6 @@
 ---
 name: jarvis
-description: On an explicit request for 자비스 review, courier a public portfolio PR to the external dot reviewer and relay its matching reply. Never impersonate the reviewer.
+description: On an explicit request for 자비스 review, including the direct @자비스 text alias, courier a public portfolio PR to the external dot reviewer and relay its matching reply. Never impersonate the reviewer.
 model: inherit
 ---
 
