@@ -79,6 +79,38 @@ function visibleLines(path) {
     .filter(Boolean);
 }
 
+/*
+ * 순서를 지키는 줄 단위 비교(LCS). 줄이 있는지만 보면 'A 100 / B 200' 이 'A 200 / B 100' 으로
+ * 바뀌거나 같은 문단 하나가 빠져도 변경 0 으로 보인다 (2026.10.01 자비스 검토 P3).
+ */
+function lineDiff(a, b) {
+  const n = a.length;
+  const m = b.length;
+  const width = m + 1;
+  const lcs = new Uint32Array((n + 1) * width);
+  for (let i = n - 1; i >= 0; i -= 1) {
+    for (let j = m - 1; j >= 0; j -= 1) {
+      lcs[i * width + j] = a[i] === b[j] ? lcs[(i + 1) * width + j + 1] + 1 : Math.max(lcs[(i + 1) * width + j], lcs[i * width + j + 1]);
+    }
+  }
+  const edits = [];
+  let i = 0;
+  let j = 0;
+  while (i < n || j < m) {
+    if (i < n && j < m && a[i] === b[j]) {
+      i += 1;
+      j += 1;
+    } else if (j < m && (i === n || lcs[i * width + j + 1] >= lcs[(i + 1) * width + j])) {
+      edits.push(`+ ${b[j]}`);
+      j += 1;
+    } else {
+      edits.push(`- ${a[i]}`);
+      i += 1;
+    }
+  }
+  return edits;
+}
+
 const current = listFiles(site, KEEP);
 const next = listFiles(out);
 const added = [...next.keys()].filter((k) => !current.has(k));
@@ -89,14 +121,11 @@ console.log(`\n[publish] 루트 대비 — 추가 ${added.length} · 삭제 ${re
 let pagesChanged = 0;
 for (const rel of [...changed, ...added].filter((k) => k.endsWith(".html")).sort()) {
   const before = current.has(rel) ? visibleLines(current.get(rel)) : [];
-  const after = visibleLines(next.get(rel));
-  const gone = before.filter((line) => !after.includes(line));
-  const fresh = after.filter((line) => !before.includes(line));
-  if (!gone.length && !fresh.length) continue;
+  const edits = lineDiff(before, visibleLines(next.get(rel)));
+  if (!edits.length) continue;
   pagesChanged += 1;
-  console.log(`\n  [글자 바뀜] ${rel}`);
-  for (const line of gone.slice(0, 8)) console.log(`    - ${line.slice(0, 150)}`);
-  for (const line of fresh.slice(0, 8)) console.log(`    + ${line.slice(0, 150)}`);
+  console.log(`\n  [글자 바뀜] ${rel} · ${edits.length}줄`);
+  for (const edit of edits.slice(0, 16)) console.log(`    ${edit.slice(0, 152)}`);
 }
 console.log(`\n[publish] 보이는 글자가 바뀐 페이지 ${pagesChanged}개`);
 for (const rel of removed.slice(0, 20)) console.log(`  삭제될 파일: ${rel}`);
@@ -108,6 +137,28 @@ for (const name of readdirSync(out)) {
     console.error(`[publish] out/ 에 지켜야 할 이름이 있다: ${name} — 중단`);
     process.exit(1);
   }
+}
+/*
+ * 지우는 것은 git 에 커밋된 배포물뿐이어야 한다 (2026.10.01 자비스 검토 P2).
+ * 배포 폴더가 따로 있던 때와 달리 여기는 작업 저장소라, 루트에 메모·임시 파일이 생길 수 있다.
+ * KEEP 밖에 커밋 안 된 변경·새 파일·무시된 파일이 하나라도 있으면 지우기 전에 멈춘다 —
+ * 그러면 아래에서 지우는 것은 전부 git 에서 되살릴 수 있다.
+ */
+const status = spawnSync(
+  "git",
+  ["status", "--porcelain", "--untracked-files=all", "--ignored", "--", ".", ...[...KEEP].map((name) => `:(exclude)${name}`)],
+  { cwd: site, encoding: "utf8" },
+);
+if (status.status !== 0) {
+  console.error(`[publish] git status 를 읽지 못했다 — 중단\n${status.stderr ?? ""}`);
+  process.exit(1);
+}
+const dirty = status.stdout.split("\n").filter(Boolean);
+if (dirty.length) {
+  console.error("[publish] 루트에 커밋되지 않은 파일이 있다 — 배포물이 아닐 수 있어 지우지 않고 멈춘다:");
+  for (const line of dirty.slice(0, 20)) console.error(`  ${line}`);
+  console.error("  옮기거나 커밋(또는 git restore)한 뒤 다시 실행한다.");
+  process.exit(1);
 }
 for (const name of readdirSync(site)) {
   if (!KEEP.has(name)) rmSync(join(site, name), { recursive: true, force: true });
