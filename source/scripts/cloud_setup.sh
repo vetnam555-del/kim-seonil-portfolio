@@ -7,7 +7,8 @@ set -euo pipefail
 [ "${CLAUDE_CODE_REMOTE:-}" = "true" ] || exit 0
 cd "$(dirname "$0")/.."
 
-if [ ! -d node_modules/next ]; then
+# 처음이거나, 이어 받은 컨테이너에서 package-lock.json 이 바뀌었으면 다시 설치한다
+if [ ! -d node_modules/next ] || [ package-lock.json -nt node_modules/.package-lock.json ]; then
   echo "[cloud_setup] npm ci"
   npm ci --no-audit --no-fund --loglevel=error
 fi

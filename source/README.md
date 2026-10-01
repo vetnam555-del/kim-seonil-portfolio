@@ -15,7 +15,8 @@ npm run dev          # http://localhost:3000
 |---|---|
 | `npm run dev` | 개발 서버 |
 | `npm run build` | 정적 빌드 → `out/` |
-| `npm run build:full` | 빌드 + 폰트 서브셋 (**배포 전 이걸 쓴다**) |
+| `npm run publish:general` | **일반판 배포** — 빌드 · 검증 후 저장소 루트(GitHub Pages)에 반영 (저장소 루트 `CLAUDE.md`) |
+| `npm run build:full` | 빌드 + 폰트 서브셋 (기본 판 hll · 윈도우 `py` 전용 — 일반판 배포에는 쓰지 않는다) |
 | `npm run typecheck` | 타입 검사 |
 | `npm run fonts` | 폰트 서브셋만 재생성 |
 
@@ -101,10 +102,11 @@ Pretendard를 자체 호스팅하고, **빌드 산출물(`out/**/*.html`)에 실
 ## 배포
 
 ```bash
-npm run build:full     # out/ 생성 (빌드 + 폰트 서브셋)
+npm run publish:general   # 일반판 빌드 → 검증 → 저장소 루트에 반영 (2026.10 클라우드 이전 후)
 ```
 
-`out/` 을 그대로 올린다. `.nojekyll`·`sitemap.xml`·`robots.txt`·`og-image.png` 는 빌드에 포함된다.
+판(edition)마다 basePath 가 다르므로 배포는 `scripts/build_edition.mjs <판>` 을 거친다.
+일반판은 소스가 배포 저장소의 `source/` 에 있으므로 위 명령이 `out/` 을 루트로 옮겨 준다 — 절차는 저장소 루트 `CLAUDE.md`. `.nojekyll`·`sitemap.xml`·`robots.txt`·`og-image.png` 는 빌드에 포함된다.
 
 ### basePath — 건드리기 전에 읽을 것
 

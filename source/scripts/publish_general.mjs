@@ -39,6 +39,11 @@ if (!existsSync(join(out, "index.html"))) {
   console.error("[publish] out/index.html 이 없다 — 먼저 빌드한다");
   process.exit(1);
 }
+/* out/ 에 다른 판(hll 등)이 남아 있으면 루트를 그 판으로 덮게 된다 — 일반판 주소인지 먼저 본다 */
+if (!readFileSync(join(out, "index.html"), "utf8").includes("/kim-seonil-portfolio/_next/")) {
+  console.error("[publish] out/ 이 일반판 빌드가 아니다 — npm run publish:general 로 다시 빌드한다");
+  process.exit(1);
+}
 
 /** 루트 기준 상대경로 → 절대경로. 맨 위 단계에서 KEEP 은 건너뛴다 */
 function listFiles(base, skipTop = new Set()) {

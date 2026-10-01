@@ -32,8 +32,12 @@ Next.js 16 주의사항은 `source/AGENTS.md` 에 있다. 코드를 고치기 �
 - 세션이 시작되면 `.claude/settings.json` 훅이 `source/scripts/cloud_setup.sh` 를 실행해
   `npm ci` 와 `pip install fonttools brotli pillow` 를 준비한다(로컬 PC 에서는 아무것도 하지 않는다).
 - 파이썬은 `python3` 를 쓴다(`build_edition.mjs` 가 윈도우 밖에서는 자동으로 고른다).
-- 브라우저 QA 스크립트는 윈도우 Chrome/Edge 경로가 기본값이다. 클라우드에서는
-  `QA_BROWSER=/opt/pw-browsers/chromium` (또는 `CHROME_PATH`) 로 넘긴다.
+- 브라우저 QA 스크립트는 윈도우 Chrome/Edge 경로가 기본값이다. 클라우드 컨테이너는 root 라
+  샌드박스 없이만 Chromium 이 뜬다 — 래퍼를 넘긴다.
+  ```bash
+  QA_BROWSER=$PWD/scripts/cloud_chromium.sh node scripts/qa_layout.mjs general   # qa_wrap 도 같다
+  CHROME_PATH=$PWD/scripts/cloud_chromium.sh node scripts/…                      # CHROME_PATH 를 읽는 스크립트
+  ```
 
 ## 이 저장소에 없는 것
 
