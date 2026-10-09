@@ -1592,7 +1592,8 @@ html:has(.evidence-inline:target) {
 .folio-case-label { font-size: 14px; color: #5f6870; }
 .folio-case-metric { margin-top: 4px; font-size: 34px; line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; color: #0f1216; font-variant-numeric: tabular-nums; }
 .folio-case-sm .folio-case-metric { font-size: 28px; }
-.folio-case-before { font-size: .56em; font-weight: 700; color: #8b949c; }
+/* 이전 값(before)은 홈 세 곳 모두 #646d76 — #8b949c 는 흰 바탕에서 3.1:1 이었다 (2026.10.09) */
+.folio-case-before { font-size: .56em; font-weight: 700; color: #646d76; }
 .folio-case-basis { margin-top: 6px; font-size: 13px; line-height: 1.55; color: #5f6870; }
 .folio-case-scope { margin-top: 10px; font-size: 14px; line-height: 1.6; color: #3a4148; }
 .folio-case-scope span { margin-right: 8px; font-weight: 700; color: var(--color-signal); }
@@ -1923,8 +1924,9 @@ html:has(.evidence-inline:target) {
 .folio-proof .folio-proof-value { order: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; }
 .folio-proof dt { order: 1; }
 .folio-proof .folio-proof-basis { order: 2; white-space: normal; font-weight: 400; letter-spacing: 0; }
-.folio-proof-before { font-size: 0.5em; font-weight: 700; color: #7a828a; letter-spacing: -0.01em; }
-.folio-proof .folio-proof-basis { margin-top: 2px; font-size: 12.5px; line-height: 1.45; color: #7a828a; }
+/* #7a828a 는 흰 바탕 12px 대에서 3.9:1 이라 WCAG AA(4.5:1)에 못 미쳤다 — 이미 쓰는 회색 #646d76(5.3:1)으로 (2026.10.09) */
+.folio-proof-before { font-size: 0.5em; font-weight: 700; color: #646d76; letter-spacing: -0.01em; }
+.folio-proof .folio-proof-basis { margin-top: 2px; font-size: 12.5px; line-height: 1.45; color: #646d76; }
 .folio-career { margin-top: 64px; padding-top: 28px; border-top: 1px solid #e5e7ea; }
 .folio-career ol { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 32px 48px; margin-top: 16px; }
 .folio-career li { display: flex; flex-direction: column; gap: 6px; }
@@ -2132,7 +2134,7 @@ html.js .loop-panel:focus-within { opacity: 1; }
 .loop-metrics.is-two { grid-template-columns: repeat(2, minmax(0,1fr)); }
 .loop-metrics > div { display: flex; flex-direction: column; gap: 4px; }
 .loop-metric-value { order: 1; font-family: "Archivo", "Pretendard", sans-serif; font-stretch: 118%; font-weight: 800; font-size: clamp(40px, 3.9vw, 56px); line-height: 1.02; letter-spacing: -.03em; white-space: nowrap; color: #0f1216; }
-.loop-metric-before { font-size: .38em; font-weight: 700; letter-spacing: 0; color: #8b949c; }
+.loop-metric-before { font-size: .38em; font-weight: 700; letter-spacing: 0; color: #646d76; }
 .loop-metrics dt { order: 2; font-size: 15px; font-weight: 700; color: #1d2227; }
 .loop-metric-basis { order: 3; font-size: 13px; line-height: 1.5; color: #5f6870; }
 .loop-panel-points { max-width: 40rem; margin-top: 22px; font-size: 14px; line-height: 1.65; color: #5f6870; }

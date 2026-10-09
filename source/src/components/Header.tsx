@@ -128,13 +128,14 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 /*
  * KO / EN 전환 (2026.09.25). 레퍼런스(dainahys)처럼 같은 화면의 다른 언어 주소로 보낸다 —
  * 영문판이 없는 한국어 화면(/about/, 일부 사례)에서는 영문 홈으로 간다.
+ * 읽어 주는 이름이 화면 글자(KO·EN)로 시작해야 음성으로 "EN 눌러" 해도 찾는다 (WCAG 2.5.3, 2026.10.09).
  */
 function LangSwitch({ isEn, koHref, enHref, className = "" }: { isEn: boolean; koHref: string; enHref: string; className?: string }) {
   const item = "inline-flex min-h-[44px] min-w-[32px] items-center justify-center font-mono text-caption font-bold";
   return (
     <div role="group" aria-label={isEn ? "Language" : "언어"} className={`lang-switch items-center ${className}`}>
       {isEn ? (
-        <Link href={koHref} hrefLang="ko" lang="ko" aria-label="한국어로 보기" className={`${item} text-on-ink-2 hover:text-on-ink`}>KO</Link>
+        <Link href={koHref} hrefLang="ko" lang="ko" aria-label="KO, 한국어로 보기" className={`${item} text-on-ink-2 hover:text-on-ink`}>KO</Link>
       ) : (
         <span aria-current="true" className={`${item} text-on-ink`}>KO</span>
       )}
@@ -142,7 +143,7 @@ function LangSwitch({ isEn, koHref, enHref, className = "" }: { isEn: boolean; k
       {isEn ? (
         <span aria-current="true" className={`${item} text-on-ink`}>EN</span>
       ) : (
-        <Link href={enHref} hrefLang="en" lang="en" aria-label="View in English" className={`${item} text-on-ink-2 hover:text-on-ink`}>EN</Link>
+        <Link href={enHref} hrefLang="en" lang="en" aria-label="EN, View in English" className={`${item} text-on-ink-2 hover:text-on-ink`}>EN</Link>
       )}
     </div>
   );

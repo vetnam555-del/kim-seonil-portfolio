@@ -48,9 +48,19 @@ export const site = {
  * 채용 문맥에서 경력이 부풀려 보이지 않도록 채운 연수만 표시한다.
  */
 const CAREER_START = { y: 2022, m: 9 };
+/*
+ * 퇴사(2026.09.30, site.org 참고) 뒤에는 경력을 더 세지 않는다 (2026.10.09).
+ * 기준일이 없으면 빌드할 때마다 쉬는 기간까지 경력으로 더해진다 — 11월에 다시 빌드하면 "4년 2개월".
+ *
+ * 기준일은 지금 라이브와 이력서·포트폴리오 PDF 가 쓰는 "경력 4년"(2026.09 빌드)에 맞췄다.
+ * 사례 기간처럼 끝 달까지 넣어 세면 4년 1개월(2026-10-01 기준)이지만, 그렇게 바꾸려면 PDF 두 개도
+ * 다시 찍어야 하므로 본인 확인 뒤에 바꾼다. 새 직장에 합류하면 null 로 되돌리고 site.org 도 고친다.
+ */
+const CAREER_AS_OF: Date | null = new Date(2026, 8, 1);
 
 export function careerMonths(now: Date = new Date()): number {
-  return (now.getFullYear() - CAREER_START.y) * 12 + (now.getMonth() + 1 - CAREER_START.m);
+  const at = CAREER_AS_OF && now > CAREER_AS_OF ? CAREER_AS_OF : now;
+  return (at.getFullYear() - CAREER_START.y) * 12 + (at.getMonth() + 1 - CAREER_START.m);
 }
 
 export function careerYear(now: Date = new Date()): number {
