@@ -12,15 +12,17 @@ import { introCopy } from "@/data/intro";
  *   JS 가 죽어도 덮개는 3초 뒤 스스로 걷히고(visibility:hidden 까지 keyframes 에 넣었다) 막지 않는다.
  * - 안 보여 주는 경우: 동작 줄이기 설정 · 주소에 #앵커나 ?intro=0 ·
  *   자동화 브라우저(검수 스크립트가 헤드리스로 돌 때 화면을 가리지 않도록).
- * - 2026.09.27 사용자 요청으로 '같은 탭에서 이미 봤으면 끔'(sessionStorage ksi-intro)을 뺐다 —
- *   새로고침·새로 열기마다 재생한다. 사이트 안에서 다른 쪽을 갔다가 홈으로 돌아오는 클라이언트 이동에서는
- *   이 인라인 스크립트가 다시 돌지 않아 data-intro 가 done 으로 남으므로 다시 틀지 않는다.
+ * - 같은 탭에서는 한 번만 튼다(sessionStorage ksi-intro). 2026.09.27 사용자 요청으로 이 조건을 빼 매번 틀었는데,
+ *   2026.10.09 개선안 '세션당 1회'를 본인이 승인해 되돌렸다 — 사례를 보고 홈으로 새로고침해 돌아올 때마다
+ *   3초를 다시 기다리게 하지 않는다. 처음 여는 방문의 속도는 그대로다(Lighthouse 는 늘 새 세션이라 점수는 같다).
+ *   새 탭·새 창으로 처음 열면 틀고, 같은 탭의 새로고침·재방문은 바로 표지를 보여 준다.
+ *   사이트 안에서 홈으로 돌아오는 클라이언트 이동은 이 스크립트가 다시 돌지 않아 원래 틀지 않는다.
  * - 덮개는 장식이라 스크린리더에서 뺀다. 같은 숫자는 표지와 카드에 기준과 함께 있다.
  * - 건너뛰기는 이 스크립트가 먼저 받는다 (2026.09.26). IntroController 는 하이드레이션 뒤에야 붙어서,
  *   느린 기기에서 그 전에 누른 클릭·키·스크롤은 무시됐다(검수 중 한 번 재현). 여기서 받은 건너뛰기는
  *   controller 와 같은 일(덮개 걷기 · data-intro=reveal → done · ksi:intro-done 신호)을 한다.
  */
-const DECIDE = `(function(){var d=document.documentElement;try{var u=navigator.userAgent;if(/[?&]intro=0/.test(location.search)||location.hash.length>1||navigator.webdriver||/Headless/.test(u)||window.matchMedia("(prefers-reduced-motion: reduce)").matches){d.setAttribute("data-intro","off");return}d.setAttribute("data-intro","play");var ev=["pointerdown","keydown","wheel","touchstart"],skip=function(){ev.forEach(function(t){removeEventListener(t,skip,true)});if(d.getAttribute("data-intro")!=="play")return;var el=document.querySelector(".intro");if(el)el.classList.add("is-skip");window.__ksiIntroDone=true;d.setAttribute("data-intro","reveal");dispatchEvent(new Event("ksi:intro-done"));setTimeout(function(){d.setAttribute("data-intro","done")},1100)};ev.forEach(function(t){addEventListener(t,skip,{capture:true,passive:true})})}catch(e){d.setAttribute("data-intro","off")}})();`;
+const DECIDE = `(function(){var d=document.documentElement;try{var u=navigator.userAgent;if(/[?&]intro=0/.test(location.search)||location.hash.length>1||navigator.webdriver||/Headless/.test(u)||window.matchMedia("(prefers-reduced-motion: reduce)").matches){d.setAttribute("data-intro","off");return}var seen=false;try{seen=sessionStorage.getItem("ksi-intro")==="1";sessionStorage.setItem("ksi-intro","1")}catch(e){}if(seen){d.setAttribute("data-intro","off");return}d.setAttribute("data-intro","play");var ev=["pointerdown","keydown","wheel","touchstart"],skip=function(){ev.forEach(function(t){removeEventListener(t,skip,true)});if(d.getAttribute("data-intro")!=="play")return;var el=document.querySelector(".intro");if(el)el.classList.add("is-skip");window.__ksiIntroDone=true;d.setAttribute("data-intro","reveal");dispatchEvent(new Event("ksi:intro-done"));setTimeout(function(){d.setAttribute("data-intro","done")},1100)};ev.forEach(function(t){addEventListener(t,skip,{capture:true,passive:true})})}catch(e){d.setAttribute("data-intro","off")}})();`;
 
 export default function IntroSplash({ lang }: { lang: "ko" | "en" }) {
   const t = introCopy[lang];

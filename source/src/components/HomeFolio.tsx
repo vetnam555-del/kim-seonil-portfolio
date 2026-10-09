@@ -7,7 +7,7 @@ import IntroSplash from "@/components/IntroSplash";
 import LoopStory from "@/components/LoopStory";
 import Sentences from "@/components/Sentences";
 import { heroStrengths } from "@/data/intro";
-import { edition } from "@/data/edition";
+import { EDITION, edition } from "@/data/edition";
 import { projects, type Project } from "@/data/projects";
 import { caseCards, type CaseCard } from "@/data/caseCards";
 import { automationCases, builtGroups, careerYear, contact, generalCover, site, verification } from "@/data/site";
@@ -72,7 +72,8 @@ const UI = {
     recordsAria: "수상과 공개 우수사례",
     newTab: " (새 탭)",
     workTitle: "대표 사례",
-    yearsRole: (y: number) => `${y}년 차 ${edition.role}`,
+    /* "N년 차"는 'N번째 해'로 읽혀 채운 연수(careerYear)보다 낮게 보였다 — 이력서·PDF 와 같은 "경력 N년" (2026.10.09) */
+    yearsRole: (y: number) => `경력 ${y}년 ${edition.role}`,
     workLead: "숫자마다 기간과 제 몫을 함께 적었습니다.",
     capAria: "문제 진단 · 가설 검증 · 구조 개선과 해당 사례",
     loopKicker: "How I work",
@@ -84,7 +85,7 @@ const UI = {
     moreResults: "추가 운영 성과 6건",
     moreResultsLine: "쌤소나이트·카카오톡채널 · 동원몰 · 생활백서 · 후지필름BI · 오토벨의 기간과 대표값",
     autoTitle: "직접 기획·구축한 업무 자동화 6종",
-    autoLead: "사람이 반복하던 재고 확인·리포트·정산을 시스템으로 옮겼습니다. 구현은 AI 도구와 함께 했고, 언제 멈출지는 직접 정했습니다.",
+    autoLead: "사람이 반복하던 재고 확인·리포트·정산을 시스템으로 옮겼습니다. 구현은 AI 도구와 함께 했고 언제 멈출지는 직접 정했습니다.",
     autoCase: "자동화 사례 상세",
     autoCaseHref: "/projects/automation/",
     autoAbout: "시스템별 효과와 검수 기준",
@@ -248,7 +249,7 @@ export default function HomeFolio({ lang = "ko" }: { lang?: Lang }) {
             <div className="folio-hero-actions">
               <a href="#projects" className="folio-btn folio-btn-dark">{ui.seeWork} <span aria-hidden="true">↓</span></a>
               <EmailCopyButton email={site.emailPrimary} className="folio-btn folio-btn-line">{ui.copyEmail}</EmailCopyButton>
-              <Link href={ui.resumeHref} className="folio-link-strong">{ui.resume} <span aria-hidden="true">→</span></Link>
+              <Link href={ui.resumeHref} prefetch={false} className="folio-link-strong">{ui.resume} <span aria-hidden="true">→</span></Link>
             </div>
             {/* 결과 세 칸 — 값 아래 작은 줄이 기준이다 (2026.09.25) */}
             <dl className="folio-facts folio-proof">
@@ -265,7 +266,14 @@ export default function HomeFolio({ lang = "ko" }: { lang?: Lang }) {
             </dl>
           </div>
           <figure className="folio-hero-photo">
-            <img src={`${BASE}${site.profileImagePath}`} alt={ui.photoAlt} width={354} height={472} />
+            <img
+              src={`${BASE}${site.profileImagePath}`}
+              srcSet={`${BASE}${site.profileImageSmallPath} 300w, ${BASE}${site.profileImagePath} 600w`}
+              sizes="(max-width: 767px) 88px, (max-width: 1023px) 260px, 360px"
+              alt={ui.photoAlt}
+              width={354}
+              height={472}
+            />
             <figcaption>{en ? ORG_EN : site.org}</figcaption>
           </figure>
         </div>
@@ -395,13 +403,14 @@ export default function HomeFolio({ lang = "ko" }: { lang?: Lang }) {
       <section id="contact" className="folio-section folio-contact" aria-labelledby="contact-title">
         <div className="folio-wrap">
           <p className="folio-kicker">Contact</p>
+          {EDITION === "general" ? <p className="folio-contact-status">{en ? contactEn.status : contact.status}</p> : null}
           <h2 id="contact-title" className="folio-contact-title">
             {(en ? contactEn.title : contact.title).map((line) => <span key={line}>{line}</span>)}
           </h2>
           <p className="folio-contact-note">{en ? contactEn.note : contact.interviewNote}</p>
           <EmailCopyButton email={site.emailPrimary} className="folio-email" />
           <div className="folio-contact-actions">
-            <Link href={ui.resumeHref} className="folio-btn folio-btn-dark">{ui.resumeWeb}</Link>
+            <Link href={ui.resumeHref} prefetch={false} className="folio-btn folio-btn-dark">{ui.resumeWeb}</Link>
             <a href={`${BASE}${site.resumePdfPath}`} download className="folio-btn folio-btn-line">{ui.resumePdf}</a>
             <a href={`${BASE}${edition.portfolioPdfPath}`} download className="folio-btn folio-btn-line">{ui.portfolioPdf}</a>
             <a href={site.linkedin} target="_blank" rel="noopener" className="folio-btn folio-btn-line">LinkedIn</a>

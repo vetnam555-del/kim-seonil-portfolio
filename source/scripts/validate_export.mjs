@@ -192,7 +192,8 @@ const editionRules =
           ? [
               /* 2026.09.25 경력직 개편 — 직함 하나 · 결과형 첫 문장 · 결과 세 칸 · 경력 두 줄 */
               "퍼포먼스 마케터",
-              "문제를 구조화해 가설을 세우고, 테스트로 개선합니다.",
+              /* 2026.10.09 연결어미 뒤 쉼표를 뺐다(humanizer-kr 점검, site.ts generalCover.statement) */
+              "문제를 구조화해 가설을 세우고 테스트로 개선합니다.",
               "FIND. TEST.",
               "folio-proof",
               "folio-career",

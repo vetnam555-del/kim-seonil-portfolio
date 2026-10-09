@@ -75,8 +75,16 @@ npm run dev          # http://localhost:3000
 - `/resume/`: 같은 데이터에서 파생되는 웹 이력서와 인쇄용 원본
 - `site.resumeMailto`: 전화번호가 포함된 제출용 원본 요청
 
-공개 PDF를 갱신할 때는 `/resume/`을 A4로 다시 인쇄하고, 3페이지·개인정보 제외·한글 렌더링을
-확인한 뒤 같은 파일명으로 교체한다.
+배포 중인 공개 PDF(5쪽)는 웹 이력서 인쇄본이 아니라 ReportLab 문서다. 사이트 데이터(`src/data`)를 그대로 읽어 만든다
+(2026.10.09, Drive `portfolio-resume-20260924` 스크립트를 옮김).
+
+```bash
+node scripts/export_resume_data.mjs /tmp/resume-data.json
+python3 scripts/print_resume_reportlab.py /tmp/resume-data.json public/kim-seonil-resume-public.pdf 2026.10.09
+```
+
+만든 뒤 5쪽·개인정보 제외·한글 렌더링을 쪽마다 눈으로 확인하고, `site.ts` 의 `resumePdfPath` `?v=` 판 번호를 올린다.
+`build_edition.mjs --reprint-resume` 은 웹 이력서를 A4 로 인쇄한 다른 문서라 쓰지 않는다.
 
 ## 폰트
 

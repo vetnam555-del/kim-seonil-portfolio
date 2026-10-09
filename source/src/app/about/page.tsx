@@ -63,7 +63,7 @@ export default function AboutPage() {
         <div className="folio-wrap">
           <Link href="/" className="folio-link-quiet">← 홈으로</Link>
           <h1 className="folio-h2">일하는 방식과 경력</h1>
-          <p className="folio-lead">일하는 방식과 홈에 싣지 못한 운영 성과, 자동화 전체, 경력과 수상, 그리고 여기까지 온 이야기를 모았습니다.</p>
+          <p className="folio-lead">일하는 방식, 홈에 싣지 못한 운영 성과와 자동화 전체, 경력과 수상, 여기까지 온 이야기를 모았습니다.</p>
           <nav aria-label="이 페이지 바로가기" className="folio-jumps">
             {JUMPS.map((j) => (
               <a key={j.href} href={j.href}>{j.label}</a>

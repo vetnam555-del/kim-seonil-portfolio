@@ -83,7 +83,6 @@ export const coverEn = {
       story: "I rebuilt a search-heavy budget around customer stages, opened group-buys where ads alone had stalled sales, and turned repetitive checks into six automations.",
       metrics: [
         { before: "352% →", after: "583%", label: "J.ESTINA GA4 ROAS", basis: "May → Jul 2025 · strategy & measurement 75%" },
-        { after: "+397.3%", label: "Gangwon store sales", basis: "Jul 2026 vs same period last year" },
       ],
       points: ["Channel roles and budget rebuilt by customer stage", "Sales channels beyond ads, such as group-buys", "Six automations that turn repetitive checks into operations"],
       proof: [
@@ -173,4 +172,5 @@ export const otherEn: Record<string, { brand: string; line: string }> = {
 export const contactEn = {
   title: ["I want to look deep into one brand,", "test hypotheses and grow it with your team."],
   note: "I'll show the original reports and operating documents in an interview.",
+  status: "Currently looking for my next team",
 } as const;

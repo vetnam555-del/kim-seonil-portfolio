@@ -1272,8 +1272,8 @@ export default function ProjectsSection() {
             추가 운영 성과
           </p>
           <p className="mt-2 text-caption text-ink-3">
-            <span className="block">각 브랜드 운영 리포트 기준이며, 집계 범위가 서로 다릅니다.</span>
-            <span className="block">운영 기간은 담당 브랜드별 통합본 기준이며, 월 단위가 확인되지 않은 브랜드는 표에 올리지 않았습니다.</span>
+            <span className="block">각 브랜드 운영 리포트 기준이라 집계 범위가 서로 다릅니다.</span>
+            <span className="block">운영 기간은 담당 브랜드별 통합본을 따랐습니다.</span>
           </p>
           <ul className="mt-4">
             {visibleOtherResults.map((r) => (
@@ -1305,7 +1305,7 @@ export default function ProjectsSection() {
               <span className="font-semibold text-ink-2">그 밖에 </span>
               {otherBrands.join(" · ")} 등 9개 산업군 30여 개 브랜드의 운영·분석 경험이 있습니다.
             </span>
-            <span className="block">월 단위 기간을 확인하지 못한 브랜드는 위 표에 올리지 않았고, 세부 수치는 출처와 집계 범위를 함께 확인할 수 있을 때만 공유합니다.</span>
+            <span className="block">월 단위 기간을 확인하지 못한 브랜드는 위 표에 올리지 않았습니다. 세부 수치는 출처와 집계 범위를 함께 확인할 수 있을 때만 공유합니다.</span>
           </p>
         </div>
         ) : null}

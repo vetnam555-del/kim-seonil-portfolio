@@ -129,13 +129,14 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
  * KO / EN 전환 (2026.09.25). 레퍼런스(dainahys)처럼 같은 화면의 다른 언어 주소로 보낸다 —
  * 영문판이 없는 한국어 화면(/about/, 일부 사례)에서는 영문 홈으로 간다.
  * 읽어 주는 이름이 화면 글자(KO·EN)로 시작해야 음성으로 "EN 눌러" 해도 찾는다 (WCAG 2.5.3, 2026.10.09).
+ * 미리받기는 끈다(2026.10.09) — 헤더가 모든 쪽에 있어 쪽마다 반대 언어 데이터(최대 90KB)를 먼저 받았다.
  */
 function LangSwitch({ isEn, koHref, enHref, className = "" }: { isEn: boolean; koHref: string; enHref: string; className?: string }) {
   const item = "inline-flex min-h-[44px] min-w-[32px] items-center justify-center font-mono text-caption font-bold";
   return (
     <div role="group" aria-label={isEn ? "Language" : "언어"} className={`lang-switch items-center ${className}`}>
       {isEn ? (
-        <Link href={koHref} hrefLang="ko" lang="ko" aria-label="KO, 한국어로 보기" className={`${item} text-on-ink-2 hover:text-on-ink`}>KO</Link>
+        <Link href={koHref} prefetch={false} hrefLang="ko" lang="ko" aria-label="KO, 한국어로 보기" className={`${item} text-on-ink-2 hover:text-on-ink`}>KO</Link>
       ) : (
         <span aria-current="true" className={`${item} text-on-ink`}>KO</span>
       )}
@@ -143,7 +144,7 @@ function LangSwitch({ isEn, koHref, enHref, className = "" }: { isEn: boolean; k
       {isEn ? (
         <span aria-current="true" className={`${item} text-on-ink`}>EN</span>
       ) : (
-        <Link href={enHref} hrefLang="en" lang="en" aria-label="EN, View in English" className={`${item} text-on-ink-2 hover:text-on-ink`}>EN</Link>
+        <Link href={enHref} prefetch={false} hrefLang="en" lang="en" aria-label="EN, View in English" className={`${item} text-on-ink-2 hover:text-on-ink`}>EN</Link>
       )}
     </div>
   );
@@ -264,8 +265,10 @@ export default function Header() {
               {item.label}
             </Link>
           ))}
+          {/* 이력서 미리받기를 끈다(2026.10.09) — 헤더가 모든 쪽 첫 화면에 있어 쪽마다 이력서 데이터 90KB 를 먼저 받았다 */}
           <Link
             href={en ? "/en/resume/" : "/resume/"}
+            prefetch={false}
             className="inline-flex min-h-[44px] items-center border border-rule-ink px-4 font-mono text-caption font-bold text-on-ink transition-colors hover:border-signal-ink hover:text-signal-ink"
           >
             {en ? "Résumé" : "이력서"}
@@ -320,6 +323,7 @@ export default function Header() {
           <div className={`mt-4 grid gap-2 ${!IS_TARGETED && !en ? "grid-cols-2" : "grid-cols-1"}`}>
             <Link
               href={en ? "/en/resume/" : "/resume/"}
+              prefetch={false}
               onClick={() => setOpen(false)}
               className="flex min-h-[52px] items-center justify-center bg-on-ink px-3 text-body font-bold text-ink"
             >

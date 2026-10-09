@@ -310,8 +310,8 @@ export default function ResumePage() {
          */}
         <H2>그 외 운영 브랜드</H2>
         <p className="mt-3 text-caption text-ink-3">
-          <span className="block">아래 실적은 각 브랜드 운영 리포트 기준이며, 집계 범위가 서로 다릅니다.</span>
-          <span className="block">운영 기간은 담당 브랜드별 통합본 기준이고, 월 단위가 확인되지 않은 브랜드는 비워 뒀습니다.</span>
+          <span className="block">아래 실적은 각 브랜드 운영 리포트 기준이라 집계 범위가 서로 다릅니다.</span>
+          <span className="block">운영 기간은 담당 브랜드별 통합본을 따랐고 월 단위가 확인되지 않은 브랜드는 비워 뒀습니다.</span>
         </p>
         <dl className="mt-4">
           {otherResults.map((r) => (
@@ -536,7 +536,7 @@ export default function ResumePage() {
         </div>
 
         <p className="mt-6 border-t border-line pt-5 text-caption text-ink-3">
-          <span className="block">모든 수치는 GA4·매체 리포트·운영 로그 기준이며, 광고주 데이터 보안상 공개할 수 없는 값은 비율로 표기했습니다.</span>
+          <span className="block">모든 수치는 GA4·매체 리포트·운영 로그 기준입니다. 광고주 데이터 보안상 공개할 수 없는 값은 비율로 표기했습니다.</span>
           <span className="block">기여 범위는 내부 역할표·설계 문서·운영 로그를 기준으로 구분했습니다.</span>
         </p>
       </div>

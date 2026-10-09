@@ -22,7 +22,7 @@ export const caseLabels = {
     learned: "배운 것",
     evidenceGroupAria: "실행 자료",
     relocatedAria: "본문 증빙 찾아보기",
-    evidenceFootnote: "공개 자료는 실제 운영·집행 맥락을 확인할 수 있는 범위만 선별했으며, 제작물과 개인 기여 범위는 캡션에서 구분했습니다.",
+    evidenceFootnote: "공개 자료는 실제 운영·집행 맥락을 확인할 수 있는 범위만 골랐고 제작물과 개인 기여 범위는 캡션에서 나눠 적었습니다.",
     foldedSummary: "기획 산출물 더 보기 · 실행 전 설계안",
     count: (n: number) => `${n}건`,
     tableScrollHint: "모바일에서는 좌우로 밀어 확인할 수 있습니다.",
@@ -34,7 +34,7 @@ export const caseLabels = {
     kpiRowHeader: "단계",
     kpiColumns: ["확인한 것", "판단 지표"],
     chainTitle: "단계별로 이어 읽기",
-    deltaNote: "아래 값은 기준 대비 증감률이며, 수준값과 구분해 읽어야 합니다.",
+    deltaNote: "아래 값은 기준 대비 증감률이라 수준값과 구분해 읽어야 합니다.",
     jestinaSecondary: ["아래 값은 대표 KPI와 산정 기준이 다르거나, 기준 대비 증감률입니다.", "증감률은 수준값과 구분해 읽어야 합니다."],
     jestinaBasisTitle: "비교 기준을 분리했습니다",
     jestinaBasis: [
