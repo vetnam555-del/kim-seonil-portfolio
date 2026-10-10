@@ -30,6 +30,8 @@
     "qa:all": "node scripts/qa_gate.mjs",
     "qa:release": "node scripts/qa_release.mjs",
     "qa:en": "node scripts/check_en.mjs",
+    "health": "node scripts/health_check.mjs",
+    "health:full": "node scripts/health_check.mjs --lighthouse",
     "build:nw": "node scripts/build_edition.mjs nw",
     "dev:nw": "node scripts/dev_edition.mjs nw 3005"
   },

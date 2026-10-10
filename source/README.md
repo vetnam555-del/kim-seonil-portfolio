@@ -18,6 +18,7 @@ npm run dev          # http://localhost:3000
 | `npm run publish:general` | **일반판 배포** — 빌드 · 검증 후 저장소 루트(GitHub Pages)에 반영 (저장소 루트 `CLAUDE.md`) |
 | `npm run build:full` | 빌드 + 폰트 서브셋 (기본 판 hll · 윈도우 `py` 전용 — 일반판 배포에는 쓰지 않는다) |
 | `npm run typecheck` | 타입 검사 |
+| `npm run health` | 라이브 점검 — main 과 같은지 · PDF · 외부 링크 (`health:full` 은 Lighthouse 포함) |
 | `npm run fonts` | 폰트 서브셋만 재생성 |
 
 ## 어디를 고치면 되는가
