@@ -77,11 +77,14 @@ node scripts/qa_release.mjs --approve --runtime=artifacts/release/runtime/runtim
 
 - 클라우드에서는 외부 링크 확인(G16)이 403 으로 경고만 남는다. 다른 항목이 모두 통과하면 정상이다.
 - `publish:general` 이 "루트에 커밋되지 않은 파일"로 멈추면 일괄로 되돌리지 않는다. 그 검사는 작업 파일을 지키려고 있는 것이다.
-  1. 멈출 때 출력된 목록을 본다(같은 목록: `git status --short --untracked-files=all -- . ':(exclude)source' ':(exclude).claude' ':(exclude).github' ':(exclude)CLAUDE.md' ':(exclude)README.md' ':(exclude).gitignore'`).
-  2. 이전 빌드가 남긴 배포물(`_next/…`, `projects/…/index.html`, `*.txt` 등)로 확인된 경로만 하나씩 지정해 되돌린다:
+  저장소 루트에서 한다(`cd "$(git rev-parse --show-toplevel)"`).
+  1. publish 검사와 같은 목록을 본다:
+     `git status --porcelain --untracked-files=all --ignored -- . ':(exclude)source' ':(exclude).claude' ':(exclude).github' ':(exclude).git' ':(exclude)CLAUDE.md' ':(exclude)README.md' ':(exclude).gitignore'`
+  2. 추적되는 파일의 변경(` M`, ` D`)이 이전 빌드가 남긴 배포물이면 그 경로만 지정해 되돌린다:
      `git restore --source=HEAD --staged --worktree -- <경로>`.
-  3. 메모·임시 파일처럼 배포물이 아닌 것은 지우지 말고 커밋하거나 저장소 밖(스크래치 폴더)으로 옮긴다.
-  4. `git checkout HEAD -- .` 같은 일괄 복원과 `git clean` 은 쓰지 않는다(원본·설정 편집까지 사라질 수 있다).
+  3. 추적되지 않거나 무시되는 파일(`??`, `!!` — 새 해시 이름의 `_next/…` 같은 것)은 지우지 말고 저장소 밖 스크래치 폴더로
+     옮긴다(`mkdir -p <스크래치>/publish-held && mv <경로> <스크래치>/publish-held/`). 배포물이 아닌 메모라면 커밋해도 된다.
+  4. 1번 목록이 비면 `publish:general` 을 다시 돈다. `git checkout HEAD -- .` 같은 일괄 복원과 `git clean` 은 쓰지 않는다.
 - 화면을 바꿨다면 375·390·1440px 캡처를 직접 본다. 가운뎃점이 줄 맨 앞에 오지 않는지 본다.
 
 ## 4. 커밋

@@ -78,8 +78,9 @@ report.privateFiles = [];
 for (const path of ["source/package.json", "source/src/data/site.ts", "CLAUDE.md", ".claude/settings.json"]) {
   const r = await get(`${LIVE}/${path}`);
   report.privateFiles.push({ path, status: r.status });
+  /* 404·410 만 "없음"을 확인한 것이다. 403·429·5xx·연결 실패는 확인하지 못한 것이라 경고로 남긴다(자비스 b2beb47 P2) */
   if (r.status === 200) hard.push(`원본 파일이 사이트에서 열립니다: /${path} — Settings → Pages → Source 가 GitHub Actions 인지 확인`);
-  else if (r.status === 0) warn.push(`원본 비공개 확인 실패: /${path} (${r.error})`);
+  else if (r.status !== 404 && r.status !== 410) warn.push(`원본 비공개 확인 못 함: /${path} → ${r.status || r.error}`);
 }
 
 /* 3. PDF — main 과 같은가, 쪽수, 이력서 개인정보 */
@@ -271,7 +272,7 @@ const md = [
   `## 페이지 (${report.pages.length}쪽)`,
   `- 열림 ${report.pages.filter((p) => p.status === 200).length} · main 과 같음 ${report.pages.filter((p) => p.sameAsMain).length}`,
   ``,
-  `- 원본 파일 비공개: ${report.privateFiles.some((p) => p.status === 200) ? "열림 — 결함" : report.privateFiles.some((p) => p.status === 0) ? "일부 확인 못 함" : "확인"} (${report.privateFiles.map((p) => `${p.path} ${p.status || "실패"}`).join(" · ")})`,
+  `- 원본 파일 비공개: ${report.privateFiles.some((p) => p.status === 200) ? "열림 — 결함" : report.privateFiles.every((p) => p.status === 404 || p.status === 410) ? "확인(모두 404)" : "일부 확인 못 함 — 경고 참고"} (${report.privateFiles.map((p) => `${p.path} ${p.status || "실패"}`).join(" · ")})`,
   ``,
   `## PDF`,
   ...report.pdfs.map((p) => `- ${p.file}: ${p.status} · ${p.pages}쪽 · ${p.kb}KB · main 과 ${p.sameAsMain ? "같음" : "다름"} · 태그 ${p.tagged ? "있음" : "없음"}`),
