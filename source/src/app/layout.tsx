@@ -225,8 +225,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           name={site.name}
           nameEn={site.nameEn}
           emailPrimary={site.emailPrimary}
-          emailSecondary={site.showWorkEmail ? site.emailSecondary : ""}
-          showWorkEmail={site.showWorkEmail}
           linkedin={site.linkedin}
         />
 

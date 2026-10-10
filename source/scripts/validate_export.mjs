@@ -462,7 +462,8 @@ if (visibleHome.includes(">크게 보기<")) {
  * hll 판은 사내 메일이 재직 확인 수단이므로 검사에서 제외한다.
  */
 if (edition !== "hll") {
-  const 금지 = ["kim.seonill@hll.kr", "kim-seonil-portfolio_HLL"];
+  /* 사내 메일 주소는 원본에서 뺐다(2026-10-10). 주소 대신 회사 메일 도메인으로 찾는다 */
+  const 금지 = ["@hll.kr", "kim-seonil-portfolio_HLL"];
   const 걸린것 = new Map();
   const 전체훑기 = (dir) => {
     for (const entry of readdirSync(dir, { withFileTypes: true })) {

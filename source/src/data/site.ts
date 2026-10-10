@@ -4,7 +4,7 @@ import type { Category } from "./projects";
 export const site = {
   name: NAME_KO,
   /**
-   * L 두 개가 맞다. 본인 확인 완료 — 사내 메일도 kim.seonill@hll.kr 이다.
+   * L 두 개가 맞다. 본인 확인 완료.
    * 이전에 "KIM SEONIL"로 고친 적이 있는데 그건 오타 수정이 아니라 오히려 이름을 틀리게
    * 만든 변경이었다. 표기를 바꾸기 전에 반드시 본인에게 확인한다 — 사람 이름은 추론 대상이 아니다.
    */
@@ -14,19 +14,11 @@ export const site = {
   /* 2026.09.30 까지 재직(2026-09-24 본인 확인) — 현재 소속처럼 읽히지 않게 '전'을 붙인다 */
   org: "전 HLL중앙\u00a0· 퍼포먼스전략국 과장",
   email: "makefair@naver.com",
-  /** 사내 이동 지원이라 사내 메일 자체가 재직 확인 수단이 된다 — 개인 메일과 병기한다 */
-  emailWork: "kim.seonill@hll.kr",
-  /** 화면에서 크게 거는 대표 메일과, 그 아래 작게 병기할 보조 메일 (판별로 뒤바뀐다) */
-  emailPrimary: edition.primaryEmail === "work" ? "kim.seonill@hll.kr" : "makefair@naver.com",
-  emailSecondary: edition.primaryEmail === "work" ? "makefair@naver.com" : "kim.seonill@hll.kr",
-  emailSecondaryLabel: edition.primaryEmail === "work" ? "개인 메일" : "사내 메일",
   /*
-   * 사내 메일을 화면에 올릴지. 사내 이동 지원판(hll)만 노출한다.
-   * 사외 지원판에 현 직장 주소가 실리면 채용 담당자의 회신이 현 직장 메일함으로 들어간다 —
-   * 검색 색인을 막아 둔 이유와 같은 종류의 노출이다.
-   * hll 판에서는 사내 메일이 재직 확인 수단이므로 그대로 쓴다.
+   * 연락 메일은 개인 메일 하나다. 사내 이동 지원판(hll)에서 함께 싣던 사내 메일은 2026.09.30 퇴사로 쓰지 않고,
+   * 공개 저장소 원본에서도 뺐다(2026-10-10 주인 결정, 자비스 공개 원본 P2).
    */
-  showWorkEmail: edition.primaryEmail === "work",
+  emailPrimary: "makefair@naver.com",
   linkedin: "https://www.linkedin.com/in/%EC%84%A0%EC%9D%BC-%EA%B9%80-b28a1021b/",
   url: edition.url,
   /* 웹은 webp(600×800, 약 50KB)로 싣는다 (2026.09.25) — 720×960 jpeg 147KB 가 첫 화면에서 제목 글꼴과 대역폭을 다퉜다. 이력서 PDF 생성기는 같은 폴더의 jpeg 를 쓴다 */

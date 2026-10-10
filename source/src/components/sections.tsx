@@ -2080,16 +2080,6 @@ export function Credits() {
               email={site.emailPrimary}
               className={`mt-3 inline-flex min-h-[44px] items-center font-bold text-white underline decoration-1 underline-offset-[6px] ${isV260908 ? "text-metric-sm" : "text-[1.5rem] sm:text-[2rem]"}`}
             />
-            {/* 사외 지원판에서는 보조 메일이 곧 사내 메일이라 싣지 않는다 */}
-            {site.showWorkEmail ? (
-              <p className="mt-2 text-caption text-on-dark">
-                {site.emailSecondaryLabel}{" "}
-                <EmailCopyButton
-                  email={site.emailSecondary}
-                  className="underline underline-offset-2 hover:text-white"
-                />
-              </p>
-            ) : null}
             {isGeneralEdition ? null : (
               <p className="mt-1 text-caption text-on-dark">
                 공개하지 않은 원본 자료는 보안 범위 안에서 인터뷰 때 설명드리겠습니다.

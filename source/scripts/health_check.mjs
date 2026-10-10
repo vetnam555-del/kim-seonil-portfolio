@@ -56,7 +56,9 @@ try {
 } catch {
   hard.push(`${REF} 를 읽지 못했습니다 — git fetch origin main 을 먼저 실행하세요`);
 }
-const pages = files.filter((f) => f.endsWith("index.html") && !f.startsWith("_not-found") && f !== "404/index.html");
+/* main 에는 원본(source/)·작업 메모도 있다(2026-10-10 부터). 사이트에 올라가는 빌드 결과만 본다 */
+const NOT_SITE = /^(source|\.claude|\.github)\//;
+const pages = files.filter((f) => f.endsWith("index.html") && !NOT_SITE.test(f) && !f.startsWith("_not-found") && f !== "404/index.html");
 const pdfs = files.filter((f) => f.endsWith(".pdf") && !f.includes("/"));
 if (files.length && (!pages.length || !pdfs.length)) hard.push(`${REF} 에서 페이지(${pages.length})나 PDF(${pdfs.length})를 찾지 못했습니다`);
 
@@ -68,6 +70,16 @@ for (const f of pages) {
   report.pages.push({ path, status: r.status, sameAsMain: same });
   if (r.status !== 200) hard.push(`라이브 ${path} → ${r.status || r.error}`);
   else if (!same) hard.push(`라이브 ${path} 가 ${REF} 와 다릅니다(배포 지연 또는 캐시)`);
+}
+
+/* 2-1. 원본·작업 메모가 사이트에 올라가 있지 않은가. Pages 는 Actions 가 빌드 결과만 골라 올린다(.github/workflows/pages.yml).
+   설정이 "브랜치에서 배포"로 돌아가면 main 의 원본이 그대로 열리므로 결함으로 센다 */
+report.privateFiles = [];
+for (const path of ["source/package.json", "source/src/data/site.ts", "CLAUDE.md", ".claude/settings.json"]) {
+  const r = await get(`${LIVE}/${path}`);
+  report.privateFiles.push({ path, status: r.status });
+  if (r.status === 200) hard.push(`원본 파일이 사이트에서 열립니다: /${path} — Settings → Pages → Source 가 GitHub Actions 인지 확인`);
+  else if (r.status === 0) warn.push(`원본 비공개 확인 실패: /${path} (${r.error})`);
 }
 
 /* 3. PDF — main 과 같은가, 쪽수, 이력서 개인정보 */
@@ -258,6 +270,8 @@ const md = [
   ``,
   `## 페이지 (${report.pages.length}쪽)`,
   `- 열림 ${report.pages.filter((p) => p.status === 200).length} · main 과 같음 ${report.pages.filter((p) => p.sameAsMain).length}`,
+  ``,
+  `- 원본 파일 비공개: ${report.privateFiles.some((p) => p.status === 200) ? "열림 — 결함" : report.privateFiles.some((p) => p.status === 0) ? "일부 확인 못 함" : "확인"} (${report.privateFiles.map((p) => `${p.path} ${p.status || "실패"}`).join(" · ")})`,
   ``,
   `## PDF`,
   ...report.pdfs.map((p) => `- ${p.file}: ${p.status} · ${p.pages}쪽 · ${p.kb}KB · main 과 ${p.sameAsMain ? "같음" : "다름"} · 태그 ${p.tagged ? "있음" : "없음"}`),

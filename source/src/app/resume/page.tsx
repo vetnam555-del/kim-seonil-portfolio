@@ -132,8 +132,6 @@ export default function ResumePage() {
                 {site.role} · {site.org} · 퍼포먼스 마케팅 경력 {careerLength()}
               </p>
               <p className="mt-2 text-caption text-ink-3">
-                {/* 사외 지원판에서는 사내 메일을 싣지 않는다 */}
-                {site.showWorkEmail ? `${site.emailWork}\u00a0· ` : ""}
                 {site.email} ·{" "}
                 <a href={site.linkedin} target="_blank" rel="noopener" className="text-accent">
                   LinkedIn

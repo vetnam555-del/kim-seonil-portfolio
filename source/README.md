@@ -155,6 +155,9 @@ Pretendard를 자체 호스팅하고, **빌드 산출물(`out/**/*.html`)에 실
 npm run publish:general   # 일반판 빌드 → 검증 → 저장소 루트에 반영 (2026.10 클라우드 이전 후)
 ```
 
+루트 빌드 결과와 `source/` 변경을 같은 커밋으로 `main` 에 합치면 GitHub Actions(`.github/workflows/pages.yml`)가
+빌드 결과만 사이트에 올린다(2026-10-10 부터, 저장소 Settings → Pages → Source: GitHub Actions).
+
 판(edition)마다 basePath 가 다르므로 배포는 `scripts/build_edition.mjs <판>` 을 거친다.
 일반판은 소스가 배포 저장소의 `source/` 에 있으므로 위 명령이 `out/` 을 루트로 옮겨 준다 — 절차는 저장소 루트 `CLAUDE.md`. `.nojekyll`·`sitemap.xml`·`robots.txt`·`og-image.png` 는 빌드에 포함된다.
 

@@ -38,33 +38,21 @@ export function SiteFooter({
   name,
   nameEn,
   emailPrimary,
-  emailSecondary,
-  showWorkEmail,
   linkedin,
 }: {
   name: string;
   nameEn: string;
   emailPrimary: string;
-  emailSecondary: string;
-  showWorkEmail: boolean;
   linkedin: string;
 }) {
   const en = useEn();
   return (
     <footer className="site-footer border-t border-line py-10" lang={en ? "en" : undefined}>
       <div className="mx-auto w-full max-w-[1240px] px-5 sm:px-10">
-        {/* 케이스 상세로 바로 들어온 사람도 연락처를 보게 둔다.
-            대표 메일은 판마다 다르다 — hll 은 사내 메일(재직 확인 수단), 일반판은 개인 메일. */}
+        {/* 케이스 상세로 바로 들어온 사람도 연락처를 보게 둔다. */}
         <p className="text-caption text-ink-3">
           {en ? <>{nameEn} · {name}</> : <>{name} · {nameEn}</>} —{" "}
           <EmailCopyButton email={emailPrimary} className="text-accent underline underline-offset-2" />{" "}
-          {/* 사외 지원판에서는 보조 메일이 곧 사내 메일이라 싣지 않는다 */}
-          {showWorkEmail ? (
-            <>
-              ·{" "}
-              <EmailCopyButton email={emailSecondary} className="text-accent underline underline-offset-2" />{" "}
-            </>
-          ) : null}
           ·{" "}
           <a href={linkedin} target="_blank" rel="noopener" className="text-accent underline underline-offset-2">
             LinkedIn

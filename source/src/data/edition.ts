@@ -51,7 +51,7 @@ export const isNew = EDITION === "nw";
  * ── 클라이언트 전용 파생값 ──
  *
  * Header 는 "use client" 다. 거기서 edition 객체를 읽으면 판별 카피 표(COPY)가 통째로
- * 브라우저 번들에 실린다. 그러면 사외 지원판 산출물 안에 사내 메일(kim.seonill@hll.kr)과
+ * 브라우저 번들에 실린다. 그러면 사외 지원판 산출물 안에 사내 메일과
  * HLL 판 주소가 그대로 들어간다 — validate_export 의 유출 검사가 실제로 이걸 잡았다.
  *
  * 그래서 클라이언트가 필요한 값은 표를 건드리지 않고 EDITION 에서 직접 만든다.
@@ -148,7 +148,6 @@ interface EditionCopy {
    * 외부 공개판에서 현 직장 메일을 대표로 걸면 (1) 이직 활동이 사내 주소로 읽히고
    * (2) 퇴사하는 순간 이력서에 적힌 연락처가 죽는다. 일반판은 개인 메일을 대표로 쓴다.
    */
-  primaryEmail: "work" | "personal";
   /**
    * 홈 대표 사례 순서.
    * hll 은 콘텐츠 조직에 내는 서류라 콘텐츠 자산화(다이슨)를 1번에 둔다.
@@ -205,7 +204,6 @@ const COPY: Record<Exclude<Edition, "v260908" | "nw">, EditionCopy> = {
     showWhyShinsegae: false,
     showWhyAbly: false,
     heroHeadlines: ["dyson", "jestina"],
-    primaryEmail: "work",
     /*
      * EDIT H 를 2번으로 올린다.
      * 콘텐츠 조직에 내는 서류에서 "직접 콘텐츠를 기획·편집·발행한다"를 증명하는 사례는
@@ -263,7 +261,6 @@ const COPY: Record<Exclude<Edition, "v260908" | "nw">, EditionCopy> = {
      * 그래서 전략(75%)과 단독 책임(100%)을 앞세우고 다이슨은 CH.04 맥락 수치로 둔다.
      */
     heroHeadlines: ["jestina", "daekyo"],
-    primaryEmail: "personal",
     /*
      * 강원심층수를 대표 사례에 넣는다 (2026.09.03).
      * 이 판은 대부분 퍼포먼스 직무에 내는데, 기존 네 건의 기여 표기가 전부 부분이었다 —
@@ -300,7 +297,6 @@ const COPY: Record<Exclude<Edition, "v260908" | "nw">, EditionCopy> = {
     showWhyShinsegae: true,
     showWhyAbly: false,
     heroHeadlines: ["samsonite", "jestina"],
-    primaryEmail: "personal",
     spreadOrder: ["samsonite", "jestina", "newbalance", "gangwon"],
   },
   /*
@@ -355,7 +351,6 @@ const COPY: Record<Exclude<Edition, "v260908" | "nw">, EditionCopy> = {
      */
     showWhyAbly: false,
     heroHeadlines: ["daekyo", "jestina"],
-    primaryEmail: "personal",
     /*
      * 다이슨을 빼고 자동화를 넣는다.
      * 이 공고는 "정형화되지 않은 초기 조직에서 혼자 굴릴 수 있는가"를 묻는다.
@@ -373,7 +368,7 @@ const COPY: Record<Exclude<Edition, "v260908" | "nw">, EditionCopy> = {
  *
  * COPY 안에 다섯 번째 항목으로 넣지 않는다. 판 이름은 빌드 시 상수로 접히고
  * 번들러가 쓰지 않는 판의 문자열을 지우는데, 표에 스프레드를 끼우면 그 제거가 풀린다.
- * 실제로 그렇게 넣었다가 사외 지원판 산출물에 사내 메일(kim.seonill@hll.kr)과
+ * 실제로 그렇게 넣었다가 사외 지원판 산출물에 사내 메일과
  * HLL 판 주소가 그대로 실렸고, validate_export 의 유출 검사가 그걸 잡았다.
  */
 /*

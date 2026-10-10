@@ -4,8 +4,8 @@
 
 | 위치 | 내용 | 직접 고치나 |
 |---|---|---|
-| 저장소 루트 (`index.html`, `_next/`, `projects/`, `evidence/`, `fonts/` …) | GitHub Pages 가 그대로 서비스하는 **일반판 빌드 결과** (https://vetnam555-del.github.io/kim-seonil-portfolio/) | **아니다.** 빌드로만 바꾼다 |
-| `source/` | Next.js 16 원본 (`src/`, `scripts/`, `public/`, `assets/og/general/`) | 여기를 고친다 |
+| 저장소 루트 (`index.html`, `_next/`, `projects/`, `evidence/`, `fonts/` …) | **일반판 빌드 결과**. `main` 에 들어가면 GitHub Actions(`.github/workflows/pages.yml`)가 이것만 골라 사이트에 올린다 (https://vetnam555-del.github.io/kim-seonil-portfolio/) | **아니다.** 빌드로만 바꾼다 |
+| `source/` | Next.js 16 원본 (`src/`, `scripts/`, `public/`, `assets/og/general/`). 저장소에는 공개되지만 사이트에는 올라가지 않는다 | 여기를 고친다 |
 
 원본 사용법·수치 원칙은 `source/README.md`, 출시 검수 기준은 `source/RELEASE_CHECKLIST.md`,
 Next.js 16 주의사항은 `source/AGENTS.md` 에 있다. 코드를 고치기 전에 읽는다.
@@ -28,8 +28,10 @@ Next.js 16 주의사항은 `source/AGENTS.md` 에 있다. 코드를 고치기 �
 3. `npm run typecheck` 와 `node scripts/qa_release.mjs` 로 정적 검수를 돌린다.
    - 외부 링크 확인(G16)은 403·429 를 경고로만 남긴다(사이트가 자동 요청을 막는 것). 다른 항목이 모두 통과하면 정상이다.
    - 출시 승인(RELEASE_PASS)은 `scripts/runtime_evidence.mjs` 로 브라우저 증거를 만든 뒤 `qa_release --approve` 로 받는다(매뉴얼 3절).
-4. `source/` 변경과 루트 빌드 결과를 **같은 커밋**에 넣어 push 한다.
-   GitHub Pages 는 `main` 브랜치 루트를 서비스한다 — `main` 에 들어가야 라이브에 반영된다.
+4. `source/` 변경과 루트 빌드 결과를 **같은 커밋**에 넣어 작업 브랜치에 push 하고, 자비스 검토 뒤 `main` 에 합친다.
+   `main` 에 들어가면 Actions 가 루트 빌드 결과만 사이트에 올린다(원본·작업 메모·설정은 뺀다). 매뉴얼 6절.
+   - 저장소 Settings → Pages → Source 는 **GitHub Actions** 여야 한다. "Deploy from a branch" 로 돌아가면 `main` 의 원본이
+     사이트에서 그대로 열린다 — `npm run health` 가 이것을 결함으로 잡는다.
 
 ## 클라우드 환경
 

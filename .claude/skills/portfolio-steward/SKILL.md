@@ -11,8 +11,8 @@ description: 김선일 포트폴리오를 고치고·검수하고·배포하고�
 ## 0. 시작할 때
 
 1. `source/BACKLOG.md` 를 읽는다 — 점수표, 할 일(B-·R-), 주인 확인(O-), **정해 둔 것**(다시 바꾸지 않는 결정).
-2. 브랜치는 `claude/stoic-bohr-gze1d1` 이다. 다른 브랜치에 push 하지 않는다.
-3. main 은 라이브다. main 에는 아래 6절의 배포 방식으로만 올린다.
+2. 세션이 정해 준 작업 브랜치에서 일한다. 다른 브랜치에 push 하지 않는다.
+3. main 은 라이브다. main 에는 아래 6절 순서(자비스 검토 → PR 합치기)로만 들인다.
 
 ## 1. 새 성과 추가 (대화로 받는다)
 
@@ -83,11 +83,11 @@ node scripts/qa_release.mjs --approve --runtime=artifacts/release/runtime/runtim
 ## 4. 커밋
 
 - `source/` 변경과 루트 빌드 결과를 **같은 커밋**에 넣는다. 커밋 메시지는 무엇을·왜.
-- `git push -u origin claude/stoic-bohr-gze1d1`
+- `git push -u origin <작업 브랜치>`
 
 ## 5. 자비스(코덱스) 검토
 
-공개 저장소 PR #2 에 새 head 커밋마다 요청한다. 형식은 정확히 이것만:
+작업 브랜치의 열린 PR 에 새 head 커밋마다 요청한다(2026-10-10 까지는 PR #2). 형식은 정확히 이것만:
 
 ````
 <!-- jarvis-review-request:v1 -->
@@ -102,22 +102,17 @@ node scripts/qa_release.mjs --approve --runtime=artifacts/release/runtime/runtim
 
 ## 6. main 배포 (라이브)
 
-main 에는 빌드 결과만 올린다(`source/` `.claude/` `CLAUDE.md` `.gitignore` 제외). 허용된 push 는 이것 하나다:
-`git push origin deploy-main-final:main`.
+`main` 에는 원본과 빌드 결과가 함께 있다(2026-10-10 주인 결정 — 비공개 저장소를 따로 두지 않는다).
+사이트에는 GitHub Actions(`.github/workflows/pages.yml`)가 루트 빌드 결과만 골라 올린다.
+빼는 목록은 `publish_general.mjs` 의 KEEP(`.git` `.github` `.claude` `.gitignore` `CLAUDE.md` `README.md` `source`)과 같다.
 
-```bash
-git fetch -q origin main
-IDX=$(mktemp -u)                                  # 임시 인덱스
-GIT_INDEX_FILE=$IDX git read-tree <브랜치 커밋>
-GIT_INDEX_FILE=$IDX git rm -r -q --cached source .claude CLAUDE.md .gitignore
-TREE=$(GIT_INDEX_FILE=$IDX git write-tree)
-C=$(git commit-tree $TREE -p origin/main -m "Deploy <커밋> build: <요약>")
-git branch -f deploy-main-final $C
-git diff --name-only <브랜치 커밋> deploy-main-final | grep -v '^source/\|^\.claude/\|^CLAUDE.md$\|^\.gitignore$'   # 비어야 한다
-git push origin deploy-main-final:main
-```
+1. 작업 브랜치에서 3·4절까지 마치고(빌드 결과가 같은 커밋에 있어야 한다) 자비스 검토를 받는다.
+2. PR 을 `main` 에 합친다(merge commit). `main` 에 push 되면 "Deploy Pages" 워크플로가 돈다.
+3. 워크플로가 초록인지 보고, 1–3분 뒤 `npm run health` 로 라이브가 `main` 과 같은지, 원본 파일이 사이트에서 404 인지 확인한다.
 
-배포 뒤 1–3분 기다렸다가 `npm run health` 로 라이브가 main 과 같은지 확인한다.
+- 저장소 Settings → Pages → Source 는 **GitHub Actions** 다. "Deploy from a branch" 로 바꾸면 원본이 사이트에서 열린다.
+- 워크플로는 결과물에 `source/` `.claude/` `CLAUDE.md` 나 `.ts` `.tsx` `.mjs` `.py` `.md` 파일이 있으면 배포하지 않고 멈춘다.
+  루트에 새 파일을 둘 때(빌드 결과가 아닌 것) KEEP 과 워크플로 제외 목록을 같이 고친다.
 
 ## 7. 포트폴리오 PDF (덱) 다시 굽기
 
