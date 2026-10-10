@@ -145,7 +145,7 @@ function PersonFirstCover() {
                 <div>
                   <p className="text-small font-bold text-on-ink">{site.name} · {site.nameEn}</p>
                   <p className="mt-1 text-caption leading-[1.55] text-on-ink-2">
-                    HLL중앙 퍼포먼스전략국 과장 · 퍼포먼스 마케팅 경력 {careerYear()}년
+                    HLL중앙 퍼포먼스전략국 과장&nbsp;· 퍼포먼스 마케팅 경력 {careerYear()}년
                   </p>
                 </div>
               </div>
@@ -883,7 +883,7 @@ export function BuiltByMe() {
         <SectionHead
           kicker="Built by me"
           title="직접 기획·구축한 프로젝트 8건"
-          count={EDITION === "general" ? "마케팅 오퍼레이션 · 업무 자동화 6 · 공개 프로젝트 2" : "업무 자동화 6 · 공개 프로젝트 2"}
+          count={EDITION === "general" ? "마케팅 오퍼레이션\u00a0· 업무 자동화 6\u00a0· 공개 프로젝트 2" : "업무 자동화 6\u00a0· 공개 프로젝트 2"}
           tone="system"
         />
 
@@ -1098,7 +1098,7 @@ export function BuiltByMe() {
                             {work.label}
                           </span>
                           <span className="font-semibold underline underline-offset-4">
-                            편집 기준을 발행 시스템으로 만든 사례 · {work.title}
+                            편집 기준을 발행 시스템으로 만든 사례&nbsp;· {work.title}
                           </span>
                           <span className="nudge" aria-hidden="true">
                             →
@@ -1170,9 +1170,9 @@ const LEVEL_LABELS = new Set<string>(skillLevels.map((l) => l.level));
  */
 const SKILL_CAPABILITY: Record<string, number> = {
   "매체 운영": 0,
-  "분석 · 측정": 0,
-  "자동화 · AX": 1,
-  "문서 · 협업 · 언어": 1,
+  "분석\u00a0· 측정": 0,
+  "자동화\u00a0· AX": 1,
+  "문서\u00a0· 협업\u00a0· 언어": 1,
 };
 /* HOW I WORK 세 원칙이 어느 역량에 속하는지 — 01·02 는 측정·예산, 03 은 시스템 */
 
@@ -1192,7 +1192,7 @@ export function SkillsStack() {
         <SectionHead
           kicker="Skills & Stack"
           title="기획·운영 범위"
-          count={EDITION === "general" ? `역량 ${generalCover.capabilities.length}개 · ${skills.length}개 영역` : `${skills.length}개 영역`}
+          count={EDITION === "general" ? `역량 ${generalCover.capabilities.length}개\u00a0· ${skills.length}개 영역` : `${skills.length}개 영역`}
         />
 
         {/* 단계 범례를 먼저 세운다 — 이게 없으면 그냥 도구 나열로 읽힌다 */}
@@ -1344,7 +1344,7 @@ export function HowIWork() {
     <Section id="method" tone="ink">
       <Container>
         <AnchorStub id="expertise" />
-        <SectionHead kicker="How I work" title={howIWork.title} count={EDITION === "general" ? "3단계" : "3원칙"} onDark />
+        <SectionHead kicker="How I work" title={EDITION === "general" ? howIWork.generalTitle : howIWork.title} count={EDITION === "general" ? "3단계" : "3원칙"} onDark />
 
         <ol className="mt-11 grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-0">
           {howIWork.items.map((item, i) => (
@@ -1613,7 +1613,7 @@ export function WhyLead() {
             <p className="font-mono text-[0.6875rem] font-bold tracking-[0.03em] text-ink-3">
               {/* 아래 '지원 이유' 섹션이 같은 eyebrow 를 쓴다 — 같은 라벨이 두 번
                   나오면 어느 쪽이 지원 이유인지 흐려지므로 이 섹션은 이름을 따로 갖는다 */}
-              GROWTH APPROACH · 솔루션팀에서 맡을 수 있는 역할
+              GROWTH APPROACH&nbsp;· 솔루션팀에서 맡을 수 있는 역할
             </p>
             <Link
               href="/#why-studio"
@@ -1710,9 +1710,9 @@ export function WhyLululala() {
 
         <div className="mt-10 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
           <p className="font-mono text-mono font-bold tracking-[0.08em] text-ink-3">
-            ROLE FIT · 지금 바로 연결할 수 있는 역량
+            ROLE FIT&nbsp;· 지금 바로 연결할 수 있는 역량
           </p>
-          <p className="font-mono text-mono text-ink-3">검증 · 확장 · 연결</p>
+          <p className="font-mono text-mono text-ink-3">검증&nbsp;· 확장&nbsp;· 연결</p>
         </div>
         <dl className="mt-4 grid grid-cols-1 gap-6 border-y border-rule py-6 md:grid-cols-3 md:gap-0">
           {hllRoleFit.map((item, i) => (
@@ -1734,7 +1734,7 @@ export function WhyLululala() {
         {/* 여정 체인 — 마지막 노드가 첫 노드로 되돌아가는 순환 구조 */}
         <div className="mt-10 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
           <p className="font-mono text-mono font-bold tracking-[0.08em] text-ink-3">
-            CONTENT GROWTH LOOP · 콘텐츠를 한 번의 게시물로 끝내지 않는 방식
+            CONTENT GROWTH LOOP&nbsp;· 콘텐츠를 한 번의 게시물로 끝내지 않는 방식
           </p>
           <p className="font-mono text-mono text-ink-3">5단계 순환</p>
         </div>
@@ -1784,7 +1784,7 @@ export function WhyLululala() {
                 </ul>
                 {/* 완료 기준이 없으면 계획이 아니라 할 일 목록으로 읽힌다 */}
                 <p className="mt-3 border-t border-line pt-2.5 font-mono text-mono leading-[1.6] text-signal">
-                  완료 기준 · {phase.done}
+                  완료 기준&nbsp;· {phase.done}
                 </p>
               </div>
             ))}
@@ -1879,7 +1879,7 @@ export function Credits() {
         <AnchorStub id="summary" />
         {/* #story 스텁은 여기서 뺐다 — MyStory 섹션이 실제로 그 id 를 갖는다.
             같은 id 가 문서에 둘 있으면 목차·헤더 하이라이트가 먼저 만난 쪽으로 붙는다. */}
-        <SectionHead kicker={`Credits · ${edition.issueLabel}`} title="경력과 수상 내역" onDark />
+        <SectionHead kicker={`Credits\u00a0· ${edition.issueLabel}`} title="경력과 수상 내역" onDark />
 
         <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-8">
           {/* 경력 */}
@@ -1938,7 +1938,7 @@ export function Credits() {
           {/* 학력 · 수상 · 자격 */}
           <div>
             <p className="font-mono text-[0.6875rem] font-bold tracking-[0.18em] text-mark uppercase">
-              Education · Awards
+              Education&nbsp;· Awards
             </p>
             <ul className="mt-4 flex flex-col gap-2.5">
               {education.map((e) => (
@@ -2154,7 +2154,7 @@ export function Credits() {
         </div>
 
         <p className="mt-10 font-mono text-[0.6875rem] text-white/50">
-          {edition.issueLabel} · 김선일 개인 포트폴리오 · 광고주 비공개 데이터 미게재 · {isGeneralLike ? "2026.09" : "2026.08"}
+          {edition.issueLabel} · 김선일 개인 포트폴리오&nbsp;· 광고주 비공개 데이터 미게재&nbsp;· {isGeneralLike ? "2026.09" : "2026.08"}
         </p>
       </Container>
     </Section>

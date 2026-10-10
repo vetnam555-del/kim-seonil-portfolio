@@ -29,7 +29,7 @@ export interface ClientBrandGroup {
 
 export const clientBrandGroups: ClientBrandGroup[] = [
   {
-    name: "가전 · IT · 산업기기",
+    name: "가전\u00a0· IT\u00a0· 산업기기",
     brands: [
       { name: "다이슨", caseSlug: "dyson" },
       { name: "후지필름BI" },
@@ -38,7 +38,7 @@ export const clientBrandGroups: ClientBrandGroup[] = [
     ],
   },
   {
-    name: "패션 · 잡화 · 스포츠",
+    name: "패션\u00a0· 잡화\u00a0· 스포츠",
     brands: [
       { name: "뉴발란스", caseSlug: "newbalance" },
       { name: "제이에스티나", caseSlug: "jestina" },
@@ -49,7 +49,7 @@ export const clientBrandGroups: ClientBrandGroup[] = [
     ],
   },
   {
-    name: "가구 · 리빙 · 생활용품",
+    name: "가구\u00a0· 리빙\u00a0· 생활용품",
     brands: [
       { name: "한샘", caseSlug: "hanssem" },
       { name: "시몬스" },
@@ -57,7 +57,7 @@ export const clientBrandGroups: ClientBrandGroup[] = [
     ],
   },
   {
-    name: "식품 · 커머스 · 유통",
+    name: "식품\u00a0· 커머스\u00a0· 유통",
     brands: [
       { name: "hy(한국야쿠르트)" },
       { name: "동원몰" },
@@ -66,7 +66,7 @@ export const clientBrandGroups: ClientBrandGroup[] = [
     ],
   },
   {
-    name: "교육 · 에듀테크 · 학원",
+    name: "교육\u00a0· 에듀테크\u00a0· 학원",
     brands: [
       { name: "대교", sub: ["대교에듀캠프", "트니트니", "마이페이스", "플래뮤"], caseSlug: "daekyo" },
       { name: "든든영어" },
@@ -79,11 +79,11 @@ export const clientBrandGroups: ClientBrandGroup[] = [
    * 3곳짜리를 앞에, 1~2곳짜리를 마지막 줄에 모은다.
    */
   {
-    name: "여행 · 항공 · 호텔",
+    name: "여행\u00a0· 항공\u00a0· 호텔",
     brands: [{ name: "메리어트" }, { name: "에어프랑스" }, { name: "캐세이퍼시픽" }],
   },
   {
-    name: "물류 · 모빌리티 · B2B 서비스",
+    name: "물류\u00a0· 모빌리티\u00a0· B2B 서비스",
     brands: [
       { name: "현대글로비스", sub: ["오토벨"] },
       { name: "페덱스코리아" },
@@ -91,11 +91,11 @@ export const clientBrandGroups: ClientBrandGroup[] = [
     ],
   },
   {
-    name: "제약 · 헬스케어 · 의료",
+    name: "제약\u00a0· 헬스케어\u00a0· 의료",
     brands: [{ name: "삼진제약" }, { name: "압구정앤성형외과" }],
   },
   {
-    name: "금융 · 은행",
+    name: "금융\u00a0· 은행",
     brands: [{ name: "부산은행" }],
   },
 ];

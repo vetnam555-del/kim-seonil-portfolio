@@ -119,10 +119,10 @@ export function Bars({
       </div>
       <figcaption className="mt-3 pl-12 text-caption text-ink-3">
         {metric.label}
-        {note ? ` · ${note}` : ""}
+        {note ? `\u00a0· ${note}` : ""}
         {en
-          ? ` · Bar heights are true proportions of the axis maximum, ${fmt(max, a.unit)}.`
-          : ` · 막대 높이는 축 최댓값 ${fmt(max, a.unit)} 대비 실제 비율입니다.`}
+          ? `\u00a0· Bar heights are true proportions of the axis maximum, ${fmt(max, a.unit)}.`
+          : `\u00a0· 막대 높이는 축 최댓값 ${fmt(max, a.unit)} 대비 실제 비율입니다.`}
       </figcaption>
     </figure>
   );

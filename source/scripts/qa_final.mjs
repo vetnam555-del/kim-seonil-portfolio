@@ -72,7 +72,8 @@ function imageSize(path) {
 
 /** projects.ts 를 케이스 블록으로 쪼갠다 (정규식 기반 — 타입 로딩 없이 소스 사실만 본다) */
 function parseCases() {
-  const src = readFileSync(join(ROOT, "src", "data", "projects.ts"), "utf8");
+  /* " · " 구분자는 2026.10.10 부터 소스에 "\u00a0· " 로 적혀 있다 — 화면 글자(공백 정규화)와 맞춰 읽는다 */
+  const src = readFileSync(join(ROOT, "src", "data", "projects.ts"), "utf8").replace(/\\u00a0/g, " ");
   /*
    * 들여쓰기를 4칸으로 못 박았더니 조건부 스프레드 안에 있는 케이스를 통째로 놓쳤다 —
    * 신세계판 전용 samsonite 는 `...(edition.showWhyShinsegae ? [ { slug: ... ` 안에 있어
@@ -366,7 +367,8 @@ if (orphans.length) note(`케이스 미사용 증빙 ${orphans.length}건 (홈 �
     let inter = 0; for (const x of A) if (B.has(x)) inter++;
     return inter / (A.size + B.size - inter || 1);
   };
-  const src = readFileSync(join(ROOT, "src", "data", "projects.ts"), "utf8");
+  /* " · " 구분자는 2026.10.10 부터 소스에 "\u00a0· " 로 적혀 있다 — 화면 글자(공백 정규화)와 맞춰 읽는다 */
+  const src = readFileSync(join(ROOT, "src", "data", "projects.ts"), "utf8").replace(/\\u00a0/g, " ");
   for (const c of activeCases) {
     const f = (k) => { const m = c.body.match(new RegExp(k + ':\\s*\\n?\\s*"([^"]*)"')); return m ? m[1] : null; };
     const t = f("tldr"), o = f("overview");

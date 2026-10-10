@@ -6,7 +6,7 @@ export const caseLedesEn: Record<string, { problem?: string; analysis?: string; 
   jestina: {
     problem: "Revenue was concentrated in search, and the display ads (DA) meant to bring in new customers ran separately at each agency.",
     analysis: "Looking at repeat and new customers separately, search was mostly bringing back people who already knew the brand.",
-    strategy: "I gave each stage — awareness, consideration, conversion — its own channels and KPIs.",
+    strategy: "I gave each stage (awareness, consideration, conversion) its own channels and KPIs.",
     results: "In the same closing report, GA4 ROAS rose from 352% in May to 583% in July.",
     learning: "Ranked by channel efficiency alone, the budget kept going to customers who already knew the brand.",
   },

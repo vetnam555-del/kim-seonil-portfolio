@@ -111,7 +111,7 @@ export default function ResumePageEn() {
         <header className="mt-6 border-b-2 border-ink pb-6">
           <div className="flex items-start justify-between gap-6">
             <div>
-              <p className="text-caption font-semibold tracking-[0.02em] text-accent">Résumé · Career description</p>
+              <p className="text-caption font-semibold tracking-[0.02em] text-accent">Résumé&nbsp;· Career description</p>
               <h1 className="mt-3 text-[1.75rem] font-bold tracking-normal sm:text-[2.25rem]">
                 {NAME_EN_DISPLAY}
                 <span className="ml-3 text-small font-normal text-ink-3" lang="ko">{site.name}</span>
@@ -233,7 +233,7 @@ export default function ResumePageEn() {
               <Row label="Role">
                 {p.role} · Contribution <strong className="font-semibold">{p.contributionNote ?? `${p.contribution}%`}</strong>
               </Row>
-              <Row label={p.contextLabel ?? "Channels"}>{p.channels.join(" · ")}</Row>
+              <Row label={p.contextLabel ?? "Channels"}>{p.channels.join("\u00a0· ")}</Row>
               <Row label="Evidence">{p.evidenceLabel}</Row>
               <Row label="Results">
                 <ul className="flex flex-col gap-1">
@@ -284,13 +284,13 @@ export default function ResumePageEn() {
             <Row key={r.brand} label={r.brand}>
               <span className="text-ink-3">
                 {r.category}
-                {r.period ? ` · ${r.period}` : ""}
+                {r.period ? `\u00a0· ${r.period}` : ""}
               </span>
               <span className="mt-1 block text-ink-2">{r.summary}</span>
               <span className="mt-1 block">
                 {r.metrics.map((m, i) => (
                   <span key={m.label}>
-                    {i > 0 ? " · " : ""}
+                    {i > 0 ? "\u00a0· " : ""}
                     <span className="text-ink-3">{m.label}</span> <strong className="font-semibold">{m.value}</strong>
                   </span>
                 ))}
@@ -299,7 +299,7 @@ export default function ResumePageEn() {
           ))}
         </dl>
         <p className="mt-3 text-caption text-ink-3">
-          Also {otherBrandsEn.join(" · ")} and more — 30+ brands across 9 industries.
+          Also {otherBrandsEn.join("\u00a0· ")} and more: 30+ brands across 9 industries.
         </p>
 
         <H2>Public work</H2>
@@ -309,7 +309,7 @@ export default function ResumePageEn() {
               <p className="text-caption font-semibold text-accent">{work.label}</p>
               <h3 className="mt-1 text-small font-bold">{work.title}</h3>
               <p className="mt-2 text-caption text-ink-2">{work.desc}</p>
-              <p className="mt-2 text-caption text-ink-3">{work.facts.join(" · ")}</p>
+              <p className="mt-2 text-caption text-ink-3">{work.facts.join("\u00a0· ")}</p>
               <a href={work.href} target="_blank" rel="noopener" className="no-print mt-3 inline-flex text-caption font-semibold text-accent hover:underline">
                 View the work (Korean) ↗
               </a>
@@ -319,7 +319,7 @@ export default function ResumePageEn() {
         <ul className="print-only mt-3 flex flex-col gap-1">
           {publicWorkEn.map((work) => (
             <li key={work.href} className="text-caption text-ink-2">
-              <strong className="font-semibold">{work.title}</strong> · {work.facts.join(" · ")}
+              <strong className="font-semibold">{work.title}</strong> · {work.facts.join("\u00a0· ")}
             </li>
           ))}
         </ul>
@@ -328,8 +328,8 @@ export default function ResumePageEn() {
         <p className="mt-2 text-caption leading-[1.7] text-ink-3">
           {skillLevelsEn.map((l, i) => (
             <span key={l.level}>
-              {i > 0 ? " · " : ""}
-              <span className="font-semibold text-ink-2">{l.level}</span> — {l.desc}
+              {i > 0 ? "\u00a0· " : ""}
+              <span className="font-semibold text-ink-2">{l.level}</span>: {l.desc}
             </span>
           ))}
         </p>
@@ -342,7 +342,7 @@ export default function ResumePageEn() {
                   <div key={`${r.level}-${r.items.join("|")}`} className="grid grid-cols-[64px_1fr] gap-3">
                     <span className="text-caption font-semibold text-accent">{r.level}</span>
                     <span className="text-caption text-ink-2">
-                      {r.items.join(" · ")}
+                      {r.items.join("\u00a0· ")}
                       {r.note ? <span data-prose className="mt-1 block text-ink-3">{r.note}</span> : null}
                     </span>
                   </div>
@@ -358,8 +358,8 @@ export default function ResumePageEn() {
               {g.rows.map((r) => (
                 <p key={`${r.level}-${r.items.join("|")}`} className="text-caption text-ink-2">
                   <strong className="mr-1.5 font-semibold">{r.level}</strong>
-                  {r.items.join(" · ")}
-                  {r.note ? <span className="text-ink-3"> — <span data-prose>{r.note}</span></span> : null}
+                  {r.items.join("\u00a0· ")}
+                  {r.note ? <span className="text-ink-3"> (<span data-prose>{r.note}</span>)</span> : null}
                 </p>
               ))}
             </div>
@@ -390,10 +390,10 @@ export default function ResumePageEn() {
           ))}
         </ul>
         <p className="print-only mt-3 text-caption text-ink-2">
-          {certificationsEn.map((c) => `${c.name}${c.when ? ` (${c.when})` : ""}`).join(" · ")}
+          {certificationsEn.map((c) => `${c.name}${c.when ? ` (${c.when})` : ""}`).join("\u00a0· ")}
         </p>
         <p className="print-only mt-2 text-caption text-ink-2">
-          <strong className="mr-2 font-semibold text-ink">Awards · Selections</strong>
+          <strong className="mr-2 font-semibold text-ink">Awards&nbsp;· Selections</strong>
           {awardsEn.map((a) => `${a.year} ${a.name} (${a.detail})`).join(" / ")}
         </p>
         <p className="print-only mt-2 text-caption text-ink-2">
@@ -401,12 +401,12 @@ export default function ResumePageEn() {
           {awardsArchiveEn.map((a) => `${a.year} ${a.items}`).join(" / ")}
         </p>
         <p className="print-only mt-2 text-caption text-ink-2">
-          <strong className="mr-2 font-semibold text-ink">Education · Activities</strong>
+          <strong className="mr-2 font-semibold text-ink">Education&nbsp;· Activities</strong>
           {activitiesEn.map((a) => `${a.period} ${a.name} (${a.detail})`).join(" / ")}
         </p>
 
         <div className="no-print">
-          <H2>Awards · Selections</H2>
+          <H2>Awards&nbsp;· Selections</H2>
           <dl className="mt-4">
             {awardsEn.map((a) => (
               <Row key={`${a.year}-${a.detail}`} label={a.year}>
@@ -418,7 +418,7 @@ export default function ResumePageEn() {
         </div>
 
         <div className="no-print mt-6">
-          <H2>Awards · Selections before marketing</H2>
+          <H2>Awards&nbsp;· Selections before marketing</H2>
           <dl className="mt-4">
             {awardsArchiveEn.map((a) => (
               <Row key={a.year} label={a.year}>
@@ -429,7 +429,7 @@ export default function ResumePageEn() {
         </div>
 
         <div className="no-print mt-6">
-          <H2>Education · Activities</H2>
+          <H2>Education&nbsp;· Activities</H2>
           <dl className="mt-4">
             {activitiesEn.map((a) => (
               <Row key={a.name} label={a.period}>

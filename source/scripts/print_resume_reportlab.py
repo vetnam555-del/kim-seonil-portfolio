@@ -171,7 +171,7 @@ if not any('2024kodaf' in v['href'] for v in verification):
     verification.insert(at + 1, {'title': '대한민국 디지털 광고 대상 (2024)', 'href': 'https://kodaa.or.kr/2024kodaf'})
 for v in verification:
     story.append(link(v['title'], v['href']))
-add('수치의 출처·집계 기간·개인 기여 범위는 각 프로젝트에 구분했습니다. 전화번호·주소·생년월일과 광고주 비공개 원천 데이터는 싣지 않았습니다.', 'small')
+add('수치의 출처·집계 기간은 프로젝트마다 적었습니다. 기여도는 100% 단독 담당, 35–75% 팀 내 전략·분석 주도, 20% 담당 매체·분석입니다. 전화번호·주소·생년월일과 광고주 원천 데이터는 싣지 않았습니다.', 'small')
 
 
 def footer(c, doc):
@@ -185,7 +185,7 @@ def footer(c, doc):
 
 RESUME.parent.mkdir(parents=True, exist_ok=True)
 SimpleDocTemplate(str(RESUME), pagesize=A4, leftMargin=44, rightMargin=44, topMargin=39, bottomMargin=44,
-                  title='김선일 | 이력서 및 경력기술서', author='김선일', subject=f'퍼포먼스 마케팅 경력과 프로젝트 | {DATE} 검수',
+                  title='김선일 | 이력서 및 경력기술서', author='김선일', lang='ko-KR', subject=f'퍼포먼스 마케팅 경력과 프로젝트 | {DATE} 검수',
                   creator='ReportLab').build(story, onFirstPage=footer, onLaterPages=footer)
 with pymupdf.open(RESUME) as checked:
     print(json.dumps({'resume_pages': len(checked), 'output': str(RESUME)}, ensure_ascii=False))

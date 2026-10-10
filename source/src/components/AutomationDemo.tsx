@@ -26,8 +26,8 @@ type Step = { label: string; note: string; ms: number; tone?: "signal" | "warn" 
 const RUN: Step[] = [
   { label: "재고 조회", note: "회당 최대 900개 상품", ms: 2600 },
   { label: "수량 기준 대조", note: "정해진 주기로 실행", ms: 1500 },
-  { label: "기준 미달 · 광고 중지", note: "쇼핑검색 자동 OFF", ms: 1500 },
-  { label: "재고 복구 · 광고 재개", note: "쇼핑검색 자동 ON", ms: 1500 },
+  { label: "기준 미달\u00a0· 광고 중지", note: "쇼핑검색 자동 OFF", ms: 1500 },
+  { label: "재고 복구\u00a0· 광고 재개", note: "쇼핑검색 자동 ON", ms: 1500 },
   { label: "완료", note: "약 2시간 → 5분 이내 (내부 실측 기준)", ms: 2600, tone: "signal" },
 ];
 
@@ -43,8 +43,8 @@ const GUARD: Step[] = [
 const RUN_EN: Step[] = [
   { label: "Read inventory", note: "Up to 900 products per run", ms: 2600 },
   { label: "Check against stock rules", note: "Runs on a fixed schedule", ms: 1500 },
-  { label: "Below threshold · pause ads", note: "Shopping search auto OFF", ms: 1500 },
-  { label: "Back in stock · resume ads", note: "Shopping search auto ON", ms: 1500 },
+  { label: "Below threshold\u00a0· pause ads", note: "Shopping search auto OFF", ms: 1500 },
+  { label: "Back in stock\u00a0· resume ads", note: "Shopping search auto ON", ms: 1500 },
   { label: "Done", note: "~2 hours → under 5 min (internal measurement)", ms: 2600, tone: "signal" },
 ];
 
@@ -76,7 +76,7 @@ const TXT = {
       { title: "Problem detected", steps: GUARD_EN },
     ],
     name: "Shopping-search inventory automation",
-    disclaimer: "How it works · example",
+    disclaimer: "How it works\u00a0· example",
     play: "Play",
     pause: "Pause",
     countLabel: "Checked this run",

@@ -119,14 +119,14 @@ function EvidenceFigure({ evidence, eager = false, t }: { evidence: Evidence; ea
           target="_blank"
           rel="noopener noreferrer"
           className="mt-2 inline-flex min-h-[44px] items-center font-semibold text-accent underline underline-offset-4"
-          aria-label={`${video ? t.openVideo : t.openFull} · ${evidence.alt} ${t.newTab}`}
+          aria-label={`${video ? t.openVideo : t.openFull}\u00a0· ${evidence.alt} ${t.newTab}`}
         >
           {video ? `${t.openVideo} ↗` : `${t.openFull} ↗`}
         </a>
         {evidence.href ? (
           <a href={evidence.href} target="_blank" rel="noopener noreferrer"
             className="ml-5 mt-2 inline-flex min-h-[44px] items-center font-semibold text-accent underline underline-offset-4"
-            aria-label={`${t.openSource} · ${evidence.alt} ${t.newTab}`}>
+            aria-label={`${t.openSource}\u00a0· ${evidence.alt} ${t.newTab}`}>
             {t.openSource} ↗
           </a>
         ) : null}
@@ -330,7 +330,8 @@ function EvidenceDetails({
             <li key={item.file} className="border-b border-line sm:pr-6">
               <a href={`#${evidenceId(item.file)}`} className="flex min-h-[44px] items-start gap-3 py-3 text-small text-accent hover:underline">
                 <span className="font-mono text-mono">{String(index + 1).padStart(2, "0")}</span>
-                <span>{item.title ?? item.alt.split(/—|\.(?=\s|$)/)[0].trim()}</span>
+                {/* 영문 alt 는 "라벨: 설명" 형식이다(2026.10.10 대시 → 콜론). 한국어 alt 에는 ": " 가 없어 결과가 같다 */}
+                <span>{item.title ?? item.alt.split(/—|:\s|\.(?=\s|$)/)[0].trim()}</span>
               </a>
             </li>
           ))}
@@ -688,7 +689,7 @@ function KpiDesign({ project, detail, t }: { project: Project; detail: Project["
   }
   const kpi = detail.kpi;
   if (!kpi?.title || kpi.stages.some((stage) => !stage.check)) {
-    throw new Error(`${project.slug} · KPI 표가 없으면 kpi.title 과 단계별 check 가 필요하다`);
+    throw new Error(`${project.slug}\u00a0· KPI 표가 없으면 kpi.title 과 단계별 check 가 필요하다`);
   }
   return (
     <FrameworkBlock
@@ -699,7 +700,7 @@ function KpiDesign({ project, detail, t }: { project: Project; detail: Project["
         variant: "table",
         rowHeader: t.kpiRowHeader,
         columns: t.kpiColumns,
-        rows: kpi.stages.map((stage) => ({ label: stage.stage, cells: [stage.check ?? "", stage.labels.join(" · ")] })),
+        rows: kpi.stages.map((stage) => ({ label: stage.stage, cells: [stage.check ?? "", stage.labels.join("\u00a0· ")] })),
       }}
     />
   );
@@ -714,7 +715,7 @@ function ResultChain({ project, detail, t }: { project: Project; detail: Project
   if (!kpi) return null;
   const metricOf = (label: string) => {
     const metric = detail.results.find((item) => item.label === label);
-    if (!metric) throw new Error(`${project.slug} · kpi 라벨 "${label}" 이 results 에 없다`);
+    if (!metric) throw new Error(`${project.slug}\u00a0· kpi 라벨 "${label}" 이 results 에 없다`);
     return metric;
   };
   return (
@@ -1083,7 +1084,7 @@ export function CaseView({ slug, lang = "ko" }: { slug: string; lang?: Lang }) {
               /* 업종 · 채널 · 근거 형태를 한 줄 묶음으로 (2026.09.25) — 기간·역할·기여 범위는 표지에 있다 */
               <dl className="case-meta-strip">
                 <div><dt>{t.industry}</dt><dd>{p.industry}</dd></div>
-                <div><dt>{p.contextLabel ?? t.channels}</dt><dd>{p.channels.join(" · ")}</dd></div>
+                <div><dt>{p.contextLabel ?? t.channels}</dt><dd>{p.channels.join("\u00a0· ")}</dd></div>
                 <div><dt>{t.evidenceType}</dt><dd>{p.evidenceLabel}</dd></div>
               </dl>
             ) : (
@@ -1163,7 +1164,7 @@ export function CaseView({ slug, lang = "ko" }: { slug: string; lang?: Lang }) {
             </div>
             <div className="text-balance">
               <dt className="inline text-caption text-ink-3">{p.contextLabel ?? t.channels} </dt>
-              <dd className="inline text-caption font-normal">{p.channels.join(" · ")}</dd>
+              <dd className="inline text-caption font-normal">{p.channels.join("\u00a0· ")}</dd>
             </div>
           </dl>
           )}

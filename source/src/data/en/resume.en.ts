@@ -22,22 +22,22 @@ export const summaryEn = {
   intro:
     "A performance marketer who has run search, display and video ads for 30+ brands over four years. I find where budget leaks and move it to what performs, and automate the checks, reports and settlement people used to repeat, so the team has time for decisions.",
   columns: [
-    { title: "Insight · Brief", items: ["Market, search and performance signal analysis", "Structuring client problems and bottlenecks", "Defining content purpose and KPIs"] },
-    { title: "Content · Channels", items: ["Content–subscription–commerce journeys", "Role and budget design across 10 channels", "30+ brands managed"] },
-    { title: "Performance · Systems", items: ["Measurement with GA4 · GTM · media data", "Funnel performance and attribution-path analysis", "Planned and ran 6 automations"] },
+    { title: "Insight\u00a0· Brief", items: ["Market, search and performance signal analysis", "Structuring client problems and bottlenecks", "Defining content purpose and KPIs"] },
+    { title: "Content\u00a0· Channels", items: ["Content–subscription–commerce journeys", "Role and budget design across 10 channels", "30+ brands managed"] },
+    { title: "Performance\u00a0· Systems", items: ["Measurement with GA4\u00a0· GTM\u00a0· media data", "Funnel performance and attribution-path analysis", "Planned and ran 6 automations"] },
   ],
   highlights: [
     {
-      axis: "Scale · Systems",
-      body: "New Balance, KRW 1B+ a month across 10 channels — inventory rules process up to 900 products per run automatically, and a run stops with 0 changes when data looks wrong",
+      axis: "Scale\u00a0· Systems",
+      body: "New Balance, KRW 1B+ a month across 10 channels: inventory rules process up to 900 products per run automatically, and a run stops with 0 changes when data looks wrong",
     },
     {
       axis: "Revenue",
-      body: "Gangwon Deep Sea Water, run alone — added Instagram group-buys as a sales channel: July 2026 store sales +397.3% year on year (incl. group-buys); H1 ROAS on ad-attributed revenue alone 201% → 238% (last year's periods were before I took over)",
+      body: "Gangwon Deep Sea Water, run alone: added Instagram group-buys as a sales channel. July 2026 store sales +397.3% year on year (incl. group-buys); H1 ROAS on ad-attributed revenue alone 201% → 238% (last year's periods were before I took over)",
     },
     {
       axis: "Efficiency",
-      body: "J.ESTINA IMC redesign — blended GA4 ROAS 352% → 583% (2025.05 → 07, same closing report), strategy & measurement contribution 75%",
+      body: "J.ESTINA IMC redesign: blended GA4 ROAS 352% → 583% (2025.05 → 07, same closing report), strategy & measurement contribution 75%",
     },
   ],
 } as const;
@@ -47,7 +47,7 @@ export const careerEn = [
     company: "HLL JoongAng",
     group: "JoongAng Group",
     period: "2025.11 – 2026.09",
-    title: "Performance Strategy Division · Manager",
+    title: "Performance Strategy Division\u00a0· Manager",
     summary:
       "Beyond running multiple media, I widened my role to own the decision rules that measure content and media performance together, and the automation behind them.",
     work: [
@@ -55,31 +55,31 @@ export const careerEn = [
       "Planned and built 6 automations for inventory, reporting, monitoring and settlement",
       "Took part in the in-house AI transformation (AX) project",
     ],
-    clients: "New Balance · Daekyo EduCamp (5 sub-brands) · Gangwon Deep Sea Water Cheonnyeon Dongan",
+    clients: "New Balance\u00a0· Daekyo EduCamp (5 sub-brands)\u00a0· Gangwon Deep Sea Water Cheonnyeon Dongan",
     highlight:
-      "New Balance, KRW 1B+ a month across 10 channels (account operations 40%) · Daekyo EduCamp: re-verified the comparison sample (CVR 0.66% → 2.24% on the same basis, measurement QA design 100%) and reworked the consultation form three times (lead conversion rate 2.84% → 7.55% after the form relaunch; paid-service conversion 9.9% → 11.28% after question changes) · Designed and built 6 automations alone",
+      "New Balance, KRW 1B+ a month across 10 channels (account operations 40%)\u00a0· Daekyo EduCamp: re-verified the comparison sample (CVR 0.66% → 2.24% on the same basis, measurement QA design 100%) and reworked the consultation form three times (lead conversion rate 2.84% → 7.55% after the form relaunch; paid-service conversion 9.9% → 11.28% after question changes)\u00a0· Designed and built 6 automations alone",
   },
   {
     company: "PlayD",
     group: "KT Group",
     period: "2022.09 – 2025.10",
-    title: "Data Marketing Division · PM",
+    title: "Data Marketing Division\u00a0· PM",
     summary:
       "Handling SA, DA and SNS for 30+ brands, I built PM experience turning client requests into campaign strategy verified with data.",
     work: [
-      "GA4-based conversion analysis · A/B tests · media-mix design",
+      "GA4-based conversion analysis\u00a0· A/B tests\u00a0· media-mix design",
       "IMC campaign strategy and a performance-verification setup",
       "Proposals, operations and reporting for large advertisers",
     ],
-    clients: "J.ESTINA · Dyson · Samsonite · Dongwon Mall · Hanssem · KT alpha Shopping",
+    clients: "J.ESTINA\u00a0· Dyson\u00a0· Samsonite\u00a0· Dongwon Mall\u00a0· Hanssem\u00a0· KT alpha Shopping",
     highlight:
-      "J.ESTINA GA4 ROAS 352% → 583% (same closing report) · Took part in designing Dyson's content–subscription–commerce journey (channel-wide subscribers 2,000 → 107,600 · team result) · Excellence Award, Integrated Performance, Korea Digital Advertising Awards, two years running",
+      "J.ESTINA GA4 ROAS 352% → 583% (same closing report)\u00a0· Took part in designing Dyson's content–subscription–commerce journey (channel-wide subscribers 2,000 → 107,600\u00a0· team result)\u00a0· Excellence Award, Integrated Performance, Korea Digital Advertising Awards, two years running",
   },
   {
     company: "Korea SMEs and Startups Agency",
     group: "",
     period: "2022.04 – 2022.07",
-    title: "Innovation Growth Division · Intern",
+    title: "Innovation Growth Division\u00a0· Intern",
     summary:
       "Supporting government program operations, I first saw how promotional ideas turn into actual applications and participation.",
     work: ["Planned collaborative content with finance influencers", "Managed the program application process"],
@@ -100,8 +100,8 @@ export const resumeMetricIndexKo: Record<string, string[]> = {
 export const supportingEn: Record<string, { brand: string; role: string; scope: string; evidence: string; objective: string }> = {
   edith: {
     brand: "EDIT H",
-    role: "Planning · editorial standards · production pipeline · publishing",
-    scope: "Planning, editing, building and publishing · 100%, alone",
+    role: "Planning\u00a0· editorial standards\u00a0· production pipeline\u00a0· publishing",
+    scope: "Planning, editing, building and publishing\u00a0· 100%, alone",
     evidence: "Public archive (link available)",
     objective: "Build a publishing standard that keeps only what's verified, and automate it so the standard holds every day",
   },
@@ -119,7 +119,7 @@ export const otherResultsEn = [
     brand: "Samsonite KakaoTalk Channel",
     category: "Channel Growth",
     period: "2025.01 – 2025.10",
-    summary: "I approached gaining friends as giving people a reason to stay in the channel rather than ad clicks, splitting entry placements and benefit messages around back-to-school and promotions. The figure is cumulative friends at the end of this period.",
+    summary: "To grow channel friends, I worked on giving people a reason to stay before chasing ad clicks. Entry placements and benefit messages were split around back-to-school and promotions. The figure is cumulative friends at the end of this period.",
     metrics: [{ label: "KakaoTalk Channel friends", value: "5,482" }],
   },
   {
@@ -127,14 +127,14 @@ export const otherResultsEn = [
     category: "Search",
     period: "2024.05 – 2025.07",
     summary: "I restructured 5,000 keywords and creatives by product group and search intent, and combined them with MOP auto-bidding.",
-    metrics: [{ label: "Monthly revenue target", value: "exceeded by 32%" }, { label: "Shopping-search sign-ups", value: "+28% · CPC −23%" }],
+    metrics: [{ label: "Monthly revenue target", value: "exceeded by 32%" }, { label: "Shopping-search sign-ups", value: "+28%\u00a0· CPC −23%" }],
   },
   {
     brand: "Saenghwal Baekseo",
     category: "D2C",
     period: "2024.09 – 2025.03",
     summary: "I segmented high-intent retargeting with shopping-info ad extensions and GFA custom targeting.",
-    metrics: [{ label: "Conversion revenue", value: "+775% (YoY)" }, { label: "Efficiency", value: "CTR 12% · CVR 8%" }],
+    metrics: [{ label: "Conversion revenue", value: "+775% (YoY)" }, { label: "Efficiency", value: "CTR 12%\u00a0· CVR 8%" }],
   },
   {
     brand: "FUJIFILM BI",
@@ -156,14 +156,14 @@ export const otherBrandsEn = ["Breitling", "Busan Bank", "Simmons", "Humanworks"
 
 export const publicWorkEn = [
   {
-    label: "Content planning · self-published",
-    title: "EDIT H marketing newsletter · card news",
+    label: "Content planning\u00a0· self-published",
+    title: "EDIT H marketing newsletter\u00a0· card news",
     desc: "I publish marketing news as a newsletter and 8-slide card news. Anything that isn't an official announcement is left out unless two different outlets confirm it.",
-    facts: ["89 public issues", "Latest public VOL.089 · 2026.09.11", "Archive list checked 2026.09.13"],
+    facts: ["89 public issues", "Latest public VOL.089\u00a0· 2026.09.11", "Archive list checked 2026.09.13"],
     href: "https://vetnam555-del.github.io/edit-h-archive/",
   },
   {
-    label: "Training tool · public web",
+    label: "Training tool\u00a0· public web",
     title: "Performance Marketing Practice Hub",
     desc: "I gathered per-media operating guides and practice tools into one onboarding site, so individual know-how becomes something the team reuses.",
     facts: ["8 practical tools", "12-week curriculum", "9 media guides"],
@@ -185,24 +185,24 @@ export const skillsEn: { category: string; rows: { level: string; items: string[
       {
         level: "Design",
         items: [
-          "Naver SA · BSA · Shopping search · Catalog · GFA",
-          "Google Ads (Search · GDN · YouTube VAC · Performance Max)",
+          "Naver SA\u00a0· BSA\u00a0· Shopping search\u00a0· Catalog\u00a0· GFA",
+          "Google Ads (Search\u00a0· GDN\u00a0· YouTube VAC\u00a0· Performance Max)",
           "Meta (Advantage+)",
-          "Kakao (Bizboard · Moment · Catalog)",
-          "Creative briefs (placements & specs · message-angle A/B design)",
+          "Kakao (Bizboard\u00a0· Moment\u00a0· Catalog)",
+          "Creative briefs (placements & specs\u00a0· message-angle A/B design)",
         ],
       },
       { level: "Operate", items: ["Criteo", "RTB House", "ADVoost", "Payco", "Danggeun", "Toss", "X (formerly Twitter)"] },
     ],
   },
   {
-    category: "Analysis · Measurement",
+    category: "Analysis\u00a0· Measurement",
     rows: [
       {
         level: "Design",
         items: [
           "GA4 event & conversion design",
-          "YouTube campaign metric definitions (impressions · product clicks · 10s+ views)",
+          "YouTube campaign metric definitions (impressions\u00a0· product clicks\u00a0· 10s+ views)",
           "10-day rotation tests for thumbnails, playlists and community",
           "UTM Builder parameter system",
           "Measurement QA checklist",
@@ -212,7 +212,7 @@ export const skillsEn: { category: string; rows: { level: string; items: string[
       },
       {
         level: "Operate",
-        items: ["Google Tag Manager (Tag Assistant · DebugView)", "Looker Studio", "AppsFlyer (MMP)", "Attribution-path analysis", "Cohort analysis", "A/B testing"],
+        items: ["Google Tag Manager (Tag Assistant\u00a0· DebugView)", "Looker Studio", "AppsFlyer (MMP)", "Attribution-path analysis", "Cohort analysis", "A/B testing"],
       },
       {
         level: "Basic",
@@ -222,7 +222,7 @@ export const skillsEn: { category: string; rows: { level: string; items: string[
     ],
   },
   {
-    category: "Automation · AX",
+    category: "Automation\u00a0· AX",
     rows: [
       {
         level: "Design",
@@ -233,7 +233,7 @@ export const skillsEn: { category: string; rows: { level: string; items: string[
           "A four-step safeguard that stops runs when data looks wrong",
           "Common basis for 12 core metrics",
           "Handover documentation system",
-          "Creative draft & caption pipeline (brand identity & layout dictionary + Claude · Figma)",
+          "Creative draft & caption pipeline (brand identity & layout dictionary + Claude\u00a0· Figma)",
         ],
       },
       { level: "Operate", items: ["PostgreSQL-based operating environment", "Docker", "PowerShell", "LG CNS MOP auto-bidding", "RAG knowledge bot"] },
@@ -245,14 +245,14 @@ export const skillsEn: { category: string; rows: { level: string; items: string[
     ],
   },
   {
-    category: "Documents · Collaboration · Language",
+    category: "Documents\u00a0· Collaboration\u00a0· Language",
     rows: [
-      { level: "Operate", items: ["Leading and presenting competitive pitches", "PowerPoint proposals", "Excel (pivot · VLOOKUP · conditional formatting · charts)"] },
+      { level: "Operate", items: ["Leading and presenting competitive pitches", "PowerPoint proposals", "Excel (pivot\u00a0· VLOOKUP\u00a0· conditional formatting\u00a0· charts)"] },
       { level: "Use", items: ["Adobe Photoshop", "Illustrator"] },
       {
         level: "Language",
-        items: ["English — writing reports for and communicating with global advertisers"],
-        note: "Dyson · Samsonite · FUJIFILM BI · Air France · Cathay Pacific · Publicis Groupe",
+        items: ["English: writing reports for and communicating with global advertisers"],
+        note: "Dyson\u00a0· Samsonite\u00a0· FUJIFILM BI\u00a0· Air France\u00a0· Cathay Pacific\u00a0· Publicis Groupe",
       },
     ],
   },
@@ -277,8 +277,8 @@ export const certificationsEn = [
 ] as const;
 
 export const awardsEn = [
-  { year: "2025", name: "Korea Digital Advertising Awards", detail: "J.ESTINA · Excellence Award, Integrated Performance" },
-  { year: "2024", name: "Korea Digital Advertising Awards", detail: "Dongnimmun PAT · Elle Golf · Excellence Award, Integrated Performance" },
+  { year: "2025", name: "Korea Digital Advertising Awards", detail: "J.ESTINA\u00a0· Excellence Award, Integrated Performance" },
+  { year: "2024", name: "Korea Digital Advertising Awards", detail: "Dongnimmun PAT\u00a0· Elle Golf\u00a0· Excellence Award, Integrated Performance" },
   { year: "2020", name: "Korea Talent Award", detail: "Selected and honored (Deputy Prime Minister and Minister of Education Award)" },
 ] as const;
 
@@ -287,24 +287,24 @@ export const awardsArchiveEn = [
   {
     year: "2020",
     items:
-      "Korea Talent Award · Seoul International Invention Fair Silver, Bronze & Special Prize · Selected for Student Startup Promising Teams 300 · 55th Invention Day Excellence Award · Asia Design Prize Excellence Award · Selected for the Pre-Startup Package (as CEO)",
+      "Korea Talent Award\u00a0· Seoul International Invention Fair Silver, Bronze & Special Prize\u00a0· Selected for Student Startup Promising Teams 300\u00a0· 55th Invention Day Excellence Award\u00a0· Asia Design Prize Excellence Award\u00a0· Selected for the Pre-Startup Package (as CEO)",
   },
   {
     year: "2019",
     items:
-      "International Startup Idea Competition Grand Prize · Asia Social Venture Competition Excellence Award, Idea Category · Gwangju Design Biennale Crowdfunding Contest Grand Prize · International SMART Startup Competition Silver · Selected for the Social Entrepreneur Development Program, 9th cohort (team member)",
+      "International Startup Idea Competition Grand Prize\u00a0· Asia Social Venture Competition Excellence Award, Idea Category\u00a0· Gwangju Design Biennale Crowdfunding Contest Grand Prize\u00a0· International SMART Startup Competition Silver\u00a0· Selected for the Social Entrepreneur Development Program, 9th cohort (team member)",
   },
   {
     year: "2017–2018",
     items:
-      "Social Venture Competition Top Excellence Award & Minister of Employment and Labor Award · Seoul Citizen Award, Excellence · KT Social Change Maker Top Excellence Award · World Invention Creativity Contest Gold · University Creative Invention Contest Honorable Mention",
+      "Social Venture Competition Top Excellence Award & Minister of Employment and Labor Award\u00a0· Seoul Citizen Award, Excellence\u00a0· KT Social Change Maker Top Excellence Award\u00a0· World Invention Creativity Contest Gold\u00a0· University Creative Invention Contest Honorable Mention",
   },
-  { year: "2015–2016", items: "Seoul Citizens' Traffic Safety Idea Contest Top Excellence Award · Samsung Tomorrow Solution Contest Excellence Award" },
+  { year: "2015–2016", items: "Seoul Citizens' Traffic Safety Idea Contest Top Excellence Award\u00a0· Samsung Tomorrow Solution Contest Excellence Award" },
 ] as const;
 
 export const activitiesEn = [
-  { period: "2022.07", name: "SME Training Institute, Marketing Expert Course", detail: "Completed — marketing analysis, STP strategy, 4P mix execution" },
-  { period: "2020–2021", name: "Enactus Korea", detail: "Planning team lead · planned a candle-funding project for young people leaving care, and its SNS promotion" },
+  { period: "2022.07", name: "SME Training Institute, Marketing Expert Course", detail: "Completed: marketing analysis, STP strategy, 4P mix execution" },
+  { period: "2020–2021", name: "Enactus Korea", detail: "Planning team lead\u00a0· planned a candle-funding project for young people leaving care, and its SNS promotion" },
   { period: "2018", name: "Kyung Hee University Future Innovation Institute Open-Lab", detail: "Completed an online-marketing innovation startup program" },
   { period: "2018", name: "Creative Invention IP Summer School", detail: "Completed" },
   { period: "2017", name: "Yonsei University startup club Y-Media", detail: "Planning team lead" },

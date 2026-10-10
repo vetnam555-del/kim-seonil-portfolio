@@ -95,7 +95,7 @@ export default function EmailCopyButton({
    * 주소나 다른 문구를 children 으로 넘기는 호출부(푸터 등)는 그대로 둔다.
    */
   const ACTION = T.action;
-  const prefix = typeof children === "string" && !children.includes(ACTION) ? `${children} · ` : "";
+  const prefix = typeof children === "string" && !children.includes(ACTION) ? `${children}\u00a0· ` : "";
   const ariaLabel = `${prefix}${email} ${ACTION}`;
 
   return (

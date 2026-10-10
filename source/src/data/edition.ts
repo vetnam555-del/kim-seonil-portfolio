@@ -79,16 +79,16 @@ export const roleForClient =
   EDITION === "hll"
     ? "퍼포먼스 기반 콘텐츠 그로스"
     : EDITION === "shinsegae"
-      ? "디지털 CRM · 커머스 그로스"
+      ? "디지털 CRM\u00a0· 커머스 그로스"
       : EDITION === "ably"
-        ? "신사업 그로스 · 실험 설계"
+        ? "신사업 그로스\u00a0· 실험 설계"
         : "퍼포먼스 마케터";
 
 export const portfolioPdfPathForClient =
   EDITION === "ably"
     ? "/kim-seonil-ably-growth-portfolio.pdf"
     : isGeneralLike
-      ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261010b"
+      ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261010c"
       : "/kim-seonil-performance-marketing-portfolio.pdf";
 
 export const isHLL = EDITION === "hll";
@@ -175,8 +175,8 @@ const COPY: Record<Exclude<Edition, "v260908" | "nw">, EditionCopy> = {
      * 차별점이다. 두 축을 함께 건다.
      */
     mastheadLeft: "KIM SEONILL — PERFORMANCE TO CONTENT GROWTH",
-    mastheadBase: "IDEA · CONTENT · DATA · SYSTEM",
-    mastheadRight: "ISSUE 01 · 2026.08 · STUDIO LULULALA 솔루션팀 지원",
+    mastheadBase: "IDEA\u00a0· CONTENT\u00a0· DATA\u00a0· SYSTEM",
+    mastheadRight: "ISSUE 01\u00a0· 2026.08\u00a0· STUDIO LULULALA 솔루션팀 지원",
     role: "퍼포먼스 기반 콘텐츠 그로스",
     /*
      * 뒤에 "다이슨 40%, 제이에스티나 75%를 맡았습니다"가 붙어 있었다. 바로 위 두 대형
@@ -219,8 +219,8 @@ const COPY: Record<Exclude<Edition, "v260908" | "nw">, EditionCopy> = {
     issueLabel: "PORTFOLIO",
     /* 한국어 직함 "퍼포먼스 마케터"의 영문. OG 이미지(render_og_cases.mjs)와 같은 값 */
     mastheadLeft: "KIM SEONILL — PERFORMANCE MARKETER",
-    mastheadBase: "PERFORMANCE · DATA · AUTOMATION",
-    mastheadRight: "PORTFOLIO · 2026.09 · PROBLEM · PROOF · SYSTEM",
+    mastheadBase: "PERFORMANCE\u00a0· DATA\u00a0· AUTOMATION",
+    mastheadRight: "PORTFOLIO\u00a0· 2026.09\u00a0· PROBLEM\u00a0· PROOF\u00a0· SYSTEM",
     /*
      * 직함을 하나로 좁혔다 (2026.09.25). "퍼포먼스 마케팅 · 마케팅 오퍼레이션" 두 직무를 나란히 두니
      * 마케터인지 운영·자동화 담당인지 첫 줄에서 갈렸고, 국내 공고 대부분이 쓰는 "퍼포먼스 마케터"와도
@@ -251,7 +251,7 @@ const COPY: Record<Exclude<Edition, "v260908" | "nw">, EditionCopy> = {
     ogAlt: "김선일 퍼포먼스 마케터 포트폴리오",
     caseDescription:
       "문제 정의부터 측정 기준, 운영 시스템까지의 판단 과정을 근거와 함께 담은 퍼포먼스 마케팅 사례입니다.",
-    portfolioPdfPath: "/kim-seonil-performance-marketing-portfolio.pdf?v=20261010b",
+    portfolioPdfPath: "/kim-seonil-performance-marketing-portfolio.pdf?v=20261010c",
     url: "https://vetnam555-del.github.io/kim-seonil-portfolio/",
     showWhyStudio: false,
     showWhyShinsegae: false,
@@ -278,9 +278,9 @@ const COPY: Record<Exclude<Edition, "v260908" | "nw">, EditionCopy> = {
   shinsegae: {
     issueLabel: "CRM EDITION",
     mastheadLeft: "KIM SEONILL — DIGITAL CRM & COMMERCE GROWTH",
-    mastheadBase: "CUSTOMER DATA · SEGMENTATION · AUTOMATION",
-    mastheadRight: "SHINSEGAE · DIGITAL CRM MARKETER · 2026.08",
-    role: "디지털 CRM · 커머스 그로스",
+    mastheadBase: "CUSTOMER DATA\u00a0· SEGMENTATION\u00a0· AUTOMATION",
+    mastheadRight: "SHINSEGAE\u00a0· DIGITAL CRM MARKETER\u00a0· 2026.08",
+    role: "디지털 CRM\u00a0· 커머스 그로스",
     deck:
       "고객 행동을 세분화하고, 각 단계에 맞는 메시지와 채널을 설계하며, 반복 가능한 운영 체계로 남깁니다.",
     heroRoleLine:
@@ -316,9 +316,9 @@ const COPY: Record<Exclude<Edition, "v260908" | "nw">, EditionCopy> = {
   ably: {
     issueLabel: "NEW BUSINESS",
     mastheadLeft: "KIM SEONILL — GROWTH FOR NEW BUSINESS",
-    mastheadBase: "DEFINE · EXPERIMENT · AUTOMATE",
-    mastheadRight: "ABLY · 그로스 마케터(신사업) · 2026.08",
-    role: "신사업 그로스 · 실험 설계",
+    mastheadBase: "DEFINE\u00a0· EXPERIMENT\u00a0· AUTOMATE",
+    mastheadRight: "ABLY\u00a0· 그로스 마케터(신사업)\u00a0· 2026.08",
+    role: "신사업 그로스\u00a0· 실험 설계",
     deck:
       "무엇을 성과로 볼지 먼저 정하고, 작게 실험해 확인한 뒤, 통한 방식을 팀이 다시 쓸 수 있는 구조로 남깁니다.",
     heroRoleLine:

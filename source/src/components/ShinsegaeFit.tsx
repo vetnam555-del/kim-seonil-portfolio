@@ -17,14 +17,14 @@ export default function ShinsegaeFit() {
       <Container>
         <div className="py-14 md:py-[72px]">
           <SectionHead
-            kicker="JOB FIT · SHINSEGAE DIGITAL CRM"
+            kicker="JOB FIT&nbsp;· SHINSEGAE DIGITAL CRM"
             title="퍼포먼스 운영 경험을 고객 관계 설계로 확장합니다."
             /*
               "직접 연결 근거 5개"였다. 5건 중 '개인화 캠페인'과 'CRM 자동화 운영 환경'은
               세그먼트 기반 운영·광고 운영 자동화라 인접 경험이지 같은 일이 아니다.
               Experience Boundary 가 그 간극을 이미 밝히고 있으므로 여기서도 "관련"으로 낮춘다.
             */
-            count="주요 업무 6개 · 관련 근거 5개"
+            count="주요 업무 6개&nbsp;· 관련 근거 5개"
           />
 
           <p className="mt-7 max-w-[54rem] text-body leading-[1.85] text-ink-2">
@@ -38,7 +38,7 @@ export default function ShinsegaeFit() {
           <div className="mt-10 border-y border-rule py-6">
             <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
               <p className="font-mono text-mono font-bold tracking-[0.06em] text-ink-3">
-                CRM OPERATING LOOP · 제가 해 온 일을 CRM 언어로 연결하면
+                CRM OPERATING LOOP&nbsp;· 제가 해 온 일을 CRM 언어로 연결하면
               </p>
               <p className="font-mono text-mono text-ink-3">5단계 순환</p>
             </div>
@@ -148,7 +148,7 @@ export default function ShinsegaeFit() {
                     ))}
                   </ul>
                   <p className="mt-4 border-t border-line pt-3 font-mono text-mono leading-[1.6] text-signal">
-                    완료 기준 · {phase.done}
+                    완료 기준&nbsp;· {phase.done}
                   </p>
                 </li>
               ))}

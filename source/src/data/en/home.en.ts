@@ -14,9 +14,9 @@ export const coverEn = {
   statement: ["I structure problems into hypotheses", "and improve them through testing."],
   note: "At PlayD and HLL JoongAng, I ran ads for 30+ brands, including New Balance, Dyson and J.ESTINA.",
   proof: [
-    { before: "352% →", after: "583%", label: "J.ESTINA GA4 ROAS", basis: "May → Jul 2025 · same closing report", href: "#case-jestina" },
+    { before: "352% →", after: "583%", label: "J.ESTINA GA4 ROAS", basis: "May → Jul 2025\u00a0· same closing report", href: "#case-jestina" },
     { after: "+397.3%", label: "Gangwon store sales", basis: "Jul 2026 vs same period last year", href: "#case-gangwon" },
-    { after: "2×", label: "Korea Digital Advertising Awards, Excellence", basis: "2 years running · 2024 Dongnimmun · 2025 J.ESTINA", href: "#records" },
+    { after: "2×", label: "Korea Digital Advertising Awards, Excellence", basis: "2 years running\u00a0· 2024 Dongnimmun\u00a0· 2025 J.ESTINA", href: "#records" },
   ],
   capabilities: [
     {
@@ -56,7 +56,7 @@ export const coverEn = {
       role: "the problem",
       line: "I find why performance stalls, in the numbers and the structure",
       story: "A 'performance dropped' call included a creative that had spent only about KRW 9,000. Re-measured on the same sample, the conclusion flipped.",
-      metrics: [{ before: "0.66% →", after: "2.24%", label: "Daekyo EduCamp CVR", basis: "Re-measured on the same sample · measurement QA design 100%" }],
+      metrics: [{ before: "0.66% →", after: "2.24%", label: "Daekyo EduCamp CVR", basis: "Re-measured on the same sample\u00a0· measurement QA design 100%" }],
       points: ["Comparison bases aligned to the same sample and scope", "GA4 conversion design and measurement QA", "Bottlenecks beyond ads: inventory, landing pages, consultation forms"],
       proof: [
         { label: "Daekyo EduCamp", href: "#case-daekyo" },
@@ -69,7 +69,7 @@ export const coverEn = {
       role: "the hypothesis",
       line: "I pick one thing to change and test it small",
       story: "With own-site landing pages, conversion sat around 0.7%. I moved to a consultation form and reworked it three times, lifting the June lead conversion rate to 7.55%. Question changes from July brought the paid-service conversion rate back to 11.28%.",
-      metrics: [{ before: "2.84% →", after: "7.55%", label: "Daekyo Mypace lead conversion rate", basis: "May → Jun 2026 · paid-service conversion 13.7% → 9.9% → 11.28% (from Jul)" }],
+      metrics: [{ before: "2.84% →", after: "7.55%", label: "Daekyo Mypace lead conversion rate", basis: "May → Jun 2026\u00a0· paid-service conversion 13.7% → 9.9% → 11.28% (from Jul)" }],
       points: ["Media operations on Naver, Meta, Kakao and Google", "Placement, format and landing-page tests", "Consultation form reworked three times, lead-quality control"],
       proof: [
         { label: "Daekyo EduCamp", href: "#case-daekyo" },
@@ -82,7 +82,7 @@ export const coverEn = {
       line: "I rebuild budget and operations on what's confirmed",
       story: "I rebuilt a search-heavy budget around customer stages, opened group-buys where ads alone had stalled sales, and turned repetitive checks into six automations.",
       metrics: [
-        { before: "352% →", after: "583%", label: "J.ESTINA GA4 ROAS", basis: "May → Jul 2025 · strategy & measurement 75%" },
+        { before: "352% →", after: "583%", label: "J.ESTINA GA4 ROAS", basis: "May → Jul 2025\u00a0· strategy & measurement 75%" },
       ],
       points: ["Channel roles and budget rebuilt by customer stage", "Sales channels beyond ads, such as group-buys", "Six automations that turn repetitive checks into operations"],
       proof: [
@@ -96,34 +96,34 @@ export const coverEn = {
   career: [
     {
       period: "2025.11 – 2026.09",
-      where: "HLL JoongAng · Manager, Performance Strategy",
+      where: "HLL JoongAng\u00a0· Manager, Performance Strategy",
       text: "Ran New Balance's KRW 1B+/month, 10-channel account as part of a team (account operations 40%) and built 6 inventory, reporting and settlement automations on my own. On Gangwon Deep Sea Water, I added Instagram group-buys as a sales channel and July store sales rose 397% year on year; I also ran Daekyo EduCamp.",
     },
     {
       period: "2022.09 – 2025.10",
-      where: "PlayD · PM, Data Marketing Division",
+      where: "PlayD\u00a0· PM, Data Marketing Division",
       text: "Ran search, display and social ads for 30+ brands. The J.ESTINA (2025) and Dongnimmun (2024) campaigns won Excellence Awards at the Korea Digital Advertising Awards.",
     },
   ],
   brandsLabel: "Brands",
-  brands: "New Balance · Dyson · J.ESTINA · Samsonite · Hanssem · Dongwon Mall · KT alpha Shopping · FUJIFILM BI · Daekyo EduCamp · Gangwon Deep Sea Water and more",
+  brands: "New Balance\u00a0· Dyson\u00a0· J.ESTINA\u00a0· Samsonite\u00a0· Hanssem\u00a0· Dongwon Mall\u00a0· KT alpha Shopping\u00a0· FUJIFILM BI\u00a0· Daekyo EduCamp\u00a0· Gangwon Deep Sea Water and more",
 } as const;
 
 /** 첫 화면의 공개 기록 셋 — verification 의 heroScope 가 있는 항목과 같은 순서·링크 */
 export const recordsEn = [
   {
     title: "LG CNS MOP best practice",
-    scope: "Shopping-search bidding & inventory automation · done alone",
+    scope: "Shopping-search bidding & inventory automation\u00a0· done alone",
     href: "https://blog.mop.co.kr/hll",
   },
   {
     title: "Korea Digital Advertising Awards (2025)",
-    scope: "J.ESTINA · Excellence Award, Integrated Performance",
+    scope: "J.ESTINA\u00a0· Excellence Award, Integrated Performance",
     href: "https://kodaa.or.kr/2025kodaf",
   },
   {
     title: "Korea Digital Advertising Awards (2024)",
-    scope: "Dongnimmun PAT · Elle Golf · Excellence Award, Integrated Performance",
+    scope: "Dongnimmun PAT\u00a0· Elle Golf\u00a0· Excellence Award, Integrated Performance",
     href: "https://kodaa.or.kr/2024kodaf",
   },
 ] as const;
@@ -133,22 +133,22 @@ export const systemsEn: Record<string, { name: string; built: string; effect: st
   S1: {
     name: "Shopping-search inventory automation",
     built: "Pauses and restarts shopping-search ads automatically by stock level.",
-    effect: "Check ~2 hours → under 5 min · internal measurement",
+    effect: "Check ~2 hours → under 5 min\u00a0· internal measurement",
   },
   S3: {
     name: "Automated report generation",
     built: "Paste three raw media files to generate a dashboard, report and QC sheet.",
-    effect: "38 media aliases · 82 audience groups mapped automatically",
+    effect: "38 media aliases\u00a0· 82 audience groups mapped automatically",
   },
   S2: {
     name: "Three anomaly monitors",
     built: "Scheduled checks for dead landing pages and stalled spend, plus AI-written daily GA4 comments for 6 media.",
-    effect: "Alerts only when something is wrong · silent when normal",
+    effect: "Alerts only when something is wrong\u00a0· silent when normal",
   },
   S4: {
     name: "Ad-spend settlement automation",
     built: "Matches invoices and vouchers and registers them in e-approval.",
-    effect: "All cases processed, up to 84 a month · as of 2026.05",
+    effect: "All cases processed, up to 84 a month\u00a0· as of 2026.05",
   },
   S5: {
     name: "Automated monthly report delivery",

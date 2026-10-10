@@ -104,7 +104,9 @@ for (const htmlFile of htmlFiles) {
   }
 }
 
-const allHtml = htmlFiles.map((htmlFile) => readFileSync(htmlFile, "utf8")).join("\n");
+/* 문구 검사는 공백 종류를 가리지 않는다 — " · " 구분자의 앞 공백이 2026.10.10 부터 줄바꿈 없는 공백(U+00A0)이다 */
+const flat = (html) => html.replace(/\u00a0|&nbsp;|&#160;|&#xa0;/gi, " ");
+const allHtml = flat(htmlFiles.map((htmlFile) => readFileSync(htmlFile, "utf8")).join("\n"));
 
 /*
  * 판마다 내려주는 덱이 다르다. 에이블리판은 전용 덱(34쪽)을, 나머지는 공용 덱(33쪽)을
@@ -155,14 +157,14 @@ for (const asset of requiredAssets) {
   if (!existsSync(join(root, asset))) failures.push(`필수 자산 없음: ${asset}`);
 }
 
-const homeOnly = existsSync(join(root, "index.html")) ? readFileSync(join(root, "index.html"), "utf8") : "";
+const homeOnly = existsSync(join(root, "index.html")) ? flat(readFileSync(join(root, "index.html"), "utf8")) : "";
 /*
  * 공용판은 2026.09.24 부터 홈이 입구이고, 옛 홈의 깊은 층(일하는 방식 · 자동화 전체 · 광고주 ·
  * 이야기 · 창업 기록 · 다음 역할 · 경력과 수상)은 /about/ 에 있다. 지운 것이 아니므로 두 페이지를
  * 한 묶음으로 보고 문구 검사를 한다. 사례 읽기 순서와 증빙 링크 수는 홈만 본다.
  */
 const aboutPath = join(root, "about", "index.html");
-const home = edition === "general" && existsSync(aboutPath) ? `${homeOnly}\n${readFileSync(aboutPath, "utf8")}` : homeOnly;
+const home = edition === "general" && existsSync(aboutPath) ? `${homeOnly}\n${flat(readFileSync(aboutPath, "utf8"))}` : homeOnly;
 if (edition === "general") {
   if (home.includes("경영학 학점은행제 과정 이수")) {
     failures.push("숭실대학교 학력 표기에 삭제 요청한 문구가 남아 있습니다.");
@@ -500,7 +502,7 @@ const EDITH_PUBLIC = "공개 문서 89편";
 if (!allHtml.includes(EDITH_PUBLIC)) {
   failures.push(`EDIT H ${EDITH_PUBLIC} 문구 없음`);
 }
-const edithHtml = readFileSync(join(root, "projects", "edith", "index.html"), "utf8");
+const edithHtml = flat(readFileSync(join(root, "projects", "edith", "index.html"), "utf8"));
 for (const expected of ["89편", "2026.09.13", "VOL.089"]) {
   if (!edithHtml.includes(expected)) failures.push(`EDIT H 최신 공개 기준 누락: ${expected}`);
 }

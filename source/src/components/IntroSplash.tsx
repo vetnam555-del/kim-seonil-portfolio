@@ -47,7 +47,7 @@ export default function IntroSplash({ lang }: { lang: "ko" | "en" }) {
           <div className="intro-nums">
             {t.steps.map((s, i) => (
               <div key={s.key} className="intro-num" style={{ "--i": i } as CSSProperties}>
-                <em>{`${s.stage} · ${s.key}`}</em>
+                <em>{`${s.stage}\u00a0· ${s.key}`}</em>
                 <b>
                   {s.before ? <span className="intro-before">{s.before}</span> : null}
                   {s.value}

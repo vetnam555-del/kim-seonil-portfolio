@@ -47,7 +47,7 @@ export default function OtherResults() {
         <p className="mt-5 text-caption leading-[1.7] text-ink-3">
           <span className="block">
             <span className="font-semibold text-ink-2">그 밖에 </span>
-            {otherBrands.join(" · ")} 등 9개 산업군 30여 개 브랜드의 운영·분석 경험이 있습니다.
+            {otherBrands.join("\u00a0· ")} 등 9개 산업군 30여 개 브랜드의 운영·분석 경험이 있습니다.
           </span>
           <span className="block">월 단위 기간을 확인하지 못한 브랜드는 위 표에 올리지 않았습니다. 세부 수치는 출처와 집계 범위를 함께 확인할 수 있을 때만 공유합니다.</span>
         </p>

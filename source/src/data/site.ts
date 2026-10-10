@@ -12,7 +12,7 @@ export const site = {
   /** 판마다 다르다 — hll 은 "콘텐츠 그로스 · 퍼포먼스 마케터", 일반판은 직무 중심 */
   role: edition.role,
   /* 2026.09.30 까지 재직(2026-09-24 본인 확인) — 현재 소속처럼 읽히지 않게 '전'을 붙인다 */
-  org: "전 HLL중앙 · 퍼포먼스전략국 과장",
+  org: "전 HLL중앙\u00a0· 퍼포먼스전략국 과장",
   email: "makefair@naver.com",
   /** 사내 이동 지원이라 사내 메일 자체가 재직 확인 수단이 된다 — 개인 메일과 병기한다 */
   emailWork: "kim.seonill@hll.kr",
@@ -41,9 +41,9 @@ export const site = {
     "mailto:makefair@naver.com?subject=%EC%9D%B4%EB%A0%A5%EC%84%9C%20%EC%9B%90%EB%B3%B8%20%EC%9A%94%EC%B2%AD%EB%93%9C%EB%A6%BD%EB%8B%88%EB%8B%A4",
   /** 전화번호·주소·생년월일을 제외한 공개용 PDF */
   /* 2026.10.09 문장 다듬기 반영본(scripts/print_resume_reportlab.py) — 캐시를 넘기려고 판 번호를 올린다 */
-  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261010" : "/kim-seonil-resume-public.pdf",
+  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261010c" : "/kim-seonil-resume-public.pdf",
   /** 일반 공개판에서 내려받는 웹 포트폴리오의 PDF 공유본 */
-  portfolioPdfPath: isGeneralLike ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261010b" : "/kim-seonil-performance-marketing-portfolio.pdf",
+  portfolioPdfPath: isGeneralLike ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261010c" : "/kim-seonil-performance-marketing-portfolio.pdf",
 } as const;
 
 /**
@@ -99,9 +99,9 @@ const HEADLINE_POOL = {
     overline: "쌤소나이트 카카오톡채널",
     before: "카카오톡채널 친구",
     after: "5,482명",
-    subnote: "운영 종료 시점(2025.10) 누적 · 채널 운영 기여 100%",
+    subnote: "운영 종료 시점(2025.10) 누적\u00a0· 채널 운영 기여 100%",
     footnoteText:
-      "쌤소나이트 카카오톡채널 친구 5,482명 · 운영 종료 시점(2025.10) 누적 · 이전 제출 이력서 및 내부 캠페인 리포트 기준",
+      "쌤소나이트 카카오톡채널 친구 5,482명\u00a0· 운영 종료 시점(2025.10) 누적\u00a0· 이전 제출 이력서 및 내부 캠페인 리포트 기준",
   },
   dyson: {
     overline: "다이슨 YouTube",
@@ -119,25 +119,25 @@ const HEADLINE_POOL = {
      *   챕터 밴드 → 이 사이트에 무엇이 있는가(색인)
      *   각주 → 그 숫자를 언제·어떻게 셌는가
      */
-    subnote: "채널 전체 구독자이며 팀 성과입니다 · 여정 설계 기여 40%",
+    subnote: "채널 전체 구독자이며 팀 성과입니다\u00a0· 여정 설계 기여 40%",
     footnoteText:
-      "다이슨 YouTube 구독자 · 2024.01 캠페인 종료 시점 채널 전체 · 운영 2023.10–2024.06 · 콘텐츠–구독–라이브커머스 여정 설계 참여",
+      "다이슨 YouTube 구독자\u00a0· 2024.01 캠페인 종료 시점 채널 전체\u00a0· 운영 2023.10–2024.06\u00a0· 콘텐츠–구독–라이브커머스 여정 설계 참여",
   },
   jestina: {
     overline: "제이에스티나 GA4",
     before: "ROAS 352%",
     after: "583%",
-    subnote: "전략·측정 기여 75% · 일 단위 집행은 팀 분담",
+    subnote: "전략·측정 기여 75%\u00a0· 일 단위 집행은 팀 분담",
     footnoteText:
-      "제이에스티나 GA4 전환매출 기준 통합 ROAS · 2025.05 → 07 동일 마감보고 기준 · +231%p",
+      "제이에스티나 GA4 전환매출 기준 통합 ROAS\u00a0· 2025.05 → 07 동일 마감보고 기준\u00a0· +231%p",
   },
   daekyo: {
     overline: "대교에듀캠프 CVR",
     before: "0.66%",
     after: "2.24%",
-    subnote: "측정 QA 설계 기여 100% · 같은 구간 CPA −14.1%",
+    subnote: "측정 QA 설계 기여 100%\u00a0· 같은 구간 CPA −14.1%",
     footnoteText:
-      "대교에듀캠프 · 같은 비교 기준으로 재산출한 CVR · 서브 브랜드 5개 · 측정 QA 설계 기여 100% · 같은 구간 CPA −14.1%",
+      "대교에듀캠프\u00a0· 같은 비교 기준으로 재산출한 CVR\u00a0· 서브 브랜드 5개\u00a0· 측정 QA 설계 기여 100%\u00a0· 같은 구간 CPA −14.1%",
   },
 } as const;
 
@@ -284,10 +284,10 @@ export const generalCover = {
    * 본인이 주어인 결과만 싣는다: 전략·측정 75% · 자동화 100% · 담당 캠페인 수상. 기준은 각 칸 아래 작은 줄.
    */
   proof: [
-    { before: "352% →", after: "583%", label: "제이에스티나 GA4 ROAS", basis: "2025.05 → 07 · 동일 마감보고", href: "#case-jestina" },
+    { before: "352% →", after: "583%", label: "제이에스티나 GA4 ROAS", basis: "2025.05 → 07\u00a0· 동일 마감보고", href: "#case-jestina" },
     /* 2026.09.26 뉴발란스 점검 5분 → 강원 스토어 매출. 첫 화면에 자동화가 겹쳐 보였다(사용자). 5분은 카드·자동화 구간에 그대로 있다 */
-    { after: "+397.3%", label: "강원심층수 스토어 판매금액", basis: "2026.07 · 전년 같은 기간 대비", href: "#case-gangwon" },
-    { after: "2년 연속", label: "대한민국 디지털 광고 대상 우수상", basis: "2024 독립문 · 2025 제이에스티나", href: "#records" },
+    { after: "+397.3%", label: "강원심층수 스토어 판매금액", basis: "2026.07\u00a0· 전년 같은 기간 대비", href: "#case-gangwon" },
+    { after: "2년 연속", label: "대한민국 디지털 광고 대상 우수상", basis: "2024 독립문\u00a0· 2025 제이에스티나", href: "#records" },
   ],
   /*
    * 첫 화면 아래 경력 두 줄 (2026.09.25) — "지나온 길"(발명·창업 동아리 → 전공 → 회사)을 이 자리에서 뺐다.
@@ -298,17 +298,17 @@ export const generalCover = {
   career: [
     {
       period: "2025.11 – 2026.09",
-      where: "HLL중앙 · 퍼포먼스전략국 과장",
-      text: "뉴발란스 월 10억+ · 10개 채널 계정을 팀으로 운영하며(계정 운영 40%) 재고·리포트·정산 자동화 6종을 혼자 구축했습니다. 강원심층수는 인스타그램 공동구매로 판매 경로를 넓혀 7월 스토어 매출을 전년보다 397% 늘렸고 대교에듀캠프도 맡았습니다.",
+      where: "HLL중앙\u00a0· 퍼포먼스전략국 과장",
+      text: "뉴발란스 월 10억+\u00a0· 10개 채널 계정을 팀으로 운영하며(계정 운영 40%) 재고·리포트·정산 자동화 6종을 혼자 구축했습니다. 강원심층수는 인스타그램 공동구매로 판매 경로를 넓혀 7월 스토어 매출을 전년보다 397% 늘렸고 대교에듀캠프도 맡았습니다.",
     },
     {
       period: "2022.09 – 2025.10",
-      where: "플레이디 · 데이터마케팅본부 PM",
+      where: "플레이디\u00a0· 데이터마케팅본부 PM",
       text: "30여 개 브랜드의 검색·디스플레이·SNS 광고를 운영했습니다. 제이에스티나(2025)와 독립문(2024) 캠페인이 대한민국 디지털 광고 대상 우수상을 받았습니다.",
     },
   ],
   brandsLabel: "운영 브랜드",
-  brands: "뉴발란스 · 다이슨 · 제이에스티나 · 쌤소나이트 · 한샘 · 동원몰 · KT알파쇼핑 · 후지필름BI · 대교에듀캠프 · 강원심층수 외",
+  brands: "뉴발란스\u00a0· 다이슨\u00a0· 제이에스티나\u00a0· 쌤소나이트\u00a0· 한샘\u00a0· 동원몰\u00a0· KT알파쇼핑\u00a0· 후지필름BI\u00a0· 대교에듀캠프\u00a0· 강원심층수 외",
   /*
    * 두 역량 — 제목의 앞 절과 뒤 절. 사례 목차 · SKILLS · HOW I WORK 가 같은 이름을 쓴다(2026.09.24).
    * 첫 화면이 역량 둘을 말하고 아래 섹션이 각자 다른 분류(3방식·4영역)를 쓰면 틀이 흩어져 읽혔다.
@@ -333,7 +333,7 @@ export const generalCover = {
       line: "성과가 막힌 원인을 숫자와 구조에서 찾습니다",
       /* 홈 스크롤 구간(LoopStory, 2026.09.26)이 쓰는 이야기·숫자 — 모두 사례 본문에 이미 있는 값이다 */
       story: "'성과가 떨어졌다'는 판단에 약 9천 원만 쓴 소재가 섞여 있었습니다. 같은 표본으로 다시 재자 결론이 뒤집혔습니다.",
-      metrics: [{ before: "0.66% →", after: "2.24%", label: "대교에듀캠프 CVR", basis: "같은 표본으로 다시 계산 · 측정 QA 설계 100%" }],
+      metrics: [{ before: "0.66% →", after: "2.24%", label: "대교에듀캠프 CVR", basis: "같은 표본으로 다시 계산\u00a0· 측정 QA 설계 100%" }],
       points: ["같은 표본·같은 범위로 비교 기준 정합", "GA4 전환 설계와 측정 QA", "재고·랜딩·상담 폼까지 광고 밖 병목 진단"],
       proof: [
         { label: "대교에듀캠프", href: "#case-daekyo" },
@@ -346,7 +346,7 @@ export const generalCover = {
       role: "가설 검증",
       line: "바꿀 것 하나를 정해 작게 테스트합니다",
       story: "자사몰 랜딩 위주일 때 전환율은 0.7% 수준이었습니다. 상담 폼으로 바꾸고 세 번 고쳐, 6월 광고 DB 전환율을 7.55%까지 올렸습니다. 낮아졌던 정규 서비스 전환율은 7월 이후 문항 조정으로 11.28%까지 되돌렸습니다.",
-      metrics: [{ before: "2.84% →", after: "7.55%", label: "대교 마이페이스 광고 DB 전환율", basis: "2026.05 → 06 · 정규 서비스 전환율 13.7% → 9.9% → 11.28%(7월 이후)" }],
+      metrics: [{ before: "2.84% →", after: "7.55%", label: "대교 마이페이스 광고 DB 전환율", basis: "2026.05 → 06\u00a0· 정규 서비스 전환율 13.7% → 9.9% → 11.28%(7월 이후)" }],
       points: ["네이버·메타·카카오·구글 매체 운영", "지면·포맷·랜딩 비교 테스트", "상담 폼 3차 개선과 리드 품질 관리"],
       proof: [
         { label: "대교에듀캠프", href: "#case-daekyo" },
@@ -364,7 +364,7 @@ export const generalCover = {
        * 단계 이름(예산과 운영을 다시 짠다)에 맞는 제이에스티나를 남긴다. 강원은 근거 링크로 그대로 있다.
        */
       metrics: [
-        { before: "352% →", after: "583%", label: "제이에스티나 GA4 ROAS", basis: "2025.05 → 07 · 전략·측정 75%" },
+        { before: "352% →", after: "583%", label: "제이에스티나 GA4 ROAS", basis: "2025.05 → 07\u00a0· 전략·측정 75%" },
       ],
       points: ["고객 단계별 채널 역할 정리와 예산 재배분", "공동구매 등 광고 밖 판매 경로 확장", "반복 점검 자동화 6종으로 운영 구조화"],
       proof: [
@@ -383,29 +383,29 @@ export const generalCover = {
   story: [
     {
       tag: "Idea",
-      where: "발명·창업 동아리 · 경영학",
+      where: "발명·창업 동아리\u00a0· 경영학",
       text: "아이디어를 발표하고 공감을 얻는 일이 좋아, 창업을 하려고 경영학을 공부했습니다.",
     },
     {
       tag: "Design",
-      where: "산업디자인 · 연세대학교",
+      where: "산업디자인\u00a0· 연세대학교",
       text: "15분 설명보다 이미지 한 장이 먼저 심사위원을 설득하는 걸 보고 산업디자인으로 옮겼습니다.",
     },
     {
       tag: "Performance",
-      where: "플레이디 · 2022.09 – 2025.10",
+      where: "플레이디\u00a0· 2022.09 – 2025.10",
       text: "창업 때 설문에서 답은 고객 데이터에 있다는 걸 알았고, 알리는 일을 배우려 광고 대행사에서 30여 개 브랜드를 운영했습니다.",
     },
     {
       tag: "Operations",
-      where: "HLL중앙 · 2025.11 – 2026.09",
+      where: "HLL중앙\u00a0· 2025.11 – 2026.09",
       text: "뉴발란스·대교·강원심층수를 운영하며, 사람이 하나씩 보던 재고 점검을 자동화했습니다.",
     },
   ],
 } as const;
 
 export const generalProfile = {
-  eyebrow: "KIM SEONILL · ABOUT",
+  eyebrow: "KIM SEONILL\u00a0· ABOUT",
   // The first heading identifies the applicant; the supporting copy explains the work.
   title: ["김선일", "퍼포먼스 마케터"],
   intro:
@@ -466,7 +466,7 @@ export const hllProfile = {
    * 모바일에서는 줄바꿈까지 겹쳐 렌더 오류처럼 보였다.
    * eyebrow 는 마스트헤드가 말하지 않는 것 — 이 페이지가 무엇인지 — 를 맡는다.
    */
-  eyebrow: "PROFILE · 지원자 소개",
+  eyebrow: "PROFILE\u00a0· 지원자 소개",
   /* "다음 성장" 이 줄바꿈에서 갈리지 않게 줄바꿈 없는 공백(U+00A0)으로 묶었다 */
   title: ["아이디어를 실행으로 옮기고,", "반응을 다음 성장으로 잇습니다."],
   intro:
@@ -511,7 +511,7 @@ export const shinsegaeProfile = {
    * (바로 위 hllProfile 주석), 나중에 추가된 이 판이 그 규칙을 다시 어겼다.
    * eyebrow 는 마스트헤드가 말하지 않는 것 — 이 페이지가 무엇인지 — 를 맡는다.
    */
-  eyebrow: "PROFILE · 지원자 소개",
+  eyebrow: "PROFILE\u00a0· 지원자 소개",
   title: ["고객을 나누어 이해하고,", "행동에 맞게 제안하며,", "다음 관계까지 설계합니다."],
   intro:
     "패션·커머스·D2C·교육 등 30여 개 브랜드를 운영하며 신규·재구매 고객을 나누고, 채널별 역할과 메시지를 조정해 왔습니다. GA4·GTM·매체 데이터는 한 기준으로 맞추고, 반복 업무는 자동화해 캠페인 실행과 학습이 이어지게 했습니다.",
@@ -556,7 +556,7 @@ export const selectedImpact = [
     after: "583%",
     label: "GA4 전환매출 기준 통합 ROAS",
     desc: "고객 단계별로 채널 역할과 예산을 다시 나눠 전환 효율을 높였습니다.",
-    note: "2025.05 → 07 동일 마감보고 기준 · 전략·측정 기여 75%",
+    note: "2025.05 → 07 동일 마감보고 기준\u00a0· 전략·측정 기여 75%",
     href: "#case-jestina",
   },
   {
@@ -566,7 +566,7 @@ export const selectedImpact = [
     after: "2.24%",
     label: "같은 기준으로 재산출한 CVR",
     desc: "표본과 전환 경로를 다시 확인해 소재가 아닌 전환 구조를 병목으로 정의했습니다.",
-    note: "같은 구간 CPA −14.1% · 측정 QA 설계 기여 100%",
+    note: "같은 구간 CPA −14.1%\u00a0· 측정 QA 설계 기여 100%",
     href: "#case-daekyo",
   },
   {
@@ -576,7 +576,7 @@ export const selectedImpact = [
     after: "5분 이내",
     label: "재고·광고 운영 점검 시간",
     desc: "재고와 쇼핑검색 광고를 연결해, 품절 상품에 광고비가 계속 나가는 것을 막았습니다.",
-    note: "내부 일평균 실측 기준 · 자동화 설계·구축 기여 100%",
+    note: "내부 일평균 실측 기준\u00a0· 자동화 설계·구축 기여 100%",
     href: "#case-newbalance",
   },
 ] as const;
@@ -590,7 +590,7 @@ export const hllSelectedImpact = [
     after: "76호",
     label: "공개 아카이브 75호",
     desc: "팀이 출근길에 읽을 수 있도록 뉴스레터와 카드뉴스 8장을 자발적으로 기획·제작·발행했습니다.",
-    note: "2026.08.25 기준 · 기획·편집·구축·발행 100% 단독",
+    note: "2026.08.25 기준\u00a0· 기획·편집·구축·발행 100% 단독",
     href: "#case-edith",
   },
   {
@@ -600,7 +600,7 @@ export const hllSelectedImpact = [
     after: "107,600",
     label: "YouTube 구독자",
     desc: "구독 캠페인과 콘텐츠 운영을 연결하고 목적별 성과에 따라 배포 방식을 조정했습니다.",
-    note: "2024.01 채널 전체 · 팀 성과 · KPI 재정의·테스트 설계 기여 40%",
+    note: "2024.01 채널 전체\u00a0· 팀 성과\u00a0· KPI 재정의·테스트 설계 기여 40%",
     href: "#case-dyson",
   },
   {
@@ -610,7 +610,7 @@ export const hllSelectedImpact = [
     after: "5분 이내",
     label: "재고·광고 운영 점검 시간",
     desc: "품절 상품에 광고비가 나가지 않도록 막고, 데이터가 비정상이면 실행하지 않는 중단 조건을 세웠습니다.",
-    note: "내부 일평균 실측 기준 · 자동화 설계·구축 기여 100%",
+    note: "내부 일평균 실측 기준\u00a0· 자동화 설계·구축 기여 100%",
     href: "#case-newbalance",
   },
 ] as const;
@@ -628,7 +628,7 @@ export const shinsegaeSelectedImpact = [
     after: "5,482명",
     label: "카카오톡채널 친구",
     desc: "유입 시점과 혜택 메시지를 나눠, 고객이 채널을 계속 이용할 이유를 만들었습니다.",
-    note: "운영 종료 시점(2025.10) 누적 · 채널 운영 기여 100%",
+    note: "운영 종료 시점(2025.10) 누적\u00a0· 채널 운영 기여 100%",
     href: "#case-samsonite",
   },
   {
@@ -638,7 +638,7 @@ export const shinsegaeSelectedImpact = [
     after: "583%",
     label: "GA4 전환매출 기준 통합 ROAS",
     desc: "신규 유입과 재구매 고객을 나누고, 고객 단계에 맞춰 채널 역할과 예산을 재배분했습니다.",
-    note: "2025.05 → 07 동일 마감보고 기준 · 전략·측정 기여 75%",
+    note: "2025.05 → 07 동일 마감보고 기준\u00a0· 전략·측정 기여 75%",
     href: "#case-jestina",
   },
   {
@@ -654,7 +654,7 @@ export const shinsegaeSelectedImpact = [
     after: "5분 이내",
     label: "재고·광고 운영 점검 시간",
     desc: "수집·판정·실행·사후 QA를 연결해, 품절 상품에 광고비가 나가는 것을 막았습니다.",
-    note: "내부 일평균 실측 기준 · 자동화 설계·구축 기여 100%",
+    note: "내부 일평균 실측 기준\u00a0· 자동화 설계·구축 기여 100%",
     href: "#case-newbalance",
   },
 ] as const;
@@ -708,7 +708,7 @@ export const shinsegaeExperienceBoundary = {
 } as const;
 
 export const shinsegaeFirst90Days = {
-  eyebrow: "FIRST 90 DAYS · WORKING HYPOTHESIS",
+  eyebrow: "FIRST 90 DAYS\u00a0· WORKING HYPOTHESIS",
   title: "기존 체계를 먼저 이해하고, 작은 CRM 실험부터 검증합니다.",
   phases: [
     {
@@ -880,10 +880,13 @@ export const hllRoleFit = [
 export const howIWork = {
   /* 2026.09.26 표지(FIND · TEST · IMPROVE)와 같은 순서로 — 원칙마다 붙던 '예산 운영·측정 / 운영 자동화' 꼬리표를 단계로 바꿨다 */
   title: "제가 문제를 푸는 순서",
+  /* 공용판 소개 페이지 제목 (2026.10.10). 홈의 FIND · TEST · IMPROVE 구간도 "제가 문제를 푸는 순서"라
+     같은 제목이 두 번 나왔다. 이쪽은 사례 이야기가 아니라 단계별 할 일과 산출물을 싣는다 — 그것을 제목으로 쓴다 */
+  generalTitle: "단계마다 하는 일과 남기는 것",
   items: [
     {
       no: "01",
-      stage: "FIND · 문제 진단",
+      stage: "FIND\u00a0· 문제 진단",
       title: "성과가 막힌 원인부터 구조화합니다",
       desc: "요청을 받으면 먼저 비교 기준이 맞는지, 고객 행동의 어느 단계에서 성과가 달라졌는지 나눠 봅니다. 원인이 재고·랜딩·상담 폼처럼 광고 밖에 있는지도 함께 확인합니다.",
       related: [
@@ -906,7 +909,7 @@ export const howIWork = {
        */
       /* 2026.09.25 격언형("A보다 B")을 걷어내며 본문이 실제로 하는 일로 바꿨다 */
       /* 2026.09.26 TEST 단계로 — 채널 역할 설계는 03(구조 개선)으로 옮겼다 */
-      stage: "TEST · 가설 검증",
+      stage: "TEST\u00a0· 가설 검증",
       title: "가설을 세워 작게 테스트합니다",
       desc: "바꿀 요소 하나를 정해 지면·포맷·랜딩·폼을 나눠 비교합니다. 확인된 결과만 다음 판단과 예산에 씁니다.",
       related: [
@@ -917,7 +920,7 @@ export const howIWork = {
     },
     {
       no: "03",
-      stage: "IMPROVE · 구조 개선",
+      stage: "IMPROVE\u00a0· 구조 개선",
       title: "확인된 것으로 구조를 다시 짭니다",
       desc: "채널 역할과 예산 배분, 판매 경로를 다시 짭니다. 반복되는 점검은 리포트·UTM·자동화로 남겨 팀이 이어서 운영할 수 있게 합니다.",
       related: [
@@ -951,7 +954,7 @@ export const keyNumbers = [
     slug: "dyson",
     value: "2,000 → 107,600",
     label: "YouTube 구독자",
-    note: "다이슨 · 채널 전체 구독자이며 팀 성과입니다 · 여정 설계 참여 기여도 40% · 매체 집계 구독 전환 104,257건",
+    note: "다이슨\u00a0· 채널 전체 구독자이며 팀 성과입니다\u00a0· 여정 설계 참여 기여도 40%\u00a0· 매체 집계 구독 전환 104,257건",
     axis: "콘텐츠 자산",
     /*
      * 이 셀이 표지 대형 수치와 같은 사례를 가리킬 때 쓰는 대체 표기.
@@ -971,8 +974,8 @@ export const keyNumbers = [
      * 채널 순증(105,600명)과 이 값은 집계 기간과 귀속 기준이 달라 합산하지 않는다 —
      * 두 수치가 거의 같아 보이므로 그 사실을 밴드에서부터 밝혀 둔다.
      */
-    altLabel: "매체 집계 구독 전환 · 2023.12 구독 캠페인",
-    altNote: "다이슨 · 매체 집계 기준 · 채널 구독자 순증과는 집계 기간·귀속 기준이 다릅니다",
+    altLabel: "매체 집계 구독 전환\u00a0· 2023.12 구독 캠페인",
+    altNote: "다이슨\u00a0· 매체 집계 기준\u00a0· 채널 구독자 순증과는 집계 기간·귀속 기준이 다릅니다",
   },
   {
     /*
@@ -983,31 +986,31 @@ export const keyNumbers = [
     slug: "edith",
     /* 공개 아카이브에서 셀 수 있는 값과 맞춘다 — 근거는 projects.ts 의 keyMetric 주석 */
     value: "76호",
-    label: "3개월 발행 · 회당 카드 8장",
+    label: "3개월 발행\u00a0· 회당 카드 8장",
     /*
      * "발행분 전부 공개" 였다. VOL.033 이 아카이브에 아직 없으므로 같은 거짓말이다 —
      * 다른 5곳에서 "전 호 공개"를 지우면서 이 표현은 금지어 목록에 없어서 놓쳤다.
      * 표현을 바꾸면 검사도 같이 넓혀야 한다.
      */
-    note: "EDIT H · 2026.05.19 – 08.25 · 기획·편집·구축·발행 100% 단독 · 공개 아카이브 75호 · VOL.033 게시 대기",
+    note: "EDIT H\u00a0· 2026.05.19 – 08.25\u00a0· 기획·편집·구축·발행 100% 단독\u00a0· 공개 아카이브 75호\u00a0· VOL.033 게시 대기",
     axis: "직접 제작",
   },
   {
     slug: "jestina",
     value: "352% → 583%",
     label: "GA4 전환매출 기준 통합 ROAS",
-    note: "제이에스티나 · 2025.05 → 07 동일 마감보고 기준 · +231%p · +65.6%",
+    note: "제이에스티나\u00a0· 2025.05 → 07 동일 마감보고 기준\u00a0· +231%p\u00a0· +65.6%",
     axis: "전략 성과",
     /* 기여 75% 는 표지 subnote 가 맡는다. 밴드는 예산 재설계가 실제로 무엇을 움직였는지를 보인다 */
     altValue: "+32.4%",
     altLabel: "브랜드검색 쿼리수",
-    altNote: "제이에스티나 · IMC 재설계 후 브랜드 수요 지표 · 2025.05 → 07",
+    altNote: "제이에스티나\u00a0· IMC 재설계 후 브랜드 수요 지표\u00a0· 2025.05 → 07",
   },
   {
     slug: "daekyo",
     value: "0.66% → 2.24%",
     label: "동일 기준 재비교 시 CVR",
-    note: "대교에듀캠프 · 서브 브랜드 5개 · 측정 QA 설계 100%",
+    note: "대교에듀캠프\u00a0· 서브 브랜드 5개\u00a0· 측정 QA 설계 100%",
     /*
      * axis 를 "단독 책임"에서 "측정 재정의"로 바꿨다.
      * 단독인 것은 **측정 QA 설계**이고, 5개 브랜드 운영은 단독이 아니다.
@@ -1028,14 +1031,14 @@ export const keyNumbers = [
      * 팀 성과와 개인 기여를 분리해 적는다는 원칙은 밴드마다 지켜야 한다.
      */
     altValue: "5개 브랜드",
-    altLabel: "서브 브랜드 동시 운영 · 학기 단위",
-    altNote: "대교에듀캠프 · 2025.11 – 2026.09 · 계정 운영은 팀 분담이며 측정 QA 설계 기여 100%",
+    altLabel: "서브 브랜드 동시 운영\u00a0· 학기 단위",
+    altNote: "대교에듀캠프\u00a0· 2025.11 – 2026.09\u00a0· 계정 운영은 팀 분담이며 측정 QA 설계 기여 100%",
   },
   {
     slug: "newbalance",
     value: "월 10억+",
-    label: "운영 책임 규모 · 월 매체 예산",
-    note: "2026.08 기준 · 뉴발란스 10개 채널 · 계정 운영 기여 40%(성과 지표 아님)",
+    label: "운영 책임 규모\u00a0· 월 매체 예산",
+    note: "2026.08 기준\u00a0· 뉴발란스 10개 채널\u00a0· 계정 운영 기여 40%(성과 지표 아님)",
     axis: "운영 규모",
   },
   {
@@ -1046,7 +1049,7 @@ export const keyNumbers = [
     slug: "automation",
     tone: "system",
     value: "8개",
-    label: "직접 기획·구축한 프로젝트 — 자동화 6 · 공개 웹 2",
+    label: "직접 기획·구축한 프로젝트 — 자동화 6\u00a0· 공개 웹 2",
     note: "기획부터 구축·운영까지 단독",
     axis: "시스템화",
   },
@@ -1062,17 +1065,17 @@ export const careerSummary = {
     "4년 동안 30여 개 브랜드의 검색·디스플레이·영상 광고를 운영한 퍼포먼스 마케터입니다. 새는 예산을 찾아 성과가 나는 곳으로 옮기고, 사람이 반복하던 점검·리포트·정산은 자동화해 팀이 판단에 쓸 시간을 만들어 왔습니다.",
   columns: [
     {
-      title: "인사이트 · 브리프",
+      title: "인사이트\u00a0· 브리프",
       items: ["시장·검색·성과 신호 분석", "광고주 과제와 병목 구조화", "콘텐츠 목적·KPI 정의"],
     },
     {
-      title: "콘텐츠 · 채널",
+      title: "콘텐츠\u00a0· 채널",
       items: ["콘텐츠–구독–커머스 여정", "10개 채널 역할·예산 기준", "30여 개 브랜드 운영"],
     },
     {
-      title: "성과 · 시스템",
+      title: "성과\u00a0· 시스템",
       items: [
-        "GA4 · GTM · 매체 데이터 측정",
+        "GA4\u00a0· GTM\u00a0· 매체 데이터 측정",
         "퍼널별 성과·기여경로 분석",
         "자동화 6종 기획·운영",
       ],
@@ -1085,7 +1088,7 @@ export const careerSummary = {
    */
   highlights: [
     {
-      axis: "규모 · 시스템",
+      axis: "규모\u00a0· 시스템",
       /*
        * 한때 "18,396행 원본 중복 0건 → 639개 후보 → 우선 15개"였다. 케이스 페이지에서는
        * 키워드 확장 문맥이 앞에 있어 읽히지만, 이력서에는 그 문맥이 없어 639개가 무엇의
@@ -1227,8 +1230,8 @@ export const story = {
   photo: {
     src: "origin-presentation-samsung.webp",
     alt: "삼성 투모로우 솔루션 발표 무대에서 시각장애인의 횡단보도 보행 문제를 설명하는 김선일",
-    caption: "01 · Idea — 삼성 투모로우 솔루션, EQUAL팀 보행 안전 아이디어 발표",
-    credit: "사진 · 삼성전자 뉴스룸",
+    caption: "01\u00a0· Idea — 삼성 투모로우 솔루션, EQUAL팀 보행 안전 아이디어 발표",
+    credit: "사진\u00a0· 삼성전자 뉴스룸",
   },
   desc: "시작은 고등학교 발명·창업 동아리였습니다. 이후 전공과 일을 고를 때마다 앞 단계에서 모자랐던 것을 채우는 쪽을 택했습니다.",
   phases: [
@@ -1406,7 +1409,7 @@ export const expertise: Expertise[] = [
       "AI 기반 인사이트 코멘트와 사내 지식봇",
     ],
     related: [
-      { label: "AI · 리포트 자동화", slug: "automation" },
+      { label: "AI\u00a0· 리포트 자동화", slug: "automation" },
       { label: "뉴발란스", slug: "newbalance" },
     ],
     filter: "Automation",
@@ -1451,17 +1454,17 @@ export const skills: SkillGroup[] = [
       {
         level: "설계",
         items: [
-          "네이버 SA · BSA · 쇼핑검색 · 카탈로그 · GFA",
-          "Google Ads (Search · GDN · YouTube VAC · Performance Max)",
+          "네이버 SA\u00a0· BSA\u00a0· 쇼핑검색\u00a0· 카탈로그\u00a0· GFA",
+          "Google Ads (Search\u00a0· GDN\u00a0· YouTube VAC\u00a0· Performance Max)",
           "Meta (Advantage+)",
-          "Kakao (비즈보드 · 모먼트 · 카탈로그)",
+          "Kakao (비즈보드\u00a0· 모먼트\u00a0· 카탈로그)",
           /*
            * 소재 기획이 어디에도 없었다. "분석 · 측정"에는 소재 테스트가 있는데
            * 그 테스트에 올릴 소재를 누가 정하는지가 빠져 있었다 —
            * 케이스 4건(제이에스티나·뉴발란스·강원심층수·대교)의 direct 에는
            * 소재 기획안 작성이 들어 있으므로 역량표도 같은 말을 해야 한다.
            */
-          "소재 기획안 작성 (지면·규격 지정 · 메시지 앵글 A/B 설계)",
+          "소재 기획안 작성 (지면·규격 지정\u00a0· 메시지 앵글 A/B 설계)",
         ],
       },
       {
@@ -1471,12 +1474,12 @@ export const skills: SkillGroup[] = [
     ],
     proof: [
       "뉴발란스 10개 채널 통합 운영 — 재고 판정으로 회당 최대 900개 상품 자동 처리",
-      "슈즈위크 카카오 비즈보드를 공통·데이·첫구매 세 갈래로 나눠 판정 (데이 ROAS 681% · 첫구매 85%)",
+      "슈즈위크 카카오 비즈보드를 공통·데이·첫구매 세 갈래로 나눠 판정 (데이 ROAS 681%\u00a0· 첫구매 85%)",
       "강원심층수 단독 운영 — 시즌 소재를 사전예약 → 마감임박 → 앵콜로 교체",
     ],
   },
   {
-    category: "분석 · 측정",
+    category: "분석\u00a0· 측정",
     rows: [
       {
         level: "설계",
@@ -1508,7 +1511,7 @@ export const skills: SkillGroup[] = [
            * "썸네일·재생목록·커뮤니티 3개 변수를 10일 단위 3개 조합으로 나눈 테스트"다.
            * 대조군을 동시에 돌린 A/B 가 아니라 기간 분할 순환이므로 그대로 적는다.
            */
-          "YouTube 캠페인 성과 지표 정의 (노출 · 제품 클릭 · 10초 이상 시청)",
+          "YouTube 캠페인 성과 지표 정의 (노출\u00a0· 제품 클릭\u00a0· 10초 이상 시청)",
           "썸네일·재생목록·커뮤니티 10일 단위 순환 테스트 설계",
           "UTM Builder 파라미터 체계",
           "측정 QA 체크리스트",
@@ -1519,7 +1522,7 @@ export const skills: SkillGroup[] = [
       {
         level: "운영",
         items: [
-          "Google Tag Manager (Tag Assistant · DebugView)",
+          "Google Tag Manager (Tag Assistant\u00a0· DebugView)",
           "Looker Studio",
           "AppsFlyer (MMP)",
           "기여경로 분석",
@@ -1534,13 +1537,13 @@ export const skills: SkillGroup[] = [
       },
     ],
     proof: [
-      "제이에스티나 GA4 ROAS 352% → 583% (2025.05 → 07 · 동일 마감보고 기준)",
+      "제이에스티나 GA4 ROAS 352% → 583% (2025.05 → 07\u00a0· 동일 마감보고 기준)",
       "대교에듀캠프 같은 기준으로 재산출한 CVR 0.66% → 2.24% (측정 QA 설계 100%)",
       "UTM Builder로 채널·소재·랜딩 파라미터 기준 통일",
     ],
   },
   {
-    category: "자동화 · AX",
+    category: "자동화\u00a0· AX",
     rows: [
       {
         level: "설계",
@@ -1580,12 +1583,12 @@ export const skills: SkillGroup[] = [
     ],
     proof: [
       "재고 연동 쇼핑검색 자동 운영 — 점검 시간 약 2시간 → 5분 이내 (내부 실측)",
-      "리포트 자동화 엔진 — 매체 별칭 38종 · 오디언스 82그룹 자동 매핑",
+      "리포트 자동화 엔진 — 매체 별칭 38종\u00a0· 오디언스 82그룹 자동 매핑",
       "데이터 이상 시 광고를 건드리지 않고 중단 (변경 0건)",
     ],
   },
   {
-    category: "문서 · 협업 · 언어",
+    category: "문서\u00a0· 협업\u00a0· 언어",
     rows: [
       {
         /*
@@ -1598,21 +1601,21 @@ export const skills: SkillGroup[] = [
         items: [
           "경쟁 PT 전략 리딩 및 발표",
           "PowerPoint 제안서",
-          "Excel (피벗 · VLOOKUP · 조건부서식 · 차트 시각화)",
+          "Excel (피벗\u00a0· VLOOKUP\u00a0· 조건부서식\u00a0· 차트 시각화)",
         ],
       },
       { level: "활용", items: ["Adobe Photoshop", "Illustrator"] },
       {
         level: "언어",
-        items: ["영어 · 글로벌 광고주 리포트 작성과 커뮤니케이션 실무"],
-        note: "Dyson · Samsonite · FUJIFILM BI · Air France · Cathay Pacific · Publicis Groupe",
+        items: ["영어\u00a0· 글로벌 광고주 리포트 작성과 커뮤니케이션 실무"],
+        note: "Dyson\u00a0· Samsonite\u00a0· FUJIFILM BI\u00a0· Air France\u00a0· Cathay Pacific\u00a0· Publicis Groupe",
       },
     ],
     proof: [
       "자동화 6종 전부 인수인계 문서로 남김",
-      "EDIT H 기획·발행 · 공개 문서 89편 (2026.09.13 아카이브 목록 확인)",
+      "EDIT H 기획·발행\u00a0· 공개 문서 89편 (2026.09.13 아카이브 목록 확인)",
       /* "사내 배포"는 근거가 없다(마스터 컨텍스트 14-2: 공개 웹 · 배포·업데이트) — 공개 사실만 적는다 (2026.09.25) */
-      "PM 실무 허브 — 실무 도구 8개 · 매체 가이드 9개 공개",
+      "PM 실무 허브 — 실무 도구 8개\u00a0· 매체 가이드 9개 공개",
     ],
   },
 ];
@@ -1682,7 +1685,7 @@ export const automationCases: AutomationCase[] = [
     no: "S1",
     name: "쇼핑검색 재고 자동 운영",
     builtShort: "재고 수량에 따라 쇼핑검색 광고를 자동으로 끄고 다시 켭니다.",
-    homeEffect: "점검 약 2시간 → 5분 이내 · 내부 실측",
+    homeEffect: "점검 약 2시간 → 5분 이내\u00a0· 내부 실측",
     problem: "시즌마다 바뀌는 수백 개 SKU를 수기로 확인하는 데 내부 일평균 약 2시간이 들었습니다. 같은 업무를 소개한 MOP 공개 사례의 수작업 평균은 약 3시간이었습니다(집계 기준이 달라 대표 수치에 합치지 않습니다).",
     problemShort: "시즌마다 바뀌는 수백 개 SKU를 수기로 확인했습니다.",
     automated: "재고를 정해진 주기로 확인하고, 수량 기준에 따라 쇼핑검색 광고를 자동으로 끄거나 다시 시작합니다. 회당 최대 900개 상품을 처리합니다.",
@@ -1696,23 +1699,23 @@ export const automationCases: AutomationCase[] = [
     no: "S3",
     name: "리포트 자동 생성 시스템",
     builtShort: "매체 원본 3종을 붙여넣으면 대시보드·리포트·검수표가 생성됩니다.",
-    homeEffect: "매체 별칭 38종 · 오디언스 82그룹 자동 매핑",
+    homeEffect: "매체 별칭 38종\u00a0· 오디언스 82그룹 자동 매핑",
     problem: "데일리·위클리 리포트를 매번 수기로 작성하면서 매체 별칭과 오디언스 그룹을 사람이 매핑해야 했습니다.",
     automated: "매체 원본 데이터(RAW) 3종을 붙여넣으면 대시보드·캠페인 리포트·검수표(QC)가 자동 생성됩니다. 매체 별칭 38종, 오디언스 82그룹을 자동 매핑합니다.",
     tools: ["Google Apps Script", "Google Sheets"],
     effect: "수기 작성 없이 리포트 자동 생성",
     /* 검수 기간과 생성 건수 원자료가 확인되기 전까지 '0건'의 분모를 임의로 만들지 않는다. */
-    quality: "검수한 리포트 템플릿 수식 오류 0건 · 전체 운영 무오류 보장과 구분",
+    quality: "검수한 리포트 템플릿 수식 오류 0건\u00a0· 전체 운영 무오류 보장과 구분",
   },
   {
     no: "S2",
     name: "이상 징후 자동 모니터링 3건",
     builtShort: "열리지 않는 랜딩·예산 소진 정체를 예약 점검하고 6개 매체 GA4 일일 코멘트를 AI로 작성합니다.",
-    homeEffect: "이상이 있을 때만 알림 · 정상은 보고하지 않음",
+    homeEffect: "이상이 있을 때만 알림\u00a0· 정상은 보고하지 않음",
     /* 내부 용어는 홈의 첫 등장에서만 풀어 쓴다 (2026.09.24) — ROAS·CVR 같은 업계 표준어는 그대로 둔다 */
     problem: "열리지 않는 랜딩 페이지(데드랜딩), 소진 흐름 정체, 매체별 성과 코멘트를 사람이 기억해서 확인해야 했습니다.",
     automated: "열리지 않는 랜딩과 검색광고 소진 정체를 정해진 시간에 점검하고, 6개 매체의 GA4 일일 코멘트를 AI로 작성합니다. 이상이 있을 때만 알립니다.",
-    tools: ["Python", "GA4 API", "Claude · GPT"],
+    tools: ["Python", "GA4 API", "Claude\u00a0· GPT"],
     effect: "정기 점검을 자동 실행하도록 전환",
     quality: "정상 동작은 보고하지 않습니다. 알림이 왔다는 것 자체가 사람이 볼 일이 생겼다는 뜻입니다.",
   },
@@ -1720,7 +1723,7 @@ export const automationCases: AutomationCase[] = [
     no: "S4",
     name: "광고비 정산 자동화",
     builtShort: "인보이스·전표를 매핑해 전자결재에 자동 등록합니다.",
-    homeEffect: "월 최대 84건 전량 처리 · 2026.05 기준",
+    homeEffect: "월 최대 84건 전량 처리\u00a0· 2026.05 기준",
     problem: "법인카드 광고비 증빙을 결제 내역·계정·적요와 대조해 전자결재에 수기로 등록해야 했습니다.",
     automated: "인보이스·전표를 자동 매핑해 전자결재에 등록합니다. 5개 브랜드, 메타 포함 전 매체가 대상입니다.",
     tools: ["Python", "전자결재 연동"],
@@ -1775,7 +1778,7 @@ export const career: CareerItem[] = [
     company: "HLL중앙",
     group: "중앙그룹",
     period: "2025.11 – 2026.09",
-    title: "퍼포먼스전략국 · 과장",
+    title: "퍼포먼스전략국\u00a0· 과장",
     summary: "여러 매체 운영에 더해 콘텐츠·매체 성과를 함께 재는 판단 기준과 자동화까지 맡는 역할로 범위를 넓혔습니다.",
     /*
      * 재직 기간이 짧다는 사실은 어차피 연도로 계산된다. 감추는 대신 "무엇을 끝냈기에 지금
@@ -1799,7 +1802,7 @@ export const career: CareerItem[] = [
       "재고·리포트·모니터링·정산 자동화 6종 기획·구축",
       "사내 AI 전환(AX) 프로젝트 참여",
     ],
-    clients: "뉴발란스 · 대교에듀캠프(서브 브랜드 5개) · 강원심층수 천년동안",
+    clients: "뉴발란스\u00a0· 대교에듀캠프(서브 브랜드 5개)\u00a0· 강원심층수 천년동안",
     /**
      * 이전엔 이 자리에 검증 가능한 비즈니스 수치가 하나도 없어서, 바로 아래 플레이디 줄과
      * 나란히 놓이면 "전 직장에서는 성과를 냈고 현 직장에서는 시스템만 만들었다"로 읽혔다.
@@ -1808,13 +1811,13 @@ export const career: CareerItem[] = [
      * 대교 CVR은 현 조직에서 낸 기여도 100% 수치이고 챕터 밴드와도 중복되지 않는다.
      */
     highlight:
-      "뉴발란스 월 10억+·10개 채널 통합 운영(계정 운영 40%) · 대교에듀캠프 비교 표본 재검증(동일 기준 CVR 0.66% → 2.24%, 측정 QA 설계 100%)과 상담 폼 3차 개선(폼 재도입 후 광고 DB 전환율 2.84% → 7.55%, 문항 조정 후 정규 서비스 전환율 9.9% → 11.28%) · 자동화 6종 단독 설계·구축",
+      "뉴발란스 월 10억+·10개 채널 통합 운영(계정 운영 40%)\u00a0· 대교에듀캠프 비교 표본 재검증(동일 기준 CVR 0.66% → 2.24%, 측정 QA 설계 100%)과 상담 폼 3차 개선(폼 재도입 후 광고 DB 전환율 2.84% → 7.55%, 문항 조정 후 정규 서비스 전환율 9.9% → 11.28%)\u00a0· 자동화 6종 단독 설계·구축",
   },
   {
     company: "플레이디",
     group: "KT그룹",
     period: "2022.09 – 2025.10",
-    title: "데이터마케팅본부 · PM",
+    title: "데이터마케팅본부\u00a0· PM",
     summary: "30여 개 브랜드의 SA·DA·SNS를 맡으면서 광고주 요구를 데이터로 검증하고 캠페인 전략으로 바꾸는 PM 경험을 쌓았습니다.",
     /*
      * 수치와 수상은 바로 아래 highlight 가 이미 말한다 — 여기서 또 적으면 같은 칸에서
@@ -1822,16 +1825,16 @@ export const career: CareerItem[] = [
      * 어떻게 넓어졌는가 (단일 브랜드 운영 → 흩어진 채널 통합 → 평가 기준 재설계).
      */
     timeline: [
-      "2023 — 한샘 SA·DA·APP 통합 운영 · 다이슨 유튜브 구독 전환 캠페인",
-      "2024 — 제이에스티나 IMC 재설계 착수 · 대행사별로 흩어져 있던 DA를 한곳으로 통합",
+      "2023 — 한샘 SA·DA·APP 통합 운영\u00a0· 다이슨 유튜브 구독 전환 캠페인",
+      "2024 — 제이에스티나 IMC 재설계 착수\u00a0· 대행사별로 흩어져 있던 DA를 한곳으로 통합",
       "2025 — KT알파쇼핑 합산 ROAS를 역할별 KPI 3축으로 나눔",
     ],
     work: [
-      "GA4 기반 전환 분석 · A/B 테스트 · 미디어믹스 설계",
+      "GA4 기반 전환 분석\u00a0· A/B 테스트\u00a0· 미디어믹스 설계",
       "IMC 캠페인 전략 수립과 성과 검증 체계 구축",
       "대형 광고주 캠페인 제안·운영·리포팅",
     ],
-    clients: "제이에스티나 · 다이슨 · 쌤소나이트 · 동원몰 · 한샘 · KT알파쇼핑",
+    clients: "제이에스티나\u00a0· 다이슨\u00a0· 쌤소나이트\u00a0· 동원몰\u00a0· 한샘\u00a0· KT알파쇼핑",
     highlight:
       /*
        * "디지털 광고 대상 2년 연속 수상"으로 줄여 쓰면 시상식명이 '대상'이라 대상 수상으로
@@ -1843,12 +1846,12 @@ export const career: CareerItem[] = [
        * 건은 본인이 담당한 캠페인이다). 없는 겸양을 붙여 자기 성과를 깎지 않는다.
        * 수상 연도별 대상 브랜드: 2025 제이에스티나 / 2024 독립문 PAT · 엘르골프.
        */
-      "제이에스티나 GA4 ROAS 352% → 583%(동일 마감보고 기준) · 다이슨 콘텐츠–구독–커머스 여정 설계 참여(채널 전체 구독자 2,000 → 107,600 · 팀 성과) · 대한민국 디지털 광고 대상 통합 퍼포먼스 부문 우수상 2년 연속",
+      "제이에스티나 GA4 ROAS 352% → 583%(동일 마감보고 기준)\u00a0· 다이슨 콘텐츠–구독–커머스 여정 설계 참여(채널 전체 구독자 2,000 → 107,600\u00a0· 팀 성과)\u00a0· 대한민국 디지털 광고 대상 통합 퍼포먼스 부문 우수상 2년 연속",
   },
   {
     company: "중소벤처기업진흥공단",
     period: "2022.04 – 2022.07",
-    title: "혁신성장본부 · 인턴",
+    title: "혁신성장본부\u00a0· 인턴",
     summary: "정부지원 사업 운영을 지원하면서 홍보 아이디어가 실제 신청과 참여로 이어지는 과정을 처음 경험했습니다.",
     work: ["금융 인플루언서 협업 콘텐츠 기획", "지원사업 신청 프로세스 관리"],
     clients: "정부지원 사업",
@@ -1881,14 +1884,14 @@ export const education = [
   {
     period: "2017.03 – 2022.02",
     school: "연세대학교 미래캠퍼스",
-    major: "디자인예술학부 산업디자인전공 · 학사",
+    major: "디자인예술학부 산업디자인전공\u00a0· 학사",
   },
   /*
    * 한때 "숭실대학교(학점은행제)" 한 줄로 묶었는데, 그러면 학위를 어디서 받았는지가
    * 흐려진다. 학위는 학점은행제로 받았고 숭실대는 그 과정을 이수한 곳이라 줄을 나눈다.
    * 두 줄의 기간은 같다 — 같은 기간에 이수하고 학위를 받았다.
    */
-  { period: "2014.03 – 2017.02", school: "학점은행제", major: "경영학전공 · 학사" },
+  { period: "2014.03 – 2017.02", school: "학점은행제", major: "경영학전공\u00a0· 학사" },
   { period: "2014.03 – 2017.02", school: "숭실대학교", major: "경영학" },
 ] as const;
 
@@ -1904,12 +1907,12 @@ export const awards = [
   {
     year: "2025",
     name: "대한민국 디지털 광고 대상",
-    detail: "제이에스티나 · 통합 퍼포먼스 부문 우수상",
+    detail: "제이에스티나\u00a0· 통합 퍼포먼스 부문 우수상",
   },
   {
     year: "2024",
     name: "대한민국 디지털 광고 대상",
-    detail: "독립문 PAT · 엘르골프 · 통합 퍼포먼스 부문 우수상",
+    detail: "독립문 PAT\u00a0· 엘르골프\u00a0· 통합 퍼포먼스 부문 우수상",
   },
   { year: "2020", name: "대한민국 인재상", detail: "선정 및 표창(부총리 겸 교육부장관상)" },
 ] as const;
@@ -1923,21 +1926,21 @@ export const awardsArchive = [
   {
     year: "2020",
     items:
-      "대한민국 인재상 · 서울국제발명전시회 은상·동상·특별상 · 학생 창업유망팀 300 선정 · 제55회 발명의 날 우수상 · 아시아 디자인 프라이즈 우수상 · 예비창업패키지 선정(대표)",
+      "대한민국 인재상\u00a0· 서울국제발명전시회 은상·동상·특별상\u00a0· 학생 창업유망팀 300 선정\u00a0· 제55회 발명의 날 우수상\u00a0· 아시아 디자인 프라이즈 우수상\u00a0· 예비창업패키지 선정(대표)",
   },
   {
     year: "2019",
     items:
-      "국제 창업 아이디어 경진대회 대상 · 아시아 소셜벤처 경진대회 아이디어부문 우수상 · 광주디자인비엔날레 크라우드펀딩 콘테스트 대상 · 국제 SMART 창업경진대회 은상 · 사회적기업가육성사업 9기 선정(팀원)",
+      "국제 창업 아이디어 경진대회 대상\u00a0· 아시아 소셜벤처 경진대회 아이디어부문 우수상\u00a0· 광주디자인비엔날레 크라우드펀딩 콘테스트 대상\u00a0· 국제 SMART 창업경진대회 은상\u00a0· 사회적기업가육성사업 9기 선정(팀원)",
   },
   {
     year: "2017–2018",
     items:
-      "소셜벤처 경연대회 최우수상·고용노동부장관상 · 서울시민상 우수상 · KT 소셜체인지 메이커 최우수상 · World Invention Creativity Contest 금상 · 대학창의발명대회 장려상",
+      "소셜벤처 경연대회 최우수상·고용노동부장관상\u00a0· 서울시민상 우수상\u00a0· KT 소셜체인지 메이커 최우수상\u00a0· World Invention Creativity Contest 금상\u00a0· 대학창의발명대회 장려상",
   },
   {
     year: "2015–2016",
-    items: "서울시민 교통안전 아이디어 공모전 최우수상 · 삼성 투모로우 솔루션 공모전 우수상",
+    items: "서울시민 교통안전 아이디어 공모전 최우수상\u00a0· 삼성 투모로우 솔루션 공모전 우수상",
   },
 ] as const;
 
@@ -1947,8 +1950,8 @@ export const awardsArchive = [
  * 숭실대 창업 아카데미(2014.11)는 학력란의 숭실대 줄과 겹쳐 읽혀 넣지 않는다.
  */
 export const activities = [
-  { period: "2022.07", name: "중소벤처기업연수원 마케팅전문가양성코스", detail: "마케팅 분석과 STP 전략 · 4P Mix 실행 과정 수료" },
-  { period: "2020–2021", name: "인액터스(Enactus Korea)", detail: "기획팀장 · 보호종료아동 캔들 펀딩 기획·SNS 홍보" },
+  { period: "2022.07", name: "중소벤처기업연수원 마케팅전문가양성코스", detail: "마케팅 분석과 STP 전략\u00a0· 4P Mix 실행 과정 수료" },
+  { period: "2020–2021", name: "인액터스(Enactus Korea)", detail: "기획팀장\u00a0· 보호종료아동 캔들 펀딩 기획·SNS 홍보" },
   { period: "2018", name: "경희대학교 미래혁신원 Open-Lab", detail: "온라인 마케팅 혁신창업 프로그램 수료" },
   { period: "2018", name: "창의발명 IP Summer School", detail: "수료" },
   { period: "2017", name: "연세대학교 창업동아리 Y-Media", detail: "기획팀장" },
@@ -1972,34 +1975,34 @@ export const creativeRoots = {
   note: "학생·인턴 시기의 팀 프로젝트로, 수상명보다 실제 기획 과정과 산출물, 맡은 역할을 보여드립니다. 이 시기가 지금의 일하는 방식에 무엇을 남겼는지는 아래 MY STORY 에서 이어집니다.",
   cases: [
     {
-      stage: "기획의 시작 · 고등학교–대학",
+      stage: "기획의 시작\u00a0· 고등학교–대학",
       title: "생활 속 불편에서 출발해, 해결 과정을 설득 가능한 기획안으로 만들었습니다.",
       body: "안전 관련 아이디어를 문제 정의와 사용자 조사로 구조화하고, 전문가와 이해관계자의 의견을 반영해 시제품과 발표안으로 구체화했습니다.",
-      role: "문제 정의 · 리서치 · 기획안 구성 · 프로토타입 협업",
-      evidence: "공모전 기획안 · 시제품 · 이해관계자 피드백",
+      role: "문제 정의\u00a0· 리서치\u00a0· 기획안 구성\u00a0· 프로토타입 협업",
+      evidence: "공모전 기획안\u00a0· 시제품\u00a0· 이해관계자 피드백",
       image: "creative-origin-plan.webp",
       alt: "시각장애인의 보행 안전 문제를 해결하기 위해 제안한 가이드로드 시제품과 설계 설명",
-      caption: "대학 공모전 기획안 일부 · GuideRoad 해결 방안과 시제품 설계",
+      caption: "대학 공모전 기획안 일부\u00a0· GuideRoad 해결 방안과 시제품 설계",
     },
     {
-      stage: "제품 콘텐츠 · 대학·창업",
+      stage: "제품 콘텐츠\u00a0· 대학·창업",
       title: "제품을 설명하는 데서 끝내지 않고, 사람들이 선택할 이유가 보이게 만들었습니다.",
       body: "차량용 비상탈출 망치 오브제머의 제품 촬영, 상세페이지, 사용법 영상·GIF, 패키지와 Q&A를 하나의 구매 여정으로 연결했습니다.",
-      role: "팀 프로젝트 · 제품 기획 · 콘텐츠 구성 · 제작 파트너 조율",
-      evidence: "와디즈 상세페이지 · 촬영본 · 사용법 영상 · 패키지 원본",
+      role: "팀 프로젝트\u00a0· 제품 기획\u00a0· 콘텐츠 구성\u00a0· 제작 파트너 조율",
+      evidence: "와디즈 상세페이지\u00a0· 촬영본\u00a0· 사용법 영상\u00a0· 패키지 원본",
       image: "creative-origin-objemer.webp",
       alt: "차량용 비상탈출 망치 오브제머를 손에 든 실제 제품 촬영 이미지",
-      caption: "오브제머 제품 촬영 원본 · 와디즈 상세페이지 제작 자료",
+      caption: "오브제머 제품 촬영 원본\u00a0· 와디즈 상세페이지 제작 자료",
     },
     {
-      stage: "협업 콘텐츠 · 공공기관 인턴",
+      stage: "협업 콘텐츠\u00a0· 공공기관 인턴",
       title: "복잡한 정책상품을 유튜브 시청자의 언어로 풀어냈습니다.",
       body: "중소기업팩토링을 금융 인플루언서 채널의 문법에 맞춰 스크립트, 썸네일, 게시 문구로 재구성하고 초 단위 수정 피드백부터 최종 게시까지 조율했습니다.",
-      role: "영상 기획 · 스크립트·게시 문구 · 제작 피드백",
-      evidence: "멘토링 보고서 · 최종 영상 · 게시 문구 · 피드백 문서",
+      role: "영상 기획\u00a0· 스크립트·게시 문구\u00a0· 제작 피드백",
+      evidence: "멘토링 보고서\u00a0· 최종 영상\u00a0· 게시 문구\u00a0· 피드백 문서",
       image: "creative-origin-youtube.webp",
       alt: "중소벤처기업부와 중소벤처기업진흥공단의 매출채권팩토링 설명 유튜브 영상 장면",
-      caption: "중소기업팩토링 유튜브 최종 영상 · 협업 제작본",
+      caption: "중소기업팩토링 유튜브 최종 영상\u00a0· 협업 제작본",
     },
   ],
   closing: "이때 익힌 관찰·기획·제작·협업은 이후 퍼포먼스 광고와 운영 자동화를 만드는 방식의 출발점이 됐습니다.",
@@ -2038,7 +2041,7 @@ export const verification: VerificationItem[] = [
      * 맡았다(본인 확인, 2026.09.13). 예전에는 "HLL 팀 운영 사례 · 개인 기여는 내부 기록으로
      * 구분" 이라고 적었는데, 원문에 없는 팀 표기를 붙여 본인 작업을 낮춰 쓴 것이었다.
      */
-    heroScope: "쇼핑검색 입찰·재고 연동 자동화 사례 · 단독 수행",
+    heroScope: "쇼핑검색 입찰·재고 연동 자동화 사례\u00a0· 단독 수행",
     desc: "쇼핑검색 입찰 최적화와 재고에 따른 소재 ON/OFF 자동화 사례가 LG CNS MOP 우수사례로 게재됐습니다. 운영과 자동화 적용은 단독으로 수행했습니다.",
     href: "https://blog.mop.co.kr/hll",
     label: "blog.mop.co.kr/hll",
@@ -2064,48 +2067,48 @@ export const verification: VerificationItem[] = [
      * 제출했다(본인 확인, 2026.09.13). 공개 문서에는 싣지 않는다(2026-09-24 본인 요청).
      */
     title: "대한민국 디지털 광고 대상 (2024)",
-    heroScope: "독립문 PAT · 엘르골프 통합 퍼포먼스 부문 우수상",
-    desc: "독립문(PAT · 엘르골프) 통합광고 운영성과가 통합 퍼포먼스 부문 우수상으로 공식 명단에 게재됐습니다.",
+    heroScope: "독립문 PAT\u00a0· 엘르골프 통합 퍼포먼스 부문 우수상",
+    desc: "독립문(PAT\u00a0· 엘르골프) 통합광고 운영성과가 통합 퍼포먼스 부문 우수상으로 공식 명단에 게재됐습니다.",
     href: "https://kodaa.or.kr/2024kodaf",
     label: "한국디지털광고협회에서 확인",
   },
   {
     title: "초광역 메타버스 아이디어톤 (2021.07)",
-    desc: "위드미팀 · 시각장애인을 위한 교통안전 플랫폼 Safis로 최우수상.",
+    desc: "위드미팀\u00a0· 시각장애인을 위한 교통안전 플랫폼 Safis로 최우수상.",
     href: "https://news.unn.net/news/articleView.html?idxno=512386",
-    label: "출처 · 한국대학신문",
+    label: "출처\u00a0· 한국대학신문",
     secondaryHref: "https://kpinews.kr/newsView/179547524596874",
-    secondaryLabel: "출처 · KPI뉴스",
+    secondaryLabel: "출처\u00a0· KPI뉴스",
   },
   {
     title: "연세춘추 인터뷰 (2021.05)",
     desc: "시각장애인의 횡단보도 이동 문제를 비콘 기반 앱·서비스와 시제품으로 구체화하고, 발명·창업을 사회문제 해결로 연결한 과정을 다룬 인터뷰입니다.",
     href: "https://chunchu.yonsei.ac.kr/news/articleView.html?idxno=27940",
-    label: "출처 · 연세춘추",
+    label: "출처\u00a0· 연세춘추",
   },
   {
     title: "대한민국 인재상 (2020.12)",
     desc: "선정 및 표창(부총리 겸 교육부장관상).",
     href: "https://news.unn.net/news/articleView.html?idxno=503973",
-    label: "출처 · 한국대학신문",
+    label: "출처\u00a0· 한국대학신문",
     secondaryHref: "https://www.kukinews.com/article/view/kuk202102020357",
-    secondaryLabel: "출처 · 쿠키뉴스",
+    secondaryLabel: "출처\u00a0· 쿠키뉴스",
   },
   {
     title: "서울국제발명전시회 3관왕 (2020.12)",
     desc: "화재 시 탈출을 돕는 안전용품 관련 발명품으로 은상·동상·특별상 수상.",
     href: "https://news.unn.net/news/articleView.html?idxno=503360",
-    label: "출처 · 한국대학신문",
+    label: "출처\u00a0· 한국대학신문",
     secondaryHref: "https://www.veritas-a.com/news/articleView.html?idxno=353921",
-    secondaryLabel: "출처 · 베리타스알파",
+    secondaryLabel: "출처\u00a0· 베리타스알파",
   },
   {
     title: "아시아 소셜벤처 경진대회 (2019.11)",
-    desc: "엑시트팀 · 버스 화재 시 승객의 신속한 탈출을 돕는 솔루션으로 아이디어부문 우수상.",
+    desc: "엑시트팀\u00a0· 버스 화재 시 승객의 신속한 탈출을 돕는 솔루션으로 아이디어부문 우수상.",
     href: "https://www.donga.com/news/It/article/all/20191105/98223637/2",
-    label: "출처 · 동아일보",
+    label: "출처\u00a0· 동아일보",
     secondaryHref: "https://www.veritas-a.com/news/articleView.html?idxno=304494",
-    secondaryLabel: "출처 · 베리타스알파",
+    secondaryLabel: "출처\u00a0· 베리타스알파",
   },
 ];
 
@@ -2256,8 +2259,8 @@ export interface PublicWork {
 /** 직접 운영하며 외부에 공개한 작업물. 사내 비공개 링크는 넣지 않는다. */
 export const publicWork: PublicWork[] = [
   {
-    label: "콘텐츠 기획 · 직접 발행",
-    title: "EDIT H 마케팅 뉴스레터 · 카드뉴스",
+    label: "콘텐츠 기획\u00a0· 직접 발행",
+    title: "EDIT H 마케팅 뉴스레터\u00a0· 카드뉴스",
     /*
      * 이전 문구는 "파이프라인을 운영합니다"로 끝나 도구 자랑처럼 읽혔다.
      * 이 작업물의 값어치는 자동화가 아니라 **매일 무엇을 빼는지 정한 편집 기준**이고,
@@ -2265,12 +2268,12 @@ export const publicWork: PublicWork[] = [
      * 사실 3개도 검증 가능한 값으로 바꾼다 — 공개 아카이브에서 바로 셀 수 있다.
      */
     desc: "마케팅 뉴스를 뉴스레터와 카드뉴스 8장으로 발행합니다. 공식 발표가 아닌 건은 서로 다른 매체 2곳에서 교차 확인되지 않으면 싣지 않습니다.",
-    facts: ["공개 문서 89편", "최신 공개 VOL.089 · 2026.09.11", "2026.09.13 아카이브 목록 확인"],
+    facts: ["공개 문서 89편", "최신 공개 VOL.089\u00a0· 2026.09.11", "2026.09.13 아카이브 목록 확인"],
     href: "https://vetnam555-del.github.io/edit-h-archive/",
     linkLabel: "EDIT H 아카이브 보기",
   },
   {
-    label: "교육 도구 · 공개 웹",
+    label: "교육 도구\u00a0· 공개 웹",
     title: "퍼포먼스 마케팅 실무 허브",
     desc: "매체별 운영 가이드와 실습 도구를 하나의 온보딩 웹으로 정리해 개인 노하우를 팀이 다시 쓰는 구조로 만들었습니다.",
     facts: ["실무 도구 8개", "12주 커리큘럼", "9개 매체 가이드"],
@@ -2279,7 +2282,7 @@ export const publicWork: PublicWork[] = [
     thumb: "pmhub-workbench.webp",
     thumb960: "pmhub-workbench-960.webp",
     thumbAlt:
-      "퍼포먼스 마케팅 실무 허브 화면 — 홈 대시보드와 KPI 계산기 · UTM 빌더 도구 화면",
+      "퍼포먼스 마케팅 실무 허브 화면 — 홈 대시보드와 KPI 계산기\u00a0· UTM 빌더 도구 화면",
     thumbCaption:
       "개인 노하우를 팀이 다시 쓰게 하려고 한 곳에 모았습니다. 실무 도구 8개, 12주 60강 커리큘럼, 매체 가이드 9개, 광고 용어 40여 개를 두고 \"ROAS 어떻게 계산해?\" 같은 질문에 알맞은 도구로 안내합니다. KPI 계산기는 노출·클릭·비용·전환·매출을 넣으면 CTR·CPC·CVR·ROAS를 계산하고 목표에서 역산도 합니다. UTM 빌더는 팀 네이밍 규칙에 어긋나는 값을 입력 단계에서 막습니다. 요구사항 정리부터 구현, 공개 배포, 업데이트까지 이어가고 있습니다.",
   },
@@ -2299,7 +2302,7 @@ export const publicWork: PublicWork[] = [
  * ═══════════════════════════════════════════════════════════════════════ */
 
 export const ablyProfile = {
-  eyebrow: "PROFILE · 지원자 소개",
+  eyebrow: "PROFILE\u00a0· 지원자 소개",
   title: ["무엇을 성과로 볼지 먼저 정하고,", "작게 실험해 확인한 뒤,", "통한 방식을 구조로 남깁니다."],
   intro:
     "패션·커머스·D2C·교육 등 30여 개 브랜드를 운영하며 어떤 마케팅이 이 상황에 맞는지부터 판단해 왔습니다. 채널 성과가 나빠 보일 때 채널을 줄이는 대신 측정을 나눴고, 결론이 이미 정해진 자리에서는 비교 표본부터 다시 잡았습니다. 반복되는 판단은 자동화와 문서로 남겨 다음 사람이 같은 판단을 다시 할 수 있게 했습니다.",
@@ -2325,7 +2328,7 @@ export const ablySelectedImpact = [
     after: "583%",
     label: "GA4 전환매출 기준 통합 ROAS",
     desc: "채널별 ROAS 순으로 예산을 옮기려다 근거가 나오지 않아, 기준을 고객 단계별 역할로 바꿨습니다.",
-    note: "2025.05 → 07 동일 마감보고 기준 · 전략·측정 기여 75%",
+    note: "2025.05 → 07 동일 마감보고 기준\u00a0· 전략·측정 기여 75%",
     href: "#case-jestina",
   },
   {
@@ -2335,17 +2338,17 @@ export const ablySelectedImpact = [
     after: "2.24%",
     label: "같은 기준으로 다시 잰 재산출 CVR",
     desc: "성과가 나빠졌다는 결론을 받고 표본부터 확인했습니다. 비교 조건을 맞추자 결론이 반대였습니다.",
-    note: "같은 구간 CPA −14.1% · 측정 QA 설계 기여 100%",
+    note: "같은 구간 CPA −14.1%\u00a0· 측정 QA 설계 기여 100%",
     href: "#case-daekyo",
   },
   {
-    axis: "AI · 업무 자동화",
+    axis: "AI\u00a0· 업무 자동화",
     brand: "사내 자동화",
     before: "120분",
     after: "5분",
     label: "재고·광고 운영 점검 시간",
     desc: "시스템 6종을 혼자 기획·구축·운영했습니다. 속도보다 잘못된 데이터로 계속 도는 것을 먼저 막았습니다.",
-    note: "내부 일평균 실측 기준 · 기획·구축·운영 100% 단독",
+    note: "내부 일평균 실측 기준\u00a0· 기획·구축·운영 100% 단독",
     href: "#case-automation",
   },
 ] as const;
@@ -2391,7 +2394,7 @@ export const ablyRoleFit = [
     requirement: "엔지니어·디자이너·MD 등 다양한 직군과의 협업 (우대)",
     evidence:
       "제작팀에는 규격과 카피까지 적은 요청서로 넘기고, 매체 API·전자결제와는 직접 연동해 자동화를 붙였습니다. 상품군마다 사는 이유가 달라 소구를 나눈 것은 MD 관점의 판단이었습니다.",
-    project: "뉴발란스 · 강원심층수",
+    project: "뉴발란스\u00a0· 강원심층수",
     slug: "newbalance",
   },
 ] as const;
@@ -2411,7 +2414,7 @@ export const ablyExperienceBoundary = {
 } as const;
 
 export const ablyFirst90Days = {
-  eyebrow: "FIRST 90 DAYS · WORKING HYPOTHESIS",
+  eyebrow: "FIRST 90 DAYS\u00a0· WORKING HYPOTHESIS",
   title: "성과 정의부터 맞추고, 작은 실험으로 방식을 좁힙니다.",
   caveat:
     "밖에서 세운 가설이라 안에 들어가면 순서가 바뀔 수 있습니다. 다만 판정 기준을 실험보다 먼저 정한다는 것만은 어느 순서에서도 바꾸지 않겠습니다.",

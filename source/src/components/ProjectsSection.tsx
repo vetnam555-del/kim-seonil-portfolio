@@ -23,14 +23,14 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
  * 콘텐츠 스튜디오 조직이 자기 언어로 훑을 수 있는 분류다.
  */
 const CASE_TYPE: Record<string, string> = {
-  samsonite: "고객 세분화 · CRM 채널 운영",
-  dyson: "콘텐츠 기획 · 채널 성장",
-  jestina: "IMC 재설계 · 측정 체계",
-  daekyo: "측정 QA · 전환 개선",
+  samsonite: "고객 세분화\u00a0· CRM 채널 운영",
+  dyson: "콘텐츠 기획\u00a0· 채널 성장",
+  jestina: "IMC 재설계\u00a0· 측정 체계",
+  daekyo: "측정 QA\u00a0· 전환 개선",
   newbalance: "멀티채널 대형 운영",
   gangwon: "단독 계정 운영",
   automation: "사내 시스템화",
-  edith: "콘텐츠 기획 · 직접 발행",
+  edith: "콘텐츠 기획\u00a0· 직접 발행",
 };
 
 /** 케이스 사이에 놓는 한 줄. 다음 케이스가 답할 질문을 던져 스크롤에 방향을 준다. */
@@ -58,7 +58,7 @@ const CASE_TYPE: Record<string, string> = {
  * 세 개까지 적고 나머지는 개수로 밝힌다.
  */
 function channelLabel(channels: readonly string[]) {
-  const head = channels.slice(0, 3).join(" · ");
+  const head = channels.slice(0, 3).join("\u00a0· ");
   const rest = channels.length - 3;
   return rest > 0 ? `${head} 외 ${rest}` : head;
 }
@@ -137,7 +137,7 @@ const CAPABILITY_GROUPS: {
       no: "S1–S6",
       title: "업무 자동화 6종",
       label: "직접 기획·구축",
-      metric: "재고 · 리포트 · 정산 · 모니터링 · 지식봇",
+      metric: "재고\u00a0· 리포트\u00a0· 정산\u00a0· 모니터링\u00a0· 지식봇",
       href: "#automation",
     },
   },
@@ -274,7 +274,7 @@ const EVIDENCE_CAPTION: Record<string, { alt: string; caption: string }> = {
   },
   automation: {
     alt: "뉴발란스 쇼핑검색 재고 자동 점검 화면 — 품절 상품의 소재가 PAUSED로 표시된 목록",
-    caption: "실제 운영 화면 · 품절 감지 시 소재 자동 중단 기록 · 입찰가 열 비공개 처리",
+    caption: "실제 운영 화면\u00a0· 품절 감지 시 소재 자동 중단 기록\u00a0· 입찰가 열 비공개 처리",
   },
   /*
    * 캡션이 "이 화면이 무엇을 증명하는가"까지 말해야 한다.
@@ -297,7 +297,7 @@ const EVIDENCE_CAPTION: Record<string, { alt: string; caption: string }> = {
    * 같은 계정에서 무엇을 돌렸는지를 보여 준다. 둘을 캡션에서 갈라 둔다.
    */
   newbalance: {
-    alt: "뉴발란스 슈즈위크 카카오 비즈보드 소재 8종 — 캠페인 공통 · 상품별 데이 · 첫구매 혜택으로 나뉜 배너",
+    alt: "뉴발란스 슈즈위크 카카오 비즈보드 소재 8종 — 캠페인 공통\u00a0· 상품별 데이\u00a0· 첫구매 혜택으로 나뉜 배너",
     caption:
       "슈즈위크 비즈보드 8종(2026.08). 소재를 기획하고 지면·규격·문구를 지정해 제작팀과 맞췄습니다. 재고 점검 시간 단축 근거는 상세의 자동화 기록입니다.",
   },
@@ -365,7 +365,7 @@ function EvidencePreview({
 
   const copy = EVIDENCE_CAPTION[slug] ?? {
     alt: `${brand} 케이스 증빙 화면 — ${evidenceLabel}`,
-    caption: `케이스 증빙 · ${evidenceLabel}`,
+    caption: `케이스 증빙\u00a0· ${evidenceLabel}`,
   };
   const points = EVIDENCE_POINTS[slug] ?? [];
   const size = EVIDENCE_SIZE[evidenceFile];
@@ -497,7 +497,7 @@ function EvidenceFold({
         <span className="evidence-fold-mark text-signal" aria-hidden="true">
           +
         </span>
-        <span>근거 화면 · {evidenceLabel}</span>
+        <span>근거 화면&nbsp;· {evidenceLabel}</span>
       </summary>
       <EvidencePreview
         slug={slug}
@@ -622,7 +622,7 @@ function ReadingCase({ project: p, index, extras }: { project: Project; index: n
             <dl className="reading-case-facts">
               <div><dt>기여 범위</dt><dd>{p.contributionNote ?? `기여도 ${p.contribution}%`}</dd></div>
               {p.scale ? <div><dt>{p.scaleLabel ?? "규모"}</dt><dd>{p.scale}</dd></div> : null}
-              <div><dt>기간 · 채널</dt><dd>{p.period} · {channelLabel(p.channels)}</dd></div>
+              <div><dt>기간&nbsp;· 채널</dt><dd>{p.period} · {channelLabel(p.channels)}</dd></div>
             </dl>
           </div>
           <div className="final-case-proof">
@@ -701,7 +701,7 @@ export default function ProjectsSection() {
         <div className={EDITION === "general" ? "reading-project-intro" : "py-14 md:py-[72px]"}>
           {EDITION === "general" ? <>
             <span id="impact" className="block scroll-mt-[96px]" />
-            <SectionHead kicker="01 · Selected work" title="대표 사례" count="30여 개 브랜드 경험 · 주력 사례 2건" />
+            <SectionHead kicker="01&nbsp;· Selected work" title="대표 사례" count="30여 개 브랜드 경험&nbsp;· 주력 사례 2건" />
             {/*
               역량별 대표 사례 (2026.09.24). 표지의 한 문장(앞 절 = 퍼포먼스 마케팅, 뒤 절 = 마케팅
               오퍼레이션)을 두 묶음으로 받아, 묶음마다 그 역량을 증명하는 사례와 대표 수치를 둔다.
@@ -876,7 +876,7 @@ export default function ProjectsSection() {
                             </div>
                           ) : null}
                           <div>
-                            <dt className="text-on-ink-2">기간 · 채널</dt>
+                            <dt className="text-on-ink-2">기간&nbsp;· 채널</dt>
                             <dd className="mt-1 text-on-ink">
                               {p.period} · {channelLabel(p.channels)}
                             </dd>
@@ -949,7 +949,7 @@ export default function ProjectsSection() {
                         />
                       ) : null}
 
-                      <p className="mt-6 font-mono text-mono text-ink-3">역할 · {p.role}</p>
+                      <p className="mt-6 font-mono text-mono text-ink-3">역할&nbsp;· {p.role}</p>
                       {p.detail.evidenceNote ? (
                         <p className="mt-3 max-w-[62ch] font-mono text-mono leading-[1.6] text-ink-3">
                           {p.detail.evidenceNote}
@@ -1045,7 +1045,7 @@ export default function ProjectsSection() {
                           </div>
                         ) : null}
                         <div>
-                          <dt className="text-on-ink-2">기간 · 채널</dt>
+                          <dt className="text-on-ink-2">기간&nbsp;· 채널</dt>
                           <dd className="mt-1 text-on-ink">
                             {p.period} · {channelLabel(p.channels)}
                           </dd>
@@ -1071,7 +1071,7 @@ export default function ProjectsSection() {
                         {p.cardDecision ? (
                           <p className="mt-3 text-body text-ink-2">{p.cardDecision}</p>
                         ) : null}
-                        <p className="mt-6 font-mono text-mono text-ink-3">역할 · {p.role}</p>
+                        <p className="mt-6 font-mono text-mono text-ink-3">역할&nbsp;· {p.role}</p>
                         {/*
                           밑줄 텍스트 링크였다. 이 카드에서 상세 페이지로 넘어가는 것이
                           이 섹션의 유일한 목적인데, 링크가 본문과 같은 무게라 눈에 걸리지
@@ -1164,7 +1164,7 @@ export default function ProjectsSection() {
         {support.length ? (
           <div className="mt-12 border-t border-rule pt-6">
             <p className="font-mono text-[0.6875rem] font-bold tracking-[0.02em] text-ink-3">
-              보조 사례 · 판단 방식과 채널 설계
+              보조 사례&nbsp;· 판단 방식과 채널 설계
             </p>
             <ul className="mt-4">
               {support.map((p) => (
@@ -1196,7 +1196,7 @@ export default function ProjectsSection() {
                           {p.keyMetric.before && p.keyMetric.before !== "기준"
                             ? `${p.keyMetric.before} → ${p.keyMetric.after}`
                             : p.keyMetric.after}
-                          {` · ${p.keyMetric.label}`}
+                          {`\u00a0· ${p.keyMetric.label}`}
                         </span>
                       </span>
                     </span>
@@ -1303,7 +1303,7 @@ export default function ProjectsSection() {
           <p className="mt-5 text-caption leading-[1.7] text-ink-3">
             <span className="block">
               <span className="font-semibold text-ink-2">그 밖에 </span>
-              {otherBrands.join(" · ")} 등 9개 산업군 30여 개 브랜드의 운영·분석 경험이 있습니다.
+              {otherBrands.join("\u00a0· ")} 등 9개 산업군 30여 개 브랜드의 운영·분석 경험이 있습니다.
             </span>
             <span className="block">월 단위 기간을 확인하지 못한 브랜드는 위 표에 올리지 않았습니다. 세부 수치는 출처와 집계 범위를 함께 확인할 수 있을 때만 공유합니다.</span>
           </p>

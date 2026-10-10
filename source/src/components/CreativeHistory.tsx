@@ -44,7 +44,7 @@ export default function CreativeHistory() {
                       </div>
                     ))}
                   </dl>
-                  <p className="border-t border-line py-4 text-caption leading-[1.7] text-ink-3">확인 자료 · {item.evidence}</p>
+                  <p className="border-t border-line py-4 text-caption leading-[1.7] text-ink-3">확인 자료&nbsp;· {item.evidence}</p>
                 </details>
               </article>
             ))}

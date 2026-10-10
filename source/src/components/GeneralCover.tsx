@@ -23,7 +23,8 @@ const HERO_FACT_LINKS: Partial<Record<string, { href: string; aria: string }>> =
  * 시작하지 않게 한다. 화면에 보이는 글자와 스크린리더가 읽는 글자는 그대로다.
  */
 function ScopeLine({ text }: { text: string }) {
-  const parts = text.split(" · ");
+  /* 데이터의 구분자는 2026.10.10 부터 "\u00a0· "(점 앞이 줄바꿈 없는 공백)다. 어느 쪽이 와도 나뉘게 한다 */
+  const parts = text.split(/[ \u00a0]· /);
   return (
     <>
       {parts.map((part, index) => (
@@ -41,7 +42,7 @@ export default function GeneralCover() {
     <>
     <section id="hero" className="final-hero on-ink">
       <Container>
-        <p className="final-hero-eyebrow">{`KIM SEONILL · ${edition.role}`}</p>
+        <p className="final-hero-eyebrow">{`KIM SEONILL\u00a0· ${edition.role}`}</p>
         <div className="final-hero-grid">
           <div className="final-hero-copy">
             {/* 직무 이름이 아니라 무엇을 하는 사람인지로 연다 — 앞 절은 퍼포먼스 마케팅, 뒤 절은 마케팅 오퍼레이션 */}
@@ -71,7 +72,7 @@ export default function GeneralCover() {
                     <dt>{fact.label}</dt>
                     <dd>
                       {link ? (
-                        <a href={link.href} className="final-hero-metric-link" aria-label={`${fact.label} ${fact.value} · ${link.aria}`}>
+                        <a href={link.href} className="final-hero-metric-link" aria-label={`${fact.label} ${fact.value}\u00a0· ${link.aria}`}>
                           <CountUpValue value={fact.value} delay={150 + index * 100} duration={1450} />
                         </a>
                       ) : (

@@ -115,7 +115,7 @@ function cardExtras(p: Project): ProjectMetric[] {
 }
 
 function channelLabel(channels: readonly string[]) {
-  const head = channels.slice(0, 3).join(" · ");
+  const head = channels.slice(0, 3).join("\u00a0· ");
   const rest = channels.length - 3;
   return rest > 0 ? `${head} 외 ${rest}` : head;
 }
@@ -248,7 +248,7 @@ function LeadCase({ p, no }: { p: Project; no: number }) {
           <dl className="mt-8 flex flex-col gap-3 border-t border-line-2 pt-5 text-caption">
             <Fact label="기여 범위" value={p.contributionNote ?? `기여도 ${p.contribution}%`} />
             {p.scale ? <Fact label={p.scaleLabel ?? "규모"} value={p.scale} /> : null}
-            <Fact label="기간 · 채널" value={`${p.period} · ${channelLabel(p.channels)}`} />
+            <Fact label="기간&nbsp;· 채널" value={`${p.period}\u00a0· ${channelLabel(p.channels)}`} />
             <Fact label="근거" value={p.evidenceLabel} />
           </dl>
         </div>
@@ -276,7 +276,7 @@ function LeadCase({ p, no }: { p: Project; no: number }) {
               target="_blank"
               rel="noopener noreferrer"
               className="mt-2 inline-flex min-h-[44px] items-center text-caption font-semibold text-accent underline underline-offset-4"
-              aria-label={`원본 크기로 열기 · ${shot.alt} (새 탭)`}
+              aria-label={`원본 크기로 열기\u00a0· ${shot.alt} (새 탭)`}
             >
               원본 크기로 열기 ↗
             </a>
@@ -333,7 +333,7 @@ function RestCase({ p, no }: { p: Project; no: number }) {
         강원심층수는 단독 계정 운영인데, 숫자만 보면 둘이 같은 말로 읽힌다.
       */}
       <p className="mt-4 text-caption text-ink-3">
-        기여 범위 · {p.contributionNote ?? `기여도 ${p.contribution}%`} · {p.period}
+        기여 범위&nbsp;· {p.contributionNote ?? `기여도 ${p.contribution}%`} · {p.period}
       </p>
       {/*
         보조 사례에도 증빙을 붙인다. 1차 개편에서 주력 둘만 도판을 두었더니 홈의
@@ -483,7 +483,7 @@ export default function HomeNew() {
         <Container>
           {/* 케이스 상세·이력서·OG 링크가 옛 앵커로 들어와도 여기 닿게 한다 */}
           <AnchorStub id="projects" />
-          <Eyebrow>01 · SELECTED WORK</Eyebrow>
+          <Eyebrow>01&nbsp;· SELECTED WORK</Eyebrow>
           <h2 className="mt-5 max-w-[34rem] text-h2 text-ink">
             맡은 범위와 근거를 수치 옆에 함께 적었습니다
           </h2>
@@ -529,7 +529,7 @@ export default function HomeNew() {
           <AnchorStub id="skills" />
           <AnchorStub id="story" />
           <AnchorStub id="why-studio" />
-          <Eyebrow>02 · HOW I WORK</Eyebrow>
+          <Eyebrow>02&nbsp;· HOW I WORK</Eyebrow>
           <h2 className="mt-5 text-h2 text-ink">{howIWork.title}</h2>
           <div className="mt-14 grid gap-12 md:grid-cols-3">
             {howIWork.items.map((it) => (
@@ -553,7 +553,7 @@ export default function HomeNew() {
       {/* ── 자동화 ─────────────────────────────────────────── */}
       <Section id="automation" tone="ink">
         <Container>
-          <Eyebrow className="text-accent">03 · SYSTEMS</Eyebrow>
+          <Eyebrow className="text-accent">03&nbsp;· SYSTEMS</Eyebrow>
           <h2 className="mt-5 max-w-[34rem] text-h2 text-on-ink">
             사람이 기억해서 확인하던 업무를 시스템으로 옮겼습니다
           </h2>
@@ -637,7 +637,7 @@ export default function HomeNew() {
       {/* ── 직접 만들어 공개한 것 ───────────────────────────── */}
       <Section id="made" tone="paper">
         <Container>
-          <Eyebrow>04 · MADE &amp; PUBLISHED</Eyebrow>
+          <Eyebrow>04&nbsp;· MADE &amp; PUBLISHED</Eyebrow>
           <h2 className="mt-5 max-w-[36rem] text-h2 text-ink">
             만든 것은 지금 열어서 확인할 수 있습니다
           </h2>
@@ -672,7 +672,7 @@ export default function HomeNew() {
       <Section id="origin" tone="white">
         <Container>
           <AnchorStub id="creative-roots" />
-          <Eyebrow>05 · ORIGIN</Eyebrow>
+          <Eyebrow>05&nbsp;· ORIGIN</Eyebrow>
           <h2 className="mt-5 max-w-[36rem] text-h2 text-ink">
             광고를 맡기 전에 제품과 콘텐츠를 직접 만들었습니다
           </h2>
@@ -730,7 +730,7 @@ export default function HomeNew() {
       <Section id="contact" tone="white">
         <Container>
           <AnchorStub id="career" />
-          <Eyebrow>06 · CONTACT</Eyebrow>
+          <Eyebrow>06&nbsp;· CONTACT</Eyebrow>
           <h2 className="mt-5 text-h2 text-ink">
             {generalProfile.title[0]} · {edition.role}
           </h2>
@@ -790,7 +790,7 @@ export default function HomeNew() {
 
           <p className="mt-10 text-caption text-ink-3">{generalProfile.interestLabel}</p>
           <p className="mt-2 max-w-[34rem] text-small text-ink-2">
-            {generalProfile.interests.join(" · ")}
+            {generalProfile.interests.join("\u00a0· ")}
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
             <a

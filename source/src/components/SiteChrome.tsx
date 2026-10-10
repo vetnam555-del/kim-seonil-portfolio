@@ -75,11 +75,15 @@ export function SiteFooter({
             <>
               <span className="block">All figures are based on GA4, media reports and operating logs, and public screens are de-identified.</span>
               <span className="block">Figures that can&apos;t be disclosed for advertiser data security are shown as ratios.</span>
+              <span className="block">Contribution: 100% is an account I ran alone, 35–75% means I led strategy and analysis within a team, and 20% means I owned specific media and analysis within a team. Team sizes are left out because they are client and organization information.</span>
             </>
           ) : (
             <>
               <span className="block">모든 수치는 GA4·매체 리포트·운영 로그 기준입니다. 공개 화면은 비식별 처리했습니다.</span>
               <span className="block">광고주 데이터 보안상 공개할 수 없는 수치는 비율로 표기했습니다.</span>
+              {/* 기여도 범례 (2026.10.10) — 2026.08 판 앞쪽에 있던 범례와 인원 원칙을 되살렸다. 그때 구간은
+                  100 / 40–75 / 20 이었는데 지금 값에 동원몰 35%(키워드·소재 재구성 + 자동입찰 결합, 전략 쪽 일)가 있어 35 부터 잡는다 */}
+              <span className="block">기여도 100%는 단독 담당 계정, 35–75%는 팀 운영 중 전략·분석 주도, 20%는 팀 운영 중 담당 매체·분석입니다. 팀 구성 인원은 광고주·조직 정보라 표기하지 않았습니다.</span>
             </>
           )}
         </p>

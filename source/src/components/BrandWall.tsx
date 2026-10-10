@@ -29,7 +29,7 @@ import {
 function BrandItem({ brand }: { brand: ClientBrand }) {
   const sub = brand.sub ? (
     <span className="block break-keep text-caption font-normal leading-[1.5] text-ink-3">
-      {brand.sub.join(" · ")}
+      {brand.sub.join("\u00a0· ")}
     </span>
   ) : null;
 

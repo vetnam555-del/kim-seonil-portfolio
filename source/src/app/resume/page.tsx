@@ -122,7 +122,7 @@ export default function ResumePage() {
           <div className="flex items-start justify-between gap-6">
             <div>
               <p className="text-caption font-semibold tracking-[0.02em] text-accent">
-                이력서 · 경력기술서
+                이력서&nbsp;· 경력기술서
               </p>
               <h1 className="mt-3 text-[1.75rem] font-bold tracking-normal sm:text-[2.25rem]">
                 {site.name}
@@ -133,7 +133,7 @@ export default function ResumePage() {
               </p>
               <p className="mt-2 text-caption text-ink-3">
                 {/* 사외 지원판에서는 사내 메일을 싣지 않는다 */}
-                {site.showWorkEmail ? `${site.emailWork} · ` : ""}
+                {site.showWorkEmail ? `${site.emailWork}\u00a0· ` : ""}
                 {site.email} ·{" "}
                 <a href={site.linkedin} target="_blank" rel="noopener" className="text-accent">
                   LinkedIn
@@ -264,7 +264,7 @@ export default function ResumePage() {
                   {p.contributionNote ?? `${p.contribution}%`}
                 </strong>
               </Row>
-              <Row label={p.contextLabel ?? "담당 채널"}>{p.channels.join(" · ")}</Row>
+              <Row label={p.contextLabel ?? "담당 채널"}>{p.channels.join("\u00a0· ")}</Row>
               <Row label="근거 형태">{p.evidenceLabel}</Row>
               <Row label="성과">
                 <ul className="flex flex-col gap-1">
@@ -318,13 +318,13 @@ export default function ResumePage() {
             <Row key={r.brand} label={r.brand}>
               <span className="text-ink-3">
                 {r.category}
-                {r.period ? ` · ${r.period}` : ""}
+                {r.period ? `\u00a0· ${r.period}` : ""}
               </span>
               <span className="mt-1 block text-ink-2">{r.summary}</span>
               <span className="mt-1 block">
                 {r.metrics.map((m, i) => (
                   <span key={m.label}>
-                    {i > 0 ? " · " : ""}
+                    {i > 0 ? "\u00a0· " : ""}
                     <span className="text-ink-3">{m.label}</span>{" "}
                     <strong className="font-semibold">{m.value}</strong>
                   </span>
@@ -334,7 +334,7 @@ export default function ResumePage() {
           ))}
         </dl>
         <p className="mt-3 text-caption text-ink-3">
-          그 밖에 {otherBrands.join(" · ")} 등 9개 산업군 30여 개 브랜드의 운영·분석 경험이 있습니다.
+          그 밖에 {otherBrands.join("\u00a0· ")} 등 9개 산업군 30여 개 브랜드의 운영·분석 경험이 있습니다.
         </p>
 
         <H2>공개 작업물</H2>
@@ -344,7 +344,7 @@ export default function ResumePage() {
               <p className="text-caption font-semibold text-accent">{work.label}</p>
               <h3 className="mt-1 text-small font-bold">{work.title}</h3>
               <p className="mt-2 text-caption text-ink-2">{work.desc}</p>
-              <p className="mt-2 text-caption text-ink-3">{work.facts.join(" · ")}</p>
+              <p className="mt-2 text-caption text-ink-3">{work.facts.join("\u00a0· ")}</p>
               <a
                 href={work.href}
                 target="_blank"
@@ -359,7 +359,7 @@ export default function ResumePage() {
         <ul className="print-only mt-3 flex flex-col gap-1">
           {publicWork.map((work) => (
             <li key={work.href} className="text-caption text-ink-2">
-              <strong className="font-semibold">{work.title}</strong> · {work.facts.join(" · ")}
+              <strong className="font-semibold">{work.title}</strong> · {work.facts.join("\u00a0· ")}
             </li>
           ))}
         </ul>
@@ -379,7 +379,7 @@ export default function ResumePage() {
         <p className="mt-2 text-caption leading-[1.7] text-ink-3">
           {skillLevels.map((l, i) => (
             <span key={l.level}>
-              {i > 0 ? " · " : ""}
+              {i > 0 ? "\u00a0· " : ""}
               <span className="font-semibold text-ink-2">{l.level}</span> — {l.desc}
             </span>
           ))}
@@ -396,7 +396,7 @@ export default function ResumePage() {
                   >
                     <span className="text-caption font-semibold text-accent">{r.level}</span>
                     <span className="text-caption text-ink-2">
-                      {r.items.join(" · ")}
+                      {r.items.join("\u00a0· ")}
                       {r.note ? <span data-prose className="mt-1 block text-ink-3">{r.note}</span> : null}
                     </span>
                   </div>
@@ -417,7 +417,7 @@ export default function ResumePage() {
               {g.rows.map((r) => (
                 <p key={`${r.level}-${r.items.join("|")}`} className="text-caption text-ink-2">
                   <strong className="mr-1.5 font-semibold">{r.level}</strong>
-                  {r.items.join(" · ")}
+                  {r.items.join("\u00a0· ")}
                   {r.note ? <span className="text-ink-3"> — <span data-prose>{r.note}</span></span> : null}
                 </p>
               ))}
@@ -451,10 +451,10 @@ export default function ResumePage() {
           ))}
         </ul>
         <p className="print-only mt-3 text-caption text-ink-2">
-          {certifications.map((c) => `${c.name}${c.when ? ` (${c.when})` : ""}`).join(" · ")}
+          {certifications.map((c) => `${c.name}${c.when ? ` (${c.when})` : ""}`).join("\u00a0· ")}
         </p>
         <p className="print-only mt-2 text-caption text-ink-2">
-          <strong className="mr-2 font-semibold text-ink">수상 · 선정</strong>
+          <strong className="mr-2 font-semibold text-ink">수상&nbsp;· 선정</strong>
           {awards.map((a) => `${a.year} ${a.name} (${a.detail})`).join(" / ")}
         </p>
         {/*
@@ -467,13 +467,13 @@ export default function ResumePage() {
           {awardsArchive.map((a) => `${a.year} ${a.items}`).join(" / ")}
         </p>
         <p className="print-only mt-2 text-caption text-ink-2">
-          <strong className="mr-2 font-semibold text-ink">교육 · 활동</strong>
+          <strong className="mr-2 font-semibold text-ink">교육&nbsp;· 활동</strong>
           {activities.map((a) => `${a.period} ${a.name} (${a.detail})`).join(" / ")}
         </p>
 
         {/* 수상 */}
         <div className="no-print">
-          <H2>수상 · 선정</H2>
+          <H2>수상&nbsp;· 선정</H2>
           <dl className="mt-4">
             {awards.map((a) => (
               <Row key={`${a.year}-${a.name}`} label={a.year}>
@@ -489,7 +489,7 @@ export default function ResumePage() {
           위의 대표 수상과 섞이지 않도록 제목으로 구간만 구분한다.
         */}
         <div className="no-print mt-6">
-          <H2>마케터 이전 수상 · 선정</H2>
+          <H2>마케터 이전 수상&nbsp;· 선정</H2>
           <dl className="mt-4">
             {awardsArchive.map((a) => (
               <Row key={a.year} label={a.year}>
@@ -501,7 +501,7 @@ export default function ResumePage() {
 
         {/* 교육 수료 · 대외 활동 (2026.09.24) — 사이트 경력과 수상 칸과 같은 데이터 */}
         <div className="no-print mt-6">
-          <H2>교육 · 활동</H2>
+          <H2>교육&nbsp;· 활동</H2>
           <dl className="mt-4">
             {activities.map((a) => (
               <Row key={a.name} label={a.period}>

@@ -22,13 +22,13 @@ export default function AblyFit() {
       <Container>
         <div className="py-14 md:py-[72px]">
           <SectionHead
-            kicker="JOB FIT · ABLY 그로스 마케터(신사업)"
+            kicker="JOB FIT&nbsp;· ABLY 그로스 마케터(신사업)"
             /*
               공고가 요구하는 것은 채널 운영 숙련이 아니라 "방식을 정의하는 사람"이다.
               제목도 성과가 아니라 그 앞의 판단을 가리킨다.
             */
             title="정해진 방식이 없는 자리에서, 무엇을 성과로 볼지부터 정해 왔습니다."
-            count="공고 요건 6개 · 근거 6개"
+            count="공고 요건 6개&nbsp;· 근거 6개"
           />
 
           <p className="mt-7 max-w-[54rem] text-body leading-[1.85] text-ink-2">
@@ -43,7 +43,7 @@ export default function AblyFit() {
           <div className="mt-10 border-y border-rule py-6">
             <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
               <p className="font-mono text-mono font-bold tracking-[0.06em] text-ink-3">
-                GROWTH LOOP · 방식을 고르는 순서
+                GROWTH LOOP&nbsp;· 방식을 고르는 순서
               </p>
               <p className="font-mono text-mono text-ink-3">5단계 순환</p>
             </div>
@@ -153,7 +153,7 @@ export default function AblyFit() {
                     ))}
                   </ul>
                   <p className="mt-4 border-t border-line pt-3 font-mono text-mono leading-[1.6] text-signal">
-                    완료 기준 · {phase.done}
+                    완료 기준&nbsp;· {phase.done}
                   </p>
                 </li>
               ))}

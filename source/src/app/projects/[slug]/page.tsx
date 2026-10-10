@@ -43,7 +43,7 @@ export async function generateMetadata({
    * 텍스트라 여기서만 구분자를 보완한다 — headline 원문은 건드리지 않는다.
    */
   const headline = /[.!?…]$/.test(p.headline.trim()) ? p.headline.trim() : `${p.headline.trim()}.`;
-  const description = `${p.brand} · ${headline} ${metric}. ${scope}. ${edition.caseDescription}`
+  const description = `${p.brand}\u00a0· ${headline} ${metric}. ${scope}. ${edition.caseDescription}`
     .replace(/\s+/g, " ")
     .slice(0, 300);
 

@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const km = (EDITION === "general" ? caseCardsEn[p.slug]?.metric : undefined) ?? p.keyMetric;
   const metric = km.before && km.before !== "기준" ? `${km.label} ${km.before} → ${km.after}` : `${km.label} ${km.after}`;
   const headline = /[.!?…]$/.test(p.headline.trim()) ? p.headline.trim() : `${p.headline.trim()}.`;
-  const description = `${p.brand} · ${headline} ${metric}. ${p.contributionNote ?? `Contribution ${p.contribution}%`}.`
+  const description = `${p.brand}\u00a0· ${headline} ${metric}. ${p.contributionNote ?? `Contribution ${p.contribution}%`}.`
     .replace(/\s+/g, " ")
     .slice(0, 300);
   const title = `${p.brand} case | Kim Seonill portfolio`;

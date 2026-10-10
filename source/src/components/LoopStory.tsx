@@ -121,7 +121,7 @@ export default function LoopStory({
                   </div>
                 ))}
               </dl>
-              <p className="loop-panel-points">{s.points.join(" · ")}</p>
+              <p className="loop-panel-points">{s.points.join("\u00a0· ")}</p>
               <p className="loop-panel-proof">
                 <span>{proofLabel}</span>
                 {s.proof.map((pr) => (

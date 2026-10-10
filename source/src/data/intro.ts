@@ -32,9 +32,9 @@ export const introCopy: Record<"ko" | "en", {
     name: "김선일",
     role: "퍼포먼스 마케터",
     steps: [
-      { stage: "FIND", key: "문제 진단", before: "0.66% →", value: "2.24%", basis: "대교에듀캠프 CVR · 같은 표본으로 다시 계산" },
-      { stage: "TEST", key: "가설 검증", before: "2.84% →", value: "7.55%", basis: "대교 마이페이스 광고 DB 전환율 · 상담 폼 개선" },
-      { stage: "IMPROVE", key: "구조 개선", before: "352% →", value: "583%", basis: "제이에스티나 GA4 ROAS · 고객 단계별 예산 재배분" },
+      { stage: "FIND", key: "문제 진단", before: "0.66% →", value: "2.24%", basis: "대교에듀캠프 CVR\u00a0· 같은 표본으로 다시 계산" },
+      { stage: "TEST", key: "가설 검증", before: "2.84% →", value: "7.55%", basis: "대교 마이페이스 광고 DB 전환율\u00a0· 상담 폼 개선" },
+      { stage: "IMPROVE", key: "구조 개선", before: "352% →", value: "583%", basis: "제이에스티나 GA4 ROAS\u00a0· 고객 단계별 예산 재배분" },
     ],
   },
   en: {
@@ -44,9 +44,9 @@ export const introCopy: Record<"ko" | "en", {
     name: "Kim Seonill",
     role: "Performance Marketer",
     steps: [
-      { stage: "FIND", key: "the problem", before: "0.66% →", value: "2.24%", basis: "Daekyo CVR · re-measured on the same sample" },
-      { stage: "TEST", key: "the hypothesis", before: "2.84% →", value: "7.55%", basis: "Daekyo lead conversion rate · consultation form rebuilt" },
-      { stage: "IMPROVE", key: "the structure", before: "352% →", value: "583%", basis: "J.ESTINA GA4 ROAS · budget rebuilt by customer stage" },
+      { stage: "FIND", key: "the problem", before: "0.66% →", value: "2.24%", basis: "Daekyo CVR\u00a0· re-measured on the same sample" },
+      { stage: "TEST", key: "the hypothesis", before: "2.84% →", value: "7.55%", basis: "Daekyo lead conversion rate\u00a0· consultation form rebuilt" },
+      { stage: "IMPROVE", key: "the structure", before: "352% →", value: "583%", basis: "J.ESTINA GA4 ROAS\u00a0· budget rebuilt by customer stage" },
     ],
   },
 };

@@ -67,7 +67,7 @@ export default function CreativeRoots() {
               </Reveal>
               <div className="p-6 sm:p-8 lg:col-span-7 lg:p-10">
                 <p className="font-mono text-mono font-bold tracking-[0.03em] text-ink-3">
-                  01 · {planning.stage}
+                  01&nbsp;· {planning.stage}
                 </p>
                 <h3 className="mt-4 max-w-[28ch] text-case-h text-ink">{planning.title}</h3>
                 <p className="mt-4 max-w-[62ch] text-body text-ink-2">{planning.body}</p>
@@ -97,7 +97,7 @@ export default function CreativeRoots() {
               </Reveal>
               <div className="order-2 p-6 sm:p-8 lg:order-1 lg:col-span-5 lg:p-10">
                 <p className="font-mono text-mono font-bold tracking-[0.03em] text-ink-3">
-                  02 · {objemer.stage}
+                  02&nbsp;· {objemer.stage}
                 </p>
                 <h3 className="mt-4 text-case-h text-ink">{objemer.title}</h3>
                 <p className="mt-4 max-w-[62ch] text-body text-ink-2">{objemer.body}</p>
@@ -121,7 +121,7 @@ export default function CreativeRoots() {
               </Reveal>
               <div className="p-6 sm:p-8 lg:col-span-5 lg:p-10">
                 <p className="font-mono text-mono font-bold tracking-[0.03em] text-limit-ink">
-                  03 · {youtube.stage}
+                  03&nbsp;· {youtube.stage}
                 </p>
                 <h3 className="mt-4 text-case-h text-on-ink">{youtube.title}</h3>
                 <p className="mt-4 text-body text-on-ink-2">{youtube.body}</p>

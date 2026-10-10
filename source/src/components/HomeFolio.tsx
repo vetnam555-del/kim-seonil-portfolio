@@ -75,7 +75,7 @@ const UI = {
     /* "N년 차"는 'N번째 해'로 읽혀 채운 연수(careerYear)보다 낮게 보였다 — 이력서·PDF 와 같은 "경력 N년" (2026.10.09) */
     yearsRole: (y: number) => `경력 ${y}년 ${edition.role}`,
     workLead: "숫자마다 기간과 제 몫을 함께 적었습니다.",
-    capAria: "문제 진단 · 가설 검증 · 구조 개선과 해당 사례",
+    capAria: "문제 진단\u00a0· 가설 검증\u00a0· 구조 개선과 해당 사례",
     loopKicker: "How I work",
     loopTitle: "제가 문제를 푸는 순서",
     capProof: "사례",
@@ -83,7 +83,7 @@ const UI = {
     capMoreHref: "/about/#skills",
     moreLabel: "그 외 기록",
     moreResults: "추가 운영 성과 6건",
-    moreResultsLine: "쌤소나이트·카카오톡채널 · 동원몰 · 생활백서 · 후지필름BI · 오토벨의 기간과 대표값",
+    moreResultsLine: "쌤소나이트·카카오톡채널\u00a0· 동원몰\u00a0· 생활백서\u00a0· 후지필름BI\u00a0· 오토벨의 기간과 대표값",
     autoTitle: "직접 기획·구축한 업무 자동화 6종",
     autoLead: "사람이 반복하던 재고 확인·리포트·정산을 시스템으로 옮겼습니다. 구현은 AI 도구와 함께 했고 언제 멈출지는 직접 정했습니다.",
     autoCase: "자동화 사례 상세",
@@ -109,7 +109,7 @@ const UI = {
     recordsAria: "Awards and published best practice",
     newTab: " (new tab)",
     workTitle: "Case studies",
-    yearsRole: (y: number) => `${ROLE_EN} · ${y} years`,
+    yearsRole: (y: number) => `${ROLE_EN}\u00a0· ${y} years`,
     workLead: "Every number comes with its period and my share of the work.",
     capAria: "Find, test, improve — and the cases",
     loopKicker: "How I work",
@@ -223,7 +223,7 @@ export default function HomeFolio({ lang = "ko" }: { lang?: Lang }) {
       <section id="hero" className="folio-hero">
         <div className="folio-wrap folio-hero-grid">
           <div className="folio-hero-copy">
-            <p className="folio-eyebrow">{`${en ? NAME_EN_DISPLAY : site.name} · ${ui.yearsRole(careerYear())}`}</p>
+            <p className="folio-eyebrow">{`${en ? NAME_EN_DISPLAY : site.name}\u00a0· ${ui.yearsRole(careerYear())}`}</p>
             {/* 영문 세 단어로 첫인상, 바로 밑 한국어 한 줄로 뜻 (2026.09.25 K+A) — 스크린리더는 한 제목으로 읽는다 */}
             <h1 className="folio-hero-title">
               {display.map((line, i) => (
