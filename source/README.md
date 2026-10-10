@@ -101,10 +101,16 @@ node v3/gen3.js                                   # deck3.pptx · toc3.json · b
 python3 post_pptx.py deck3.pptx deck3.pptx        # 글자 언어 ko-KR
 python3 <저장소>/source/scripts/deck_lo_pdf.py deck3.pptx deck3_lo.pdf
 python3 qa/qa_boxes.py deck3_lo.pdf boxes3.json qa3/png
-python3 finalize_v3.py deck3_lo.pdf final3.pdf     # 책갈피 · 목차 쪽 이동 · 메타데이터
+python3 finalize_v3.py deck3_lo.pdf final3.pdf     # 책갈피 · 목차 쪽 이동 · 태그 보강 · 메타데이터
 ```
 
 - LibreOffice 는 한글과 숫자·영문·가운뎃점 사이에 간격을 자동으로 넣는다(text-autospace). `deck_lo_pdf.py` 가 ODP 를 거쳐 이 간격을 끄고, 이미지는 PowerPoint 내보내기처럼 220ppi · 품질 80 으로 줄인다.
+- 접근성 태그: `deck_lo_pdf.py` 가 태그 PDF(UseTaggedPDF)로 내보내고 한국어 로캘로 실행해 문서 언어를 ko-KR 로 만든다.
+  LibreOffice 는 슬라이드 구분 없이 요소를 평평하게 놓고 링크를 구조 트리에 넣지 않으므로, `finalize_v3.py` 가
+  `deck_pdf_tags.py`(덱 폴더에서는 `pdf_tags.py`)로 Document > Sect(쪽마다, 책갈피 제목) · 링크마다 Link 태그 ·
+  장식 도형 빈 Alt 를 보강한다. 태그·MarkInfo·ko 언어가 없거나 그림 Alt 에 파일 경로가 남으면 멈춘다.
+  그림 Alt 는 덱 생성기 `v3/lib.js` 의 `ALT` 표에 적는다(빠지면 생성 단계에서 멈춘다).
+- ODP 의 서양 문자 언어를 ko 로 바꾸지 않는다 — 영문 단어(GPS·Contest)가 중간에서 끊긴다.
 - `qa_boxes.py` 의 '3pt 넘침' 몇 건은 LibreOffice 와 PowerPoint 의 줄 높이 차이다. 화면에서 다른 요소와 겹치지 않는지 쪽마다 눈으로 확인한다.
 - 바꾼 뒤 이전 PDF 와 쪽별 글자를 비교해 의도한 곳만 바뀌었는지 보고, `site.ts` · `edition.ts` 의 `portfolioPdfPath` `?v=` 판 번호를 올린다.
 

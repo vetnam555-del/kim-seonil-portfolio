@@ -43,7 +43,7 @@ export const site = {
   /* 2026.10.09 문장 다듬기 반영본(scripts/print_resume_reportlab.py) — 캐시를 넘기려고 판 번호를 올린다 */
   resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261010" : "/kim-seonil-resume-public.pdf",
   /** 일반 공개판에서 내려받는 웹 포트폴리오의 PDF 공유본 */
-  portfolioPdfPath: isGeneralLike ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261010" : "/kim-seonil-performance-marketing-portfolio.pdf",
+  portfolioPdfPath: isGeneralLike ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261010b" : "/kim-seonil-performance-marketing-portfolio.pdf",
 } as const;
 
 /**
@@ -1219,7 +1219,7 @@ export const story = {
    * 2026.09.24 — 네 단계의 "왜"를 본인 설명으로 바꿨다. 이전 문구는 교훈을 추정해 적은 것이었다.
    * 산출물 목록은 여전히 CREATIVE ROOTS 가 맡는다 — 여기서는 선택의 이유만 쓴다.
    */
-  title: ["설득하려고 디자인을 배웠고,", "알리려고 마케팅을 택했습니다."],
+  title: ["설득하려고 디자인을 배웠고", "알리려고 마케팅을 택했습니다."],
   /*
    * 01 단계("발표하고 공감을 얻는 일")의 장면 사진. 2022 본인 포트폴리오에 실었던 보도 사진이다.
    * 워터마크를 지우지 않고 출처를 밝힌다. 기사 원문 주소는 확인하지 못해 링크는 걸지 않는다.
@@ -2146,10 +2146,10 @@ export const whatsNext = {
    * 잘 돌리려다 부딪힌 것이었다. 같은 내용을 그 순서로 말하면 이탈 신호가 아니라
    * 깊이의 근거가 된다.
    */
-  title: ["매체 운영을 중심에 두고,", "성과를 가로막는 문제까지 다루겠습니다."],
+  title: ["매체 운영을 중심에 두고", "성과를 가로막는 문제까지 다루겠습니다."],
   /*
    * lead 를 뺐다 (2026.09.09).
-   * 제목이 이미 "매체 운영을 중심에 두고, 성과를 가로막는 문제까지 다루겠습니다" 인데
+   * 제목이 이미 "매체 운영을 중심에 두고 성과를 가로막는 문제까지 다루겠습니다" 인데
    * 바로 아래에서 "매체 운영을 계속하면서, 성과를 가로막는 광고 밖 변수까지 같이
    * 다루고 싶습니다" 를 다시 말하고 있었다. 같은 방향을 두 번 선언하면 두 번째가
    * 첫 번째를 설명해 주는 게 아니라 그냥 늘어진다. 사실은 아래 body 세 문단과

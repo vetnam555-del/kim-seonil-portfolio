@@ -78,7 +78,7 @@ export function SiteFooter({
             </>
           ) : (
             <>
-              <span className="block">모든 수치는 GA4·매체 리포트·운영 로그 기준이며, 공개 화면은 비식별 처리했습니다.</span>
+              <span className="block">모든 수치는 GA4·매체 리포트·운영 로그 기준입니다. 공개 화면은 비식별 처리했습니다.</span>
               <span className="block">광고주 데이터 보안상 공개할 수 없는 수치는 비율로 표기했습니다.</span>
             </>
           )}
