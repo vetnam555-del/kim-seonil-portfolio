@@ -7,4 +7,4 @@
 :HL["/kim-seonil-portfolio/profile-kim-seonil.webp?v=20260925","image",{"imageSrcSet":"/kim-seonil-portfolio/profile-kim-seonil-300.webp?v=20261009 300w, /kim-seonil-portfolio/profile-kim-seonil.webp?v=20260925 600w","imageSizes":"(max-width: 767px) 88px, (max-width: 1023px) 260px, 360px"}]
 :HL["/kim-seonil-portfolio/evidence/jestina-creatives-960.webp","image"]
 :HL["/kim-seonil-portfolio/evidence/newbalance-bizboard-set-960.webp","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"en","param":null,"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"RTGHJ3or5mb8MeYx0tL6R"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"en","param":null,"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"-866mH9cDJwtydq73RRt9"}
