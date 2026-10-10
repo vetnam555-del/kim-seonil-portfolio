@@ -84,7 +84,7 @@ node scripts/qa_release.mjs --approve --runtime=artifacts/release/runtime/runtim
      `git restore --source=HEAD --staged --worktree -- <경로>`.
   3. 추적되지 않거나 무시되는 파일(`??`, `!!` — 새 해시 이름의 `_next/…` 같은 것)은 지우지 말고 저장소 밖 스크래치 폴더로
      옮긴다(`mkdir -p <스크래치>/publish-held && mv <경로> <스크래치>/publish-held/`). 배포물이 아닌 메모라면 커밋해도 된다.
-  4. 1번 목록이 비면 `publish:general` 을 다시 돈다. `git checkout HEAD -- .` 같은 일괄 복원과 `git clean` 은 쓰지 않는다.
+  4. 1번 목록이 비면 `cd source && npm run publish:general` 로 다시 돈다. `git checkout HEAD -- .` 같은 일괄 복원과 `git clean` 은 쓰지 않는다.
 - 화면을 바꿨다면 375·390·1440px 캡처를 직접 본다. 가운뎃점이 줄 맨 앞에 오지 않는지 본다.
 
 ## 4. 커밋

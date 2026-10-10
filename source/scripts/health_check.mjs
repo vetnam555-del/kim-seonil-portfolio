@@ -272,7 +272,7 @@ const md = [
   `## 페이지 (${report.pages.length}쪽)`,
   `- 열림 ${report.pages.filter((p) => p.status === 200).length} · main 과 같음 ${report.pages.filter((p) => p.sameAsMain).length}`,
   ``,
-  `- 원본 파일 비공개: ${report.privateFiles.some((p) => p.status === 200) ? "열림 — 결함" : report.privateFiles.every((p) => p.status === 404 || p.status === 410) ? "확인(모두 404)" : "일부 확인 못 함 — 경고 참고"} (${report.privateFiles.map((p) => `${p.path} ${p.status || "실패"}`).join(" · ")})`,
+  `- 원본 파일 비공개: ${report.privateFiles.some((p) => p.status === 200) ? "열림 — 결함" : report.privateFiles.every((p) => p.status === 404 || p.status === 410) ? "확인(모두 404/410)" : "일부 확인 못 함 — 경고 참고"} (${report.privateFiles.map((p) => `${p.path} ${p.status || "실패"}`).join(" · ")})`,
   ``,
   `## PDF`,
   ...report.pdfs.map((p) => `- ${p.file}: ${p.status} · ${p.pages}쪽 · ${p.kb}KB · main 과 ${p.sameAsMain ? "같음" : "다름"} · 태그 ${p.tagged ? "있음" : "없음"}`),
