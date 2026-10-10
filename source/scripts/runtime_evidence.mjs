@@ -197,20 +197,36 @@ for (const [name, sel] of [["resume-pdf", 'a[href*="kim-seonil-resume-public.pdf
 await interaction("demo", async () => {
   const { page } = await open("/", 1440);
   await page.$eval("#inventory-demo", (el) => el.scrollIntoView({ block: "center" })); await sleep(1500);
-  const before = await page.$eval("#inventory-demo", (el) => el.innerText.replace(/\s+/g, " ").slice(0, 400));
+  /* 진행 상태 = 회차 제목 | 지금 단계 번호 | 조회 수. 버튼 문구는 넣지 않는다(자비스 3200ec9 P2 — 버튼만 바뀌고 타이머가
+     안 멈춰도 통과하던 것). 단계 하나는 최대 2.6초라, 3초 동안 같으면 멈춘 것, 다르면 움직인 것이다. */
+  const state = () => page.$eval("#inventory-demo", (el) => {
+    const lis = [...el.querySelectorAll(".automation-demo-steps li")];
+    const now = lis.findIndex((li) => li.querySelector(":scope > span:nth-of-type(2) > span:first-child")?.classList.contains("text-on-ink"));
+    const fig = el.querySelector(".figure");
+    return { title: fig?.nextElementSibling?.textContent.trim() ?? "", now, count: fig?.firstChild?.textContent.trim() ?? "", steps: lis.length };
+  });
+  const key = (st) => `${st.title}|${st.now}|${st.count}`;
+  const WINDOW = 3000;
   const btn = await page.$('#inventory-demo button[aria-pressed]');
-  const b1 = await page.evaluate((b) => `${b.textContent.trim()} pressed=${b.getAttribute("aria-pressed")}`, btn);
-  await btn.click(); await sleep(400);
-  const b2 = await page.evaluate((b) => `${b.textContent.trim()} pressed=${b.getAttribute("aria-pressed")}`, btn);
-  await sleep(2500);
-  const after = await page.$eval("#inventory-demo", (el) => el.innerText.replace(/\s+/g, " ").slice(0, 400));
-  await btn.click(); await sleep(2500);
-  const resumed = await page.$eval("#inventory-demo", (el) => el.innerText.replace(/\s+/g, " ").slice(0, 400));
+  const label = () => page.evaluate((b) => `${b.textContent.trim()} pressed=${b.getAttribute("aria-pressed")}`, btn);
+  const r0 = await state(); await sleep(WINDOW); const r1 = await state();
+  const b1 = await label();
+  await btn.click(); await sleep(300);
+  const b2 = await label();
+  const p0 = await state(); await sleep(WINDOW); const p1 = await state();
+  await btn.click(); await sleep(300);
+  const b3 = await label();
+  const q0 = await state(); await sleep(WINDOW); const q1 = await state();
   await page.screenshot({ path: join(OUT, "demo-1440.png") });
   evidence.visualReview.screenshots.push("demo-1440.png");
   await page.close();
-  if (b1 === b2) throw new Error(`button did not toggle: ${b1}`);
-  return `재고 시연 버튼 '${b1}' → '${b2}'; 멈춘 동안 화면 ${before === after ? "같음" : "바뀜"}, 다시 누른 뒤 ${after === resumed ? "같음" : "다시 움직임"}`;
+  const seen = `실행 중 ${key(r0)} → ${key(r1)}; 정지 '${b2}' ${key(p0)} → ${key(p1)}; 재개 '${b3}' ${key(q0)} → ${key(q1)}`;
+  if (!r0.steps || r0.now < 0 || !r0.count) throw new Error(`진행 상태를 읽지 못함: ${JSON.stringify(r0)}`);
+  if (b1 === b2 || b2 === b3) throw new Error(`버튼이 바뀌지 않음: ${b1} / ${b2} / ${b3}`);
+  if (key(r0) === key(r1)) throw new Error(`누르기 전에도 멈춰 있음 — ${seen}`);
+  if (key(p0) !== key(p1)) throw new Error(`정지 중에도 진행함 — ${seen}`);
+  if (key(q0) === key(q1)) throw new Error(`재개 뒤에도 멈춰 있음 — ${seen}`);
+  return `재고 시연 '${b1}' → '${b2}' → '${b3}': ${seen}`;
 });
 
 writeFileSync(join(OUT, "runtime.json"), JSON.stringify(evidence, null, 2));
