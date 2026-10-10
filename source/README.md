@@ -21,6 +21,12 @@ npm run dev          # http://localhost:3000
 | `npm run health` | 라이브 점검 — main 과 같은지 · PDF · 외부 링크 (`health:full` 은 Lighthouse 포함) |
 | `npm run fonts` | 폰트 서브셋만 재생성 |
 
+## 계속 발전시키기
+
+- `BACKLOG.md` — 점수표·채점 기준, 할 일(B-·R-), 주인 확인, 정해 둔 결정, 점검 기록.
+- `REFERENCES.md` — 다른 마케팅 포트폴리오에서 가져온 것과 안 가져온 것, 비교 기준, 주차별 탐색 범위.
+- `npm run health` / `npm run health:full` — 라이브 점검. 매주 월요일 정기 점검이 이 둘과 레퍼런스 비교를 돌려 보고한다(커밋은 하지 않는다).
+
 ## 어디를 고치면 되는가
 
 | 고칠 내용 | 파일 |
