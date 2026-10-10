@@ -33,8 +33,8 @@ export const introCopy: Record<"ko" | "en", {
     role: "퍼포먼스 마케터",
     steps: [
       { stage: "FIND", key: "문제 진단", before: "0.66% →", value: "2.24%", basis: "대교에듀캠프 CVR · 같은 표본으로 다시 계산" },
-      { stage: "TEST", key: "가설 검증", before: "2.84% →", value: "7.55%", basis: "대교 마이페이스 광고 DB 전환율 · 상담 폼 재설계" },
-      { stage: "IMPROVE", key: "구조 개선", before: "352% →", value: "583%", basis: "제이에스티나 GA4 ROAS · 고객 단계별 예산 재설계" },
+      { stage: "TEST", key: "가설 검증", before: "2.84% →", value: "7.55%", basis: "대교 마이페이스 광고 DB 전환율 · 상담 폼 개선" },
+      { stage: "IMPROVE", key: "구조 개선", before: "352% →", value: "583%", basis: "제이에스티나 GA4 ROAS · 고객 단계별 예산 재배분" },
     ],
   },
   en: {

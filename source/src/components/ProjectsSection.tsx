@@ -105,7 +105,7 @@ const BRIDGES: Record<string, string> = {
  * 표에 없는 slug 는 브랜드명으로 떨어지므로, 판마다 사례가 달라져도 깨지지 않는다.
  */
 const CASE_JUMP_LABEL: Record<string, string> = {
-  jestina: "예산 설계",
+  jestina: "예산 재배분",
   newbalance: "운영 자동화",
   daekyo: "측정 검증",
   gangwon: "단독 계정 운영",

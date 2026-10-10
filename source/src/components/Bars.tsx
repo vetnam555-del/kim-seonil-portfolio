@@ -122,7 +122,7 @@ export function Bars({
         {note ? ` · ${note}` : ""}
         {en
           ? ` · Bar heights are true proportions of the axis maximum, ${fmt(max, a.unit)}.`
-          : ` · 막대 높이는 축 최댓값 ${fmt(max, a.unit)}에 대한 실제 비율입니다.`}
+          : ` · 막대 높이는 축 최댓값 ${fmt(max, a.unit)} 대비 실제 비율입니다.`}
       </figcaption>
     </figure>
   );

@@ -289,7 +289,7 @@ export default function ResumePage() {
 
         <H2>확장 역량</H2>
         <p className="mt-3 text-caption text-ink-3">
-          집계 기준을 정합시킨 단독 운영 사례와, 반복 가능한 운영 시스템 경험입니다.
+          집계 기준을 맞춘 단독 운영 사례와 반복 가능한 운영 시스템 경험입니다.
         </p>
         <dl className="mt-4">
           {supportingProjects.map((p) => (

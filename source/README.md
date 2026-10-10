@@ -76,7 +76,7 @@ npm run dev          # http://localhost:3000
 - `site.resumeMailto`: 전화번호가 포함된 제출용 원본 요청
 
 배포 중인 공개 PDF(5쪽)는 웹 이력서 인쇄본이 아니라 ReportLab 문서다. 사이트 데이터(`src/data`)를 그대로 읽어 만든다
-(2026.10.09, Drive `portfolio-resume-20260924` 스크립트를 옮김).
+(2026.10.09, Drive `portfolio-resume-20260924` 스크립트를 옮김 · 2026.10.10 재인쇄).
 
 ```bash
 node scripts/export_resume_data.mjs /tmp/resume-data.json
@@ -85,6 +85,28 @@ python3 scripts/print_resume_reportlab.py /tmp/resume-data.json public/kim-seoni
 
 만든 뒤 5쪽·개인정보 제외·한글 렌더링을 쪽마다 눈으로 확인하고, `site.ts` 의 `resumePdfPath` `?v=` 판 번호를 올린다.
 `build_edition.mjs --reprint-resume` 은 웹 이력서를 A4 로 인쇄한 다른 문서라 쓰지 않는다.
+
+## 포트폴리오 PDF (29쪽)
+
+`public/kim-seonil-performance-marketing-portfolio.pdf` 는 pptxgenjs 덱(portfolio-deck v3)을 PDF 로 구운 것이다.
+덱 원본(`v3/*.js` · `img/` · `post_pptx.py` · `finalize_v3.py` · `qa/qa_boxes.py`)은 Drive `portfolio-deck-v2` 폴더에 있다.
+문구는 이 저장소의 `src/data` 와 같은 사실만 쓰고, 사이트 문구를 고치면 덱 문구도 같이 맞춘다.
+
+PowerPoint 가 없는 클라우드에서는 LibreOffice 로 굽는다(2026.10.10 판부터).
+
+```bash
+apt-get install -y --no-install-recommends libreoffice-impress   # 기본 이미지에는 Impress 가 없어 pptx 를 못 연다
+# Pretendard 원본(public/fonts/original/*.woff2)을 TTF 로 풀어 ~/.fonts 에 넣고 fc-cache -f
+node v3/gen3.js                                   # deck3.pptx · toc3.json · boxes3.json
+python3 post_pptx.py deck3.pptx deck3.pptx        # 글자 언어 ko-KR
+python3 <저장소>/source/scripts/deck_lo_pdf.py deck3.pptx deck3_lo.pdf
+python3 qa/qa_boxes.py deck3_lo.pdf boxes3.json qa3/png
+python3 finalize_v3.py deck3_lo.pdf final3.pdf     # 책갈피 · 목차 쪽 이동 · 메타데이터
+```
+
+- LibreOffice 는 한글과 숫자·영문·가운뎃점 사이에 간격을 자동으로 넣는다(text-autospace). `deck_lo_pdf.py` 가 ODP 를 거쳐 이 간격을 끄고, 이미지는 PowerPoint 내보내기처럼 220ppi · 품질 80 으로 줄인다.
+- `qa_boxes.py` 의 '3pt 넘침' 몇 건은 LibreOffice 와 PowerPoint 의 줄 높이 차이다. 화면에서 다른 요소와 겹치지 않는지 쪽마다 눈으로 확인한다.
+- 바꾼 뒤 이전 PDF 와 쪽별 글자를 비교해 의도한 곳만 바뀌었는지 보고, `site.ts` · `edition.ts` 의 `portfolioPdfPath` `?v=` 판 번호를 올린다.
 
 ## 폰트
 
