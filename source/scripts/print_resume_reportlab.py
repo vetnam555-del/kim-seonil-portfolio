@@ -171,7 +171,7 @@ if not any('2024kodaf' in v['href'] for v in verification):
     verification.insert(at + 1, {'title': '대한민국 디지털 광고 대상 (2024)', 'href': 'https://kodaa.or.kr/2024kodaf'})
 for v in verification:
     story.append(link(v['title'], v['href']))
-add('수치의 출처·집계 기간은 프로젝트마다 적었습니다. 기여도는 100% 단독 담당, 35–75% 팀 내 전략·분석 주도, 20% 담당 매체·분석입니다. 전화번호·주소·생년월일과 광고주 원천 데이터는 싣지 않았습니다.', 'small')
+add('출처·집계 기간·기여 범위는 프로젝트마다 적었습니다. 기여도는 그 범위 기준으로 100% 단독 수행, 35–75% 팀 내 전략·분석 주도, 20% 담당 매체·분석입니다. 전화번호·주소·생년월일과 광고주 원천 데이터는 싣지 않았습니다.', 'small')
 
 
 def footer(c, doc):
