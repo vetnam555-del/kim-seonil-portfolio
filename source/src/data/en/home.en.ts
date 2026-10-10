@@ -97,12 +97,12 @@ export const coverEn = {
     {
       period: "2025.11 – 2026.09",
       where: "HLL JoongAng\u00a0· Manager, Performance Strategy",
-      text: "Ran New Balance's KRW 1B+/month, 10-channel account as part of a team (account operations 40%) and built 6 inventory, reporting and settlement automations on my own. On Gangwon Deep Sea Water, I added Instagram group-buys as a sales channel and July store sales rose 397% year on year; I also ran Daekyo EduCamp.",
+      text: "On top of media buying, I took on measurement standards and operations automation. I ran New Balance's KRW 1B+/month, 10-channel account as part of a team (account operations 40%) and built six inventory, reporting and settlement automations on my own. For Gangwon Deep Sea Water I opened Instagram group-buys as a sales channel. For Daekyo EduCamp I re-measured on the same sample and corrected a 'performance dropped' verdict.",
     },
     {
       period: "2022.09 – 2025.10",
       where: "PlayD\u00a0· PM, Data Marketing Division",
-      text: "Ran search, display and social ads for 30+ brands. The J.ESTINA (2025) and Dongnimmun (2024) campaigns won Excellence Awards at the Korea Digital Advertising Awards.",
+      text: "As a PM for large advertisers, I ran search, display and social ads for 30+ brands. For J.ESTINA I pulled display ads scattered across agencies into one place and rebuilt the budget by customer stage. For KT alpha Shopping I split a single blended ROAS into three KPIs by role. The Dongnimmun (2024) and J.ESTINA (2025) campaigns won Excellence Awards at the Korea Digital Advertising Awards.",
     },
   ],
   brandsLabel: "Brands",

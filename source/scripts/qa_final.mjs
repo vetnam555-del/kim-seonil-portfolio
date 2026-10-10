@@ -486,6 +486,9 @@ if (orphans.length) note(`케이스 미사용 증빙 ${orphans.length}건 (홈 �
           /* LinkedIn 은 봇에 999 를 준다 — 죽은 링크가 아니라 차단 응답이다 */
           if (r.status === 999 && /linkedin\.com/.test(u)) return null;
           if (r.ok) return null;
+          /* 403·429 는 죽은 링크가 아니라 차단 응답일 수 있다 — 동아일보는 클라우드 IP 에 403 을 준다
+             (2026.10.10 네트워크를 연 뒤 처음 잡힘. curl 은 응답 없음). 사람이 브라우저로 확인하게 경고로 남긴다 */
+          if (attempt === 1 && (r.status === 403 || r.status === 429)) return { soft: `${u} → ${r.status} 차단 응답(브라우저로 확인)` };
           if (attempt === 1) return { hard: `${u} → ${r.status}` };
         } catch (e) {
           /*
