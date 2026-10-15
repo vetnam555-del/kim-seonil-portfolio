@@ -1,0 +1,10 @@
+# 소스 작업 폴더(source/)에서 생기는 것 — 배포물(루트)과 저장소에 올리지 않는다
+source/node_modules/
+source/.next/
+source/out/
+source/tmp/
+source/artifacts/
+source/.tone-fixture-*/
+source/*.tsbuildinfo
+__pycache__/
+.DS_Store

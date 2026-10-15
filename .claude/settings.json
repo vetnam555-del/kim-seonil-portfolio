@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git push origin deploy-main-final:main)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/source/scripts/cloud_setup.sh\"",
+            "timeout": 600
+          }
+        ]
+      }
+    ]
+  }
+}

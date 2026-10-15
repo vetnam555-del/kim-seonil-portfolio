@@ -1,0 +1,35 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "portfolio-v2",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
+      "port": 3000,
+      "autoPort": true
+    },
+    {
+      "name": "portfolio-general",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev:general"
+      ],
+      "port": 3001,
+      "autoPort": true
+    },
+    {
+      "name": "portfolio-v260908",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev:v260908"
+      ],
+      "port": 3005,
+      "autoPort": true
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face {
+    font-family: "Pretendard";
+    src: url("../public/fonts/original/Pretendard-Regular.woff2") format("woff2");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "Pretendard";
+    src: url("../public/fonts/original/Pretendard-SemiBold.woff2") format("woff2");
+    font-weight: 600;
+  }
+  @font-face {
+    font-family: "Pretendard";
+    src: url("../public/fonts/original/Pretendard-Bold.woff2") format("woff2");
+    font-weight: 700;
+  }
+  * { margin: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    font-family: "Pretendard", sans-serif;
+    background: #ffffff;
+    color: #191f28;
+    padding: 68px 72px 60px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative;
+  }
+  .rule { position: absolute; left: 0; top: 0; width: 100%; height: 6px; background: linear-gradient(90deg, #00a995 0 58%, #ff694d 58% 76%, #f2c94c 76% 100%); }
+  .eyebrow {
+    font-size: 15px; font-weight: 600; letter-spacing: 0.14em;
+    color: #007f73; text-transform: uppercase;
+  }
+  h1 {
+    margin-top: 20px;
+    font-size: 62px; font-weight: 700; line-height: 1.24; letter-spacing: -0.035em;
+  }
+  h1 em { font-style: normal; color: #007f73; }
+  .stats { display: flex; gap: 0; border-top: 1px solid #e5e8eb; padding-top: 24px; }
+  .stat { flex: 1; border-right: 1px solid #e5e8eb; padding-right: 22px; }
+  .stat:last-child { border-right: none; }
+  .stat b {
+    display: block; font-size: 38px; font-weight: 700; letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat span { display: block; font-size: 15px; color: #4e5968; margin-top: 6px; }
+  .stat i { display: block; font-style: normal; font-size: 13px; color: #5f6b7a; margin-top: 3px; }
+  .foot { display: flex; justify-content: space-between; align-items: baseline; }
+  .name { font-size: 21px; font-weight: 700; }
+  .name i { font-style: normal; font-size: 14px; color: #5f6b7a; margin-left: 10px; letter-spacing: 0.08em; font-weight: 400; }
+  .role { font-size: 14px; color: #4e5968; }
+</style>
+</head>
+<body>
+  <div class="rule"></div>
+  <div>
+    <p class="eyebrow">Audience Insight · Branded Content · Performance</p>
+    <h1>사람이 보고 싶은 콘텐츠와<br /><em>브랜드가 얻어야 할 결과</em>를 연결합니다.</h1>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>2,000 → 107,600</b><span>YouTube 구독자</span><i>다이슨 · 기여도 40%</i></div>
+    <div class="stat"><b>210% → 583%</b><span>GA4 통합 ROAS</span><i>제이에스티나 · 기여도 75%</i></div>
+    <div class="stat"><b>월 10억</b><span>통합 운영 예산</span><i>10개 채널 · 뉴발란스</i></div>
+    <div class="stat"><b>30여 개</b><span>운영 브랜드</span><i>9개 산업군</i></div>
+  </div>
+  <div class="foot">
+    <p class="name">김선일<i>KIM SEONILL</i></p>
+    <p class="role">Brand Solution · Performance Marketing</p>
+  </div>
+</body>
+</html>
