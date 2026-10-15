@@ -36,9 +36,9 @@ export const site = {
     "mailto:makefair@naver.com?subject=%EC%9D%B4%EB%A0%A5%EC%84%9C%20%EC%9B%90%EB%B3%B8%20%EC%9A%94%EC%B2%AD%EB%93%9C%EB%A6%BD%EB%8B%88%EB%8B%A4",
   /** 전화번호·주소·생년월일을 제외한 공개용 PDF */
   /* 2026.10.09 문장 다듬기 반영본(scripts/print_resume_reportlab.py) — 캐시를 넘기려고 판 번호를 올린다 */
-  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261015e" : "/kim-seonil-resume-public.pdf",
+  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261015f" : "/kim-seonil-resume-public.pdf",
   /** 일반 공개판에서 내려받는 웹 포트폴리오의 PDF 공유본 */
-  portfolioPdfPath: isGeneralLike ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261015e" : "/kim-seonil-performance-marketing-portfolio.pdf",
+  portfolioPdfPath: isGeneralLike ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261015f" : "/kim-seonil-performance-marketing-portfolio.pdf",
 } as const;
 
 /**
@@ -358,7 +358,7 @@ export const generalCover = {
       line: "바꿀 것 하나를 정해 작게 테스트합니다",
       /* 2026.10.15 0.7%(자사몰 랜딩 시기)는 아래 2.84% → 7.55%와 기준선이 달라 한 카드에서 섞여 읽혔다(외부 검토) — 사례 상세 failure 에만 둔다.
          "매번 한 가지씩"은 사례 본문의 1차 입력 항목 축소 · 2차 자격 질문 1개 복원 · 3차 문항 순서 변경이다 */
-      story: "상담 폼은 세 차례 개선하며 매번 한 가지씩만 바꿨습니다. 6월 광고 DB 전환율은 7.55%까지 올랐습니다. 그사이 낮아진 정규 서비스 전환율은 7월 이후 문항을 다시 조정해 11.28%까지 일부 회복했습니다.",
+      story: "상담 폼은 세 차례 개선하며 매번 한 가지씩만 바꿨습니다. 인스턴트폼을 다시 도입한 6월 광고 DB 전환율은 7.55%까지 올랐습니다. 그사이 낮아진 정규 서비스 전환율은 7월 이후 문항을 다시 조정해 11.28%까지 일부 회복했습니다.",
       metrics: [{ before: "2.84% →", after: "7.55%", label: "대교 마이페이스 광고 DB 전환율", basis: "2026.05 → 06\u00a0· 정규 서비스 전환율 13.7% → 9.9% → 11.28%(7월 이후)" }],
       points: ["네이버·메타·카카오·구글 매체 운영", "지면·포맷·랜딩 비교 테스트", "상담 폼 3차 개선과 리드 품질 관리"],
       proof: [
