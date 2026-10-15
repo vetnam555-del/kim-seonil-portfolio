@@ -90,13 +90,15 @@ def project(slug, metric_labels):
     story.append(link('사례와 증빙 보기', D['site']['url'] + 'projects/' + slug + '/'))
 
 
-add('김선일', 'h1'); add(f"퍼포먼스 마케터 | 경력 {D['careerYear']}년 | 전 HLL중앙 퍼포먼스전략국 과장", 'h3')
+# 소속은 site.org 에서 읽는다(2026.10.15 리멤버 합류) — 예전엔 "전 HLL중앙 퍼포먼스전략국 과장"이 박혀 있었다
+add('김선일', 'h1'); add(f"퍼포먼스 마케터 | 경력 {D['careerYear']}년 | {D['site']['org'].replace(chr(0xa0) + '· ', ' | ')}", 'h3')
 add(' '.join(D['generalCover']['statement']).replace('\u00a0', ' '))
 story.append(link('makefair@naver.com', 'mailto:makefair@naver.com'))
 story.append(link('웹 포트폴리오', D['site']['url']))
 add(D['careerNarrative'][0])
 add('핵심 경험', 'h3')
-add('제이에스티나: 고객 단계별 예산 배분과 UTM·측정 기준 정리. GA4 ROAS 352% → 583% (2025.05 → 07, 동일 마감보고 기준).', 'small')
+# 2026.10.15 '기준' 한 단어가 둘째 줄로 넘어가 한 줄을 차지했다 — 홈 표지 표기(2025.05 → 07 · 동일 마감보고)와 맞추며 뺐다
+add('제이에스티나: 고객 단계별 예산 배분과 UTM·측정 기준 정리. GA4 ROAS 352% → 583% (2025.05 → 07, 동일 마감보고).', 'small')
 add('뉴발란스: 월 10억+ 규모의 팀 운영 계정에서 매체 운영 40%를 담당. 재고 자동화는 요구사항·구축·검수·운영을 맡아 내부 점검 시간을 약 2시간에서 5분 이내로 단축. 구현에는 AI 도구 사용.', 'small')
 add('대교에듀캠프: 비교 표본을 맞춰 CVR 0.66% → 2.24% 재산출, 상담 폼 3차 개선으로 광고 DB 전환율 2.84% → 7.55%·정규 서비스 전환율 9.9% → 11.28%.', 'small')
 add('강원심층수: 광고 밖 판매 경로로 인스타그램 공동구매·파트너십 광고를 더해 2026년 7월 스토어 판매금액 전년 대비 +397.3%(공동구매 포함).', 'small')
@@ -104,6 +106,10 @@ add('강원심층수: 광고 밖 판매 경로로 인스타그램 공동구매·
 add('외부 인정: 대한민국 디지털 광고 대상 통합 퍼포먼스 부문 우수상 2년 연속(2024 독립문 · 2025 제이에스티나) · LG CNS MOP 우수사례(쇼핑검색 재고 연동 자동화, 단독 수행).', 'small')
 add('경력', 'h3')
 for c in D['career']:
+    if not c['work'] and not c['clients']:
+        # 막 합류한 회사(2026.10.15 리멤버)는 업무 목록·담당 광고주가 아직 없다 — 직함을 제목 줄에 붙여 두 줄로 끝낸다(5쪽 유지)
+        block(c['company'] + ' · ' + c['title'].replace('\u00a0· ', ' ') + ' | ' + c['period'], [c['summary']])
+        continue
     block(c['company'] + ' | ' + c['period'], [c['title'], c['summary'], '주요 업무: ' + ' · '.join(c['work']), '담당: ' + c['clients']])
 
 page('대표 프로젝트 1 | 예산 배분과 운영 자동화', new_page=True)

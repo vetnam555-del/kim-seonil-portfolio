@@ -7,12 +7,13 @@
  */
 
 export { NAME_EN_DISPLAY, ROLE_EN } from "./meta";
-export const ORG_EN = "Former Manager, Performance Strategy Division, HLL JoongAng";
+/* 2026.10.15 리멤버앤컴퍼니 합류 — site.org 와 같은 내용 */
+export const ORG_EN = "Ad Operations Manager at Remember\u00a0· Ex-HLL JoongAng";
 
 export const coverEn = {
   display: ["FIND. TEST.", "IMPROVE."],
   statement: ["I structure problems into hypotheses", "and improve them through testing."],
-  note: "At PlayD and HLL JoongAng, I ran ads for 30+ brands, including New Balance, Dyson and J.ESTINA.",
+  note: "At PlayD and HLL JoongAng, I ran ads for 30+ brands, including New Balance, Dyson and J.ESTINA. At Remember, I now run targeted ad campaigns.",
   proof: [
     { before: "352% →", after: "583%", label: "J.ESTINA GA4 ROAS", basis: "May → Jul 2025\u00a0· same closing report", href: "#case-jestina" },
     { after: "+397.3%", label: "Gangwon store sales", basis: "Jul 2026 vs same period last year", href: "#case-gangwon" },
@@ -55,7 +56,7 @@ export const coverEn = {
       stage: "FIND",
       role: "the problem",
       line: "I find why performance stalls, in the numbers and the structure",
-      story: "A 'performance dropped' call included a creative that had spent only about KRW 9,000. Re-measured on the same sample, the conclusion flipped.",
+      story: "A 'performance dropped' call included a creative that had spent only about KRW 9,000. Re-measured on the same sample, conversion was actually higher and cost per acquisition (CPA) was 14.1% lower. So instead of scrapping the creatives, I first fixed where people dropped out of the consultation form.",
       metrics: [{ before: "0.66% →", after: "2.24%", label: "Daekyo EduCamp CVR", basis: "Re-measured on the same sample\u00a0· measurement QA design 100%" }],
       points: ["Comparison bases aligned to the same sample and scope", "GA4 conversion design and measurement QA", "Bottlenecks beyond ads: inventory, landing pages, consultation forms"],
       proof: [
@@ -82,7 +83,7 @@ export const coverEn = {
       line: "I rebuild budget and operations on what's confirmed",
       story: "I rebuilt a search-heavy budget around customer stages, opened group-buys where ads alone had stalled sales, and turned repetitive checks into six automations.",
       metrics: [
-        { before: "352% →", after: "583%", label: "J.ESTINA GA4 ROAS", basis: "May → Jul 2025\u00a0· strategy & measurement 75%" },
+        { after: "+32.4%", label: "J.ESTINA brand search queries", basis: "Change stated in the closing report\u00a0· strategy & measurement 75%" },
       ],
       points: ["Channel roles and budget rebuilt by customer stage", "Sales channels beyond ads, such as group-buys", "Six automations that turn repetitive checks into operations"],
       proof: [
@@ -94,6 +95,11 @@ export const coverEn = {
   ],
   careerLabel: "Experience",
   career: [
+    {
+      period: "2026.10 – Present",
+      where: "Remember & Company\u00a0· Ad Operations Manager",
+      text: "I run ad campaigns that connect first-party data on professionals and decision-makers with external media, and improve how they convert.",
+    },
     {
       period: "2025.11 – 2026.09",
       where: "HLL JoongAng\u00a0· Manager, Performance Strategy",
@@ -172,5 +178,5 @@ export const otherEn: Record<string, { brand: string; line: string }> = {
 export const contactEn = {
   title: ["I want to look deep into one brand,", "test hypotheses and grow it with your team."],
   note: "I'll show the original reports and operating documents in an interview.",
-  status: "Currently looking for my next team",
+  status: null as string | null,
 } as const;

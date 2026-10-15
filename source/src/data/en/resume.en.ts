@@ -44,6 +44,17 @@ export const summaryEn = {
 
 export const careerEn = [
   {
+    company: "Remember & Company",
+    group: "", // 그룹 표기가 없는 회사 — 화면은 빈 값을 그리지 않는다
+    period: "2026.10 – Present",
+    title: "Ad Operations Team\u00a0· Manager",
+    summary:
+      "I run ad campaigns that connect first-party data on professionals and decision-makers with external media, and improve how they convert.",
+    work: [] as string[],
+    clients: "",
+    highlight: "",
+  },
+  {
     company: "HLL JoongAng",
     group: "JoongAng Group",
     period: "2025.11 – 2026.09",

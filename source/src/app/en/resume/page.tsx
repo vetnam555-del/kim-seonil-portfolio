@@ -195,20 +195,27 @@ export default function ResumePageEn() {
             </div>
             <p className="mt-1 text-caption font-normal text-accent">{c.title}</p>
             <p className="mt-2 text-caption text-ink-2 sm:text-small">{c.summary}</p>
-            <ul className="mt-3 flex flex-col gap-1.5">
-              {c.work.map((w) => (
-                <li key={w} className="relative pl-3 text-caption text-ink-2">
-                  <span className="absolute left-0 top-[0.62em] h-1 w-1 rounded-full bg-ink-3" />
-                  {w}
-                </li>
-              ))}
-            </ul>
-            <dl className="mt-3">
-              <Row label="Key clients">{c.clients}</Row>
-              <Row label="Key results">
-                <span className="font-semibold text-up">{c.highlight}</span>
-              </Row>
-            </dl>
+            {/* 한국어 이력서와 같다 — 아직 없는 업무 목록·광고주·대표 성과는 그리지 않는다 (2026.10.15) */}
+            {c.work.length ? (
+              <ul className="mt-3 flex flex-col gap-1.5">
+                {c.work.map((w) => (
+                  <li key={w} className="relative pl-3 text-caption text-ink-2">
+                    <span className="absolute left-0 top-[0.62em] h-1 w-1 rounded-full bg-ink-3" />
+                    {w}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+            {c.clients || c.highlight ? (
+              <dl className="mt-3">
+                {c.clients ? <Row label="Key clients">{c.clients}</Row> : null}
+                {c.highlight ? (
+                  <Row label="Key results">
+                    <span className="font-semibold text-up">{c.highlight}</span>
+                  </Row>
+                ) : null}
+              </dl>
+            ) : null}
           </section>
         ))}
 

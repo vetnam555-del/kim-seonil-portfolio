@@ -182,7 +182,7 @@ function CaseCard({ p, no, size, lang }: { p: Project; no: number; size: "lg" | 
       <h3 id={`case-title-${p.slug}`} className="folio-case-title">
         <Link href={`${ui.casePrefix}${p.slug}/`}>{p.headline}</Link>
       </h3>
-      {size === "lg" ? <p className="folio-case-story">{p.cardProblem ?? p.objective}</p> : null}
+      {size === "lg" ? <p className="folio-case-story">{p.homeStory ?? p.cardProblem ?? p.objective}</p> : null}
       <Metric p={p} meta={meta} ui={ui} />
       <p className="folio-case-scope"><span>{ui.scope}</span>{meta.scope}</p>
       <div className="folio-case-evidence">
@@ -403,7 +403,9 @@ export default function HomeFolio({ lang = "ko" }: { lang?: Lang }) {
       <section id="contact" className="folio-section folio-contact" aria-labelledby="contact-title">
         <div className="folio-wrap">
           <p className="folio-kicker">Contact</p>
-          {EDITION === "general" ? <p className="folio-contact-status">{en ? contactEn.status : contact.status}</p> : null}
+          {EDITION === "general" && (en ? contactEn.status : contact.status) ? (
+            <p className="folio-contact-status">{en ? contactEn.status : contact.status}</p>
+          ) : null}
           <h2 id="contact-title" className="folio-contact-title">
             {(en ? contactEn.title : contact.title).map((line) => <span key={line}>{line}</span>)}
           </h2>

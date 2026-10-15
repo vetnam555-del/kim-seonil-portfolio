@@ -216,20 +216,27 @@ export default function ResumePage() {
             </div>
             <p className="mt-1 text-caption font-normal text-accent">{c.title}</p>
             <p className="mt-2 text-caption text-ink-2 sm:text-small">{c.summary}</p>
-            <ul className="mt-3 flex flex-col gap-1.5">
-              {c.work.map((w) => (
-                <li key={w} className="relative pl-3 text-caption text-ink-2">
-                  <span className="absolute left-0 top-[0.62em] h-1 w-1 rounded-full bg-ink-3" />
-                  {w}
-                </li>
-              ))}
-            </ul>
-            <dl className="mt-3">
-              <Row label="주요 광고주">{c.clients}</Row>
-              <Row label="대표 성과">
-                <span className="font-semibold text-up">{c.highlight}</span>
-              </Row>
-            </dl>
+            {/* 막 합류한 회사처럼 업무 목록·광고주·대표 성과가 아직 없으면 빈 칸을 그리지 않는다 (2026.10.15) */}
+            {c.work.length ? (
+              <ul className="mt-3 flex flex-col gap-1.5">
+                {c.work.map((w) => (
+                  <li key={w} className="relative pl-3 text-caption text-ink-2">
+                    <span className="absolute left-0 top-[0.62em] h-1 w-1 rounded-full bg-ink-3" />
+                    {w}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+            {c.clients || c.highlight ? (
+              <dl className="mt-3">
+                {c.clients ? <Row label="주요 광고주">{c.clients}</Row> : null}
+                {c.highlight ? (
+                  <Row label="대표 성과">
+                    <span className="font-semibold text-up">{c.highlight}</span>
+                  </Row>
+                ) : null}
+              </dl>
+            ) : null}
           </section>
         ))}
 

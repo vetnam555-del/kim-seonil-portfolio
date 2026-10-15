@@ -1894,7 +1894,8 @@ export function Credits() {
                   <p className="mt-1 text-small font-bold text-white">
                     {c.company} · {c.title}
                   </p>
-                  <p className="mt-1 text-mono leading-[1.5] text-on-dark">{c.highlight}</p>
+                  {/* 대표 성과가 아직 없는 회사(2026.10 리멤버)는 이 줄을 비운다 — 같은 업무 문장이 홈·이력서에 이미 있다 */}
+                  {c.highlight ? <p className="mt-1 text-mono leading-[1.5] text-on-dark">{c.highlight}</p> : null}
                   {/* 이동 맥락. 데이터에만 있고 화면엔 없던 필드다 — 재직 기간을 보고 생기는
                       "왜 옮기려 하는가"라는 질문에 서류가 먼저 답하게 한다. */}
                   {/*
