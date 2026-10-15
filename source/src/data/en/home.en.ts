@@ -69,7 +69,7 @@ export const coverEn = {
       stage: "TEST",
       role: "the hypothesis",
       line: "I pick one thing to change and test it small",
-      story: "I reworked the consultation form three times, changing one thing each time. The June lead conversion rate rose to 7.55%. Question changes from July brought the paid-service conversion rate, which had dipped, back to 11.28%.",
+      story: "I reworked the consultation form three times, changing one thing each time. The June lead conversion rate rose to 7.55%. Question changes from July partly recovered the paid-service conversion rate, which had dipped, to 11.28%.",
       metrics: [{ before: "2.84% →", after: "7.55%", label: "Daekyo Mypace lead conversion rate", basis: "May → Jun 2026\u00a0· paid-service conversion 13.7% → 9.9% → 11.28% (from Jul)" }],
       points: ["Media operations on Naver, Meta, Kakao and Google", "Placement, format and landing-page tests", "Consultation form reworked three times, lead-quality control"],
       proof: [
