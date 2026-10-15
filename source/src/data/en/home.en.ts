@@ -177,6 +177,6 @@ export const otherEn: Record<string, { brand: string; line: string }> = {
 
 export const contactEn = {
   title: ["I want to look deep into one brand,", "test hypotheses and grow it with your team."],
-  note: "I'll show the original reports and operating documents in an interview.",
+  note: "I'll show the original reports and operating documents in person.",
   status: null as string | null,
 } as const;

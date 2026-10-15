@@ -36,9 +36,9 @@ export const site = {
     "mailto:makefair@naver.com?subject=%EC%9D%B4%EB%A0%A5%EC%84%9C%20%EC%9B%90%EB%B3%B8%20%EC%9A%94%EC%B2%AD%EB%93%9C%EB%A6%BD%EB%8B%88%EB%8B%A4",
   /** 전화번호·주소·생년월일을 제외한 공개용 PDF */
   /* 2026.10.09 문장 다듬기 반영본(scripts/print_resume_reportlab.py) — 캐시를 넘기려고 판 번호를 올린다 */
-  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261015b" : "/kim-seonil-resume-public.pdf",
+  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261015c" : "/kim-seonil-resume-public.pdf",
   /** 일반 공개판에서 내려받는 웹 포트폴리오의 PDF 공유본 */
-  portfolioPdfPath: isGeneralLike ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261015b" : "/kim-seonil-performance-marketing-portfolio.pdf",
+  portfolioPdfPath: isGeneralLike ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261015c" : "/kim-seonil-performance-marketing-portfolio.pdf",
 } as const;
 
 /**
@@ -1811,7 +1811,8 @@ export const career: CareerItem[] = [
     group: "중앙그룹",
     period: "2025.11 – 2026.09",
     title: "퍼포먼스전략국\u00a0· 과장",
-    summary: "여러 매체 운영에 더해 콘텐츠·매체 성과를 함께 재는 판단 기준과 자동화까지 맡는 역할로 범위를 넓혔습니다.",
+    /* 2026.10.15 "맡는 역할로 범위를 넓혔다"가 겹말이었다(외부 검토) — "A에서 B까지 넓혔다"로 */
+    summary: "여러 매체 운영에서 콘텐츠·매체 성과를 함께 재는 판단 기준과 자동화까지 역할을 넓혔습니다.",
     /*
      * 재직 기간이 짧다는 사실은 어차피 연도로 계산된다. 감추는 대신 "무엇을 끝냈기에 지금
      * 옮기려 하는가"를 이 자리에서 미리 답한다 — 서류를 받은 쪽의 첫 질문이 그것이기 때문이다.
@@ -1843,7 +1844,7 @@ export const career: CareerItem[] = [
      * 대교 CVR은 현 조직에서 낸 기여도 100% 수치이고 챕터 밴드와도 중복되지 않는다.
      */
     highlight:
-      "뉴발란스 월 10억+·10개 채널 통합 운영(계정 운영 40%)\u00a0· 대교에듀캠프 비교 표본 재검증(동일 기준 CVR 0.66% → 2.24%, 측정 QA 설계 100%)과 상담 폼 3차 개선(폼 재도입 후 광고 DB 전환율 2.84% → 7.55%, 문항 조정 후 정규 서비스 전환율 9.9% → 11.28%)\u00a0· 자동화 6종 단독 설계·구축",
+      "뉴발란스 월 10억+·10개 채널 통합 운영(계정 운영 40%)\u00a0· 대교에듀캠프 비교 표본 재검증(동일 기준 CVR 0.66% → 2.24%, 측정 QA 설계 100%)과 상담 폼 3차 개선(폼 재도입 후 광고 DB 전환율 2.84% → 7.55%, 정규 서비스 전환율 13.7% → 9.9%, 문항 조정 후 11.28%)\u00a0· 자동화 6종 단독 설계·구축",
   },
   {
     company: "플레이디",
@@ -1924,7 +1925,8 @@ export const education = [
    * 두 줄의 기간은 같다 — 같은 기간에 이수하고 학위를 받았다.
    */
   { period: "2014.03 – 2017.02", school: "학점은행제", major: "경영학전공\u00a0· 학사" },
-  { period: "2014.03 – 2017.02", school: "숭실대학교", major: "경영학" },
+  /* 2026.10.15 두 줄 기간이 같아 겹쳐 보였다(외부 검토) — 숭실대 줄이 학점은행제 과정을 이수한 곳임을 적는다 */
+  { period: "2014.03 – 2017.02", school: "숭실대학교", major: "경영학\u00a0· 학점은행제 과정 이수" },
 ] as const;
 
 export const educationCaption =
@@ -2261,13 +2263,14 @@ export const contact = {
    */
   /* 2026.10.09 연결어미 뒤 쉼표만 뺐다(humanizer-kr 점검) — 본인 문장이라 단어는 그대로 둔다 */
   title: ["한 브랜드를 깊게 들여다보고", "가설을 세워 확인하며 함께 키우고 싶습니다."],
-  interviewNote: "원본 리포트와 운영 문서는 면접에서 직접 보여드리겠습니다.",
+  /* 2026.10.15 리멤버 재직으로 "면접에서"를 "만나서"로 — 구직 문구를 뺀 결정과 같은 이유. 원본은 여전히 대면으로만 보인다(덱 26·29쪽도 같다) */
+  interviewNote: "원본 리포트와 운영 문서는 만나서 직접 보여드리겠습니다.",
   /*
    * 지금 상태 한 줄. 2026.10.09 퇴사 뒤 "지금 다음 팀을 찾고 있습니다"를 달았다가,
    * 2026.10 리멤버앤컴퍼니 합류로 뺐다(2026-10-15 본인 결정). null 이면 홈 연락 구간에 그리지 않는다.
    */
   status: null as string | null,
-  desc: "디자인에서 배운 관찰, 창업에서 배운 실행, 마케팅에서 익힌 검증, 자동화로 만든 시스템을 바탕으로 다음 문제를 함께 풀고 싶습니다. 공개하지 않은 원본 자료는 보안 범위 안에서 인터뷰 때 설명드리겠습니다.",
+  desc: "디자인에서 배운 관찰, 창업에서 배운 실행, 마케팅에서 익힌 검증, 자동화로 만든 시스템을 바탕으로 다음 문제를 함께 풀고 싶습니다. 공개하지 않은 원본 자료는 보안 범위 안에서 만나서 설명드리겠습니다.",
 } as const;
 
 export interface PublicWork {
