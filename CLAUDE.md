@@ -30,6 +30,7 @@ Next.js 16 주의사항은 `source/AGENTS.md` 에 있다. 코드를 고치기 �
    - 출시 승인(RELEASE_PASS)은 `scripts/runtime_evidence.mjs` 로 브라우저 증거를 만든 뒤 `qa_release --approve` 로 받는다(매뉴얼 3절).
 4. `source/` 변경과 루트 빌드 결과를 **같은 커밋**에 넣어 작업 브랜치에 push 하고, 자비스 검토 뒤 `main` 에 합친다.
    `main` 에 들어가면 Actions 가 루트 빌드 결과만 사이트에 올린다(원본·작업 메모·설정은 뺀다). 매뉴얼 6절.
+   - 저장소 이름(`kim-seonil-portfolio`)은 바꾸지 않는다. Pages 주소가 이름을 따라 바뀌고 예전 주소는 넘겨주지 않는다 — 제출한 서류가 이 주소다(2026-10-15).
    - 저장소 Settings → Pages → Source 는 **GitHub Actions** 여야 한다. "Deploy from a branch" 로 돌아가면 `main` 의 원본이
      사이트에서 그대로 열린다 — `npm run health` 가 이것을 결함으로 잡는다.
 
