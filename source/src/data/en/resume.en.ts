@@ -172,9 +172,9 @@ export const otherBrandsEn = ["Breitling", "Busan Bank", "Simmons", "Humanworks"
 export const publicWorkEn = [
   {
     label: "Content planning\u00a0· self-published",
-    title: "EDIT H marketing newsletter\u00a0· card news",
-    desc: "I publish marketing news as a newsletter and 8-slide card news. Anything that isn't an official announcement is left out unless two different outlets confirm it.",
-    facts: ["89 public issues", "Latest public VOL.089\u00a0· 2026.09.11", "Archive list checked 2026.09.13"],
+    title: "EDIT H trend newsletter\u00a0· card news",
+    desc: "Every morning I publish money, work and spending news for office workers in their 20s and 30s as a newsletter, 10-slide card news and a reel. In the main stories, a number or date goes in only when two separate original reports agree or it comes from a primary source.",
+    facts: ["114 public issues", "Latest public VOL.114\u00a0· 2026.10.15", "22 days in a row since 2026.09.24"],
     href: "https://vetnam555-del.github.io/edit-h-archive/",
   },
   {
