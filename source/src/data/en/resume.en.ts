@@ -49,8 +49,12 @@ export const careerEn = [
     period: "2026.10 – Present",
     title: "Ad Operations Team\u00a0· Manager",
     summary:
-      "I run ad campaigns that connect first-party data on professionals and decision-makers with external media, and improve how they convert.",
-    work: [] as string[],
+      "I run B2B ad campaigns that combine Remember's business-card data on professionals with Google, Meta and other network media.",
+    work: [
+      "B2B lead-generation campaigns targeted by industry, job, seniority and company size",
+      "Targeting, creative, landing-page and campaign-structure optimization from performance data",
+      "Performance reviews, reports and operational consulting for advertisers",
+    ] as string[],
     clients: "",
     highlight: "",
   },

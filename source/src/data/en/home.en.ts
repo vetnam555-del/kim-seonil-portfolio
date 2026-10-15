@@ -13,7 +13,7 @@ export const ORG_EN = "Ad Operations Manager at Remember\u00a0· Ex-HLL JoongAng
 export const coverEn = {
   display: ["FIND. TEST.", "IMPROVE."],
   statement: ["I structure problems into hypotheses", "and improve them through testing."],
-  note: "At PlayD and HLL JoongAng, I ran ads for 30+ brands, including New Balance, Dyson and J.ESTINA. At Remember, I now run targeted ad campaigns.",
+  note: "At PlayD and HLL JoongAng, I ran ads for 30+ brands, including New Balance, Dyson and J.ESTINA. At Remember, I now run B2B ad campaigns.",
   proof: [
     { before: "352% →", after: "583%", label: "J.ESTINA GA4 ROAS", basis: "May → Jul 2025\u00a0· same closing report", href: "#case-jestina" },
     { after: "+397.3%", label: "Gangwon store sales", basis: "Jul 2026 vs same period last year", href: "#case-gangwon" },
@@ -98,7 +98,7 @@ export const coverEn = {
     {
       period: "2026.10 – Present",
       where: "Remember & Company\u00a0· Ad Operations Manager",
-      text: "I run ad campaigns that connect first-party data on professionals and decision-makers with external media, and improve how they convert.",
+      text: "I plan and run B2B lead-generation campaigns on Google, Meta and other network media, targeted by industry, job, seniority and company size with Remember's business-card data on professionals. I also analyze results to improve targeting, creatives, landing pages and campaign structure, and propose next steps to advertisers in performance reviews.",
     },
     {
       period: "2025.11 – 2026.09",
