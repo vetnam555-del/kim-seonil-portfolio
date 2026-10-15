@@ -124,11 +124,11 @@ node scripts/qa_release.mjs --approve --runtime=artifacts/release/runtime/runtim
 ## 7. 포트폴리오 PDF (덱) 다시 굽기
 
 덱 생성기(pptxgenjs `v3/*.js`)는 이 공개 저장소에 없다. Google Drive `코덱스/portfolio-deck-v2` 에 원본이 있고,
-2026-10-10 클라우드 수정분은 같은 폴더의 패치 두 개다.
+클라우드 수정분은 같은 폴더의 패치 세 개다(2026-10-10 part1·part2, 2026-10-15 part3 — 리멤버 합류).
 
 1. Drive 에서 `v3/` · `img/` · `post_pptx.py` · `finalize_v3.py` · `qa/` 와
-   `portfolio-deck-v3-cloud-20261010-part1.patch` · `part2.patch` 를 받는다.
-2. 원본의 CRLF 를 LF 로 바꾼 뒤 덱 폴더에서 `patch -p1 < part1.patch`, `part2.patch` 순서로 적용한다.
+   `portfolio-deck-v3-cloud-20261010-part1.patch` · `part2.patch` · `portfolio-deck-v3-cloud-20261015-part3.patch` 를 받는다.
+2. 원본의 CRLF 를 LF 로 바꾼 뒤 덱 폴더에서 `patch -p1 < part1.patch`, `part2.patch`, `part3.patch` 순서로 적용한다.
 3. `source/README.md` "포트폴리오 PDF" 절의 명령으로 굽는다(`deck_lo_pdf.py` · `deck_pdf_tags.py` 는 이 저장소 `source/scripts/`).
 4. 쪽별 글자를 이전 PDF 와 비교하고, `site.ts` · `edition.ts` 의 `portfolioPdfPath` `?v=` 를 올린다.
 
