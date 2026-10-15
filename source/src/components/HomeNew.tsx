@@ -555,7 +555,7 @@ export default function HomeNew() {
         <Container>
           <Eyebrow className="text-accent">03&nbsp;· SYSTEMS</Eyebrow>
           <h2 className="mt-5 max-w-[34rem] text-h2 text-on-ink">
-            사람이 기억해서 확인하던 업무를 시스템으로 옮겼습니다
+            수기로 확인하던 업무를 시스템으로 옮겼습니다
           </h2>
           <p className="mt-6 max-w-[40rem] text-body text-on-ink-2">
             재고·소진·랜딩·리포트·정산을 정해진 주기로 확인하는 시스템 6종을 기획·구축해

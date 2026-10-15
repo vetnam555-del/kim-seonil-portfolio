@@ -16,7 +16,7 @@ export type CaseLedeKey = "problem" | "analysis" | "strategy" | "results" | "lea
 
 export const caseLedes: Record<string, Partial<Record<CaseLedeKey, string>>> = {
   jestina: {
-    problem: "매출은 검색에 몰렸고 새 고객을 데려올 디스플레이 광고(DA)는 대행사마다 따로 돌고 있었습니다.",
+    problem: "매출은 검색에 몰렸고 새 고객을 유입시킬 디스플레이 광고(DA)는 대행사별로 분산 운영되고 있었습니다.",
     analysis: "재구매와 신규 고객을 떼어 보니 검색은 주로 이미 브랜드를 아는 고객을 데려오고 있었습니다.",
     strategy: "인지·탐색·전환 단계마다 맡을 채널과 KPI를 따로 정했습니다.",
     results: "동일 마감보고 기준 GA4 ROAS가 5월 352%에서 7월 583%로 올랐습니다.",
@@ -25,7 +25,7 @@ export const caseLedes: Record<string, Partial<Record<CaseLedeKey, string>>> = {
   newbalance: {
     problem: "재고가 바뀌어도 광고 쪽에 알려 주는 경로가 없었습니다.",
     analysis: "품절을 늦게 알아차리는 동안에도 광고비는 나가고 있었습니다.",
-    strategy: "재고를 광고 판단에 넣고 데이터가 이상하면 광고를 건드리지 않게 했습니다.",
+    strategy: "재고를 광고 판단에 넣고 데이터가 이상하면 광고 설정을 바꾸지 않게 했습니다.",
     results: "내부 일평균 실측 기준, 재고·운영 점검이 약 2시간에서 5분 이내로 줄었습니다.",
     learning: "ROAS 13,846%라는 숫자가 있었지만 비용이 빠진 값이라 예산을 늘릴 근거로 쓰지 않았습니다.",
   },

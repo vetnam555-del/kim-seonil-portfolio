@@ -13,7 +13,7 @@ export const ORG_EN = "Ad Operations Manager at Remember\u00a0· Ex-HLL JoongAng
 export const coverEn = {
   display: ["FIND. TEST.", "IMPROVE."],
   statement: ["I structure problems into hypotheses", "and improve them through testing."],
-  note: "At PlayD and HLL JoongAng, I ran ads for 30+ brands, including New Balance, Dyson and J.ESTINA. At Remember, I now run B2B ad campaigns.",
+  note: "I've run ads for 30+ brands across 9 industries, including New Balance, Dyson and J.ESTINA. I check the comparison baseline first, then improve budget allocation and conversion paths.",
   proof: [
     { before: "352% →", after: "583%", label: "J.ESTINA GA4 ROAS", basis: "May → Jul 2025\u00a0· same closing report", href: "#case-jestina" },
     { after: "+397.3%", label: "Gangwon store sales", basis: "Jul 2026 vs same period last year", href: "#case-gangwon" },
@@ -176,7 +176,7 @@ export const otherEn: Record<string, { brand: string; line: string }> = {
 };
 
 export const contactEn = {
-  title: ["I want to look deep into one brand,", "test hypotheses and grow it with your team."],
+  title: ["I look deep into one brand,", "test hypotheses and grow it with the team."],
   note: "I'll show the original reports and operating documents in person.",
   status: null as string | null,
 } as const;

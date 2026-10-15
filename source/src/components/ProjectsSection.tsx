@@ -83,7 +83,7 @@ const BRIDGES: Record<string, string> = {
   "daekyo→dyson": "여기까지는 광고 안에서 판단을 바로잡은 일이었습니다.",
 
   /* 신세계 CRM: 고객 정의 → 단계별 예산 → 자동화 → D2C 확장 */
-  "samsonite→jestina": "여기서는 고객을 나눠 메시지를 가르는 데까지 했습니다.",
+  "samsonite→jestina": "여기서는 고객을 나눠 메시지를 달리하는 데까지 했습니다.",
   "newbalance→gangwon": "자동화로 확인하는 시간을 줄이자 판단할 시간이 남았습니다.",
 
   /* 다이슨이 마지막인 판에서는 다음 케이스가 없으므로 다리도 없다 */

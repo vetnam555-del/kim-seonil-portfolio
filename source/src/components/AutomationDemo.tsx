@@ -14,7 +14,7 @@ import { useEffect, useRef, useState } from "react";
  *   - "회당 최대 900개 상품을 처리합니다"          -> 카운터 상한
  *   - "수량 기준에 따라 자동으로 끄거나 다시 시작"  -> 중지/재개 단계
  *   - "약 2시간 -> 5분 이내 (내부 실측 기준)"      -> 마감 표기
- *   - "이상이 감지되면 광고를 건드리지 않고 멈춘 뒤 담당자를 호출. 변경 0건으로 종료"
+ *   - "이상이 감지되면 광고 설정을 바꾸지 않고 멈춘 뒤 담당자를 호출. 변경 0건으로 종료"
  *                                                  -> 두 번째 사이클
  * 건수(품절 몇 건 · 복구 몇 건)는 원자료가 없으므로 만들지 않는다. 화면에도 넣지 않는다.
  * 라벨에 "동작 재현"을 붙여 실제 운영 로그가 아님을 먼저 밝힌다.
@@ -35,7 +35,7 @@ const RUN: Step[] = [
 const GUARD: Step[] = [
   { label: "재고 조회", note: "회당 최대 900개 상품", ms: 2000 },
   { label: "수집 이상 감지", note: "기준 데이터가 온전하지 않음", ms: 1800, tone: "warn" },
-  { label: "광고 변경 0건", note: "확실하지 않으면 건드리지 않는다", ms: 1800, tone: "warn" },
+  { label: "광고 변경 0건", note: "확실하지 않으면 바꾸지 않는다", ms: 1800, tone: "warn" },
   { label: "담당자 호출 후 종료", note: "사람이 볼 일이 생겼다는 뜻", ms: 2600, tone: "signal" },
 ];
 
@@ -68,7 +68,7 @@ const TXT = {
     countLabel: "이번 회차 조회",
     unit: "/ 900개 상품",
     locale: "ko-KR",
-    sr: "쇼핑검색 재고 자동 운영의 동작을 재현한 화면입니다. 재고를 정해진 주기로 조회해 회당 최대 900개 상품을 처리하고 수량 기준에 따라 쇼핑검색 광고를 자동으로 끄거나 다시 시작합니다. 수기로 약 2시간이 걸리던 점검이 5분 이내로 줄었습니다(내부 실측 기준). 수집에 이상이 감지되면 광고를 건드리지 않고 멈춘 뒤 담당자를 호출하고 변경 0건으로 종료합니다.",
+    sr: "쇼핑검색 재고 자동 운영의 동작을 재현한 화면입니다. 재고를 정해진 주기로 조회해 회당 최대 900개 상품을 처리하고 수량 기준에 따라 쇼핑검색 광고를 자동으로 끄거나 다시 시작합니다. 수기로 약 2시간이 걸리던 점검이 5분 이내로 줄었습니다(내부 실측 기준). 수집에 이상이 감지되면 광고 설정을 바꾸지 않고 멈춘 뒤 담당자를 호출하고 변경 0건으로 종료합니다.",
   },
   en: {
     cycles: [
@@ -82,7 +82,7 @@ const TXT = {
     countLabel: "Checked this run",
     unit: "/ 900 products",
     locale: "en-US",
-    sr: "A simulation of the shopping-search inventory automation. It reads inventory on a fixed schedule, handles up to 900 products per run, and automatically pauses or restarts shopping-search ads by stock level. A check that took about 2 hours by hand now takes under 5 minutes (internal measurement). If a collection problem is detected, it stops without touching ads, alerts the owner, and ends with 0 changes.",
+    sr: "A simulation of the shopping-search inventory automation. It reads inventory on a fixed schedule, handles up to 900 products per run, and automatically pauses or restarts shopping-search ads by stock level. A check that took about 2 hours by hand now takes under 5 minutes (internal measurement). If a collection problem is detected, it stops without changing ad settings, alerts the owner, and ends with 0 changes.",
   },
 } as const;
 
