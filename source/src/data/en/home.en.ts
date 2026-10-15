@@ -83,7 +83,7 @@ export const coverEn = {
       line: "I rebuild budget and operations on what's confirmed",
       story: "I rebuilt a search-heavy budget around customer stages, opened group-buys where ads alone had stalled sales, and turned repetitive checks into six automations.",
       metrics: [
-        { after: "+32.4%", label: "J.ESTINA brand search queries", basis: "Change stated in the closing report\u00a0· strategy & measurement 75%" },
+        { after: "+32.4%", label: "J.ESTINA brand search queries", basis: "Change stated in the closing report\u00a0· different basis from ROAS\u00a0· strategy & measurement 75%" },
       ],
       points: ["Channel roles and budget rebuilt by customer stage", "Sales channels beyond ads, such as group-buys", "Six automations that turn repetitive checks into operations"],
       proof: [
