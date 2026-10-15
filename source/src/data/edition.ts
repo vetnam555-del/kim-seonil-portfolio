@@ -69,7 +69,8 @@ export const NAME_KO = "김선일";
  * 같은 파일명으로 이미지를 다시 구워도 이미 공유된 링크에는 옛 이미지가 뜬다.
  * OG 이미지를 다시 구우면 이 값을 바꾼다 (2026.09.25 — 경력직 개편: 직함 · 첫 문장).
  */
-export const OG_VERSION = "20260926a";
+/* 2026.10.16 EDIT H 공유 이미지를 89편 → 114편으로 다시 구웠다(자비스 977a788 P3) */
+export const OG_VERSION = "20261016a";
 
 /*
  * 판별 직함. COPY[…].role 과 반드시 같아야 하는데 표를 참조할 수 없으므로 값을 다시 적는다.
@@ -88,7 +89,7 @@ export const portfolioPdfPathForClient =
   EDITION === "ably"
     ? "/kim-seonil-ably-growth-portfolio.pdf"
     : isGeneralLike
-      ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261015f"
+      ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261016a"
       : "/kim-seonil-performance-marketing-portfolio.pdf";
 
 export const isHLL = EDITION === "hll";
@@ -249,7 +250,7 @@ const COPY: Record<Exclude<Edition, "v260908" | "nw">, EditionCopy> = {
     ogAlt: "김선일 퍼포먼스 마케터 포트폴리오",
     caseDescription:
       "문제 정의부터 측정 기준, 운영 시스템까지의 판단 과정을 근거와 함께 담은 퍼포먼스 마케팅 사례입니다.",
-    portfolioPdfPath: "/kim-seonil-performance-marketing-portfolio.pdf?v=20261015f",
+    portfolioPdfPath: "/kim-seonil-performance-marketing-portfolio.pdf?v=20261016a",
     url: "https://vetnam555-del.github.io/kim-seonil-portfolio/",
     showWhyStudio: false,
     showWhyShinsegae: false,

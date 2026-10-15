@@ -499,15 +499,16 @@ for (const file of ["portfolio-polish.js", "portfolio-polish.css", "motion.js", 
  * "직접 세어 보라"고 권하므로, 링크 너머의 수와 다르면 그 자리가 그대로 약점이 된다.
  * 공개 문서 수와 확인일을 함께 검사한다. 과거 제작 이미지의 날짜는 보존한다.
  */
-const EDITH_PUBLIC = "공개 문서 89편";
+/* 2026.10.16 최근 형식 갱신 — 114편 · VOL.114 · 2026.10.15 */
+const EDITH_PUBLIC = "공개 문서 114편";
 if (!allHtml.includes(EDITH_PUBLIC)) {
   failures.push(`EDIT H ${EDITH_PUBLIC} 문구 없음`);
 }
 const edithHtml = flat(readFileSync(join(root, "projects", "edith", "index.html"), "utf8"));
-for (const expected of ["89편", "2026.09.13", "VOL.089"]) {
+for (const expected of ["114편", "2026.10.15", "VOL.114"]) {
   if (!edithHtml.includes(expected)) failures.push(`EDIT H 최신 공개 기준 누락: ${expected}`);
 }
-for (const stale of ["공개 아카이브 69호", "제작·발행 70호", "VOL.001–070", "공개 아카이브 75호", "VOL.033 게시 대기"]) {
+for (const stale of ["공개 아카이브 69호", "제작·발행 70호", "VOL.001–070", "공개 아카이브 75호", "VOL.033 게시 대기", "공개 문서 89편", "VOL.089"]) {
   if (allHtml.includes(stale)) failures.push(`EDIT H 옛 호수 잔존: ${stale}`);
 }
 
