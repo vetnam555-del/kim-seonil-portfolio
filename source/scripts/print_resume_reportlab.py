@@ -27,7 +27,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import KeepTogether, PageBreak, Paragraph, SimpleDocTemplate, Spacer
+from reportlab.platypus import CondPageBreak, KeepTogether, PageBreak, Paragraph, SimpleDocTemplate, Spacer
 
 SOURCE = Path(__file__).resolve().parent.parent
 D = json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))
@@ -80,6 +80,10 @@ projects = {x['slug']: x for x in D['projects']}
 
 def project(slug, metric_labels):
     x = projects[slug]
+    # 제목·기간·요약 첫 두 줄이 들어갈 자리(h3 29 + 기간 18 + 본문 두 줄 33 ≈ 80pt)가 없으면 쪽을 넘긴다 — h3 의 keepWithNext 는 기간 줄까지만 이어져,
+    # 요약이 통째로 다음 쪽으로 가면 제목·기간만 앞 쪽 끝에 남았다(2026.10.15 강원심층수, 자비스 f9fe1f9 P3).
+    # 셋을 KeepTogether 로 묶으면 요약 전체가 함께 넘어가 이력서가 6쪽이 된다 — 요약은 쪽 경계에서 나뉘어도 된다
+    story.append(CondPageBreak(80))
     add(x['brand'], 'h3'); add(x['period'] + ' | ' + x['contributionNote'], 'small')
     add(x['tldr'])
     add('담당: ' + x['role'], 'small')
@@ -100,7 +104,7 @@ add('핵심 경험', 'h3')
 # 2026.10.15 '기준' 한 단어가 둘째 줄로 넘어가 한 줄을 차지했다 — 홈 표지 표기(2025.05 → 07 · 동일 마감보고)와 맞추며 뺐다
 add('제이에스티나: 고객 단계별 예산 배분과 UTM·측정 기준 정리. GA4 ROAS 352% → 583% (2025.05 → 07, 동일 마감보고).', 'small')
 add('뉴발란스: 월 10억+ 규모의 팀 운영 계정에서 매체 운영 40%를 담당. 재고 자동화는 요구사항·구축·검수·운영을 맡아 내부 점검 시간을 약 2시간에서 5분 이내로 단축. 구현에는 AI 도구 사용.', 'small')
-add('대교에듀캠프: 비교 표본을 맞춰 CVR 0.66% → 2.24% 재산출, 상담 폼 3차 개선으로 광고 DB 전환율 2.84% → 7.55%·정규 서비스 전환율 9.9% → 11.28%.', 'small')
+add('대교에듀캠프: 비교 표본을 맞춰 CVR 0.66% → 2.24% 재산출, 상담 폼 3차 개선으로 광고 DB 전환율 2.84% → 7.55%, 정규 서비스 전환율 13.7% → 9.9% → 11.28%(7월 이후).', 'small')
 add('강원심층수: 광고 밖 판매 경로로 인스타그램 공동구매·파트너십 광고를 더해 2026년 7월 스토어 판매금액 전년 대비 +397.3%(공동구매 포함).', 'small')
 # 2026.09.25 경력직 개편 — 외부 인정을 첫 장으로 (verification 에 있는 사실)
 add('외부 인정: 대한민국 디지털 광고 대상 통합 퍼포먼스 부문 우수상 2년 연속(2024 독립문 · 2025 제이에스티나) · LG CNS MOP 우수사례(쇼핑검색 재고 연동 자동화, 단독 수행).', 'small')
@@ -123,7 +127,7 @@ add('기획·중단 조건·실행 결과 검수와 운영은 제가 맡았고 P
 
 page('대표 프로젝트 2 | 비교 기준과 고객 행동')
 project('daekyo', ['CVR'])
-add('약 9천 원만 소진된 고CTR 소재를 제외한 동일 기준 재비교입니다. 상담 폼 3차 개선은 이 비교 뒤에 한 일이라 위 수치와 따로 봅니다.', 'small')
+add('약 9천 원만 쓴 고CTR 소재를 뺀 동일 기준 재비교입니다. 상담 폼 3차 개선은 이 비교 뒤의 일이라 위 수치와 따로 봅니다.', 'small')
 project('gangwon', ['스토어 판매금액'])  # ROAS 201% → 238% 는 요약 문단(tldr)에 이미 있다 — 5쪽 유지
 project('dyson', ['동영상 광고 CTR', 'YouTube 구독자'])
 add('다이슨 매체 집계 구독 전환은 104,257건(2023.12)으로 채널 전체 구독자와는 다른 지표입니다.', 'small')

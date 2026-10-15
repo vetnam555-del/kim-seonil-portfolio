@@ -38,7 +38,7 @@ export const caseLedes: Record<string, Partial<Record<CaseLedeKey, string>>> = {
   },
   dyson: {
     problem: "성과가 낮은 디스플레이(DP)에 예산이 더 실리고 있었습니다.",
-    analysis: "같은 기준으로 놓자 동영상이 DP보다 클릭률은 높고 CPC는 낮았습니다.",
+    analysis: "같은 기준으로 비교하자 동영상이 DP보다 클릭률은 높고 CPC는 낮았습니다.",
     strategy: "구독·라이브·콘텐츠마다 성과를 따로 정하고 광고 형식은 같은 잣대로 비교했습니다.",
     results: "동영상 광고 CTR은 2024년 2월 2.16%에서 3월 3.14%로 올랐습니다.",
     learning: "구독 캠페인과 판매 캠페인을 한 줄로 세워 비교하면 둘 다 잘못 읽힙니다.",

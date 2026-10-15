@@ -72,7 +72,7 @@ export const careerEn = [
     ],
     clients: "New Balance\u00a0· Daekyo EduCamp (5 sub-brands)\u00a0· Gangwon Deep Sea Water Cheonnyeon Dongan",
     highlight:
-      "New Balance, KRW 1B+ a month across 10 channels (account operations 40%)\u00a0· Daekyo EduCamp: re-verified the comparison sample (CVR 0.66% → 2.24% on the same basis, measurement QA design 100%) and reworked the consultation form three times (lead conversion rate 2.84% → 7.55% after the form relaunch; paid-service conversion 9.9% → 11.28% after question changes)\u00a0· Designed and built 6 automations alone",
+      "New Balance, KRW 1B+ a month across 10 channels (account operations 40%)\u00a0· Daekyo EduCamp: re-verified the comparison sample (CVR 0.66% → 2.24% on the same basis, measurement QA design 100%) and reworked the consultation form three times (lead conversion rate 2.84% → 7.55% after the form relaunch, while paid-service conversion went 13.7% → 9.9%; 11.28% after question changes)\u00a0· Designed and built 6 automations alone",
   },
   {
     company: "PlayD",
@@ -276,7 +276,7 @@ export const skillsEn: { category: string; rows: { level: string; items: string[
 export const educationEn = [
   { period: "2017.03 – 2022.02", school: "Yonsei University Mirae Campus", major: "Bachelor's, Industrial Design (Division of Design & Art)" },
   { period: "2014.03 – 2017.02", school: "Academic Credit Bank System", major: "Bachelor's, Business Administration" },
-  { period: "2014.03 – 2017.02", school: "Soongsil University", major: "Business Administration" },
+  { period: "2014.03 – 2017.02", school: "Soongsil University", major: "Business Administration\u00a0· Credit Bank coursework" },
 ] as const;
 
 export const educationCaptionEn =
