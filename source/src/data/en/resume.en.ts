@@ -12,9 +12,9 @@ export function careerLengthEn(now: Date = new Date()): string {
 }
 
 export const narrativeEn = [
-  "Over four years at PlayD and HLL JoongAng, I've run ads for 30+ brands. When performance stalls, I structure the problem to find the cause, set a hypothesis and test it, then rebuild budget and operations on what's confirmed. I automate repetitive checks to leave time for decisions.",
+  "Over four years at PlayD and HLL JoongAng, I've run ads for 30+ brands, including New Balance, Dyson and J.ESTINA. When performance stalls, I check the comparison baseline first to find the cause, set a hypothesis and test it, then reset budget allocation and operations on verified results. I automate repetitive checks to free up time for decisions.",
   "At PlayD I ran search (SA), display (DA) and social campaigns for 30+ brands. For J.ESTINA I split a search-heavy budget by customer stage, and in the same closing report GA4 ROAS rose from 352% in May 2025 to 583% in July. That campaign won an Excellence Award at the Korea Digital Advertising Awards that year. For Dyson I took on co-planning and media-mix analysis, and moved budget from weaker display ads into video.",
-  "At HLL JoongAng I ran New Balance's 10 channels at KRW 1B+ a month as part of a team. I connected the inventory checks people did site by site to ad operations, cutting internal check time from about 2 hours to under 5 minutes, and made the system stop without touching ads when data looks wrong. This work was featured as an LG CNS MOP best practice. At Daekyo EduCamp I re-measured a 'performance dropped' report on the same sample and found CVR had actually risen from 0.66% to 2.24%.",
+  "At HLL JoongAng I ran New Balance's 10 channels at KRW 1B+ a month as part of a team. I connected the inventory checks people did site by site to ad operations, cutting internal check time from about 2 hours to under 5 minutes, and made the system stop without changing ad settings when data looks wrong. This work was featured as an LG CNS MOP best practice. At Daekyo EduCamp I re-measured a 'performance dropped' report on the same sample and found CVR had actually risen from 0.66% to 2.24%.",
   "I studied business and then industrial design, and surveying 300 car owners for a pre-startup taught me that answers lie in customer data more than in a good idea. To learn how to get the word out, I chose an ad agency, where marketing across the most industries happens. When a campaign ends, I leave reports, check procedures and handover documents so the next person can pick it up.",
 ] as const;
 
@@ -49,7 +49,7 @@ export const careerEn = [
     period: "2026.10 – Present",
     title: "Ad Operations Team\u00a0· Manager",
     summary:
-      "I run B2B ad campaigns that combine Remember's business-card data on professionals with Google, Meta and other network media.",
+      "I run B2B ad campaigns on Google, Meta and other external media, targeted by industry, job and seniority with Remember's business-card data on professionals.",
     work: [
       "B2B lead-generation campaigns targeted by industry, job, seniority and company size",
       "Targeting, creative, landing-page and campaign-structure optimization from performance data",
@@ -134,8 +134,8 @@ export const otherResultsEn = [
     brand: "Samsonite KakaoTalk Channel",
     category: "Channel Growth",
     period: "2025.01 – 2025.10",
-    summary: "To grow channel friends, I worked on giving people a reason to stay before chasing ad clicks. Entry placements and benefit messages were split around back-to-school and promotions. The figure is cumulative friends at the end of this period.",
-    metrics: [{ label: "KakaoTalk Channel friends", value: "5,482" }],
+    summary: "To grow channel friends, I worked on giving people a reason to stay before chasing ad clicks. Entry placements and benefit messages were split around back-to-school and promotions.",
+    metrics: [{ label: "Cumulative channel friends (Oct 2025)", value: "5,482" }],
   },
   {
     brand: "Dongwon Mall",
@@ -232,7 +232,7 @@ export const skillsEn: { category: string; rows: { level: string; items: string[
       {
         level: "Basic",
         items: ["Basic SQL query syntax"],
-        note: "I've learned basic query syntax; I write queries with AI help and check the results. Complex queries need more study and collaboration.",
+        note: "I've learned basic query syntax; I write queries with AI help and check the results.",
       },
     ],
   },
