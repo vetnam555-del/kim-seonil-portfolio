@@ -1936,6 +1936,8 @@ html:has(.evidence-inline:target) {
 .folio-career { margin-top: 64px; padding-top: 28px; border-top: 1px solid #e5e7ea; }
 .folio-career ol { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 32px 48px; margin-top: 16px; }
 .folio-career li { display: flex; flex-direction: column; gap: 6px; }
+/* 회사 로고 — 흑백 한 가지 색, 회사명보다 한 단계 흐리게(2026.10.15 A안). 높이만 맞추고 너비는 비율대로 */
+.folio-career-logo { display: block; align-self: flex-start; height: 18px; width: auto; opacity: .82; margin-bottom: 4px; }
 .folio-career-period { font-size: 12px; font-weight: 700; letter-spacing: .04em; color: #646d76; font-variant-numeric: tabular-nums; }
 .folio-career li strong { font-size: 18px; font-weight: 700; color: #0f1216; }
 .folio-career li strong + span { font-size: 15px; line-height: 1.7; color: #4a525b; }
