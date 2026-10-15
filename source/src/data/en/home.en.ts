@@ -56,7 +56,7 @@ export const coverEn = {
       stage: "FIND",
       role: "the problem",
       line: "I find why performance stalls, in the numbers and the structure",
-      story: "A 'performance dropped' call included a creative that had spent only about KRW 9,000. Re-measured on the same sample, conversion was actually higher and cost per acquisition (CPA) was 14.1% lower. So instead of scrapping the creatives, I first fixed where people dropped out of the consultation form.",
+      story: "The comparison behind the 'performance dropped' call included a creative that had spent only about KRW 9,000. Re-measured on the same sample, conversion was actually higher and cost per acquisition (CPA) was 14.1% lower. So instead of scrapping the creatives, I first fixed where people dropped out of the consultation form.",
       metrics: [{ before: "0.66% →", after: "2.24%", label: "Daekyo EduCamp CVR", basis: "Re-measured on the same sample\u00a0· measurement QA design 100%" }],
       points: ["Comparison bases aligned to the same sample and scope", "GA4 conversion design and measurement QA", "Bottlenecks beyond ads: inventory, landing pages, consultation forms"],
       proof: [
@@ -69,7 +69,7 @@ export const coverEn = {
       stage: "TEST",
       role: "the hypothesis",
       line: "I pick one thing to change and test it small",
-      story: "With own-site landing pages, conversion sat around 0.7%. I moved to a consultation form and reworked it three times, lifting the June lead conversion rate to 7.55%. Question changes from July brought the paid-service conversion rate back to 11.28%.",
+      story: "I reworked the consultation form three times, changing one thing each time. The June lead conversion rate rose to 7.55%. Question changes from July brought the paid-service conversion rate, which had dipped, back to 11.28%.",
       metrics: [{ before: "2.84% →", after: "7.55%", label: "Daekyo Mypace lead conversion rate", basis: "May → Jun 2026\u00a0· paid-service conversion 13.7% → 9.9% → 11.28% (from Jul)" }],
       points: ["Media operations on Naver, Meta, Kakao and Google", "Placement, format and landing-page tests", "Consultation form reworked three times, lead-quality control"],
       proof: [
@@ -108,7 +108,7 @@ export const coverEn = {
     {
       period: "2022.09 – 2025.10",
       where: "PlayD\u00a0· PM, Data Marketing Division",
-      text: "As a PM for large advertisers, I ran search, display and social ads for 30+ brands. For J.ESTINA I pulled display ads scattered across agencies into one place and rebuilt the budget by customer stage. For KT alpha Shopping I split a single blended ROAS into three KPIs by role. The Dongnimmun (2024) and J.ESTINA (2025) campaigns won Excellence Awards at the Korea Digital Advertising Awards.",
+      text: "As a PM for large advertisers, I ran search, display and social ads for 30+ brands. For J.ESTINA I pulled display ads scattered across agencies into one place and rebuilt the budget by customer stage. For KT alpha Shopping I replaced a single blended ROAS with three role-based KPIs. The Dongnimmun (2024) and J.ESTINA (2025) campaigns won Excellence Awards at the Korea Digital Advertising Awards.",
     },
   ],
   brandsLabel: "Brands",
