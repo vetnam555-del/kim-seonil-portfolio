@@ -63,7 +63,7 @@ export const caseCards: Record<string, CaseCard> = {
     image: "daekyo-flamu-set",
     alt: "대교 플래뮤 창업설명회·창업 지원금 소재",
     tint: "#f6eed9",
-    label: "같은 표본으로 다시 잰 CVR",
+    label: "같은 표본으로 재산출한 CVR",
     basis: "약 9천 원만 쓴 소재를 빼고 재계산",
     scope: "측정 QA 설계 100%",
   },

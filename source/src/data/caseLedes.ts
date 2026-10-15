@@ -31,7 +31,7 @@ export const caseLedes: Record<string, Partial<Record<CaseLedeKey, string>>> = {
   },
   daekyo: {
     problem: "'성과가 떨어졌다'는 보고의 비교 대상에 약 9천 원만 쓴 소재가 섞여 있었습니다.",
-    analysis: "같은 표본으로 다시 재니 클릭률은 조금 내렸지만 전환율은 세 배 넘게 올랐습니다.",
+    analysis: "같은 표본으로 다시 계산하니 클릭률은 조금 내렸지만 전환율은 세 배 넘게 올랐습니다.",
     strategy: "소재를 갈아엎는 대신, 상담 폼에서 빠져나가는 지점부터 손봤습니다.",
     results: "소액 소재를 뺀 같은 표본으로 다시 계산한 CVR은 0.66%에서 2.24%였습니다.",
     learning: "입력 항목을 줄이면 CVR과 함께 상담 연결률도 봐야 했습니다.",
@@ -44,7 +44,7 @@ export const caseLedes: Record<string, Partial<Record<CaseLedeKey, string>>> = {
     learning: "구독 캠페인과 판매 캠페인을 한 줄로 세워 비교하면 둘 다 잘못 읽힙니다.",
   },
   gangwon: {
-    problem: "리포트마다 세는 범위가 달라, 같은 계정인데 숫자가 서로 달랐습니다.",
+    problem: "리포트마다 집계 범위가 달라, 같은 계정인데 숫자가 서로 달랐습니다.",
     analysis: "성장은 쇼핑검색이 이끌었습니다. 브랜드검색은 노출·클릭이 유지된 채 전환만 줄었습니다.",
     strategy: "검색·쇼핑 광고 밖에 인스타그램 공동구매를 더하고 쇼핑검색은 상품별로 직접 입찰했습니다.",
     results: "2026년 7월 스토어 판매금액은 전년 같은 기간보다 397.3% 늘었습니다. 광고 기여만 계산한 상반기 ROAS는 201%에서 238%로 올랐습니다.",
