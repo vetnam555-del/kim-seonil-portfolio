@@ -10,7 +10,7 @@ import { heroStrengths } from "@/data/intro";
 import { EDITION, edition } from "@/data/edition";
 import { projects, type Project } from "@/data/projects";
 import { caseCards, type CaseCard } from "@/data/caseCards";
-import { automationCases, builtGroups, careerYear, contact, generalCover, site, verification } from "@/data/site";
+import { automationCases, builtGroups, careerYear, contact, employerLogos, generalCover, site, verification } from "@/data/site";
 import { getProjectEn } from "@/data/en/projects.en";
 import { caseCardsEn } from "@/data/en/caseCards.en";
 import { contactEn, coverEn, NAME_EN_DISPLAY, ORG_EN, otherEn, recordsEn, ROLE_EN, systemsEn } from "@/data/en/home.en";
@@ -289,6 +289,16 @@ export default function HomeFolio({ lang = "ko" }: { lang?: Lang }) {
             <ol>
               {career.map((c) => (
                 <li key={c.where}>
+                  {/* 회사 로고는 장식이다 — 회사 이름은 바로 아래 글자로 읽힌다(alt 빈 값). 2026.10.15 A안 */}
+                  <img
+                    className="folio-career-logo"
+                    src={`${BASE}${employerLogos[c.logo].src}`}
+                    width={employerLogos[c.logo].width}
+                    height={18}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <span className="folio-career-period">{c.period}</span>
                   <strong>{c.where}</strong>
                   <span><Sentences text={c.text} /></span>

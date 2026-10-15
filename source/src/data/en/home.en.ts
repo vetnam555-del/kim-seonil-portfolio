@@ -98,16 +98,19 @@ export const coverEn = {
     {
       period: "2026.10 – Present",
       where: "Remember & Company\u00a0· Ad Operations Manager",
+      logo: "remember",
       text: "I plan and run B2B lead-generation campaigns on Google, Meta and other network media, targeted by industry, job, seniority and company size with Remember's business-card data on professionals. I also analyze results to improve targeting, creatives, landing pages and campaign structure, and propose next steps to advertisers in performance reviews.",
     },
     {
       period: "2025.11 – 2026.09",
       where: "HLL JoongAng\u00a0· Manager, Performance Strategy",
+      logo: "hll",
       text: "On top of media buying, I took on measurement standards and operations automation. I ran New Balance's KRW 1B+/month, 10-channel account as part of a team (account operations 40%) and built six inventory, reporting and settlement automations on my own. For Gangwon Deep Sea Water I opened Instagram group-buys as a sales channel. For Daekyo EduCamp I re-measured on the same sample and corrected a 'performance dropped' verdict.",
     },
     {
       period: "2022.09 – 2025.10",
       where: "PlayD\u00a0· PM, Data Marketing Division",
+      logo: "playd",
       text: "As a PM for large advertisers, I ran search, display and social ads for 30+ brands. For J.ESTINA I pulled display ads scattered across agencies into one place and rebuilt the budget by customer stage. For KT alpha Shopping I replaced a single blended ROAS with three role-based KPIs. The Dongnimmun (2024) and J.ESTINA (2025) campaigns won Excellence Awards at the Korea Digital Advertising Awards.",
     },
   ],

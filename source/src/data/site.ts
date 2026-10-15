@@ -243,6 +243,21 @@ export const heroFacts = [
  * 제목의 앞 절이 퍼포먼스 마케팅, 뒤 절이 마케팅 오퍼레이션이다(사례 목차의 두 묶음과 같다).
  * 다른 판이 쓰는 generalProfile.title · edition.heroRoleLine 은 건드리지 않는다.
  */
+/*
+ * 경력 칸의 회사 로고 (2026.10.15 본인 결정 · A안) — 다녔던 회사 3곳만, 회사명 위에 작은 흑백으로 둔다.
+ * 다녔던 회사를 밝히는 표시라 광고주 로고(client-brands.ts — 브랜드마다 허락이 필요해 쓰지 않는다)와 다르다.
+ * 파일은 각 회사 공식 사이트에서 받았다: 리멤버 cdn.rememberapp.co.kr/logos/remember/remember-logo.svg,
+ * HLL중앙 hll.kr/resources/images/logo_hll.svg, 플레이디 playd.com/assets/images/w/common/logo-header__filled.png
+ * (밝은 바탕용, 빨간 점까지 한 가지 색으로). 화면 높이 18px 에 맞춘 너비를 width 로 둬 자리 밀림을 막는다.
+ * 이력서·덱 PDF 는 글자만 둔다.
+ */
+export const employerLogos = {
+  remember: { src: "/logos/remember.svg", width: 110 },
+  hll: { src: "/logos/hll.svg", width: 52 },
+  playd: { src: "/logos/playd.png", width: 93 },
+} as const;
+export type EmployerLogoKey = keyof typeof employerLogos;
+
 export const generalCover = {
   /*
    * 경력직 문법으로 다시 썼다 (2026.09.25 사용자 요청 "경력직 퍼포먼스 마케터와 결이 안 맞는다").
@@ -301,11 +316,13 @@ export const generalCover = {
     {
       period: "2026.10 – 현재",
       where: "리멤버앤컴퍼니\u00a0· 광고운영팀 매니저",
+      logo: "remember",
       text: "리멤버의 직장인 명함 데이터로 산업·직무·직급·기업 규모별 타겟을 잡아 구글·메타 등 네트워크 매체에서 B2B 리드 생성 캠페인을 기획·운영합니다. 성과를 분석해 타겟·소재·랜딩페이지·캠페인 구조를 고치고 광고주에게 성과 리뷰와 개선 방향을 제안하는 일까지 맡고 있습니다.",
     },
     {
       period: "2025.11 – 2026.09",
       where: "HLL중앙\u00a0· 퍼포먼스전략국 과장",
+      logo: "hll",
       /* 2026.10.10 다시 썼다 — 실적만 늘어놓아 "무엇을 맡았고 범위가 어떻게 넓어졌는지"가 빠져 있었고(사용자 지적: 소개 문장보다 얇고 어색하다),
          강원 397%·우수상은 바로 위 성과 칸과 겹쳤다. 사실은 이력서 career[] 의 summary·work·highlight 와 같다 */
       text: "매체 운영에 더해 성과를 측정하는 기준과 운영 자동화까지 맡았습니다. 월 10억+ 규모의 뉴발란스 10개 채널은 팀으로 운영했고(계정 운영 40%) 재고·리포트·정산 자동화 6종은 단독으로 구축했습니다. 강원심층수는 인스타그램 공동구매로 판매 경로를 넓혔습니다. 대교에듀캠프에서는 같은 표본으로 다시 계산해 '성과가 떨어졌다'는 판단을 바로잡았습니다.",
@@ -313,6 +330,7 @@ export const generalCover = {
     {
       period: "2022.09 – 2025.10",
       where: "플레이디\u00a0· 데이터마케팅본부 PM",
+      logo: "playd",
       text: "대형 광고주 PM으로 브랜드 30여 곳의 검색·DA·SNS 광고를 맡았습니다. 제이에스티나에서는 대행사마다 흩어진 DA를 모아 고객 단계별로 예산을 짰습니다. KT알파쇼핑에서는 합산 ROAS 하나로 보던 평가 기준을 역할별 KPI 세 가지로 나눴습니다. 독립문(2024)과 제이에스티나(2025) 캠페인은 대한민국 디지털 광고 대상 우수상을 받았습니다.",
     },
   ],
