@@ -1,0 +1,55 @@
+# GitHub Pages 배포 (2026-10-10).
+# main 에는 원본(source/)·작업 메모와 빌드 결과(루트)가 함께 있다. 사이트에는 빌드 결과만 올린다.
+# 빼는 목록은 source/scripts/publish_general.mjs 의 KEEP(빌드가 건드리지 않는 루트 항목)과 같다.
+# 저장소 Settings → Pages → Source 가 "GitHub Actions" 여야 이 워크플로가 배포한다.
+name: Deploy Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Collect build output only
+        run: |
+          site="$RUNNER_TEMP/site"
+          mkdir -p "$site"
+          tar -cf - \
+            --exclude=./.git --exclude=./.github --exclude=./.claude --exclude=./source \
+            --exclude=./CLAUDE.md --exclude=./README.md --exclude=./.gitignore --exclude=./.gitattributes \
+            . | tar -xf - -C "$site"
+          # 빌드 결과가 있어야 하고, 원본·작업 메모는 없어야 한다
+          test -f "$site/index.html"
+          for p in source .claude .github CLAUDE.md README.md; do
+            if [ -e "$site/$p" ]; then echo "::error::$p must not be published"; exit 1; fi
+          done
+          if find "$site" -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.mjs' -o -name '*.py' -o -name '*.md' \) | grep -q .; then
+            echo "::error::source-like files found in the site artifact"
+            find "$site" -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.mjs' -o -name '*.py' -o -name '*.md' \) | head -20
+            exit 1
+          fi
+          echo "files: $(find "$site" -type f | wc -l)"
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
