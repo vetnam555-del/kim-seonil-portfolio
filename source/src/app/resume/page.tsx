@@ -436,13 +436,13 @@ export default function ResumePage() {
           {education.map((e) => (
             <Row key={e.school + e.period} label={e.period}>
               <strong className="font-semibold">{e.school}</strong>
-              <span className="ml-2 text-ink-3">{e.major}</span>
+              {e.major ? <span className="ml-2 text-ink-3">{e.major}</span> : null}
             </Row>
           ))}
         </dl>
         <p className="no-print mt-3 text-caption text-ink-3">{educationCaption}</p>
         <p className="print-only mt-3 text-caption text-ink-2">
-          {education.map((e) => `${e.period} ${e.school} ${e.major}`).join(" / ")}
+          {education.map((e) => [e.period, e.school, e.major].filter(Boolean).join(" ")).join(" / ")}
         </p>
 
         {/* 자격 */}

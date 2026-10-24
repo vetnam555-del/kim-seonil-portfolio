@@ -1944,7 +1944,8 @@ export function Credits() {
             <ul className="mt-4 flex flex-col gap-2.5">
               {education.map((e) => (
                 <li key={e.school} className="text-mono leading-[1.5] text-on-dark">
-                  <span className="font-bold text-white">{e.school}</span> · {e.major}
+                  <span className="font-bold text-white">{e.school}</span>
+                  {e.major ? <> · {e.major}</> : null}
                 </li>
               ))}
             </ul>

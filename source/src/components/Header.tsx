@@ -244,12 +244,19 @@ export default function Header() {
           href={en ? "/en/" : "/"}
           /* 자간 0.14em 은 라틴 대문자용이다. "김선일"에 걸면 글자가 뜯어져 보인다 */
           className="-ml-2 inline-flex min-h-[44px] items-center px-2 font-mono text-mono font-bold tracking-[0.02em] text-on-ink"
-          aria-label={en ? `${NAME_EN_DISPLAY} portfolio home` : `${NAME_KO} 포트폴리오 처음으로`}
         >
+          {/*
+            접근 이름은 보이는 글자로 시작해야 한다(2026.10.24 B-03 · label-content-name-mismatch). 전에는 aria-label
+            "김선일 포트폴리오 처음으로"가 보이는 "김선일 퍼포먼스 마케터"를 덮어, 음성으로 "퍼포먼스 마케터"를 불러서는
+            누를 수 없었다. 이제 이름은 보이는 글자 + 화면에 없는 꼬리 ", 처음으로"다. 직함 앞 공백은 이름과 직함이
+            접근 이름에서 붙어 읽히지 않게 하는 것이고, 화면 간격은 ml 을 줄여 전과 같게 둔다.
+          */}
           {en ? NAME_EN_DISPLAY : NAME_KO}
-          <span className={`ml-2 hidden text-caption font-normal text-on-ink-2 sm:inline ${EDITION === "general" ? "lg:hidden xl:inline" : ""}`}>
+          <span className={`ml-1 hidden text-caption font-normal text-on-ink-2 sm:inline ${EDITION === "general" ? "lg:hidden xl:inline" : ""}`}>
+            {" "}
             {en ? ROLE_EN : roleForClient}
           </span>
+          <span className="sr-only">{en ? ", home" : ", 처음으로"}</span>
         </Link>
 
         <nav className={`hidden shrink-0 items-center gap-4 whitespace-nowrap ${WIDE_NAV === "xl" ? "xl:flex" : "lg:flex"}`} aria-label={en ? "Main menu" : "주요 메뉴"}>

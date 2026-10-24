@@ -378,13 +378,13 @@ export default function ResumePageEn() {
           {educationEn.map((e) => (
             <Row key={e.school + e.period} label={e.period}>
               <strong className="font-semibold">{e.school}</strong>
-              <span className="ml-2 text-ink-3">{e.major}</span>
+              {e.major ? <span className="ml-2 text-ink-3">{e.major}</span> : null}
             </Row>
           ))}
         </dl>
         <p className="no-print mt-3 text-caption text-ink-3">{educationCaptionEn}</p>
         <p className="print-only mt-3 text-caption text-ink-2">
-          {educationEn.map((e) => `${e.period} ${e.school}, ${e.major}`).join(" / ")}
+          {educationEn.map((e) => `${e.period} ${e.school}${e.major ? `, ${e.major}` : ""}`).join(" / ")}
         </p>
 
         <H2>Certifications</H2>

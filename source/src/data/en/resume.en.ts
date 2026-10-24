@@ -276,7 +276,8 @@ export const skillsEn: { category: string; rows: { level: string; items: string[
 export const educationEn = [
   { period: "2017.03 – 2022.02", school: "Yonsei University Mirae Campus", major: "Bachelor's, Industrial Design (Division of Design & Art)" },
   { period: "2014.03 – 2017.02", school: "Academic Credit Bank System", major: "Bachelor's, Business Administration" },
-  { period: "2014.03 – 2017.02", school: "Soongsil University", major: "Business Administration\u00a0· Credit Bank coursework" },
+  /* 2026.10.24 한국어 education 과 같이 학교 이름만 */
+  { period: "2014.03 – 2017.02", school: "Soongsil University", major: "" },
 ] as const;
 
 export const educationCaptionEn =

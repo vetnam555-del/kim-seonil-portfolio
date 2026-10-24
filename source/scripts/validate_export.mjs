@@ -187,8 +187,9 @@ const homeOnly = existsSync(join(root, "index.html")) ? flat(readFileSync(join(r
 const aboutPath = join(root, "about", "index.html");
 const home = edition === "general" && existsSync(aboutPath) ? `${homeOnly}\n${flat(readFileSync(aboutPath, "utf8"))}` : homeOnly;
 if (edition === "general") {
-  if (home.includes("경영학 학점은행제 과정 이수")) {
-    failures.push("숭실대학교 학력 표기에 삭제 요청한 문구가 남아 있습니다.");
+  /* 2026.10.24 본인 결정 — 숭실대 줄은 학교 이름만. 사이트·이력서·영문 어디에도 과정 이수 문구를 두지 않는다 */
+  for (const removed of ["학점은행제 과정 이수", "Credit Bank coursework"]) {
+    if (allHtml.includes(removed)) failures.push(`숭실대학교 학력 표기에 삭제 요청한 문구가 남아 있습니다: ${removed}`);
   }
   if (!home.includes("경영학전공 · 학사")) {
     failures.push("별도 학점은행제 학위 정보가 누락되었습니다.");
