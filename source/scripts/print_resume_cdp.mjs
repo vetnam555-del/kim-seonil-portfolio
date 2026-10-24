@@ -99,7 +99,7 @@ await send("Runtime.evaluate", {
   expression: `(async()=>{document.querySelectorAll('img').forEach(i=>i.loading='eager');
     const d=document.documentElement;
     for(let y=0;y<d.scrollHeight;y+=700){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,20));}
-    window.scrollTo(0,0);await document.fonts.ready;})()`,
+    window.scrollTo(0,0);await Promise.race([window.__ksiFontsReady,new Promise(function(r){setTimeout(r,8000)})]);await document.fonts.ready;})()`,
   awaitPromise: true,
 });
 await sleep(1500);
