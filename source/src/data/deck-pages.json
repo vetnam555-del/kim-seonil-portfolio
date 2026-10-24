@@ -1,0 +1,11 @@
+{
+  "jestina": { "from": 4, "to": 6, "keyword": "제이에스티나" },
+  "newbalance": { "from": 7, "to": 9, "keyword": "뉴발란스" },
+  "daekyo": { "from": 10, "to": 12, "keyword": "대교에듀캠프" },
+  "dyson": { "from": 13, "to": 15, "keyword": "다이슨" },
+  "gangwon": { "from": 16, "to": 17, "keyword": "강원심층수" },
+  "automation": { "from": 18, "to": 19, "keyword": "자동화" },
+  "hanssem": { "from": 21, "to": 21, "keyword": "한샘" },
+  "ktalpha": { "from": 21, "to": 21, "keyword": "KT알파쇼핑" },
+  "edith": { "from": 23, "to": 23, "keyword": "EDIT H" }
+}

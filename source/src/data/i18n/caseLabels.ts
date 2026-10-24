@@ -69,6 +69,8 @@ export const caseLabels = {
     evidenceNavAria: "사례별 실행 자료",
     evidenceNavLabel: "실행 자료",
     evidenceJump: (group: string) => `${group} 보기 ↓`,
+    /* 같은 사례가 실린 포트폴리오 PDF 쪽 (2026.10.24) — 쪽 번호는 data/deck-pages.json */
+    deckPages: (from: number, to: number) => `포트폴리오 PDF ${from === to ? from : `${from}–${to}`}쪽`,
     flow: { problem: "문제", analysis: "데이터", strategy: "판단", kpi: "KPI", execution: "실행", results: "결과", role: "역할", learning: "실패", evidence: "증빙", source: "근거" },
     block: {
       problem: "문제 정의",
@@ -156,6 +158,7 @@ export const caseLabels = {
     evidenceNavAria: "Jump to work samples",
     evidenceNavLabel: "Samples",
     evidenceJump: (group: string) => `${group} ↓`,
+    deckPages: (from: number, to: number) => `Portfolio PDF (Korean), ${from === to ? `p. ${from}` : `pp. ${from}–${to}`}`,
     flow: { problem: "Problem", analysis: "Data", strategy: "Decision", kpi: "KPI", execution: "Execution", results: "Results", role: "Role", learning: "Lessons", evidence: "Evidence", source: "Sources" },
     block: {
       problem: "Problem",

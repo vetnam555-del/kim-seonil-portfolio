@@ -9,6 +9,7 @@ import { EDITION, edition } from "@/data/edition";
 import { hero } from "@/data/site";
 import { caseLedes } from "@/data/caseLedes";
 import { caseCards } from "@/data/caseCards";
+import { deckPages } from "@/data/deckPages";
 import { caseCardsEn } from "@/data/en/caseCards.en";
 import { caseLedesEn } from "@/data/en/caseLedes.en";
 import { getNextProjectEn, getProjectEn } from "@/data/en/projects.en";
@@ -902,6 +903,7 @@ export function CaseView({ slug, lang = "ko" }: { slug: string; lang?: Lang }) {
   const d = p.detail;
   const ledes = (lang === "en" ? caseLedesEn : caseLedes)[p.slug] ?? {};
   const next = lang === "en" ? getNextProjectEn(p) : getNextProject(p);
+  const deckRange = EDITION === "general" ? deckPages[p.slug] : undefined;
   /* 한국어 라벨 목록을 같은 자리의 영문 라벨로 바꾼다 — 두 언어가 늘 같은 수치를 고르게 한다 */
   const toLang = (label: string) => {
     if (lang === "ko") return label;
@@ -1145,6 +1147,24 @@ export function CaseView({ slug, lang = "ko" }: { slug: string; lang?: Lang }) {
                   </a>
                 ))}
               </nav>
+            ) : null}
+            {/*
+              같은 사례가 실린 PDF 쪽으로 바로 (2026.10.24 레퍼런스 비교). 전달·인쇄용으로 PDF 를 찾는 사람이
+              29쪽을 넘겨 찾지 않게 한다. 쪽 번호표는 일반판 덱 기준이라 일반판에서만 그린다.
+            */}
+            {deckRange ? (
+              <p className={compactMeta ? "mt-1" : "mt-2"}>
+                <a
+                  href={`${basePath}${edition.portfolioPdfPath}#page=${deckRange.from}`}
+                  target="_blank"
+                  rel="noopener"
+                  className="inline-flex min-h-[44px] items-center text-small font-semibold text-ink-2 underline underline-offset-4"
+                >
+                  {t.deckPages(deckRange.from, deckRange.to)}
+                  <span aria-hidden="true">{"\u00a0↗"}</span>
+                  <span className="sr-only"> {t.newTab}</span>
+                </a>
+              </p>
             ) : null}
           </div>
         </Reveal>

@@ -17,7 +17,7 @@ export type CaseLedeKey = "problem" | "analysis" | "strategy" | "results" | "lea
 export const caseLedes: Record<string, Partial<Record<CaseLedeKey, string>>> = {
   jestina: {
     problem: "매출은 검색에 몰렸고 새 고객을 유입시킬 디스플레이 광고(DA)는 대행사별로 분산 운영되고 있었습니다.",
-    analysis: "재구매와 신규 고객을 떼어 보니 검색은 주로 이미 브랜드를 아는 고객을 데려오고 있었습니다.",
+    analysis: "재구매와 신규 고객을 떼어 보니 검색은 주로 이미 브랜드를 아는 고객을 유입시키고 있었습니다.",
     strategy: "인지·탐색·전환 단계마다 맡을 채널과 KPI를 따로 정했습니다.",
     results: "동일 마감보고 기준 GA4 ROAS가 5월 352%에서 7월 583%로 올랐습니다.",
     learning: "채널 효율 순위만 보면 예산은 계속 이미 아는 고객에게 갔습니다.",

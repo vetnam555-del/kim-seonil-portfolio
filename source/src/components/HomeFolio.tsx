@@ -177,6 +177,8 @@ function CaseCard({ p, no, size, lang }: { p: Project; no: number; size: "lg" | 
         <span className="folio-case-no">{String(no).padStart(2, "0")}</span>
         <span className="folio-tag">{meta.capability}</span>
         <span className="folio-case-brand">{p.brand}</span>
+        {/* 운영 기간(2026.10.24 레퍼런스 비교) — 카드만 보고도 언제 일인지 안다. "· 성과 산출 …" 같은 단서는 상세에 남긴다 */}
+        <span className="folio-case-period">{p.period.split("\u00a0·")[0].trim()}</span>
       </p>
       {meta.award ? <p className="folio-case-award">{meta.award}</p> : null}
       <h3 id={`case-title-${p.slug}`} className="folio-case-title">
@@ -308,6 +310,20 @@ export default function HomeFolio({ lang = "ko" }: { lang?: Lang }) {
             <p className="folio-brands">
               <span>{en ? coverEn.brandsLabel : generalCover.brandsLabel}</span>
               {en ? coverEn.brands : generalCover.brands}
+            </p>
+            {/* 다뤄 본 매체·도구 — 보유 역량 표의 이름을 줄인 것(2026.10.24). 수준은 링크 너머 표에 있다 */}
+            <dl className="folio-stack">
+              {(en ? coverEn.stack : generalCover.stack).map((s) => (
+                <div key={s.label}>
+                  <dt>{s.label}</dt>
+                  <dd>{s.items}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="folio-stack-more">
+              <Link href={(en ? coverEn.stackMore : generalCover.stackMore).href}>
+                {(en ? coverEn.stackMore : generalCover.stackMore).label} <span aria-hidden="true">→</span>
+              </Link>
             </p>
           </div>
           <ul id="records" className="folio-records" aria-label={ui.recordsAria}>

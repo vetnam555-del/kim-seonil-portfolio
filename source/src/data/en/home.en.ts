@@ -116,6 +116,13 @@ export const coverEn = {
   ],
   brandsLabel: "Brands",
   brands: "New Balance\u00a0· Dyson\u00a0· J.ESTINA\u00a0· Samsonite\u00a0· Hanssem\u00a0· Dongwon Mall\u00a0· KT alpha Shopping\u00a0· FUJIFILM BI\u00a0· Daekyo EduCamp\u00a0· Gangwon Deep Sea Water and more",
+  /* 한국어 stack 과 같은 항목 — 이름은 영문 이력서 skillsEn 표기를 따른다 */
+  stack: [
+    { label: "Media", items: "Naver SA·GFA\u00a0· Google Ads\u00a0· Meta\u00a0· Kakao\u00a0· Criteo and more" },
+    { label: "Analytics", items: "GA4\u00a0· GTM\u00a0· AppsFlyer\u00a0· Looker Studio" },
+    { label: "Automation", items: "Python\u00a0· Google Apps Script\u00a0· media & GA4 APIs" },
+  ],
+  stackMore: { label: "Skills by level", href: "/en/resume/#skills" },
 } as const;
 
 /** 첫 화면의 공개 기록 셋 — verification 의 heroScope 가 있는 항목과 같은 순서·링크 */

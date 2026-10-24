@@ -337,6 +337,17 @@ export const generalCover = {
   brandsLabel: "운영 브랜드",
   brands: "뉴발란스\u00a0· 다이슨\u00a0· 제이에스티나\u00a0· 쌤소나이트\u00a0· 한샘\u00a0· 동원몰\u00a0· KT알파쇼핑\u00a0· 후지필름BI\u00a0· 대교에듀캠프\u00a0· 강원심층수 외",
   /*
+   * 다뤄 본 매체·도구 (2026.10.24 레퍼런스 비교). 채용 공고는 매체 경험을 이름으로 묻는데, 홈에서는 사례를 열어야
+   * 담당 채널이 보였다. 항목은 모두 보유 역량 표(skills)에 있는 이름을 줄인 것이다 — 새 도구를 더하지 않는다.
+   * 설계·운영·활용 수준과 "구현에는 AI 도구를 쓴다"는 단서는 표에 있으므로 줄 끝 링크로 넘긴다.
+   */
+  stack: [
+    { label: "주요 매체", items: "네이버 SA·GFA\u00a0· Google Ads\u00a0· Meta\u00a0· Kakao\u00a0· Criteo 외" },
+    { label: "분석·측정", items: "GA4\u00a0· GTM\u00a0· AppsFlyer\u00a0· Looker Studio" },
+    { label: "자동화", items: "Python\u00a0· Google Apps Script\u00a0· 매체·GA4 API" },
+  ],
+  stackMore: { label: "수준별 역량 표", href: "/about/#skills" },
+  /*
    * 두 역량 — 제목의 앞 절과 뒤 절. 사례 목차 · SKILLS · HOW I WORK 가 같은 이름을 쓴다(2026.09.24).
    * 첫 화면이 역량 둘을 말하고 아래 섹션이 각자 다른 분류(3방식·4영역)를 쓰면 틀이 흩어져 읽혔다.
    */
@@ -1732,10 +1743,10 @@ export const automationCases: AutomationCase[] = [
   {
     no: "S3",
     name: "리포트 자동 생성 시스템",
-    builtShort: "매체 원본 3종을 붙여넣으면 대시보드·리포트·검수표가 생성됩니다.",
+    builtShort: "매체 원본 3종을 입력하면 대시보드·리포트·검수표가 생성됩니다.",
     homeEffect: "매체 별칭 38종\u00a0· 오디언스 82그룹 자동 매핑",
     problem: "데일리·위클리 리포트를 매번 수기로 작성하면서 매체 별칭과 오디언스 그룹을 사람이 매핑해야 했습니다.",
-    automated: "매체 원본 데이터(RAW) 3종을 붙여넣으면 대시보드·캠페인 리포트·검수표(QC)가 자동 생성됩니다. 매체 별칭 38종, 오디언스 82그룹을 자동 매핑합니다.",
+    automated: "매체 원본 데이터(RAW) 3종을 입력하면 대시보드·캠페인 리포트·검수표(QC)가 자동 생성됩니다. 매체 별칭 38종, 오디언스 82그룹을 자동 매핑합니다.",
     tools: ["Google Apps Script", "Google Sheets"],
     effect: "수기 작성 없이 리포트 자동 생성",
     /* 검수 기간과 생성 건수 원자료가 확인되기 전까지 '0건'의 분모를 임의로 만들지 않는다. */
