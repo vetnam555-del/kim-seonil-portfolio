@@ -160,7 +160,12 @@ await interaction("case-index", async () => {
 });
 await interaction("detail", async () => {
   const { page } = await open("/", 1440);
-  await Promise.all([page.waitForNavigation({ waitUntil: "networkidle0" }), page.click('#case-newbalance a[href$="/projects/newbalance/"]:not([aria-hidden="true"])')]);
+  /* 대표 사례 구간은 화면 가까이 와야 그려진다(content-visibility: auto · 2026.10.24 B-04). 스크롤과 같은 프레임에
+     누르면 아직 그려지지 않은 구간을 눌러 이동이 없다 — 사람처럼 카드를 화면에 띄우고 잠깐 뒤에 누른다.
+     사이트는 scroll-behavior: smooth 라 즉시 스크롤로 띄운다(부드러운 스크롤 도중에 누르면 빗나간다) */
+  const card = '#case-newbalance a[href$="/projects/newbalance/"]:not([aria-hidden="true"])';
+  await page.$eval(card, (a) => a.scrollIntoView({ block: "center", behavior: "instant" })); await sleep(400);
+  await Promise.all([page.waitForNavigation({ waitUntil: "networkidle0" }), page.click(card)]);
   const r = await page.evaluate(() => ({ path: location.pathname, h1: document.querySelector("h1")?.textContent.trim() }));
   await page.close();
   if (!r.path.endsWith("/projects/newbalance/") || !r.h1) throw new Error(JSON.stringify(r));

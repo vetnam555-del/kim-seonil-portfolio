@@ -79,6 +79,7 @@ const send = (method, params = {}) => new Promise((r) => { const id = ++reqId; p
  * 든 텍스트 노드만 고른 뒤 그 안에서만 잰다.
  */
 const PROBE = `(async()=>{
+  await Promise.race([window.__ksiFontsReady,new Promise(function(r){setTimeout(r,8000)})]);
   await document.fonts.ready;
   await new Promise(r=>setTimeout(r,250));
   const UNIT='%|시간|분|초|개|건|종|명|원|배|회|호|쪽|억|만|천|px|pt';
