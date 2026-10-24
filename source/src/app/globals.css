@@ -2076,7 +2076,7 @@ html[data-intro="reveal"] .folio-hero-strengths { animation: hero-rise-now .7s c
  * 1) 1024px 이상에서는 사진을 위쪽 기준으로 둔다. 96px 은 지금까지 가운데 정렬로 놓이던 위치(86–115px)의 가운데 값이다.
  * 2) 1280px 이상 한국어 홈은 글꼴이 오는 동안(html.fonts-pending — HomeFolio.tsx FONT_WAIT)만 그 두 줄을 한 줄로 묶는다.
  *    Pretendard 로는 원래 한 줄이다(제목 줄 633px / 칸 639px). 대체 서체 순간에만 오른쪽으로 넘칠 수 있고 높이는 그대로다.
- *    글꼴이 오거나 실패하거나 3초가 지나면 풀어, 글자만 키운 화면에서도 줄을 바꾼다. 영문은 원래 두 줄이라 묶지 않는다.
+ *    글꼴이 오거나 실패하거나 6초가 지나면 풀어, 글자만 키운 화면에서도 줄을 바꾼다. 영문은 원래 두 줄이라 묶지 않는다.
  */
 @media screen and (min-width: 1024px) {
   .folio-hero-photo { align-self: start; margin-top: 96px; }
