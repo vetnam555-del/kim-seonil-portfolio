@@ -157,7 +157,8 @@ add('퍼포먼스 캠페인 운영과 성과 분석이 핵심 전문성입니다
 page('학력·자격·수상 | 확인 가능한 기록')
 add('학력', 'h3')
 for e in D['education']:
-    add(e['school'] + ' | ' + e['major'] + ' | ' + e['period'], 'small')
+    # 전공 칸이 빈 줄(2026.10.24 숭실대 — 학교 이름만)은 칸을 건너뛴다
+    add(' | '.join(x for x in (e['school'], e['major'], e['period']) if x), 'small')
 add('자격·인증 취득 이력', 'h3')
 # 한 문단으로 잇는다 — 교육·활동이 늘어 6쪽으로 넘쳤다(2026.09.25). 웹 이력서 인쇄본과 같은 방식
 add(' · '.join(c['name'] + (' (' + c['when'] + ')' if c['when'] else '') for c in D['certifications']), 'small')

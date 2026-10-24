@@ -36,7 +36,7 @@ export const site = {
     "mailto:makefair@naver.com?subject=%EC%9D%B4%EB%A0%A5%EC%84%9C%20%EC%9B%90%EB%B3%B8%20%EC%9A%94%EC%B2%AD%EB%93%9C%EB%A6%BD%EB%8B%88%EB%8B%A4",
   /** 전화번호·주소·생년월일을 제외한 공개용 PDF */
   /* 2026.10.09 문장 다듬기 반영본(scripts/print_resume_reportlab.py) — 캐시를 넘기려고 판 번호를 올린다 */
-  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261022a" : "/kim-seonil-resume-public.pdf",
+  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261024a" : "/kim-seonil-resume-public.pdf",
   /** 일반 공개판에서 내려받는 웹 포트폴리오의 PDF 공유본 */
   portfolioPdfPath: isGeneralLike ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261022a" : "/kim-seonil-performance-marketing-portfolio.pdf",
 } as const;
@@ -1956,8 +1956,11 @@ export const education = [
    * 두 줄의 기간은 같다 — 같은 기간에 이수하고 학위를 받았다.
    */
   { period: "2014.03 – 2017.02", school: "학점은행제", major: "경영학전공\u00a0· 학사" },
-  /* 2026.10.15 두 줄 기간이 같아 겹쳐 보였다(외부 검토) — 숭실대 줄이 학점은행제 과정을 이수한 곳임을 적는다 */
-  { period: "2014.03 – 2017.02", school: "숭실대학교", major: "경영학\u00a0· 학점은행제 과정 이수" },
+  /*
+   * 2026.10.24 본인 결정 — 숭실대 줄은 학교 이름만 둔다("학점은행제 과정 이수"를 뺐다. 2026.10.15 외부 검토로 더했던 것).
+   * 학위는 바로 위 학점은행제 줄에 있다. major 가 빈 줄은 화면·인쇄·이력서 PDF 에서 전공 칸을 그리지 않는다.
+   */
+  { period: "2014.03 – 2017.02", school: "숭실대학교", major: "" },
 ] as const;
 
 export const educationCaption =
