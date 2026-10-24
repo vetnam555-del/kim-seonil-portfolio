@@ -153,18 +153,6 @@ function Metric({ p, meta, ui }: { p: Project; meta: CardMeta; ui: UIText }) {
   );
 }
 
-/*
- * 데스크톱 홈 CLS (2026.10.24 B-01). Pretendard 가 오는 동안만 html 에 fonts-pending 을 붙인다 — 그동안 제목 아래 한국어 줄과
- * 수치 단서를 한 줄로 묶어(globals.css) 대체 서체로 두 줄이 됐다가 한 줄로 돌아오며 화면이 밀리지 않게 한다.
- * 글꼴이 오거나 실패하거나 6초가 지나면 푼다 — 그 뒤로는 글자만 키운 화면에서도 평소처럼 줄을 바꾼다(자비스 339eec8 비차단 의견).
- * 6초는 2026.10.24 B-04 에서 늘렸다 — 글꼴 preload 를 빼 글꼴 요청이 늦게 시작하자, 3초 안에 못 받은 경우 먼저 풀렸다가
- * 글꼴이 오며 다시 한 줄이 돼 두 번 밀렸다(글꼴 1.5초 지연 재현 CLS 0.207). 실패하면 기다리지 않고 바로 푼다.
- * 제목 줄은 Black(900, font-weight 800 이 고르는 면), 수치 단서는 Regular(400)다. 두 면이 이미 받아져 있으면 붙이지 않는다.
- * document.fonts.check() 는 쓰지 않는다 — Chromium 은 아직 받지 않은 면에도 true 를 돌려줘(2026.10.24 확인) 표시가
- * 한 번도 붙지 않았다. 면마다 status 를 보고 FontFace.load() 로 기다린다.
- */
-const FONT_WAIT = `(function(){try{var d=document.documentElement,f=document.fonts,w=[];if(!f||!f.forEach)return;f.forEach(function(x){if(x.family.indexOf("Pretendard")>-1&&(x.weight=="900"||x.weight=="400")&&x.status!=="loaded")w.push(x)});if(!w.length)return;d.classList.add("fonts-pending");var done=function(){d.classList.remove("fonts-pending")};Promise.all(w.map(function(x){return x.load()})).then(done,done);setTimeout(done,6000)}catch(e){}})();`;
-
 function CaseCard({ p, no, size, lang }: { p: Project; no: number; size: "lg" | "sm"; lang: Lang }) {
   const ui = UI[lang];
   const meta = (lang === "en" ? caseCardsEn : CARD)[p.slug];
@@ -235,8 +223,6 @@ export default function HomeFolio({ lang = "ko" }: { lang?: Lang }) {
     <div className="folio">
       {/* 첫 방문 인트로 — 같은 탭에서 한 번만, 클릭·스크롤로 건너뜀 (IntroSplash.tsx) */}
       <IntroSplash lang={lang} />
-      {/* 글꼴 도착 표시 (2026.10.24 B-01) — Pretendard 가 오는 동안만 html.fonts-pending. globals.css 의 B-01 주석 참고 */}
-      <script dangerouslySetInnerHTML={{ __html: FONT_WAIT }} />
       {/* ── 표지 ─────────────────────────────────────────── */}
       <section id="hero" className="folio-hero">
         <div className="folio-wrap folio-hero-grid">

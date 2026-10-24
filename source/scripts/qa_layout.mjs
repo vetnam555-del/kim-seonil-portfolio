@@ -116,6 +116,7 @@ socket.addEventListener("close", () => {
  */
 const PROBE = `(async()=>{
   document.querySelectorAll('img').forEach(i=>{i.loading='eager'});
+  await Promise.race([window.__ksiFontsReady,new Promise(function(r){setTimeout(r,8000)})]);
   await document.fonts.ready;
   const root=document.documentElement;
   for(let y=0;y<root.scrollHeight;y+=700){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,20));}

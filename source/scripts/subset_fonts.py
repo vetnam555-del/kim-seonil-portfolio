@@ -161,6 +161,16 @@ def main():
     if axes != {k: (float(v[0]), float(v[1])) for k, v in ARCHIVO_AXES.items()}:
         print("  FAIL %-30s 가변축 범위가 다름: %s" % (ARCHIVO, axes))
         failed = True
+    # 원본 Archivo 가 가진 렌더 문자는 서브셋에도 모두 있어야 한다(자비스 5019b4b 비차단 의견, 2026.10.24).
+    # 없는 문자는 Pretendard 로 넘어가 같은 줄 안에서 서체가 갈린다 — 경고가 아니라 실패로 센다.
+    archivo_orig = cmap_of(os.path.join(SRC, ARCHIVO))
+    archivo_sub = set()
+    for t in archivo["cmap"].tables:
+        archivo_sub.update(t.cmap.keys())
+    lost = sorted(ch for ch in page if ord(ch) in archivo_orig and ord(ch) not in archivo_sub)
+    if lost:
+        print("  FAIL %-30s 원본에 있는 렌더 문자 %d자 누락: %s" % (ARCHIVO, len(lost), " ".join("%s(U+%04X)" % (ch, ord(ch)) for ch in lost)))
+        failed = True
     for name in [ARCHIVO] + PASSTHROUGH:
         path = os.path.join(OUT, name)
         if not os.path.exists(path):

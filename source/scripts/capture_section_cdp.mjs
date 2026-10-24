@@ -82,6 +82,7 @@ try {
   const preparation = await send("Runtime.evaluate", {
     expression: `(async()=>{
       document.querySelectorAll('img').forEach((image)=>{image.loading='eager';});
+      await Promise.race([window.__ksiFontsReady,new Promise(function(r){setTimeout(r,8000)})]);
       await document.fonts.ready;
       const root=document.documentElement;
       root.style.scrollBehavior='auto';
