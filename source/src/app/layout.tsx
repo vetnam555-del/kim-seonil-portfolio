@@ -1,5 +1,4 @@
 ﻿import type { Metadata, Viewport } from "next";
-import { preload } from "react-dom";
 import { MotionRuntime } from "@/components/MotionRuntime";
 import ContentProtection from "@/components/ContentProtection";
 import Header from "@/components/Header";
@@ -128,47 +127,16 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-/**
- * 첫 화면에서 실제로 쓰이는 것만 preload 한다. 나머지는 font-display: swap 에 맡긴다.
- * '실제로 쓰이는' 은 짐작이 아니라 측정이다 — 히어로 안에서 쓰이는 서체·굵기를 재서 고른다.
- *
- * <link rel="preload"> 를 JSX 로 직접 쓰면 태그가 두 벌 나간다 — React 19 는 그 엘리먼트를
- * head 로 hoist 하면서 자기 리소스 레지스트리에도 등록해, 같은 woff2 가 8개(4×2) 선언됐다.
- * (head 안에 쓰든 body 에 쓰든 같다.) react-dom 의 preload() 는 레지스트리에만 등록되므로
- * 정확히 한 벌만 출력된다.
+/*
+ * 글꼴 preload 를 두지 않는다 (2026.10.24 B-04). 전에는 Pretendard 4종과 JetBrains Mono 를 preload 했는데,
+ * Chromium 은 preload 한 글꼴이 오기를 잠깐 기다리느라 첫 그림을 미룬다 — 글꼴을 1.5초 늦춘 재현에서
+ * 첫 그림이 128ms → 540ms 로 밀렸고, 라이브 모바일 Lighthouse 는 FCP 2.2s · LCP 5.9s(성능 70–72)였다.
+ * 첫 화면 수치용 Archivo 는 원래 preload 하지 않았다. 지금은 모두 font-display: swap 으로 대체 서체가 먼저 그려지고,
+ * 데스크톱 홈에서 글꼴이 바뀌며 생기던 밀림은 HomeFolio.tsx FONT_WAIT(html.fonts-pending)이 막는다.
+ * 2026-09-12 의 preload 순서 메모(Archivo 는 첫 화면 밖 · Black 은 "김선일")는 그때 판단이고, 첫 그림을
+ * 막는 비용이 더 커서 preload 자체를 뺐다.
  */
-const PRELOAD_FONTS = [
-  /*
-   * Archivo 는 여기 없다. 2026-09-12 에 라이브를 재어 보니 이 목록이 첫 화면과 어긋나 있었다 —
-   * Archivo 는 88KB 로 가장 큰데 첫 등장이 y=967px 이라 히어로(끝 703px) 안에 없다.
-   * 89군데에서 쓰이지만 전부 수치 표시(352% · 583% · 0.66%)라 스크롤을 내려야 나온다.
-   * 반대로 Pretendard-Black 은 y=225px 의 "김선일" 이 쓰는데 목록에 없어서 780ms 가 아니라
-   * 1131ms 에 시작했다. 화면에 없는 것을 먼저 당기고, 가장 큰 글자를 가장 늦게 받고 있었다.
-   * font-display:swap 이라 글자가 안 보이진 않지만 그 350ms 동안 대체 서체로 그려지다 바뀐다.
-   * 총 전송량은 그대로다. 순서만 바꾼다.
-   */
-  "Pretendard-Regular",
-  "Pretendard-SemiBold",
-  "Pretendard-Bold",
-  "Pretendard-Black",
-  /*
-   * 모노는 빠져 있었다. 그런데 이 사이트에서 가장 많이 쓰이는 서체다 —
-   * 1440px 홈에서 12px 모노 텍스트가 402개로 전체의 절반을 넘고, 마스트헤드·바이라인·
-   * 귀속 단서·챕터 밴드가 전부 첫 화면 안에 있다. 31KB 로 가장 가벼운데
-   * swap 에 맡겨 두면 첫 화면에서 가장 많은 글자가 한 번 다시 그려진다.
-   */
-  "JetBrainsMono-Var",
-];
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  PRELOAD_FONTS.forEach((font) =>
-    preload(`${basePath}/fonts/${font}.woff2`, {
-      as: "font",
-      type: "font/woff2",
-      crossOrigin: "anonymous",
-    }),
-  );
-
   return (
     /* data-intro 는 홈의 인트로 판정 스크립트가 하이드레이션 전에 붙인다(IntroSplash.tsx) — 그 차이만 넘긴다 */
     <html lang="ko" data-edition={EDITION} suppressHydrationWarning>
@@ -188,7 +156,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               ),
               /* 수치 전용 가변 서체. wdth 축이 살아 있어 큰 수치를 Expanded 로 뽑을 수 있다.
                  라틴·숫자만 쓰므로 한글 서브셋과 달리 파일이 작다. */
-              `@font-face{font-family:"Archivo";src:url("${basePath}/fonts/Archivo-Var.woff2") format("woff2-variations");font-weight:100 900;font-stretch:62% 125%;font-display:swap}`,
+              /* 2026.10.24 B-04 — 파일을 쓰는 범위(굵기 600–900 · 폭 100–125%)만 남겨 90KB → 26KB(scripts/subset_fonts.py ARCHIVO_AXES). 선언 범위도 같이 */
+              `@font-face{font-family:"Archivo";src:url("${basePath}/fonts/Archivo-Var.woff2") format("woff2-variations");font-weight:600 900;font-stretch:100% 125%;font-display:swap}`,
               /* 라벨·기간·출처·각주. 시스템 모노는 플랫폼마다 폭이 달라 표가 흔들렸다. */
               `@font-face{font-family:"JetBrains Mono";src:url("${basePath}/fonts/JetBrainsMono-Var.woff2") format("woff2-variations");font-weight:100 800;font-display:swap}`,
             ].join(""),

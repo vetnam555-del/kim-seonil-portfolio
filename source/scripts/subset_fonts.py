@@ -19,6 +19,7 @@ import sys
 
 from fontTools.subset import Options, Subsetter
 from fontTools.ttLib import TTFont
+from fontTools.varLib import instancer
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "public", "fonts", "original")
@@ -32,10 +33,15 @@ WEIGHTS = [
     "Pretendard-Black.woff2",
 ]
 
-# 라틴·숫자 전용 가변 서체는 서브셋하지 않고 그대로 통과시킨다.
-# fontTools 서브셋은 가변축(fvar/gvar)을 다루다 wdth 축을 잃을 수 있는데,
-# 이 둘은 이미 구글이 라틴 서브셋으로 제공한 파일이라 각각 90KB/31KB로 충분히 작다.
-PASSTHROUGH = ["Archivo-Var.woff2", "JetBrainsMono-Var.woff2"]
+# JetBrains Mono 는 구글이 라틴 서브셋으로 제공한 31KB 파일이라 그대로 통과시킨다.
+PASSTHROUGH = ["JetBrainsMono-Var.woff2"]
+
+# Archivo 는 가변축 범위를 줄이고 렌더 문자만 남긴다 (2026.10.24 B-04 · 90KB → 26KB).
+# 사이트 전체에서 쓰는 값은 굵기 700·800, 폭 112–125% 다(모든 쪽 · 390/1440px 실측). 여유를 두어 600–900 · 100–125 를 남긴다.
+# 축을 지우지 않고 범위만 줄이므로(varLib.instancer) wdth 축은 그대로다 — 예전 메모의 "wdth 축을 잃을 수 있다"는
+# 서브셋만 할 때의 걱정이었다. 범위를 바꾸면 layout.tsx 의 @font-face font-weight · font-stretch 도 같이 바꾼다.
+ARCHIVO = "Archivo-Var.woff2"
+ARCHIVO_AXES = {"wght": (600, 900), "wdth": (100, 125)}
 
 TAG_RE = re.compile(r"<(script|style)[^>]*>.*?</\1>", re.S | re.I)
 ATTR_RE = re.compile(r'(?:aria-label|alt|title|content|placeholder)="([^"]*)"')
@@ -100,6 +106,23 @@ def main():
             after = os.path.getsize(dst)
             total += after
             print("  %-30s %8d -> %7d bytes (%d%%)" % (name, before, after, after * 100 // before))
+        font = instancer.instantiateVariableFont(TTFont(os.path.join(SRC, ARCHIVO)), ARCHIVO_AXES)
+        o = Options()
+        o.flavor = "woff2"
+        o.layout_features = ["*"]
+        o.name_IDs = ["*"]
+        o.notdef_outline = True
+        ss = Subsetter(options=o)
+        ss.populate(text=text)
+        ss.subset(font)
+        dst = os.path.join(OUT, ARCHIVO)
+        font.flavor = "woff2"
+        font.save(dst)
+        shutil.copy2(dst, os.path.join(DEPLOY_OUT, ARCHIVO))
+        before = os.path.getsize(os.path.join(SRC, ARCHIVO))
+        after = os.path.getsize(dst)
+        total += after
+        print("  %-30s %8d -> %7d bytes (%d%% · 축 %s)" % (ARCHIVO, before, after, after * 100 // before, ARCHIVO_AXES))
         for name in PASSTHROUGH:
             src = os.path.join(SRC, name)
             dst = os.path.join(OUT, name)
@@ -133,7 +156,12 @@ def main():
     # 화살표는 Pretendard 로 렌더된다(= 한글과 같은 서체라 오히려 정합적이다).
     # 여기 넣어두면 고칠 수 없는 경고가 매 빌드마다 찍혀 진짜 경고를 가린다.
     LATIN_NEEDED = "0123456789,.%+-/"
-    for name in PASSTHROUGH:
+    archivo = TTFont(os.path.join(OUT, ARCHIVO))
+    axes = {a.axisTag: (a.minValue, a.maxValue) for a in archivo["fvar"].axes} if "fvar" in archivo else {}
+    if axes != {k: (float(v[0]), float(v[1])) for k, v in ARCHIVO_AXES.items()}:
+        print("  FAIL %-30s 가변축 범위가 다름: %s" % (ARCHIVO, axes))
+        failed = True
+    for name in [ARCHIVO] + PASSTHROUGH:
         path = os.path.join(OUT, name)
         if not os.path.exists(path):
             print("  FAIL %-30s 파일 없음" % name)
@@ -146,7 +174,7 @@ def main():
         else:
             print("  OK   %-30s 글리프 %d자 · 숫자/기호 완비" % (name, len(c)))
 
-    for name in WEIGHTS + PASSTHROUGH:
+    for name in WEIGHTS + [ARCHIVO] + PASSTHROUGH:
         source_font = os.path.join(OUT, name)
         deploy_font = os.path.join(DEPLOY_OUT, name)
         if not os.path.exists(deploy_font):
