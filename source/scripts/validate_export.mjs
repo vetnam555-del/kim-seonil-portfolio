@@ -1,5 +1,7 @@
+import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, extname, join, relative, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const requestedEdition = process.argv[2];
 const edition = ["general", "hll", "shinsegae", "ably", "v260908", "nw"].includes(requestedEdition)
@@ -155,6 +157,25 @@ for (const pdfName of ["kim-seonil-resume-public.pdf", deckPdf]) {
 }
 for (const asset of requiredAssets) {
   if (!existsSync(join(root, asset))) failures.push(`필수 자산 없음: ${asset}`);
+}
+
+/*
+ * 사례 상세의 "포트폴리오 PDF n–m쪽" 링크가 쓰는 쪽 번호표가 실제 덱과 맞는지 (2026.10.24).
+ * 덱을 다시 구워 쪽이 밀리면 링크가 다른 사례를 가리킨다. 일반판 덱에만 표가 있다.
+ * pypdf 가 없는 PC 에서는 검사를 건너뛰고 알린다(실패로 세지 않는다 — 클라우드 검수에서는 돈다).
+ */
+if (edition === "general" && existsSync(join(root, deckPdf))) {
+  const scriptsDir = dirname(fileURLToPath(import.meta.url));
+  const python = process.platform === "win32" ? "py" : "python3";
+  const check = spawnSync(
+    python,
+    [join(scriptsDir, "check_deck_pages.py"), join(root, deckPdf), join(scriptsDir, "..", "src", "data", "deck-pages.json")],
+    { encoding: "utf8" },
+  );
+  const output = `${check.stdout ?? ""}${check.stderr ?? ""}`.trim();
+  if (check.status === 0) console.log(output);
+  else if (check.status === 3 || check.error) console.warn(`  WARN 덱 쪽 번호 검사 건너뜀 — ${output || check.error?.message}`);
+  else failures.push(`덱 쪽 번호표가 PDF 와 다름: ${output.replace(/\n/g, " / ")}`);
 }
 
 const homeOnly = existsSync(join(root, "index.html")) ? flat(readFileSync(join(root, "index.html"), "utf8")) : "";

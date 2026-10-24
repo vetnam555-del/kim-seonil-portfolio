@@ -1587,6 +1587,7 @@ html:has(.evidence-inline:target) {
 .folio-case-no { font-weight: 700; color: #646d76; font-variant-numeric: tabular-nums; }
 .folio-tag { padding: 4px 10px; border-radius: 999px; background: #f1f2f4; font-weight: 700; color: #3a4148; }
 .folio-case-brand { font-weight: 700; color: #0f1216; }
+.folio-case-period { color: #646d76; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .folio-case-title { margin-top: 12px; font-size: 24px; line-height: 1.4; font-weight: 800; letter-spacing: -0.02em; }
 .folio-case-sm .folio-case-title { font-size: 19px; }
 .folio-case-title a:hover { text-decoration: underline; text-underline-offset: 5px; }
@@ -1943,6 +1944,14 @@ html:has(.evidence-inline:target) {
 .folio-career li strong + span { font-size: 15px; line-height: 1.7; color: #4a525b; }
 .folio-brands { margin-top: 24px; font-size: 14.5px; line-height: 1.7; color: #4a525b; }
 .folio-brands > span { margin-right: 12px; font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--color-signal); }
+/* 다뤄 본 매체·도구(2026.10.24) — 운영 브랜드 줄과 같은 꼴로 세 줄. 라벨 뒤에 글자가 이어지고 넘치면 아래로 흐른다 */
+.folio-stack { margin: 6px 0 0; font-size: 14.5px; line-height: 1.7; color: #4a525b; }
+.folio-stack > div { margin: 0; }
+.folio-stack dt { display: inline; margin-right: 12px; font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--color-signal); }
+.folio-stack dd { display: inline; margin: 0; }
+.folio-stack-more { margin-top: 6px; font-size: 13px; }
+.folio-stack-more a { color: #4a525b; text-decoration: underline; text-underline-offset: 3px; }
+.folio-stack-more a:hover { color: var(--color-ink, #111); }
 .folio-case-award { margin-top: 10px; display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700; color: var(--color-signal); }
 .folio-case-award::before { content: ""; width: 6px; height: 6px; border-radius: 999px; background: currentColor; }
 /* 폰에서는 세 칸을 한 줄씩 — 값 | 이름·기준. 390px 에서 세 칸이 나란히 서면 이름이 세 줄로 접혔다 */
