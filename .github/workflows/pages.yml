@@ -33,11 +33,11 @@ jobs:
           mkdir -p "$site"
           tar -cf - \
             --exclude=./.git --exclude=./.github --exclude=./.claude --exclude=./source \
-            --exclude=./CLAUDE.md --exclude=./README.md --exclude=./.gitignore --exclude=./.gitattributes \
+            --exclude=./AGENTS.md --exclude=./CLAUDE.md --exclude=./README.md --exclude=./.gitignore --exclude=./.gitattributes \
             . | tar -xf - -C "$site"
           # 빌드 결과가 있어야 하고, 원본·작업 메모는 없어야 한다
           test -f "$site/index.html"
-          for p in source .claude .github CLAUDE.md README.md; do
+          for p in source .claude .github AGENTS.md CLAUDE.md README.md; do
             if [ -e "$site/$p" ]; then echo "::error::$p must not be published"; exit 1; fi
           done
           if find "$site" -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.mjs' -o -name '*.py' -o -name '*.md' \) | grep -q .; then

@@ -13,6 +13,9 @@ Next.js 16 주의사항은 `source/AGENTS.md` 에 있다. 코드를 고치기 �
 **작업 매뉴얼은 `.claude/skills/portfolio-steward/SKILL.md`, 할 일·점수표·정해 둔 결정은 `source/BACKLOG.md` 다.**
 새 성과 추가·문구 수정·점검 결과 처리·배포는 매뉴얼 순서를 따르고, 끝나면 백로그를 고친다.
 
+**Claude 사용량이 바닥나면 코덱스(자비스)가 이어받는다(2026-10-25).** 지금 하던 일은 늘 `source/HANDOFF.md` 에 남기고
+단계마다 작업 브랜치에 push 한다. 코덱스가 읽는 안내는 루트 `AGENTS.md`, 넘기는 규칙은 매뉴얼 12절이다.
+
 ## 고치고 배포하는 순서
 
 1. `source/src/…` 를 고친다. 문구·수치는 대부분 `source/src/data/` 에 있다.
@@ -24,7 +27,7 @@ Next.js 16 주의사항은 `source/AGENTS.md` 에 있다. 코드를 고치기 �
    ```
    - 빌드는 `scripts/build_edition.mjs general` 이다. 검토된 이력서 PDF(`public/kim-seonil-resume-public.pdf`)는 그대로 둔다.
    - 출력 끝의 **[글자 바뀜]** 목록이 의도한 변경과 맞는지 확인한다.
-   - 루트에서 지키는 것은 `.git` `.github` `.claude` `.gitignore` `CLAUDE.md` `README.md` `source` 뿐, 나머지는 빌드 결과로 바뀐다.
+   - 루트에서 지키는 것은 `.git` `.github` `.claude` `.gitignore` `AGENTS.md` `CLAUDE.md` `README.md` `source` 뿐, 나머지는 빌드 결과로 바뀐다.
 3. `npm run typecheck` 와 `node scripts/qa_release.mjs` 로 정적 검수를 돌린다.
    - 외부 링크 확인(G16)은 403·429 를 경고로만 남긴다(사이트가 자동 요청을 막는 것). 다른 항목이 모두 통과하면 정상이다.
    - 출시 승인(RELEASE_PASS)은 `scripts/runtime_evidence.mjs` 로 브라우저 증거를 만든 뒤 `qa_release --approve` 로 받는다(매뉴얼 3절).

@@ -19,7 +19,7 @@ import { fileURLToPath } from "node:url";
 const source = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const site = dirname(source);
 const out = join(source, "out");
-const KEEP = new Set([".git", ".github", ".claude", ".gitignore", "CLAUDE.md", "README.md", "source"]);
+const KEEP = new Set([".git", ".github", ".claude", ".gitignore", "AGENTS.md", "CLAUDE.md", "README.md", "source"]);
 const args = process.argv.slice(2);
 const checkOnly = args.includes("--check");
 
