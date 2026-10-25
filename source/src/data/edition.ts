@@ -89,7 +89,7 @@ export const portfolioPdfPathForClient =
   EDITION === "ably"
     ? "/kim-seonil-ably-growth-portfolio.pdf"
     : isGeneralLike
-      ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261022a"
+      ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261025a"
       : "/kim-seonil-performance-marketing-portfolio.pdf";
 
 export const isHLL = EDITION === "hll";
@@ -250,7 +250,7 @@ const COPY: Record<Exclude<Edition, "v260908" | "nw">, EditionCopy> = {
     ogAlt: "김선일 퍼포먼스 마케터 포트폴리오",
     caseDescription:
       "문제 정의부터 측정 기준, 운영 시스템까지의 판단 과정을 근거와 함께 담은 퍼포먼스 마케팅 사례입니다.",
-    portfolioPdfPath: "/kim-seonil-performance-marketing-portfolio.pdf?v=20261022a",
+    portfolioPdfPath: "/kim-seonil-performance-marketing-portfolio.pdf?v=20261025a",
     url: "https://vetnam555-del.github.io/kim-seonil-portfolio/",
     showWhyStudio: false,
     showWhyShinsegae: false,
