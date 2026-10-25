@@ -124,13 +124,18 @@ node scripts/qa_release.mjs --approve --runtime=artifacts/release/runtime/runtim
 ## 7. 포트폴리오 PDF (덱) 다시 굽기
 
 덱 생성기(pptxgenjs `v3/*.js`)는 이 공개 저장소에 없다. Google Drive `코덱스/portfolio-deck-v2` 에 원본이 있고,
-클라우드 수정분은 같은 폴더의 패치 세 개다(2026-10-10 part1·part2, 2026-10-15 part3 — 리멤버 합류).
+클라우드 수정분은 같은 폴더의 패치 네 개다(2026-10-10 part1·part2, 2026-10-15 part3 — 리멤버 합류,
+2026-10-25 part4 — 실측 줄 수로 상자 높이·구역 간격, 줄바꿈 위치, `qa/measure_lines.py` · `qa/qa_breaks.py`).
+이름에 `superseded` 가 붙은 패치는 쓰지 않는다.
 
 1. Drive 에서 `v3/` · `img/` · `post_pptx.py` · `finalize_v3.py` · `qa/` 와
-   `portfolio-deck-v3-cloud-20261010-part1.patch` · `part2.patch` · `portfolio-deck-v3-cloud-20261015-part3.patch` 를 받는다.
-2. 원본의 CRLF 를 LF 로 바꾼 뒤 덱 폴더에서 `patch -p1 < part1.patch`, `part2.patch`, `part3.patch` 순서로 적용한다.
-3. `source/README.md` "포트폴리오 PDF" 절의 명령으로 굽는다(`deck_lo_pdf.py` · `deck_pdf_tags.py` 는 이 저장소 `source/scripts/`).
+   `portfolio-deck-v3-cloud-20261010-part1.patch` · `part2.patch` · `portfolio-deck-v3-cloud-20261015-part3.patch` ·
+   `portfolio-deck-v3-cloud-20261025-part4.patch` 를 받는다.
+2. 원본의 CRLF 를 LF 로 바꾼 뒤 덱 폴더에서 `patch -p1 < part1.patch`, `part2.patch`, `part3.patch`, `part4.patch` 순서로 적용한다.
+3. `bash build3_cloud.sh` 로 굽는다(명령은 `source/README.md` "포트폴리오 PDF" 절 · 실측 줄 수가 바뀌면 스스로 한 번 더 굽는다).
+   `qa_boxes` 넘침 0 · `qa_breaks` 줄바꿈 결함 0 이어야 한다. 줄바꿈은 문구 안 "\n" 으로만 고치고 문구는 바꾸지 않는다.
 4. 쪽별 글자를 이전 PDF 와 비교하고, `site.ts` · `edition.ts` 의 `portfolioPdfPath` `?v=` 를 올린다.
+   `python3 scripts/check_deck_pages.py public/kim-seonil-performance-marketing-portfolio.pdf src/data/deck-pages.json` 로 사례 쪽 번호표도 확인한다.
 
 비공개 원본 저장소(BACKLOG O-03)가 생기면 덱 원본을 거기로 옮기고 이 절을 고친다.
 

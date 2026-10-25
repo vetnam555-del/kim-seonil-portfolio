@@ -114,9 +114,18 @@ apt-get install -y --no-install-recommends libreoffice-impress   # 기본 이미
 node v3/gen3.js                                   # deck3.pptx · toc3.json · boxes3.json
 python3 post_pptx.py deck3.pptx deck3.pptx        # 글자 언어 ko-KR
 python3 <저장소>/source/scripts/deck_lo_pdf.py deck3.pptx deck3_lo.pdf
+python3 qa/measure_lines.py deck3_lo.pdf boxes3.json measured.json   # 종료 코드 3 이면 위 세 줄을 한 번 더
 python3 qa/qa_boxes.py deck3_lo.pdf boxes3.json qa3/png
+python3 qa/qa_breaks.py deck3_lo.pdf boxes3.json  # 단어 중간 줄바꿈 · 짧은 끝줄
 python3 finalize_v3.py deck3_lo.pdf final3.pdf     # 책갈피 · 목차 쪽 이동 · 태그 보강 · 메타데이터
 ```
+
+덱 폴더의 `build3_cloud.sh` 가 이 순서를 한 번에 한다.
+
+- 글 높이는 생성기가 글자 수로 추정하는데 실제보다 7–8% 넓게 잡는다. '배운 것' 상자 · 판단 과정 구역 · 역할 구분 칸은
+  `measure_lines.py` 가 PDF 에서 잰 줄 수(`measured.json`)로 높이를 정한다. 문구가 바뀌면 그 칸만 추정으로 돌아가므로
+  두 번 굽는다(2026.10.25).
+- 줄바꿈 위치는 문구 안 "\n" 으로만 지정한다(글머리표 안에서는 같은 글머리표의 줄바꿈). 문구 자체는 바꾸지 않는다.
 
 - LibreOffice 는 한글과 숫자·영문·가운뎃점 사이에 간격을 자동으로 넣는다(text-autospace). `deck_lo_pdf.py` 가 ODP 를 거쳐 이 간격을 끄고, 이미지는 PowerPoint 내보내기처럼 220ppi · 품질 80 으로 줄인다.
 - 접근성 태그: `deck_lo_pdf.py` 가 태그 PDF(UseTaggedPDF)로 내보내고 한국어 로캘로 실행해 문서 언어를 ko-KR 로 만든다.
@@ -125,7 +134,7 @@ python3 finalize_v3.py deck3_lo.pdf final3.pdf     # 책갈피 · 목차 쪽 이
   장식 도형 빈 Alt 를 보강한다. 태그·MarkInfo·ko 언어가 없거나 그림 Alt 에 파일 경로가 남으면 멈춘다.
   그림 Alt 는 덱 생성기 `v3/lib.js` 의 `ALT` 표에 적는다(빠지면 생성 단계에서 멈춘다).
 - ODP 의 서양 문자 언어를 ko 로 바꾸지 않는다 — 영문 단어(GPS·Contest)가 중간에서 끊긴다.
-- `qa_boxes.py` 의 '3pt 넘침' 몇 건은 LibreOffice 와 PowerPoint 의 줄 높이 차이다. 화면에서 다른 요소와 겹치지 않는지 쪽마다 눈으로 확인한다.
+- `qa_boxes.py` 의 '3pt 넘침'은 LibreOffice 와 PowerPoint 의 줄 높이 차이일 때가 있다. 2026.10.25 판은 0건이다. 화면에서 다른 요소와 겹치지 않는지 쪽마다 눈으로 확인한다.
 - 바꾼 뒤 이전 PDF 와 쪽별 글자를 비교해 의도한 곳만 바뀌었는지 보고, `site.ts` · `edition.ts` 의 `portfolioPdfPath` `?v=` 판 번호를 올린다.
 
 ## 폰트
