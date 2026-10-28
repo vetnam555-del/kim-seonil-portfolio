@@ -13,6 +13,7 @@ description: 김선일 포트폴리오를 고치고·검수하고·배포하고�
 1. `source/BACKLOG.md` 를 읽는다 — 점수표, 할 일(B-·R-), 주인 확인(O-), **정해 둔 것**(다시 바꾸지 않는 결정).
 2. 세션이 정해 준 작업 브랜치에서 일한다. 다른 브랜치에 push 하지 않는다.
 3. main 은 라이브다. main 에는 아래 6절 순서(자비스 검토 → PR 합치기)로만 들인다.
+4. `source/HANDOFF.md` 를 읽는다. 담당이 `codex` 이고 "진행 중"이면 코덱스가 하던 일이다 — 주인에게 묻고 이어받는다(12절).
 
 ## 1. 새 성과 추가 (대화로 받는다)
 
@@ -180,3 +181,21 @@ node scripts/qa_release.mjs --approve --runtime=artifacts/release/runtime/runtim
   컨테이너의 프록시 CA 를 Chromium 인증서 저장소에 넣는 것이다. TLS 검증을 끄거나 프록시 설정을 지우지 않는다.
 - 덱을 구우려면 `apt-get install -y --no-install-recommends libreoffice-impress` 와 Pretendard TTF(`~/.fonts`, `fc-cache -f`)가 필요하다.
 - `pkill -f <패턴>` 은 자기 셸까지 끝낼 수 있다. 서버는 PID 로 끈다.
+
+## 12. 코덱스(자비스)로 넘기기 (2026-10-25 주인 결정)
+
+Claude 사용량이 바닥나 멈추면 코덱스가 이어서 한다. 코덱스가 읽는 안내는 루트 `AGENTS.md`, 넘길 내용은 `source/HANDOFF.md` 다.
+Claude 는 한도에 걸리는 순간 아무것도 못 하므로, **언제 멈춰도 이어받을 수 있게** 평소에 남겨 둔다.
+
+1. 일을 시작할 때 HANDOFF 의 담당을 `claude`, 상태를 "진행 중"으로 바꾸고 주인 요청 요지와 다음 단계를 적는다.
+2. 한 단계가 끝날 때마다(원본 수정 · 빌드 · 검수 · PR) HANDOFF 를 고쳐 작업 브랜치에 push 한다.
+   중간 커밋은 원본만 바뀌어도 된다. PR 을 합치기 전 마지막 커밋에서 원본과 루트 빌드 결과를 맞춘다.
+   스크래치 폴더에만 있는 것(덱 작업본 등)은 코덱스가 볼 수 없다 — 이어받는 데 필요하면 Drive 에 올리고 HANDOFF 에 적는다.
+3. 멈출 것을 미리 알면(주인이 넘기라고 할 때) 열린 PR 에 `jarvis-handoff-request:v1` 댓글을 단다(형식은 `AGENTS.md`).
+   이 댓글로 코덱스가 저절로 시작하려면 주인 PC 의 자비스 감시가 이 표시도 받도록 설정돼 있어야 한다.
+4. 일이 끝나면 HANDOFF 를 "끝" · 담당 `없음` 으로 두고 다음 할 일을 적는다. PR 을 합친 뒤라면 작업 브랜치를 main 에 맞춘 다음
+   HANDOFF 만 고친 커밋을 작업 브랜치에 push 한다(PR 없이 — 다음 PR 에 같이 실린다). 코덱스는 작업 브랜치의 HANDOFF 를 읽는다.
+
+- 코덱스가 만든 커밋은 자비스 검토 대신 Claude 가 교차 검토한다: diff 를 읽고, 정적 검수와 RELEASE_PASS 를 다시 돌리고,
+  결과를 주인에게 알린 뒤 6절 순서로 합친다. 코덱스는 `main` 에 직접 합치지 않는다(주인이 합치라고 할 때만).
+- 루트 `AGENTS.md` 는 빌드 결과가 아니다 — `publish_general.mjs` KEEP · `pages.yml` 제외 목록 · `health_check.mjs` 비공개 확인에 들어 있다.

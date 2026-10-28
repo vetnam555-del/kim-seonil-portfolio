@@ -75,7 +75,7 @@ for (const f of pages) {
 /* 2-1. 원본·작업 메모가 사이트에 올라가 있지 않은가. Pages 는 Actions 가 빌드 결과만 골라 올린다(.github/workflows/pages.yml).
    설정이 "브랜치에서 배포"로 돌아가면 main 의 원본이 그대로 열리므로 결함으로 센다 */
 report.privateFiles = [];
-for (const path of ["source/package.json", "source/src/data/site.ts", "CLAUDE.md", ".claude/settings.json"]) {
+for (const path of ["source/package.json", "source/src/data/site.ts", "CLAUDE.md", "AGENTS.md", ".claude/settings.json"]) {
   const r = await get(`${LIVE}/${path}`);
   report.privateFiles.push({ path, status: r.status });
   /* 404·410 만 "없음"을 확인한 것이다. 403·429·5xx·연결 실패는 확인하지 못한 것이라 경고로 남긴다(자비스 b2beb47 P2) */
