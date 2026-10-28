@@ -8,8 +8,8 @@
 | 담당 | claude |
 | 상태 | 진행 중 |
 | 작업 브랜치 | `claude/stoic-bohr-gze1d1` |
-| 열린 PR | 이 체계를 더하는 PR(자비스 검토 대기) |
-| 마지막 갱신 | 2026-10-25 · Claude |
+| 열린 PR | [#17](https://github.com/vetnam555-del/kim-seonil-portfolio/pull/17) (자비스 검토 대기) |
+| 마지막 갱신 | 2026-10-28 · Claude |
 
 ## 지금 하던 일
 
