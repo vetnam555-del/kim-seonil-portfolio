@@ -144,7 +144,7 @@
     "detail.evidence[3].callouts[1]": "Not judged on CTR alone\u00a0· low-efficiency bundle CVR 3.10% > high-efficiency PC bundle 1.86%",
     "detail.evidence[3].callouts[2]": "Kept the copy and moved the keyword groups it ran in",
     "detail.evidence[3].callouts[3]": "Group names marked (TEST)\u00a0· (NEW) to separate creatives under test",
-    "decisions[0].decision": "Brought DA into one account, set the channel and KPI for each stage (awareness, consideration, conversion), then split the budget",
+    "decisions[0].decision": "Consolidated DA operations in one place, set the channel and KPI for each stage (awareness, consideration, conversion), then split the budget",
     "decisions[0].basis": "Crossing GA4 with media data showed search was strong at bringing back repeat buyers but added little new demand",
     "decisions[0].rejected": "Moving budget in channel ROAS order. Budget kept flowing to search, where customers who already knew the brand came in"
   },
@@ -326,7 +326,7 @@
     "decisions[0].basis": "With manual checks, out-of-stock and depletion problems were always caught late, and ad spend kept running in the meantime",
     "decisions[0].rejected": "Making faster checks the only goal. If problems are still caught at the same point, ad spend keeps running",
     "decisions[1].decision": "Used the past attributed ROAS of keyword-expansion candidates only as a reference for picking candidates",
-    "decisions[1].basis": "The Brand Search source had no cost, so the incremental effect could not be confirmed",
+    "decisions[1].basis": "The Brand Search source had no cost data, and the incremental effect was also unverified",
     "decisions[1].rejected": "Expanding right away on the 13,846.66% Powerlink-attributed ROAS"
   },
   "daekyo": {
@@ -802,12 +802,9 @@
     "detail.evidence[4].callouts[0]": "DP ad CTR 0.73%\u00a0· CPC KRW 637 vs video ad CTR 2.16%\u00a0· CPC KRW 160",
     "detail.evidence[4].callouts[1]": "From February 23, DP share cut and video share increased",
     "detail.evidence[4].callouts[2]": "CTR 2.16% → 3.14% after the shift to video",
-    "decisions[0].decision": "Split impressions, product clicks and 10-second-plus views into separate metrics, and separated the KPIs for subscription, content learning and live traffic",
-    "decisions[0].basis": "With view count alone, I could not tell whether the thumbnail or the content was weak",
-    "decisions[0].rejected": "Judging performance by view count alone",
-    "decisions[1].decision": "Compared formats over the same period and metrics, then concentrated budget on video, whose efficiency was confirmed",
-    "decisions[1].basis": "In the February 2024 comparison, DP had CTR 0.73% and CPC KRW 637; video had CTR 2.16% and CPC KRW 160",
-    "decisions[1].rejected": "Keeping the DP-heavy split from early February, or reading the temporary rise in the March learning period together with stable-period results"
+    "decisions[0].decision": "Compared formats over the same period and metrics, then concentrated budget on video, whose efficiency was confirmed",
+    "decisions[0].basis": "In the February 2024 comparison, DP had CTR 0.73% and CPC KRW 637; video had CTR 2.16% and CPC KRW 160",
+    "decisions[0].rejected": "Keeping the DP-heavy split from early February, or reading the temporary rise in the March learning period together with stable-period results"
   },
   "automation": {
     "decisionResult.result": "I automated inventory, reporting and monitoring work. Bad data is blocked before anything runs, and results are confirmed through follow-up checks and records.",
