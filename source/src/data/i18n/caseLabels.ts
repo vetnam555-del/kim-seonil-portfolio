@@ -17,6 +17,13 @@ export const caseLabels = {
     roleDirect: "직접 수행",
     roleShared: "함께 수행",
     roleNot: "하지 않은 것",
+    /* 판단 기록 (2026.10.29 레퍼런스 비교) — 결정 · 근거 · 택하지 않은 안 */
+    decisionLog: {
+      title: "판단 기록",
+      decision: "결정",
+      basis: "근거",
+      rejected: "택하지 않은 안",
+    },
     contribution: "기여 범위",
     failed: "되지 않았던 것",
     learned: "배운 것",
@@ -106,6 +113,12 @@ export const caseLabels = {
     roleDirect: "Did myself",
     roleShared: "Did with others",
     roleNot: "Not my part",
+    decisionLog: {
+      title: "Decision record",
+      decision: "Decision",
+      basis: "Basis",
+      rejected: "Not chosen",
+    },
     contribution: "Contribution",
     failed: "What didn't work",
     learned: "What I learned",

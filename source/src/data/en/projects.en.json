@@ -143,7 +143,10 @@
     "detail.evidence[3].callouts[0]": "The same copy ('An even more elegant J.ESTINA — NEW COLLECTION, HERBOW') at CTR 1.88% ↔ 0.29% depending on the group",
     "detail.evidence[3].callouts[1]": "Not judged on CTR alone\u00a0· low-efficiency bundle CVR 3.10% > high-efficiency PC bundle 1.86%",
     "detail.evidence[3].callouts[2]": "Kept the copy and moved the keyword groups it ran in",
-    "detail.evidence[3].callouts[3]": "Group names marked (TEST)\u00a0· (NEW) to separate creatives under test"
+    "detail.evidence[3].callouts[3]": "Group names marked (TEST)\u00a0· (NEW) to separate creatives under test",
+    "decisions[0].decision": "Consolidated DA operations in one place, set the channel and KPI for each stage (awareness, consideration, conversion), then split the budget",
+    "decisions[0].basis": "Crossing GA4 with media data showed search was strong at bringing back repeat buyers but added little new demand",
+    "decisions[0].rejected": "Moving budget in channel ROAS order. Budget kept flowing to search, where customers who already knew the brand came in"
   },
   "newbalance": {
     "decisionResult.result": "Inventory checks went from ~2 hours to under 5 minutes. When the data doesn't match, the run stops without changing any ads.",
@@ -318,7 +321,13 @@
     "detail.frameworks[2].items[2].body": "Picks which ads to pause or restart based on stock levels. Up to 900 products per run.",
     "detail.frameworks[2].items[3].label": "④ Execute\u00a0· log",
     "detail.frameworks[2].items[3].body": "Runs through the media API and logs to a sheet. Calls the owner only when action is needed.",
-    "detail.frameworks[2].legend": "If it stops at ②, it ends with 0 changes. Normal runs aren't reported, so there's no alert fatigue."
+    "detail.frameworks[2].legend": "If it stops at ②, it ends with 0 changes. Normal runs aren't reported, so there's no alert fatigue.",
+    "decisions[0].decision": "Linked inventory checks to pausing out-of-stock creatives; if a check failed or the target range did not match, the run ended without changing ads",
+    "decisions[0].basis": "With manual checks, out-of-stock and depletion problems were always caught late, and ad spend kept running in the meantime",
+    "decisions[0].rejected": "Making faster checks the only goal. If problems are still caught at the same point, ad spend keeps running",
+    "decisions[1].decision": "Used the past attributed ROAS of keyword-expansion candidates only as a reference for picking candidates",
+    "decisions[1].basis": "The Brand Search source had no cost data, and the incremental effect was also unverified",
+    "decisions[1].rejected": "Expanding right away on the 13,846.66% Powerlink-attributed ROAS"
   },
   "daekyo": {
     "decisionResult.result": "Re-measured on the same sample, CVR was 0.66% → 2.24%. Instead of overhauling creatives, I first fixed where people dropped out of the consultation form.",
@@ -434,7 +443,13 @@
     "detail.results[5].label": "Paid-service conversion rate",
     "detail.results[5].note": "Same period (May → Jun 2026)\u00a0· advertiser's closing report",
     "detail.results[6].label": "Paid-service conversion\u00a0· after question changes",
-    "detail.results[6].note": "From Jul 2026\u00a0· number and mix of questions adjusted\u00a0· advertiser's closing report"
+    "detail.results[6].note": "From Jul 2026\u00a0· number and mix of questions adjusted\u00a0· advertiser's closing report",
+    "decisions[0].decision": "Matched the comparison sample before changing creatives, and fixed the consultation form's drop-off point first",
+    "decisions[0].basis": "After removing a high-CTR creative that spent only about KRW 9,000 and comparing again, CTR fell from 2.54% → 2.25%, but CVR rose from 0.66% → 2.24% and CPA improved 14.1%",
+    "decisions[0].rejected": "Overhauling the creatives first. Recalculated on the same sample, actual efficiency had already improved",
+    "decisions[1].decision": "In round 2, brought back one qualifying question; in round 3, changed the question order",
+    "decisions[1].basis": "The round-1 instant form raised CVR, but fewer fields let in low-intent leads and the consultation connection rate dropped",
+    "decisions[1].rejected": "A form that maximizes CVR. It was not the same form as one that protects lead quality"
   },
   "gangwon": {
     "decisionResult.result": "July 2026 store sales were +397.3% over the same period last year; H1 ROAS, calculated on ad-attributed revenue without group-buys, went 201% → 238%.",
@@ -547,7 +562,13 @@
     "detail.execution[8]": "Because search and shopping ads alone had limits for growing sales, planned Instagram group-buys and ran influencer partnership ads during group-buy periods",
     "detail.results[6].label": "Store sales",
     "detail.results[6].note": "30 days of July 2026 vs same period last year\u00a0· whole Smart Store\u00a0· incl. group-buys",
-    "detail.roleBreakdown.direct[8]": "Planned Instagram group-buys and influencer partnership ads during group-buy periods"
+    "detail.roleBreakdown.direct[8]": "Planned Instagram group-buys and influencer partnership ads during group-buy periods",
+    "decisions[0].decision": "Turned off MOP automated bidding for Shopping Search and switched to a fixed manual bid of KRW 590",
+    "decisions[0].basis": "With few products and conversions bunching around group-buy periods, the learning signal for automated bidding could be distorted",
+    "decisions[0].rejected": "Keeping automated bidding, which suits accounts with many products and enough conversions to learn from",
+    "decisions[1].decision": "When Brand Search conversions fell, kept the channel and measured purchase paths separately with a UTM per influencer",
+    "decisions[1].basis": "Impressions and clicks held, and total account conversion revenue was up 48.6% year on year. Scattered purchase paths stayed a hypothesis to check in the next period",
+    "decisions[1].rejected": "Reading it as falling brand demand and cutting the channel"
   },
   "dyson": {
     "decisionResult.result": "Confirmed 104,257 subscription conversions at a subscription CPA of about KRW 1,132, as counted by the ad platform. Channel growth and ad counts were read separately.",
@@ -780,7 +801,10 @@
     "detail.evidence[4].alt": "Dyson February and March monthly report summary: DP vs video comparison and the evidence for the video CTR improvement.",
     "detail.evidence[4].callouts[0]": "DP ad CTR 0.73%\u00a0· CPC KRW 637 vs video ad CTR 2.16%\u00a0· CPC KRW 160",
     "detail.evidence[4].callouts[1]": "From February 23, DP share cut and video share increased",
-    "detail.evidence[4].callouts[2]": "CTR 2.16% → 3.14% after the shift to video"
+    "detail.evidence[4].callouts[2]": "CTR 2.16% → 3.14% after the shift to video",
+    "decisions[0].decision": "Compared formats over the same period and metrics, then concentrated budget on video, whose efficiency was confirmed",
+    "decisions[0].basis": "In the February 2024 comparison, DP had CTR 0.73% and CPC KRW 637; video had CTR 2.16% and CPC KRW 160",
+    "decisions[0].rejected": "Keeping the DP-heavy split from early February, or reading the temporary rise in the March learning period together with stable-period results"
   },
   "automation": {
     "decisionResult.result": "I automated inventory, reporting and monitoring work. Bad data is blocked before anything runs, and results are confirmed through follow-up checks and records.",
@@ -869,6 +893,9 @@
     "detail.frameworks[0].rows[3].cells[0]": "Healthy products switched off, or sold-out products missed",
     "detail.frameworks[0].rows[3].cells[1]": "This, more than speed, decides whether operations can be trusted",
     "detail.frameworks[0].rows[3].cells[2]": "Not measured (top priority next cycle)",
-    "detail.frameworks[0].legend": "Items marked 'Not measured' have no value yet, so they're left blank."
+    "detail.frameworks[0].legend": "Items marked 'Not measured' have no value yet, so they're left blank.",
+    "decisions[0].decision": "If a reference file is missing, the sample is zero, or the unknown-stock or collection-failure rate is over its limit, the job stops without changing ad settings and alerts the owner",
+    "decisions[0].basis": "Judging once ran on a collection that was only half done. Left as it was, products still selling could all have been switched off at once",
+    "decisions[0].rejected": "Putting run speed first. I started there, then changed the order"
   }
 }
