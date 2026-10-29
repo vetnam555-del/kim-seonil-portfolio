@@ -14,17 +14,17 @@
 ## 지금 하던 일
 
 B-13 글꼴 서브셋 결정성(주인 요청: 보이는 글자가 그대로인데 `publish:general` 마다 `fonts/` 의 woff2 5개가 바이트만 달라진다 —
-같은 문자 집합이면 같은 바이트가 나오게). 원인은 fontTools 가 저장할 때 `head.modified` 에 지금 시각을 적는 것
-(`TTFont(..., recalcTimestamp=True)` 기본값). `PYTHONHASHSEED` 를 바꿔도 결과는 같았다(입력 문자는 이미 정렬).
-고칠 곳은 `scripts/subset_fonts.py` 하나 — 원본을 `recalcTimestamp=False` 로 열어 원본의 `head.modified` 를 그대로 둔다.
-PR #18 은 main 에 합쳐졌다(e6787a9).
+같은 문자 집합이면 같은 바이트가 나오게). 원인은 fontTools 가 저장할 때 `head.modified` 에 지금 시각을 적는 것.
+`subset_fonts.py` 가 원본을 `recalcTimestamp=False` 로 연다(8b68a55). 첫 빌드에서 글꼴 5개가 한 번 바뀌고(6e1c778 — `head` 수정 시각 · 체크섬만 다름),
+이어서 두 번(한 번은 `PYTHONHASHSEED=4242`) publish 해도 `fonts/` 변경 0 · 서브셋 검증 통과. typecheck · `qa_release` 정적 통과.
+RELEASE_PASS 는 "hero: count-up changed layout width" 로 실패했다 — main 빌드도 4번 중 3번 실패하는 기존 경합(첫 표본이 글꼴 도착 전).
+`runtime_evidence.mjs` 가 `__ksiFontsReady` 를 기다리게 고친 커밋을 따로 두었다(이 브랜치 3/3 · main 빌드 통과). PR #18 은 main 에 합쳐졌다(e6787a9).
 
 ## 다음 할 일
 
-1. `subset_fonts.py` 수정 → `npm run publish:general` 한 번(글꼴 5개의 `head.modified` 가 원본 날짜로 바뀌는 한 번뿐인 변경 —
-   HEAD 와 문자표 · 글리프 수 같음 확인) → 다시 두 번(한 번은 다른 `PYTHONHASHSEED`) 돌려 `git status -- fonts source/public/fonts` 깨끗한지.
-2. `npm run typecheck` · `node scripts/qa_release.mjs` · RELEASE_PASS.
-3. `BACKLOG.md` B-13 을 완료 기록으로, PR(`[자비스 검토]`) · 자비스 검토 요청.
+1. 주인 답 대기: `runtime_evidence.mjs` 고침을 이 PR 에 둘지(두면 RELEASE_PASS 를 받는다), 빼서 따로 할지(빼면 그 커밋만 revert 하고 B-14 로 할 일에 넣는다).
+2. RELEASE_PASS: `node scripts/qa_release.mjs` 로 fingerprint → `runtime_evidence.mjs` → `qa_release --approve` (SKILL 3절).
+3. PR 제목에 `[자비스 검토]` · 새 head 에 자비스 검토 요청(SKILL 5절) → 합친 뒤 `npm run health`, 이 표를 "끝"으로.
 
 ## 이어받을 때 주의
 
