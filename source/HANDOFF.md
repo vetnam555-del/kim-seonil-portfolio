@@ -8,7 +8,7 @@
 | 담당 | claude |
 | 상태 | 진행 중 |
 | 작업 브랜치 | `claude/quirky-rubin-va27c0` |
-| 열린 PR | 없음(이 일로 새로 연다) |
+| 열린 PR | [#20](https://github.com/vetnam555-del/kim-seonil-portfolio/pull/20) (초안 · 자비스 검토 요청 전) |
 | 마지막 갱신 | 2026-10-29 · Claude |
 
 ## 지금 하던 일
