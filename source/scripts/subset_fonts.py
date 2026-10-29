@@ -51,6 +51,12 @@ ENTITY = {"&nbsp;": " ", "&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": '"', 
 EXTRA = " ·…—–‘’“”※×÷±≈°₩→←↑↓↔↗−▲▼●○■□★☆✓✗•©®™‰"
 
 
+# 원본은 recalcTimestamp=False 로 연다. 기본값이면 저장할 때 head.modified 에 지금 시각이 들어가
+# 문자가 같아도 빌드마다 바이트가 달라졌다(B-13). 끄면 원본의 수정 시각이 그대로 남는다.
+def open_source(name):
+    return TTFont(os.path.join(SRC, name), recalcTimestamp=False)
+
+
 def rendered_chars():
     files = glob.glob(os.path.join(ROOT, "out", "**", "*.html"), recursive=True)
     if not files:
@@ -89,7 +95,7 @@ def main():
         total = 0
         os.makedirs(DEPLOY_OUT, exist_ok=True)
         for name in WEIGHTS:
-            font = TTFont(os.path.join(SRC, name))
+            font = open_source(name)
             o = Options()
             o.flavor = "woff2"
             o.layout_features = ["*"]
@@ -106,7 +112,7 @@ def main():
             after = os.path.getsize(dst)
             total += after
             print("  %-30s %8d -> %7d bytes (%d%%)" % (name, before, after, after * 100 // before))
-        font = instancer.instantiateVariableFont(TTFont(os.path.join(SRC, ARCHIVO)), ARCHIVO_AXES)
+        font = instancer.instantiateVariableFont(open_source(ARCHIVO), ARCHIVO_AXES)
         o = Options()
         o.flavor = "woff2"
         o.layout_features = ["*"]

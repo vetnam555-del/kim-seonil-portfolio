@@ -7,26 +7,24 @@
 |---|---|
 | 담당 | claude |
 | 상태 | 진행 중 |
-| 작업 브랜치 | `claude/stoic-bohr-gze1d1` |
-| 열린 PR | [#18](https://github.com/vetnam555-del/kim-seonil-portfolio/pull/18) (자비스 검토 대기) |
+| 작업 브랜치 | `claude/quirky-rubin-va27c0` |
+| 열린 PR | [#20](https://github.com/vetnam555-del/kim-seonil-portfolio/pull/20) (초안 · 자비스 검토 요청 전) |
 | 마지막 갱신 | 2026-10-29 · Claude |
 
 ## 지금 하던 일
 
-레퍼런스 분석과 개선(주인 요청: "하기 링크에서 참고할 부분 분석하여 개선해달라"). 링크 세 개 —
-리멤버 앱 리뷰 7,900건 분석 글(Medium), 리멤버 제품 분석 페이지와 그 사이트 목차(gaoningmomo.github.io/investigating_products).
-매뉴얼 9절 순서: 형식만 가져오고 문장·수치는 이 포트폴리오 사실만, `REFERENCES.md` 에 가져온 것 · 안 가져온 것, 할 일은 `R-` 번호.
-이 브랜치에는 PR #17 뒤 HANDOFF 정리 · B-13 조건 보완 커밋(e1deca8)이 먼저 올라가 있다 — 다음 PR 에 같이 실린다.
+B-13 글꼴 서브셋 결정성(주인 요청: 보이는 글자가 그대로인데 `publish:general` 마다 `fonts/` 의 woff2 5개가 바이트만 달라진다 —
+같은 문자 집합이면 같은 바이트가 나오게). 원인은 fontTools 가 저장할 때 `head.modified` 에 지금 시각을 적는 것.
+`subset_fonts.py` 가 원본을 `recalcTimestamp=False` 로 연다(8b68a55). 첫 빌드에서 글꼴 5개가 한 번 바뀌고(6e1c778 — `head` 수정 시각 · 체크섬만 다름),
+이어서 두 번(한 번은 `PYTHONHASHSEED=4242`) publish 해도 `fonts/` 변경 0 · 서브셋 검증 통과. typecheck · `qa_release` 정적 통과.
+RELEASE_PASS 는 "hero: count-up changed layout width" 로 실패했다 — main 빌드도 4번 중 3번 실패하는 기존 경합(첫 표본이 글꼴 도착 전).
+`runtime_evidence.mjs` 가 `__ksiFontsReady` 를 기다리게 고친 커밋을 따로 두었다(이 브랜치 3/3 · main 빌드 통과). PR #18 은 main 에 합쳐졌다(e6787a9).
 
 ## 다음 할 일
 
-분석 결과: 세 링크는 리멤버 앱을 분석한 PM 지망자의 제품 분석이다. 섹션 칩 목차 · "처음 판단과 수정" · 결과 기준 표기 ·
-단계별 할 일은 이미 있고, 없던 **판단 기록(결정 · 근거 · 택하지 않은 안)** 을 사례 6개에 더했다(국 · 영). `REFERENCES.md` 2026-10-29,
-`BACKLOG.md` 완료 기록 · O-10(외부 글). 자비스 80658f2 P2 두 건(제이에스티나 "한 계정" → "운영을 한곳으로", 뉴발란스 비용 · 증분 효과 분리)을 고치고
-다이슨 첫 행(하반기 기획안과 얽힘)을 뺐다. publish 뒤 글꼴은 B-13 조건 확인 후 HEAD 로 맞춤. 정적 검수 0건 · RELEASE_PASS(6be42f01).
-
-1. PR #18 최신 head 에 자비스 재검토 → 차단 결함이 없으면 main 에 합친다.
-2. 배포 뒤 `npm run health`, 작업 브랜치를 main 에 맞추고 이 표를 "끝"으로.
+1. 주인 답 대기: `runtime_evidence.mjs` 고침을 이 PR 에 둘지(두면 RELEASE_PASS 를 받는다), 빼서 따로 할지(빼면 그 커밋만 revert 하고 B-14 로 할 일에 넣는다).
+2. RELEASE_PASS: `node scripts/qa_release.mjs` 로 fingerprint → `runtime_evidence.mjs` → `qa_release --approve` (SKILL 3절).
+3. PR 제목에 `[자비스 검토]` · 새 head 에 자비스 검토 요청(SKILL 5절) → 합친 뒤 `npm run health`, 이 표를 "끝"으로.
 
 ## 이어받을 때 주의
 
