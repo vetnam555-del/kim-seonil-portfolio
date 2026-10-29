@@ -22,9 +22,10 @@ Claude 안을 저장소 문서로 쓰고 같은 PR 에서 자비스 검토를 �
 한 것: B-14 문구(국 `projects.ts` cardDecision · 영 `projects.en.json` · 에이블리판 근거 문장 · 코드 주석 — 이력서 · 덱은 이미 "설계"),
 O-10 검토 문서 `source/proposals/O-10-external-article.md`(Claude 안: 쓴다면 대교 한 편 · 비식별 · 회사 규정 먼저), BACKLOG(B-14 완료 · O-10 문서 연결). typecheck 통과.
 
-1. `npm run publish:general` → [글자 바뀜]이 다이슨 국 · 영 두 쪽의 카드 문장뿐인지. 글꼴은 B-13 조건으로.
-2. 검수 → RELEASE_PASS → 원본과 루트를 한 커밋 → PR(`[자비스 검토]`, 본문에 O-10 질문) → 자비스 검토.
-3. 자비스 응답(B-14 확인 + O-10 의견)을 원문 그대로 주인에게, Claude 안과 나란히. O-10 결정은 주인.
+publish: 글자 바뀐 쪽은 다이슨 국 · 영 2쪽(카드 문장)뿐. 글꼴 B-13 조건 확인 후 HEAD 로. 검수 0건 · RELEASE_PASS(d10f94c9).
+
+1. PR(`[자비스 검토]`, 본문에 O-10 질문) → 자비스 검토 → 차단 결함이 없으면 main.
+2. 자비스 응답(B-14 확인 + O-10 의견)을 원문 그대로 주인에게, Claude 안과 나란히. O-10 결정은 주인.
 
 ## 이어받을 때 주의
 
