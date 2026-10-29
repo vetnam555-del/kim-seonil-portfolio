@@ -217,6 +217,41 @@ function CaseFlowNav({ items, ariaLabel }: { items: { id: string; no: string; la
   );
 }
 
+/*
+ * 판단 기록 (2026.10.29 레퍼런스 비교 — 제품 분석 글의 "결정 / 근거 / 버린 대안"). 택하지 않은 안이 '되지 않았던 것'
+ * 블록에만 있어 판단을 읽은 뒤 한참 내려가야 나왔다. 같은 사실을 판단 바로 아래에서 한 줄로 읽게 한다.
+ * 넓은 화면은 세 칸, 좁은 화면은 칸마다 이름을 붙여 위아래로 — 가로 스크롤 표로 만들지 않는다.
+ */
+function DecisionLog({ items, t }: { items: NonNullable<Project["decisions"]>; t: CaseLabels }) {
+  const L = t.decisionLog;
+  return (
+    <section aria-label={L.title} className="mt-8">
+      <h3 className="text-small font-semibold text-ink">{L.title}</h3>
+      <p className="mt-2 text-caption text-ink-3 sm:text-small">{L.note}</p>
+      <ol className="mt-4 border-t border-line">
+        {items.map((item) => (
+          <li key={item.decision} className="border-b border-line-2 py-4">
+            <dl className="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6">
+              <div>
+                <dt className="text-caption font-semibold text-accent">{L.decision}</dt>
+                <dd className="mt-1 text-small font-semibold text-ink">{item.decision}</dd>
+              </div>
+              <div>
+                <dt className="text-caption font-semibold text-ink-3">{L.basis}</dt>
+                <dd className="mt-1 text-small text-ink-2">{item.basis}</dd>
+              </div>
+              <div>
+                <dt className="text-caption font-semibold text-ink-3">{L.rejected}</dt>
+                <dd className="mt-1 text-small text-ink-2">{item.rejected}</dd>
+              </div>
+            </dl>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
 function ExecutionList({ items }: { items: string[] }) {
   return (
     <ul className="flex flex-col gap-3">
@@ -1210,6 +1245,7 @@ export function CaseView({ slug, lang = "ko" }: { slug: string; lang?: Lang }) {
               </Block>
               <Block id="case-strategy" no={noOf("case-strategy")} label={t.block.strategy} lede={ledes.strategy}>
                 <p className="text-body text-ink-2">{d.strategy}</p>
+                {p.decisions?.length ? <DecisionLog items={p.decisions} t={t} /> : null}
                 <PlacedFrameworks detail={d} placement="strategy" t={t} />
               </Block>
               {showKpi ? (

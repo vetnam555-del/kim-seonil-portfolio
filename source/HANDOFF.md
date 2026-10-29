@@ -20,9 +20,15 @@
 
 ## 다음 할 일
 
-1. 세 페이지를 글자로 읽고 8개 기준으로 비교한다.
-2. 가져올 것을 정해 사이트 원본(`source/src`)에 반영하거나, 사실 확인이 필요하면 주인 확인(O-)으로 둔다.
-3. `REFERENCES.md` · `BACKLOG.md` 기록 → publish · 검수 → PR · 자비스 검토.
+분석 결과: 세 링크는 리멤버 앱을 분석한 PM 지망자의 제품 분석(리뷰 7,900건 → 진단 → 결정 → 설계 → 지표 → 사실·가설 분리 → 회고)이다.
+섹션 칩 목차 · "처음 판단과 수정" · 결과 기준 표기 · 단계별 할 일은 이 사이트에 이미 있다. 없던 것은 **결정 · 근거 · 버린 대안을 한 줄에 읽는 판단 기록**이라
+그것을 더하는 중이다 — `projects.ts` `decisions`(제이에스티나 · 뉴발란스 · 대교 · 다이슨 · 강원 · 자동화, 사례의 다른 칸에 있는 사실만),
+`caseLabels.ts` `decisionLog`, `CaseView.tsx` `DecisionLog`(핵심 판단 블록, 좁은 화면은 위아래), 영문 `projects.en.json` `decisions[i].*`. typecheck 통과.
+
+1. `cd source && npm run publish:general` → [글자 바뀜]이 사례 6쪽 · 영문 6쪽의 판단 기록뿐인지 확인. 글꼴이 바뀌어 보이면 B-13 조건으로 처리.
+2. `npm run typecheck` · `qa:tone` · `qa:en` · `qa:final` · `qa_layout` · `qa_wrap` · `qa_release` → runtime_evidence → `--approve`. 360px 화면에서 판단 기록을 눈으로 본다.
+3. `REFERENCES.md` 2026-10-29 표(가져온 것 · 안 가져온 것), `BACKLOG.md` 완료 기록 · 새 R-/O- 항목.
+4. 원본과 루트 빌드 결과를 한 커밋으로 push → PR(`[자비스 검토]`) → 자비스 검토 → main.
 
 ## 이어받을 때 주의
 
