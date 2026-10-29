@@ -20,15 +20,12 @@
 
 ## 다음 할 일
 
-분석 결과: 세 링크는 리멤버 앱을 분석한 PM 지망자의 제품 분석(리뷰 7,900건 → 진단 → 결정 → 설계 → 지표 → 사실·가설 분리 → 회고)이다.
-섹션 칩 목차 · "처음 판단과 수정" · 결과 기준 표기 · 단계별 할 일은 이 사이트에 이미 있다. 없던 것은 **결정 · 근거 · 버린 대안을 한 줄에 읽는 판단 기록**이라
-그것을 더하는 중이다 — `projects.ts` `decisions`(제이에스티나 · 뉴발란스 · 대교 · 다이슨 · 강원 · 자동화, 사례의 다른 칸에 있는 사실만),
-`caseLabels.ts` `decisionLog`, `CaseView.tsx` `DecisionLog`(핵심 판단 블록, 좁은 화면은 위아래), 영문 `projects.en.json` `decisions[i].*`. typecheck 통과.
+분석 결과: 세 링크는 리멤버 앱을 분석한 PM 지망자의 제품 분석이다. 섹션 칩 목차 · "처음 판단과 수정" · 결과 기준 표기 ·
+단계별 할 일은 이미 있고, 없던 **판단 기록(결정 · 근거 · 택하지 않은 안)** 을 사례 6개에 더했다(국 · 영). `REFERENCES.md` 2026-10-29,
+`BACKLOG.md` 완료 기록 · O-10(외부 글). publish 뒤 글꼴은 B-13 조건 확인 후 HEAD 로 맞춤. 정적 검수 0건 · RELEASE_PASS(cf2489f4).
 
-1. `cd source && npm run publish:general` → [글자 바뀜]이 사례 6쪽 · 영문 6쪽의 판단 기록뿐인지 확인. 글꼴이 바뀌어 보이면 B-13 조건으로 처리.
-2. `npm run typecheck` · `qa:tone` · `qa:en` · `qa:final` · `qa_layout` · `qa_wrap` · `qa_release` → runtime_evidence → `--approve`. 360px 화면에서 판단 기록을 눈으로 본다.
-3. `REFERENCES.md` 2026-10-29 표(가져온 것 · 안 가져온 것), `BACKLOG.md` 완료 기록 · 새 R-/O- 항목.
-4. 원본과 루트 빌드 결과를 한 커밋으로 push → PR(`[자비스 검토]`) → 자비스 검토 → main.
+1. 원본과 루트 빌드 결과를 한 커밋으로 push → PR(`[자비스 검토]`) → 자비스 검토 → 차단 결함이 없으면 main.
+2. 배포 뒤 `npm run health`, 작업 브랜치를 main 에 맞추고 이 표를 "끝"으로.
 
 ## 이어받을 때 주의
 

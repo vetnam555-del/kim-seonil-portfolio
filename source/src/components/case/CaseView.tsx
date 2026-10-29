@@ -226,8 +226,8 @@ function DecisionLog({ items, t }: { items: NonNullable<Project["decisions"]>; t
   const L = t.decisionLog;
   return (
     <section aria-label={L.title} className="mt-8">
+      {/* 설명 한 줄은 두지 않는다 — 여섯 사례에 같은 문장이 반복된다(qa_final G15). 칸 이름이 곧 설명이다 */}
       <h3 className="text-small font-semibold text-ink">{L.title}</h3>
-      <p className="mt-2 text-caption text-ink-3 sm:text-small">{L.note}</p>
       <ol className="mt-4 border-t border-line">
         {items.map((item) => (
           <li key={item.decision} className="border-b border-line-2 py-4">

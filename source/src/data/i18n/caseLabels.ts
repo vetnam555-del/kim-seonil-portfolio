@@ -20,7 +20,6 @@ export const caseLabels = {
     /* 판단 기록 (2026.10.29 레퍼런스 비교) — 결정 · 근거 · 택하지 않은 안 */
     decisionLog: {
       title: "판단 기록",
-      note: "결정마다 근거와 택하지 않은 안을 같이 적었습니다.",
       decision: "결정",
       basis: "근거",
       rejected: "택하지 않은 안",
@@ -116,7 +115,6 @@ export const caseLabels = {
     roleNot: "Not my part",
     decisionLog: {
       title: "Decision record",
-      note: "Each decision with its basis and the option I did not take.",
       decision: "Decision",
       basis: "Basis",
       rejected: "Not chosen",
