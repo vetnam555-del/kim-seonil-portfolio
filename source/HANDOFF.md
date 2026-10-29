@@ -8,7 +8,7 @@
 | 담당 | claude |
 | 상태 | 진행 중 |
 | 작업 브랜치 | `claude/stoic-bohr-gze1d1` |
-| 열린 PR | 없음 |
+| 열린 PR | [#18](https://github.com/vetnam555-del/kim-seonil-portfolio/pull/18) (자비스 검토 대기) |
 | 마지막 갱신 | 2026-10-29 · Claude |
 
 ## 지금 하던 일
