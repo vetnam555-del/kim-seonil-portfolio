@@ -117,6 +117,9 @@ async function frames(path, selector, scrollTo) {
   const url = `${BASE}${path}${path.includes("?") ? "&" : "?"}intro=0`;
   await page.goto(url, { waitUntil: "networkidle0" }); // 글꼴·이미지를 캐시에 올려 두고
   await page.goto(url, { waitUntil: scrollTo ? "networkidle0" : "domcontentloaded" }); // 다시 열어 처음부터 잰다 — 글꼴 교체로 폭이 바뀌는 것을 빼기 위해
+  // serve_export 는 no-store 라 캐시를 데워도 글꼴을 다시 받고, 0720cfd(B-04) 뒤로는 글꼴이 첫 그림 뒤에 붙는다.
+  // 그래서 첫 표본이 대체 서체 폭으로 찍혀 폭 검사가 운에 따라 실패했다 — 사이트가 글꼴을 다 붙였다는 신호를 기다린 뒤 잰다.
+  await page.evaluate(() => Promise.race([window.__ksiFontsReady ?? document.fonts.ready, new Promise((r) => setTimeout(r, 6000))]).then(() => true));
   if (scrollTo) await page.$eval(scrollTo, (el) => el.scrollIntoView({ block: "center" }));
   const out = [];
   const t0 = Date.now();
