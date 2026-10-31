@@ -6,7 +6,7 @@
 | 항목 | 값 |
 |---|---|
 | 담당 | claude |
-| 상태 | 진행 중 — 링크드인 기록은 끝, B-15(부서 이름 사이트 · PDF 반영)가 남음 · 이 브랜치 push 는 주인 확인 대기 |
+| 상태 | 진행 중 — 링크드인 기록은 끝(이 브랜치 push 함, 2026-11-01 주인 승인), B-15(부서 이름 사이트 · PDF 반영)가 남음 |
 | 작업 브랜치 | `claude/linkedin-v4` — PR #19 브랜치 `claude/stoic-bohr-gze1d1` 의 끝(abf58b6) 위에 쌓았다 |
 | 열린 PR | [#19](https://github.com/vetnam555-del/kim-seonil-portfolio/pull/19) (자비스 검토 대기 · 이 브랜치의 아래 커밋들). 이 브랜치의 PR 은 아직 없다 — #19 를 합친 뒤 main 으로 연다 |
 | 마지막 갱신 | 2026-11-01 · Claude (데스크톱 앱 로컬 세션) |
@@ -26,7 +26,7 @@
 
 ## 다음 할 일
 
-1. 주인 확인 뒤 이 브랜치를 push 한다(`git push -u origin claude/linkedin-v4`). PR 은 #19 가 합쳐진 뒤 main 으로 연다.
+1. 이 브랜치는 원격에 있다(2026-11-01 주인 승인으로 push). PR 은 #19 가 합쳐진 뒤 main 으로 연다(PR 은 주인 확인 뒤).
    그사이 #19 가 바뀌면 이 브랜치에 #19(또는 합친 뒤의 main)를 합쳐 HANDOFF · BACKLOG 충돌을 푼다.
 2. **B-15** — 빌드 환경이 있는 세션(클라우드 Claude · 코덱스)이 이 브랜치에서 한다. 국문 '광고운영팀' → '광고사업실'
    (`grep -rn 광고운영팀 source/src` — `site.ts` 의 `org` · 홈 경력 `where` · 이력서 경력 `title` · 2026-10-15 주석).
