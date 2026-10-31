@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { indexable } from "@/data/edition";
+import { edition, indexable } from "@/data/edition";
 
 /** output: "export" 에서는 force-static 선언이 필요하다. */
 export const dynamic = "force-static";
@@ -14,5 +14,5 @@ export default function robots(): MetadataRoute.Robots {
   if (!indexable) {
     return { rules: [{ userAgent: "*", disallow: "/" }] };
   }
-  return { rules: [{ userAgent: "*", allow: "/" }] };
+  return { rules: [{ userAgent: "*", allow: "/" }], sitemap: `${edition.url}sitemap.xml` };
 }

@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   title: "이력서",
   description: resumeDescription,
   robots: robotsFor(true),
-  alternates: langAlternates("resume/", "en/resume/"),
+  alternates: langAlternates("resume/", "en/resume/", "ko"),
   openGraph: {
     title: `${site.name} 이력서 | ${site.role}`,
     description: resumeDescription,

@@ -15,13 +15,14 @@ import {
 } from "@/components/sections";
 import HomeNew from "@/components/HomeNew";
 import HomeFolio from "@/components/HomeFolio";
+import { PersonJsonLd } from "@/components/PersonJsonLd";
 import type { Metadata } from "next";
 import { EDITION, edition, isNew, robotsFor } from "@/data/edition";
 import { langAlternates } from "@/data/en/alternates";
 
 /* 영문 홈과 짝 주소 — 공용판만 (2026.09.25) */
 /* 홈은 검색에 연다(일반판만, edition.ts indexable) */
-export const metadata: Metadata = { alternates: langAlternates("", "en/"), robots: robotsFor(true) };
+export const metadata: Metadata = { alternates: langAlternates("", "en/", "ko"), robots: robotsFor(true) };
 
 /**
  * 잡지 한 권의 순서로 읽힌다.
@@ -59,7 +60,7 @@ export default function Home() {
    */
   if (isNew) return <HomeNew />;
   /* 공용판은 2026.09.24 부터 입구형 홈 — 깊은 층은 /about/ 과 사례 상세로 옮겼다 */
-  if (EDITION === "general") return <HomeFolio />;
+  if (EDITION === "general") return <><PersonJsonLd lang="ko" /><HomeFolio /></>;
   return (
     <>
       <Cover />

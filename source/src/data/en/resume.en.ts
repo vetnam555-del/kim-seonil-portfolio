@@ -174,7 +174,7 @@ export const publicWorkEn = [
     label: "Content planning\u00a0· self-published",
     title: "EDIT H trend newsletter\u00a0· card news",
     desc: "Every morning I publish money, work and spending news for office workers in their 20s and 30s as a newsletter, 10-slide card news and a reel. In the main stories, a number or date goes in only when two separate original reports agree or it comes from a primary source.",
-    facts: ["114 public issues", "Latest public VOL.114\u00a0· 2026.10.15", "22 days in a row since 2026.09.24"],
+    facts: ["114 public issues", "Up to VOL.114\u00a0· 2026.10.15", "22 days in a row since 2026.09.24"],
     href: "https://vetnam555-del.github.io/edit-h-archive/",
   },
   {

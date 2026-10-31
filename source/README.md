@@ -196,7 +196,7 @@ CSS 파일 안의 `url()` 은 webpack 이 빌드 시점 모듈로 해석해서 `
 
 ### 인쇄 · JS 없는 환경 폴백
 
-Reveal 컴포넌트는 정적 HTML에 `data-reveal` 속성을 심고 스크롤 진입 때 내용을 드러낸다.
+Reveal 컴포넌트(`src/components/motion.tsx`)는 정적 HTML에 `data-enter` 속성을 심고, `MotionRuntime` 의 옵저버 하나가 스크롤 진입 때 내용을 드러낸다.
 그대로 두면 **인쇄하면 아직 안 본 섹션이 백지로 찍히고**, JS가 없으면 화면이 비어 보인다.
 그래서 두 겹을 둔다.
 
