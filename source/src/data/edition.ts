@@ -48,6 +48,28 @@ export const isV260908 = EDITION === "v260908";
 export const isNew = EDITION === "nw";
 
 /*
+ * 검색 색인 (2026.10.31 주인 결정 · BACKLOG O-01). 일반판만, 홈과 이력서(국 · 영)만 연다.
+ * 사례 상세와 소개는 계속 noindex 다 — 광고주 이름으로 사례 수치가 검색되는 것은 원하지 않는다.
+ * robots.txt 로는 막지 않는다. 막으면 검색 로봇이 noindex 를 읽지 못해 주소만 색인될 수 있고,
+ * 링크드인 · 카카오톡 같은 미리보기 로봇도 페이지를 읽지 못한다(링크에 그림이 안 뜬다).
+ * 다른 판은 지원처별 서류라 지금처럼 전면 차단한다.
+ */
+export const indexable = EDITION === "general";
+
+export const ROBOTS_CLOSED = { index: false, follow: false, noarchive: true, nosnippet: true };
+const ROBOTS_OPEN = {
+  index: true,
+  follow: true,
+  noarchive: true,
+  googleBot: { index: true, follow: true, noarchive: true, "max-snippet": 160 },
+};
+
+/** 홈 · 이력서만 open 으로 부른다. 그 밖의 페이지는 layout 기본값(닫힘)을 따른다. */
+export function robotsFor(open: boolean) {
+  return open && indexable ? ROBOTS_OPEN : ROBOTS_CLOSED;
+}
+
+/*
  * ── 클라이언트 전용 파생값 ──
  *
  * Header 는 "use client" 다. 거기서 edition 객체를 읽으면 판별 카피 표(COPY)가 통째로

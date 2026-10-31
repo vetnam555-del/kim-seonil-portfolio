@@ -43,6 +43,7 @@ description: 김선일 포트폴리오를 고치고·검수하고·배포하고�
 | 증빙 이미지 | `source/public/evidence/` + `python3 scripts/measure_evidence.py` 로 `evidence-sizes.json` |
 | 이력서 PDF (5쪽) | `source/README.md` "이력서" 절대로 다시 인쇄 → `site.ts` `resumePdfPath` `?v=` 올림 |
 | 포트폴리오 PDF (29쪽 덱) | 아래 7절. 덱 문구(`v3/cases.js`)도 같은 사실로 맞춘다 |
+| 링크드인 (사이트 밖 · 주인이 붙여 넣는다) | `source/LINKEDIN.md` 해당 칸 — 같은 사실 · 같은 표기로 맞추고 주인에게 알린다 |
 | 백로그 | `source/BACKLOG.md` 완료 기록 |
 
 ## 2. 문구·수치 원칙

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import HomeFolio from "@/components/HomeFolio";
 import { Container } from "@/components/ui";
-import { EDITION, OG_VERSION } from "@/data/edition";
+import { EDITION, OG_VERSION, robotsFor } from "@/data/edition";
 import { langAlternates } from "@/data/en/alternates";
 
 /*
@@ -17,7 +17,7 @@ const description =
 export const metadata: Metadata = {
   title: { absolute: title },
   description,
-  robots: { index: false, follow: false, noarchive: true, nosnippet: true },
+  robots: robotsFor(true),
   alternates: langAlternates("", "en/"),
   openGraph: {
     type: "website",

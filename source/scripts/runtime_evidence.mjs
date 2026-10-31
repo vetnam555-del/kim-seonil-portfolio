@@ -117,6 +117,10 @@ async function frames(path, selector, scrollTo) {
   const url = `${BASE}${path}${path.includes("?") ? "&" : "?"}intro=0`;
   await page.goto(url, { waitUntil: "networkidle0" }); // 글꼴·이미지를 캐시에 올려 두고
   await page.goto(url, { waitUntil: scrollTo ? "networkidle0" : "domcontentloaded" }); // 다시 열어 처음부터 잰다 — 글꼴 교체로 폭이 바뀌는 것을 빼기 위해
+  /* 캐시에 있어도 글꼴은 FontFace 로 붙어 첫 프레임에는 대체 서체일 수 있다 — 사이트 글꼴 로더가 정한 대로
+     window.__ksiFontsReady 를 기다린 뒤 잰다(layout.tsx). 2026.10.31 새 컨테이너에서 첫 프레임만 92.4px(대체 서체)
+     → 95.6px 로 잡혀 "count-up changed layout width" 로 두 번 떨어졌다. 카운트업 자체의 폭 변화는 그대로 잰다 */
+  await page.evaluate(() => window.__ksiFontsReady || document.fonts.ready);
   if (scrollTo) await page.$eval(scrollTo, (el) => el.scrollIntoView({ block: "center" }));
   const out = [];
   const t0 = Date.now();
