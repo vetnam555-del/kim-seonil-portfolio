@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import HomeFolio from "@/components/HomeFolio";
+import { PersonJsonLd } from "@/components/PersonJsonLd";
 import { Container } from "@/components/ui";
 import { EDITION, OG_VERSION, robotsFor } from "@/data/edition";
 import { langAlternates } from "@/data/en/alternates";
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
   title: { absolute: title },
   description,
   robots: robotsFor(true),
-  alternates: langAlternates("", "en/"),
+  alternates: langAlternates("", "en/", "en"),
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -44,6 +45,7 @@ export default function HomeEn() {
   }
   return (
     <div lang="en">
+      <PersonJsonLd lang="en" />
       <HomeFolio lang="en" />
     </div>
   );

@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   title: { absolute: title },
   description,
   robots: robotsFor(true),
-  alternates: langAlternates("resume/", "en/resume/"),
+  alternates: langAlternates("resume/", "en/resume/", "en"),
   openGraph: {
     title,
     description,
