@@ -30,7 +30,8 @@ for (const [script, scriptArgs] of [
   if (result.status !== 0) failures.push(`${script} failed`);
 }
 const pdfs = {};
-for (const file of ["kim-seonil-resume-public.pdf", "kim-seonil-performance-marketing-portfolio.pdf"]) {
+/* 덱은 일반판에 싣지 않는다(2026-10-31) — 저장소에 있을 때만 대조한다 */
+for (const file of ["kim-seonil-resume-public.pdf", "kim-seonil-performance-marketing-portfolio.pdf"].filter((f) => existsSync(join(root, "public", f)))) {
   const sourceHash = sha(readFileSync(join(root, "public", file)));
   const outputHash = sha(readFileSync(join(out, file)));
   pdfs[file] = { sourceHash, outputHash };

@@ -51,6 +51,7 @@ Claude 는 사용량 한도에 걸리는 순간 아무것도 할 수 없으므�
 - `.claude/settings.json` 의 시작 훅(`source/scripts/cloud_setup.sh`)은 Claude 클라우드 전용이다. 코덱스는 직접 준비한다:
   `cd source && npm ci` · `pip install fonttools brotli pillow`.
 - 포트폴리오 PDF(덱) 생성기는 이 저장소에 없다. Drive `코덱스/portfolio-deck-v2` 원본과 SKILL 7절 순서로 굽는다.
+  덱 PDF 는 사이트 · 이 공개 저장소에 싣지 않는다(2026-10-31 주인 — 헤드헌터에게만 Drive 로 공유). `public/` 에 넣지 않는다.
 
 ## 꼭 지키는 것 (자세한 것은 BACKLOG "정해 둔 것")
 

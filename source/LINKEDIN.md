@@ -160,9 +160,10 @@
 | 순서 | 제목 | 링크 | 설명 |
 |---|---|---|---|
 | 1 | 김선일 퍼포먼스 마케팅 포트폴리오 | https://vetnam555-del.github.io/kim-seonil-portfolio/ | 대표 사례 5개 — 문제 · 판단 · 실행 · 결과 · 배운 것과 증빙 |
-| 2 | 포트폴리오 PDF (29쪽) | https://vetnam555-del.github.io/kim-seonil-portfolio/kim-seonil-performance-marketing-portfolio.pdf | 전달 · 인쇄용 |
-| 3 | LG CNS MOP 우수사례 | https://blog.mop.co.kr/hll | 쇼핑검색 입찰 최적화와 재고에 따른 소재 ON/OFF 자동화 · 단독 수행 |
-| 4 | EDIT H | https://vetnam555-del.github.io/edit-h-archive/ | 2030 직장인 돈·일·소비 트렌드 뉴스레터 · 기획·발행 |
+| 2 | LG CNS MOP 우수사례 | https://blog.mop.co.kr/hll | 쇼핑검색 입찰 최적화와 재고에 따른 소재 ON/OFF 자동화 · 단독 수행 |
+| 3 | EDIT H | https://vetnam555-del.github.io/edit-h-archive/ | 2030 직장인 돈·일·소비 트렌드 뉴스레터 · 기획·발행 |
+
+포트폴리오 PDF(29쪽)는 링크드인에 올리지 않는다 — 헤드헌터에게만 Google Drive 로 공유한다(2026-10-31 주인). 이미 Featured 에 넣었다면 지운다.
 
 - 소개 영상(2026-10-31 v2, 20초 · 소리 없음): `assets/linkedin/intro-1x1.mp4`(정사각 1080×1080 — 피드 기본) ·
   `intro-9x16.mp4`(세로 1080×1920 — 세로 영상 피드) · `intro-16x9.mp4`(가로 1920×1080), 대표 화면은 같은 이름의 PNG.

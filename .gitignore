@@ -8,3 +8,10 @@ source/.tone-fixture-*/
 source/*.tsbuildinfo
 __pycache__/
 .DS_Store
+
+# 포트폴리오 PDF(덱)는 공개 저장소 · 사이트에 두지 않는다 — 헤드헌터에게만 Google Drive 로 공유(2026-10-31 주인).
+# 다른 판을 빌드하려고 Drive 에서 public/ 으로 받아도 커밋되지 않게 한다.
+source/public/kim-seonil-performance-marketing-portfolio.pdf
+source/public/kim-seonil-ably-growth-portfolio.pdf
+/kim-seonil-performance-marketing-portfolio.pdf
+/kim-seonil-ably-growth-portfolio.pdf
