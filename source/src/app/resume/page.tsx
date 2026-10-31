@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { CTAButton } from "@/components/ui";
-import { OG_VERSION } from "@/data/edition";
+import { OG_VERSION, robotsFor } from "@/data/edition";
 import { langAlternates } from "@/data/en/alternates";
 import { otherBrands, otherResults, projects, solutionOrder } from "@/data/projects";
 import {
@@ -43,7 +43,7 @@ export const viewport: Viewport = { themeColor: "#ffffff" };
 export const metadata: Metadata = {
   title: "이력서",
   description: resumeDescription,
-  robots: { index: false, follow: false, noarchive: true, nosnippet: true },
+  robots: robotsFor(true),
   alternates: langAlternates("resume/", "en/resume/"),
   openGraph: {
     title: `${site.name} 이력서 | ${site.role}`,

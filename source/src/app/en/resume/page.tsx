@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { CTAButton } from "@/components/ui";
-import { OG_VERSION } from "@/data/edition";
+import { OG_VERSION, robotsFor } from "@/data/edition";
 import { langAlternates } from "@/data/en/alternates";
 import { getProjectEn, projectsEn } from "@/data/en/projects.en";
 import { NAME_EN_DISPLAY, ORG_EN, ROLE_EN } from "@/data/en/home.en";
@@ -43,7 +43,7 @@ export const viewport: Viewport = { themeColor: "#ffffff" };
 export const metadata: Metadata = {
   title: { absolute: title },
   description,
-  robots: { index: false, follow: false, noarchive: true, nosnippet: true },
+  robots: robotsFor(true),
   alternates: langAlternates("resume/", "en/resume/"),
   openGraph: {
     title,
