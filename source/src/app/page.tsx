@@ -16,11 +16,12 @@ import {
 import HomeNew from "@/components/HomeNew";
 import HomeFolio from "@/components/HomeFolio";
 import type { Metadata } from "next";
-import { EDITION, edition, isNew } from "@/data/edition";
+import { EDITION, edition, isNew, robotsFor } from "@/data/edition";
 import { langAlternates } from "@/data/en/alternates";
 
 /* 영문 홈과 짝 주소 — 공용판만 (2026.09.25) */
-export const metadata: Metadata = { alternates: langAlternates("", "en/") };
+/* 홈은 검색에 연다(일반판만, edition.ts indexable) */
+export const metadata: Metadata = { alternates: langAlternates("", "en/"), robots: robotsFor(true) };
 
 /**
  * 잡지 한 권의 순서로 읽힌다.

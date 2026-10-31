@@ -1,22 +1,18 @@
 import type { MetadataRoute } from "next";
-import { edition } from "@/data/edition";
+import { indexable } from "@/data/edition";
 
 /** output: "export" 에서는 force-static 선언이 필요하다. */
 export const dynamic = "force-static";
 
 /**
- * hll 판은 사내 이동 지원 서류라 전면 차단한다.
- * 일반판은 공개 포트폴리오라 색인을 허용하되, 케이스 상세는 제외한다 —
- * 광고주별 상세 수치 페이지가 브랜드명으로 검색되는 것까지는 원하지 않는다.
- * (홈과 이력서만 색인되면 개인 브랜딩 목적은 충분히 달성된다.)
+ * 일반판은 막지 않는다. 무엇을 검색에 낼지는 페이지마다 robots 메타(noindex)로 정한다 —
+ * 여기서 막으면 검색 로봇이 noindex 를 읽지 못해 주소만 색인될 수 있고,
+ * 링크드인 · 카카오톡 같은 미리보기 로봇도 페이지를 읽지 못한다(2026.10.31, edition.ts indexable).
+ * 다른 판(hll · 지원처별 판)은 서류라 전면 차단한다.
  */
 export default function robots(): MetadataRoute.Robots {
-  /* 기본 차단. 색인을 열려면 ALLOW_INDEX=1 — 근거는 layout.tsx 의 robots 주석 참고 */
-  if (edition.showWhyStudio || process.env.ALLOW_INDEX !== "1") {
+  if (!indexable) {
     return { rules: [{ userAgent: "*", disallow: "/" }] };
   }
-  return {
-    rules: [{ userAgent: "*", allow: "/", disallow: "/projects/" }],
-    host: edition.url,
-  };
+  return { rules: [{ userAgent: "*", allow: "/" }] };
 }

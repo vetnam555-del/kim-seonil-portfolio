@@ -10,7 +10,7 @@
 | 항목 | 값 |
 |---|---|
 | 프로필 | https://www.linkedin.com/in/%EC%84%A0%EC%9D%BC-%EA%B9%80-b28a1021b/ |
-| 상태 | 주인이 일부 반영(2026-10-31) — 지금 프로필과 이 문서의 대조는 아직 |
+| 상태 | 주인이 일부 반영(2026-10-31) — 지금 프로필과 이 문서의 대조는 아직. 포트폴리오 링크 미리보기 그림은 robots.txt 차단을 푼 빌드가 main 에 들어간 뒤부터 뜬다 |
 | 정할 것 | BACKLOG O-11 — 직함 표기 · 공개 범위. 아래는 권장안(직무명 붙이기 · 이력서 수준)으로 썼다 |
 
 ## 적용할 때 지킬 것
@@ -40,6 +40,10 @@
 
 - 위치: 시 · 도까지만(실제 지역으로).
 - 연락처 정보: 이메일 `makefair@naver.com` · 웹사이트(유형 포트폴리오) `https://vetnam555-del.github.io/kim-seonil-portfolio/`
+- 배경 사진(2026-10-31): `assets/linkedin/banner-a.png`(포트폴리오 공유 이미지와 같은 글꼴 · 색 · 문구) 또는
+  `banner-b.png`(같은 문구를 Higgsfield 로 만든 배경 위에 — 8크레딧, 바탕이 살짝 보랏빛). 둘 중 주인이 고른다.
+  문구가 바뀌면 `assets/linkedin/banner.html` 을 고치고 `node scripts/render_linkedin_banner.cjs a`(또는 b)로 다시 굽는다.
+  글자 있는 그림은 생성 모델이 한글을 틀리기 쉬워 직접 그린다. Higgsfield 는 글자 없는 배경에만 썼다.
 
 ## 2. 소개 (908 / 2,600)
 
