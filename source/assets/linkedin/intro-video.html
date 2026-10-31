@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<!--
+  링크드인 소개 영상(15초, 1920×1080 · 30fps)의 글자 층 (2026.10.31).
+  render(t) 가 t초의 화면을 그린다 — scripts/render_linkedin_video.cjs 가 프레임마다 투명 PNG 로 찍고,
+  ffmpeg 가 Higgsfield 로 만든 배경 영상(hf-intro-bg.mp4) 위에 얹는다.
+  문구와 숫자는 사이트 홈 첫 화면 그대로다(제목 · 소개 한 줄 · 증거 세 칸과 기준 — src/data/site.ts generalCover).
+  끝 장면의 직함 줄은 링크드인 헤드라인(LINKEDIN.md 1절)과 같다. 새 문장을 만들지 않는다.
+  소개 한 줄에 쉼표를 넣지 않는다 — 사이트가 연결어미 뒤 쉼표를 뺐다(2026.10.09).
+  ?square 를 붙이면 1080×1080 판(같은 순서, 세로 배치)이다.
+-->
+<style>
+  @font-face { font-family: "Archivo"; src: url("../../public/fonts/original/Archivo-Var.woff2") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; }
+  @font-face { font-family: "Pretendard"; src: url("../../public/fonts/original/Pretendard-Regular.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Pretendard"; src: url("../../public/fonts/original/Pretendard-Bold.woff2") format("woff2"); font-weight: 700; }
+  @font-face { font-family: "Pretendard"; src: url("../../public/fonts/original/Pretendard-Black.woff2") format("woff2"); font-weight: 900; }
+  * { margin: 0; box-sizing: border-box; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: transparent; }
+  body { color: #f2efe8; font-family: "Pretendard", sans-serif; position: relative; }
+  body.square, body.square html { width: 1080px; height: 1080px; }
+  .layer { position: absolute; inset: 0; }
+  /* 글자 쪽을 어둡게 — 배경 영상 위에서도 읽히게(프레임마다 같다) */
+  .shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(11,13,16,.78) 0%, rgba(11,13,16,.55) 55%, rgba(11,13,16,.1) 100%); }
+  body.square .shade { background: linear-gradient(180deg, rgba(11,13,16,.5) 0%, rgba(11,13,16,.72) 100%); }
+  /* 증거 세 칸이 떠 있는 동안만 배경을 한 번 더 누른다 — 작은 글자(기준 줄)가 원 위에서도 읽히게 */
+  .dim { position: absolute; inset: 0; background: #0b0d10; opacity: 0; }
+  .el { position: absolute; will-change: transform, opacity; opacity: 0; }
+  .eyebrow { font-family: "Archivo", "Pretendard", sans-serif; font-weight: 600; font-size: 24px; letter-spacing: .16em; text-transform: uppercase; color: #a8b0ba; }
+  .eyebrow b { color: #ff5a3d; font-weight: 600; }
+  .word { font-family: "Archivo", sans-serif; font-stretch: 125%; font-weight: 800; font-size: 150px; line-height: 1; letter-spacing: -.01em; white-space: nowrap; }
+  .word.red { color: #ff5a3d; }
+  .lede { font-weight: 700; font-size: 46px; letter-spacing: -.02em; white-space: nowrap; }
+  .proof { width: max-content; }
+  .proof .from { font-family: "Archivo", sans-serif; font-stretch: 112%; font-weight: 700; font-size: 34px; color: #a8b0ba; margin-bottom: 6px; font-variant-numeric: tabular-nums; height: 40px; }
+  .proof .big { font-family: "Archivo", "Pretendard", sans-serif; font-stretch: 125%; font-weight: 800; font-size: 104px; line-height: 1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .proof .label { margin-top: 22px; font-weight: 700; font-size: 32px; letter-spacing: -.02em; }
+  .proof .basis { margin-top: 10px; font-size: 24px; color: #a8b0ba; }
+  .proof .rule { height: 3px; width: 0; background: #ff5a3d; margin-top: 26px; }
+  .name { font-weight: 900; font-size: 130px; letter-spacing: -.03em; line-height: 1; }
+  .name i { font-style: normal; font-family: "Archivo", sans-serif; font-stretch: 112%; font-weight: 600; font-size: 34px; letter-spacing: .14em; color: #a8b0ba; margin-left: 28px; vertical-align: middle; }
+  .role { font-weight: 700; font-size: 40px; letter-spacing: -.02em; }
+  .role span { color: #a8b0ba; font-weight: 400; }
+  /* 정사각판은 '리멤버 광고운영팀' 뒤에서 줄을 바꾼다 — 저절로 끊기면 가운뎃점이 줄 끝에 매달린다 */
+  .role br.sq { display: none; }
+  body.square .role br.sq { display: inline; }
+  body.square .role .wide { display: none; }
+  .url { font-family: "Archivo", sans-serif; font-stretch: 100%; font-weight: 600; font-size: 34px; letter-spacing: .02em; color: #f2efe8; padding-bottom: 8px; border-bottom: 3px solid #ff5a3d; }
+</style>
+</head>
+<body>
+  <div class="shade"></div>
+  <div class="dim" id="dim"></div>
+  <div class="layer" id="scene1">
+    <p class="el eyebrow" id="eyebrow">Kim Seonill — Performance Marketer <b>· Portfolio 2026</b></p>
+    <p class="el word" id="w1">FIND.</p>
+    <p class="el word" id="w2">TEST.</p>
+    <p class="el word red" id="w3">IMPROVE.</p>
+    <p class="el lede" id="lede">문제를 구조화해 가설을 세우고 테스트로 개선합니다.</p>
+  </div>
+  <div class="layer" id="scene2">
+    <div class="el proof" id="p1"><p class="from">352% →</p><p class="big" data-from="352" data-to="583" data-dec="0" data-pre="" data-suf="%">583%</p><p class="label">제이에스티나 GA4 ROAS</p><p class="basis">2025.05 → 07 · 동일 마감보고</p><div class="rule"></div></div>
+    <div class="el proof" id="p2"><p class="from"></p><p class="big" data-from="0" data-to="397.3" data-dec="1" data-pre="+" data-suf="%">+397.3%</p><p class="label">강원심층수 스토어 판매금액</p><p class="basis">2026.07 · 전년 같은 기간 대비</p><div class="rule"></div></div>
+    <div class="el proof" id="p3"><p class="from"></p><p class="big">2년 연속</p><p class="label">대한민국 디지털 광고 대상 우수상</p><p class="basis">2024 독립문 · 2025 제이에스티나</p><div class="rule"></div></div>
+  </div>
+  <div class="layer" id="scene3">
+    <p class="el name" id="name">김선일<i>KIM SEONILL</i></p>
+    <p class="el role" id="role">퍼포먼스 마케터 <span>· 리멤버 광고운영팀<span class="wide"> · </span><br class="sq">검색·DA·SNS 4년 · 30여 개 브랜드</span></p>
+    <p class="el url" id="url">vetnam555-del.github.io/kim-seonil-portfolio</p>
+  </div>
+<script>
+  const SQUARE = location.search.includes("square");
+  if (SQUARE) { document.body.classList.add("square"); document.documentElement.style.width = "1080px"; document.documentElement.style.height = "1080px"; }
+
+  /* 자리 — 가로판은 왼쪽 정렬(배경의 원은 굽는 스크립트가 오른쪽으로 옮긴다), 정사각판은 세로로 쌓는다 */
+  const L = SQUARE
+    ? { x: 96, eyebrow: 276, w1: 340, w2: 470, w3: 600, wordSize: 124, lede: 772, ledeSize: 38,
+        proofs: [[96, 150], [96, 470], [96, 790]], proofScale: 0.78,
+        name: 360, role: 530, url: 670 }
+    : { x: 180, eyebrow: 258, w1: 320, w2: 320, w3: 480, wordSize: 150, lede: 690, ledeSize: 46,
+        proofs: [[180, 380], [760, 380], [1340, 380]], proofScale: 1,
+        name: 360, role: 540, url: 650 };
+
+  const $ = (id) => document.getElementById(id);
+  const clamp = (v) => Math.max(0, Math.min(1, v));
+  const ease = (v) => 1 - Math.pow(1 - clamp(v), 3);
+  /* a 초부터 d 초 동안 들어오고, b 초부터 d2 초 동안 나간다 */
+  function inOut(t, a, d, b, d2) {
+    const i = ease((t - a) / d);
+    const o = b == null ? 0 : ease((t - b) / d2);
+    return { op: i * (1 - o), dy: (1 - i) * 28 - o * 18 };
+  }
+  function place(el, x, y, s) {
+    el.style.left = x + "px"; el.style.top = y + "px";
+    if (s != null) el.style.opacity = s.op;
+    el.style.transform = `translateY(${s ? s.dy : 0}px)`;
+  }
+
+  /* 가로판은 사이트 첫 화면처럼 FIND. TEST. / IMPROVE. 두 줄 — 첫 줄은 단어 폭을 재서 이어 놓는다 */
+  function wordX() {
+    if (SQUARE) return [L.x, L.x, L.x];
+    return [L.x, L.x + $("w1").getBoundingClientRect().width + 44, L.x];
+  }
+
+  function fmt(el, v) {
+    const dec = +el.dataset.dec;
+    return el.dataset.pre + v.toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + el.dataset.suf;
+  }
+
+  window.render = function (t) {
+    ["w1", "w2", "w3"].forEach((id) => { $(id).style.fontSize = L.wordSize + "px"; });
+    $("lede").style.fontSize = L.ledeSize + "px";
+    const xs = wordX();
+
+    /* 1 — 0.2 ~ 4.2초: 제목을 한 단어씩, 소개 한 줄 */
+    const out1 = 3.7;
+    place($("eyebrow"), L.x, L.eyebrow, inOut(t, 0.2, 0.6, out1, 0.5));
+    place($("w1"), xs[0], L.w1, inOut(t, 0.45, 0.55, out1, 0.5));
+    place($("w2"), xs[1], L.w2, inOut(t, 0.95, 0.55, out1, 0.5));
+    place($("w3"), xs[2], L.w3, inOut(t, 1.45, 0.55, out1, 0.5));
+    place($("lede"), L.x, L.lede, inOut(t, 2.05, 0.6, out1, 0.5));
+
+    /* 2 — 4.3 ~ 11.0초: 증거 세 칸, 숫자는 올라가며 멈춘다 */
+    const out2 = 10.5;
+    $("dim").style.opacity = 0.32 * inOut(t, 3.9, 0.6, out2, 0.6).op;
+    /* 가로판 세 칸은 끝 숫자 기준 폭을 재서 겹치지 않게 놓는다(칸 사이 90px, 오른쪽 여백 180px) */
+    const ids = ["p1", "p2", "p3"];
+    let xs2 = L.proofs.map((q) => q[0]);
+    if (!SQUARE) {
+      const widths = ids.map((id) => {
+        const big = $(id).querySelector(".big"), keep = big.textContent;
+        if (big.dataset.to) big.textContent = fmt(big, +big.dataset.to);
+        const w = $(id).getBoundingClientRect().width;
+        big.textContent = keep;
+        return w;
+      });
+      const gap = (1920 - 2 * L.x - widths.reduce((a, b) => a + b, 0)) / 2;
+      xs2 = [L.x, L.x + widths[0] + gap, L.x + widths[0] + widths[1] + 2 * gap];
+    }
+    ids.forEach((id, i) => {
+      const a = 4.3 + i * 1.5;
+      const el = $(id);
+      el.style.transformOrigin = "left top";
+      place(el, xs2[i], L.proofs[i][1], inOut(t, a, 0.5, out2, 0.5));
+      el.style.transform += ` scale(${L.proofScale})`;
+      const big = el.querySelector(".big");
+      if (big.dataset.to) {
+        const p = ease((t - a - 0.15) / 1.3);
+        big.textContent = fmt(big, +big.dataset.from + (+big.dataset.to - +big.dataset.from) * p);
+      }
+      el.querySelector(".rule").style.width = 120 * ease((t - a - 0.4) / 0.8) + "px";
+    });
+
+    /* 3 — 11.0 ~ 15.0초: 이름 · 경력 줄 · 주소, 끝까지 둔다 */
+    place($("name"), L.x, L.name, inOut(t, 11.05, 0.6));
+    $("role").style.whiteSpace = "nowrap";
+    place($("role"), L.x, L.role, inOut(t, 11.4, 0.6));
+    place($("url"), L.x, L.url, inOut(t, 11.8, 0.6));
+  };
+  /* 화면 밖(가장자리 40px 안쪽)으로 나간 글자 — 굽는 스크립트가 프레임마다 묻는다 */
+  window.overflow = function () {
+    const W = SQUARE ? 1080 : 1920, H = 1080, M = 40;
+    return [...document.querySelectorAll(".el")].filter((el) => +el.style.opacity > 0.01).filter((el) => {
+      const r = el.getBoundingClientRect();
+      return r.left < M || r.top < M || r.right > W - M || r.bottom > H - M;
+    }).map((el) => el.id);
+  };
+  window.render(0);
+</script>
+</body>
+</html>

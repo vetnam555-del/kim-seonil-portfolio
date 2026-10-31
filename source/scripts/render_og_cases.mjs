@@ -96,7 +96,8 @@ const COVER = {
        공유받은 사람이 두 번 읽는다. generalProfile.title 을 바꾸면 여기도 바꾼다. */
     /* 2026.09.25 메인 카피 K+A 로 같이 바꿨다 (site.ts generalCover.display · statement) */
     display: 'FIND. TEST. <em>IMPROVE.</em>',
-    deck: "문제를 구조화해 가설을 세우고, 테스트로 개선합니다.",
+    /* 2026.10.31 쉼표를 뺐다 — 사이트 첫 화면(site.ts statement)은 2026.10.09 에 뺐는데 여기만 남아 있었다 */
+    deck: "문제를 구조화해 가설을 세우고 테스트로 개선합니다.",
     /* 2026.09.26 첫 화면 성과 칸과 같은 두 값 — 구조 개선(제이에스티나) · 판매 확장(강원) */
     figures: [
       { after: "583%", label: "제이에스티나 GA4 ROAS", note: "352% → · 고객 단계별 예산 재설계 · 전략·측정 75%" },

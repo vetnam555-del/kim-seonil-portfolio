@@ -43,6 +43,7 @@
 - 배경 사진(2026-10-31): `assets/linkedin/banner-a.png`(포트폴리오 공유 이미지와 같은 글꼴 · 색 · 문구) 또는
   `banner-b.png`(같은 문구를 Higgsfield 로 만든 배경 위에 — 8크레딧, 바탕이 살짝 보랏빛). 둘 중 주인이 고른다.
   문구가 바뀌면 `assets/linkedin/banner.html` 을 고치고 `node scripts/render_linkedin_banner.cjs a`(또는 b)로 다시 굽는다.
+  10-31 소개 줄의 쉼표("세우고, 테스트로")를 뺐다 — 사이트 첫 화면과 같게. 그 전 그림을 이미 올렸다면 새 그림으로 바꾼다.
   글자 있는 그림은 생성 모델이 한글을 틀리기 쉬워 직접 그린다. Higgsfield 는 글자 없는 배경에만 썼다.
 
 ## 2. 소개 (908 / 2,600)
@@ -161,6 +162,12 @@
 | 2 | 포트폴리오 PDF (29쪽) | https://vetnam555-del.github.io/kim-seonil-portfolio/kim-seonil-performance-marketing-portfolio.pdf | 전달 · 인쇄용 |
 | 3 | LG CNS MOP 우수사례 | https://blog.mop.co.kr/hll | 쇼핑검색 입찰 최적화와 재고에 따른 소재 ON/OFF 자동화 · 단독 수행 |
 | 4 | EDIT H | https://vetnam555-del.github.io/edit-h-archive/ | 2030 직장인 돈·일·소비 트렌드 뉴스레터 · 기획·발행 |
+
+- 소개 영상(2026-10-31, 15초 · 소리 없음): `assets/linkedin/intro-16x9.mp4`(가로 1920×1080) · `intro-1x1.mp4`(정사각 1080×1080),
+  대표 화면은 `intro-16x9.png` · `intro-1x1.png`. 글자는 사이트 홈 첫 화면 그대로(제목 · 소개 한 줄 · 증거 세 칸과 기준)이고,
+  끝 장면의 직함 줄은 1절 헤드라인과 같으며 주소를 더했다. 배경만 Higgsfield 로 만든 5초 영상(35크레딧, `hf-intro-bg.mp4`)을 약 3배 느리게 늘려 썼다.
+  게시물에 영상을 올리고(대표 화면을 고를 수 있으면 위 PNG), 그 게시물을 Featured 에 추가한다. 순서는 주인이 정한다.
+  문구가 바뀌면 `assets/linkedin/intro-video.html` 을 고치고 `node scripts/render_linkedin_video.cjs`(정사각은 `square`)로 다시 굽는다(ffmpeg 필요).
 
 ## 6. 자격증/수료증 (발행일을 아는 것만 · '만료되지 않음'은 확인한 것만)
 
