@@ -8,7 +8,7 @@
 | 담당 | claude |
 | 상태 | 검토 대기 |
 | 작업 브랜치 | `claude/stoic-bohr-gze1d1` |
-| 열린 PR | 링크드인 소개 영상 + 공유 이미지 쉼표 (PR 번호는 연 뒤 다음 커밋에서 적는다) |
+| 열린 PR | [#22](https://github.com/vetnam555-del/kim-seonil-portfolio/pull/22) (링크드인 소개 영상 + 공유 이미지 쉼표) |
 | 마지막 갱신 | 2026-10-31 · Claude |
 
 ## 지금 하던 일
