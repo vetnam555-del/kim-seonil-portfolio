@@ -127,6 +127,25 @@ PM 을 준비하는 사람이 리멤버 앱을 분석한 글과 상세 페이지
 | 언어 | 한 칸에 한국어 · 영어 병기 | 없음 | 설명이 두 배로 길어진다. 영문은 '다른 언어로 프로필 추가'로 따로 |
 | 공개 범위 | 대행사 시절 광고주를 업종으로만 | 주인 확인 O-11 | v3 는 이력서 수준(광고주 이름 + 비율)으로 써 두었다 |
 
+### 2026-10-31 (링크드인 소개 영상 — 주인 "단조롭다 · 레퍼런스는 안 찾아봤어?")
+
+사이트가 아니라 링크드인 소개 영상(`assets/linkedin/intro-video.html`)을 다시 만들 때 봤다. v1(15초)은 어두운 바탕 한 가지에
+글자가 같은 속도로 떠오르고 사라지기만 해서 단조로웠고, 첫 0.4초가 빈 화면이었다. 대부분 업체 블로그라 수치는 믿지 않고 공통된 방법만 가져왔다.
+
+- 링크드인 영상 운영 글: [shootsta](https://shootsta.com/blog/linkedin-video-best-practices-b2b-teams) · [opus.pro 자막](https://www.opus.pro/blog/linkedin-video-caption-subtitle-best-practices) · [ligosocial](https://ligosocial.com/blog/linkedin-video-post-best-practices) · [Adobe Express](https://www.adobe.com/express/learn/blog/how-use-video-linkedin)
+- 글자 모션 모음: [Prolific Studio 50선](https://prolificstudio.co/blog/typography-animation/) · [yansmedia](https://www.yansmedia.com/blog/kinetic-typography-marketing-videos)
+- 숫자 · 차트 애니메이션: [Toptal 모바일 데이터 시각화](https://www.toptal.com/designers/data-visualization/mobile-data-visualization) · [Infogram 카운터](https://infogram.com/blog/add-counters-to-highlight-key-numbers) · [Kineticharts(IEEE VIS 2021)](https://content.ieeevis.org/year/2021/paper_v-full-1072.html)
+- 사이트 화면을 기기 틀에 넣어 보여 주는 홍보 영상: [moonb 정리](https://www.moonb.io/blog/animated-mockups) · [jitter 기기 템플릿](https://jitter.video/templates/devices/)
+
+| 기준 | 본 것 | 가져온 것 (v2 · 20초) | 안 가져온 것 · 이유 |
+|---|---|---|---|
+| 첫 3초 | 소리 없이 자동 재생 — 첫 1~3초에 멈추게 해야 한다 | 첫 프레임부터 FIND. 가 화면을 채우고, 0.5초마다 단어 · 배경색이 끊어 바뀐다 | 질문형 문구 — 새 문장이 된다 |
+| 소리 없음 | 화면 글자가 내용을 다 말해야 한다 · 자막은 화면에 박는다 | 모든 내용을 화면 글자로(내레이션 없음) | 배경 음악 — 링크드인은 소리 꺼짐이 기본 |
+| 숫자 | 기준 → 변화 → 결과 순서, 막대는 시차를 두고 살짝 넘쳤다 멈춘다, 관계없는 것은 흐리게 | 제이에스티나 5월 · 7월 막대(352 : 583 실제 비율)와 +231%p, 강원 막대 두 줄(1 : 4.973) | 선 그래프 — 중간 달 값이 사이트에 없다(만들면 지어낸 숫자) |
+| 리듬 | 장면마다 색 · 구도가 바뀌고 장면 사이를 닦아 넘긴다 | 어두움 → 밝음 → 빨강 바탕을 번갈아, 장면 사이 0.4초 닦아내기, 화면 아래 진행 막대 | 화면 흔들기 · 번쩍임 — 데이터를 읽기 어렵게 한다(Toptal) |
+| 실물 | 실제 화면을 기기 틀에 넣어 내려 보여 준다 | 라이브 사이트를 캡처해 휴대폰 · 브라우저 틀에서 첫 화면 → 대표 사례로 내린다 | 3D 회전 기기 — 글자가 기울어 읽기 어렵다 |
+| 판형 | 세로 영상 피드가 따로 생겼다 · 정사각은 데스크톱 · 모바일 모두 무난 | 정사각(기본) · 가로 · 세로 9:16 세 판 | 4:5 — 근거 글이 없었다 |
+
 ## 참고: 검색에서 반복해 나온 공통 원칙 (2026-10-10)
 
 - 사례는 4–6개로 줄이고 문제 → 실행 → 결과 구조로 쓴다. 이야기마다 수치 하나를 앞세운다(theinterviewguys, Marketers Help Marketers).
