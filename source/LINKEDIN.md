@@ -32,6 +32,8 @@ v4 는 2026-10-31 실제 프로필에 반영한 결과다(같은 날 밤 주인 
   영문 표기는 'Ad Operations Manager at Remember' 그대로 둔다.
 - EDIT H 프로젝트는 기간을 비워 광고 사례 뒤에 둔다(4절).
 - 외국어 칸은 한국어 '원어민 수준', 영어는 숙련도를 비워 둔다(10절).
+- 뉴발란스 운영 규모('월 10억', '10개 채널')는 링크드인에 쓰지 않는다(2026-11-01 주인 결정 "제외하자" · 승인 "이대로 저장").
+  기여 범위 '계정 운영 40%'는 남긴다. 사이트 · 이력서 · 덱에도 같게 할지는 아직 정하지 않았다(BACKLOG O-14 — 그 전에는 사이트 문장을 바꾸지 않는다).
 
 ## 적용할 때 지킬 것
 
@@ -129,7 +131,7 @@ makefair@naver.com
 
 ```text
 퍼포먼스전략국에서 매체 운영은 물론 성과 측정 기준과 운영 자동화까지 맡았습니다.
-• 뉴발란스 월 10억 원 이상, 10개 채널 통합 운영에서 계정 운영 40% 담당
+• 뉴발란스 통합 광고 운영에서 계정 운영 40% 담당
 • 재고 연동 광고 자동화로 하루 평균 약 2시간 걸리던 점검을 5분 이내로 단축
 • 쇼핑검색 자동화를 단독 수행해 LG CNS MOP 우수사례 게재
 • 재고·리포트·모니터링·정산 자동화 6종 단독 구축
@@ -153,7 +155,8 @@ makefair@naver.com
 ```
 
 HLL 중앙 · PlayD 두 칸은 2026-11-01 주인 요청("처음판과 레퍼런스 말투가 더 깔끔하다")과 승인("이대로 반영")으로 다시 정리했다 —
-v3 원칙(한 줄에 사실 하나, 명사로 끝맺음)대로 줄을 짧게 하고 줄 끝을 하는 일로 맞췄다. 경력에서 뺀 것과 있는 곳:
+v3 원칙(한 줄에 사실 하나, 명사로 끝맺음)대로 줄을 짧게 하고 줄 끝을 하는 일로 맞췄다. HLL 첫 줄의 '월 10억 원 이상, 10개 채널'은
+같은 날 주인 결정("제외하자")으로 뺐다 — 링크드인 어디에도 없다(경력 · 프로젝트 · 첫 화면 다시 읽음). 경력에서 뺀 것과 있는 곳:
 강원 397.3% · 대교 CVR 0.66% → 2.24%(소개 · 프로젝트), 흩어진 DA 통합과 고객 단계별 예산 · 입찰 조정(소개 · 프로젝트), 수상 브랜드(수상 칸).
 다이슨 채널 구독자 2,000 → 107,600 은 팀 성과라 링크드인에서는 뺐다(사이트에는 팀 성과로 남아 있다).
 "담당 캠페인으로"는 사이트 원칙("본인이 주어인 결과만 · 담당 캠페인 수상", `site.ts`)에 맞춘 것이다. 정해 둔 표기('마감보고' · '계정 운영 40%' ·
@@ -339,7 +342,8 @@ EDIT H 와 실무 허브는 v3 에 없던 항목이고, 숫자는 사이트 원�
 
 프로필 언어는 한국어 하나다. 만들 때는 프로필 상단 → 다른 언어로 프로필 추가 → English 로 따로 만든다.
 한국어 칸에 영어를 같이 쓰지 않는다(설명이 두 배로 길어진다).
-아래는 v3 초안에서 연차(over 4 years)와 포트폴리오 주소만 뺀 것이다(주인 결정) — 쓰기 전에 v4 한국어 칸과 다시 맞춘다.
+아래는 v3 초안에서 연차(over 4 years)와 포트폴리오 주소, 뉴발란스 운영 규모(10 channels · KRW 1B+)만 뺀 것이다(주인 결정) —
+쓰기 전에 v4 한국어 칸과 다시 맞춘다.
 부서 표기는 'Ad Operations Manager at Remember' 그대로 둔다(주인 결정).
 
 Headline (198 / 220)
@@ -355,7 +359,7 @@ I've run search, display and social ads for 30+ brands across 9 industries, and 
 
 At PlayD I split J.ESTINA's search-heavy budget by customer stage. In the same closing report, GA4 ROAS rose from 352% in May 2025 to 583% in July, and that campaign won an Excellence Award at the Korea Digital Advertising Awards that year.
 
-At HLL JoongAng I ran New Balance's 10 channels at KRW 1B+ a month as part of a team. I connected the inventory checks people did site by site to ad operations, cutting internal check time from about 2 hours to under 5 minutes, and made the system stop without changing ad settings when data looks wrong. This work was featured as an LG CNS MOP best practice. I also ran Gangwon Deep Sea Water on my own and added Instagram group-buys as a sales channel; July 2026 store sales were 397.3% higher than the same period last year (incl. group-buys).
+At HLL JoongAng I ran New Balance's integrated ad operations as part of a team. I connected the inventory checks people did site by site to ad operations, cutting internal check time from about 2 hours to under 5 minutes, and made the system stop without changing ad settings when data looks wrong. This work was featured as an LG CNS MOP best practice. I also ran Gangwon Deep Sea Water on my own and added Instagram group-buys as a sales channel; July 2026 store sales were 397.3% higher than the same period last year (incl. group-buys).
 ```
 
 ---
@@ -370,6 +374,7 @@ At HLL JoongAng I ran New Balance's 10 channels at KRW 1B+ a month as part of a 
    그 뒤 바뀌었다(주인이 직접 바꾼 것으로 보임). 경력 직함("광고사업실 매니저 · 퍼포먼스 마케터")과 사이트는 '매니저' —
    의도한 것인지, 경력 직함도 맞출지 주인 확인.
 6. Featured 에서 EDIT H 를 잠시 뺐다(2026-11-01 주인 결정) — 아카이브의 링크 미리보기 이미지를 고친 뒤 다시 넣는다(5절).
+7. 뉴발란스 '월 10억 · 10개 채널'은 링크드인에서 뺐다(2026-11-01 주인 결정). 사이트 · 이력서 · 덱에는 남아 있다 — 그쪽도 뺄지 BACKLOG O-14.
 처음 대조 때 남은 차이였던 '내부 실측' 기준은 같은 날 밤 문장 안에 넣어 풀었다. 2026-11-01 말투 정리로 소개 · 경력은 '하루 평균'으로 풀어 쓰고,
 '내부 실측'의 뜻은 뉴발란스 프로젝트 칸에만 남았다(4절).
 말투 정리에서 '정해 둔 것'과 부딪혔던 3곳(O-13 — 재다 · 마감보고 · 기여도 범위)은 2026-11-01 주인 결정("3곳 고치기")으로 링크드인을 고쳐 풀었다.
@@ -431,4 +436,7 @@ At HLL JoongAng I ran New Balance's 10 channels at KRW 1B+ a month as part of a 
   (저장 직후는 '매니저'였고 그 뒤 바뀌었다 — 링크드인 작업 세션 확인).
 - 2026-11-01 Featured: 주인 결정("잠시 빼기")으로 EDIT H 를 잠시 뺐다(MOP 우수사례 하나만 남음). 아카이브 링크의 미리보기 이미지가 한글이 깨지고
   문구도 옛 형식이라서다. 이미지를 다시 만드는 일은 링크드인 작업 세션이 주인에게 별도 작업으로 제안했다. 다시 넣을 값은 5절.
+- 2026-11-01 뉴발란스 규모: 주인 결정("제외하자" · 승인 "이대로 저장")으로 HLL 첫 줄을 "뉴발란스 통합 광고 운영에서 계정 운영 40% 담당"으로 바꿨다
+  ('월 10억 원 이상, 10개 채널' 뺌, 기여 범위는 그대로). 링크드인 어디에도 '10억 · 10개 채널'이 없는 것을 확인했다. 영문 초안(11절)도 같이 뺐다.
+  사이트 · 이력서 · 덱에서도 뺄지는 O-14(아직 주인에게 묻지 않음).
 - v3 붙여넣기 페이지(https://claude.ai/artifact/15ZKb6YBZpitr43a13WZsm, 주인 계정에서만 열림)는 v3 그대로다 — v4 와 다르다.
