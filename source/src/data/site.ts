@@ -12,10 +12,11 @@ export const site = {
   /** 판마다 다르다 — hll 은 "콘텐츠 그로스 · 퍼포먼스 마케터", 일반판은 직무 중심 */
   role: edition.role,
   /*
-   * 2026.10 리멤버앤컴퍼니 광고운영팀 매니저로 합류(2026-10-15 본인 확인·공개 승인). HLL중앙은 2026.09.30 까지 재직이라
-   * '전'을 붙여 뒤에 둔다. 홈 사진 캡션과 웹 이력서 머리줄이 이 값을 쓴다.
+   * 2026.10 리멤버앤컴퍼니 광고운영팀 매니저로 합류(2026-10-15 본인 확인·공개 승인). 홈 사진 캡션 · 웹 이력서 머리줄 ·
+   * 이력서 PDF 머리줄이 이 값을 쓴다. 지금 직함만 쓴다 — 뒤에 붙이던 '전 HLL중앙 과장'은 뺐다(2026-11-01 주인
+   * "포트폴리오에서 전 hll중앙 과장은 제외해줘"). HLL중앙 경력(2025.11 – 2026.09 · 퍼포먼스전략국 과장)은 경력 칸에 그대로다.
    */
-  org: "리멤버 광고운영팀 매니저\u00a0· 전 HLL중앙 과장",
+  org: "리멤버 광고운영팀 매니저",
   email: "makefair@naver.com",
   /*
    * 연락 메일은 개인 메일 하나다. 사내 이동 지원판(hll)에서 함께 싣던 사내 메일은 2026.09.30 퇴사로 쓰지 않고,
@@ -36,7 +37,7 @@ export const site = {
     "mailto:makefair@naver.com?subject=%EC%9D%B4%EB%A0%A5%EC%84%9C%20%EC%9B%90%EB%B3%B8%20%EC%9A%94%EC%B2%AD%EB%93%9C%EB%A6%BD%EB%8B%88%EB%8B%A4",
   /** 전화번호·주소·생년월일을 제외한 공개용 PDF */
   /* 2026.10.09 문장 다듬기 반영본(scripts/print_resume_reportlab.py) — 캐시를 넘기려고 판 번호를 올린다 */
-  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261101a" : "/kim-seonil-resume-public.pdf",
+  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261101b" : "/kim-seonil-resume-public.pdf",
   /** 웹 포트폴리오의 PDF 공유본 — 일반판은 2026-10-31 부터 사이트에 싣지 않는다(edition.ts portfolioPdfPublic). 다른 판의 경로로만 쓴다 */
   portfolioPdfPath: isGeneralLike ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261025a" : "/kim-seonil-performance-marketing-portfolio.pdf",
 } as const;
