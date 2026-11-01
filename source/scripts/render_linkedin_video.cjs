@@ -1,10 +1,11 @@
 /*
- * 링크드인 소개 영상(20초 · 30fps · 소리 없음)을 굽는다 (2026.10.31 v2, LINKEDIN.md 5절).
+ * 링크드인 소개 영상(20초 · 30fps · 소리 없음)을 굽는다 (2026.10.31 v2 · 2026.11.01 v3 장면 순서, LINKEDIN.md 5절).
  *   node scripts/render_linkedin_video.cjs 1x1     → assets/linkedin/intro-1x1.mp4  (1080×1080, 피드 기본) + intro-1x1.png(대표 화면)
  *   node scripts/render_linkedin_video.cjs 16x9    → assets/linkedin/intro-16x9.mp4 (1920×1080) + intro-16x9.png
  *   node scripts/render_linkedin_video.cjs 9x16    → assets/linkedin/intro-9x16.mp4 (1080×1920, 세로 피드) + intro-9x16.png
  *   … --at 0.2,3.3,6.8 → 그 순간만 PNG 로(확인용, 작업 폴더에)
  *   --work <폴더>: 중간 파일 자리(기본: 운영체제 임시 폴더) · --site <주소>: 캡처할 사이트(기본: 라이브)
+ *   --order s3,s1,s2,… : 장면 순서를 바꿔 굽는다(비교용 · intro-video.html 의 기본 순서 대신) · --out <폴더>: 결과 자리(기본 assets/linkedin)
  *
  * 화면은 assets/linkedin/intro-video.html 의 render(t) 가 그린다 — 프레임마다 PNG 로 찍어 ffmpeg 로 넘긴다.
  * 6장면의 포트폴리오 화면은 사이트를 캡처해 쓴다(모바일 390px · 데스크톱 1440px, 늦게 불러오는 사진까지 다 불러온 뒤).
@@ -30,8 +31,9 @@ const AT = argAfter("--at") ? argAfter("--at").split(",").map(Number) : null;
 const WORK = path.resolve(argAfter("--work") || path.join(os.tmpdir(), "ksi-linkedin-video"));
 const SITE = argAfter("--site") || "https://vetnam555-del.github.io/kim-seonil-portfolio/";
 const ASSETS = path.resolve("assets", "linkedin");
+const OUT = path.resolve(argAfter("--out") || ASSETS);
+const ORDER = argAfter("--order");
 const BG_SRC = path.join(ASSETS, "hf-intro-bg.mp4");
-const THUMB_T = 3.3;  // 세 단어와 소개 한 줄이 다 들어온 순간
 const SHIFT = 440;    // 가로판: 원을 오른쪽으로 옮기는 폭(px)
 const CHROME = process.env.CHROME_PATH || (process.platform === "win32" ? "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" : undefined);
 
@@ -105,16 +107,18 @@ async function openStage(browser, shotFile) {
   const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
   const file = path.join(ASSETS, "intro-video.html").replace(/\\/g, "/");
   const shotUrl = "file://" + (shotFile.startsWith("/") ? "" : "/") + shotFile.replace(/\\/g, "/");
-  await page.goto(`file://${file.startsWith("/") ? "" : "/"}${file}?fmt=${FMT}&shot=${encodeURIComponent(shotUrl)}`);
+  await page.goto(`file://${file.startsWith("/") ? "" : "/"}${file}?fmt=${FMT}&shot=${encodeURIComponent(shotUrl)}${ORDER ? `&order=${ORDER}` : ""}`);
   await page.evaluate(() => Promise.all([document.fonts.ready, window.ready]));
   const missing = await page.evaluate(() => ["Archivo", "Pretendard"].filter((f) => !document.fonts.check(`700 40px "${f}"`)));
   if (missing.length) throw new Error(`글꼴을 못 불렀다: ${missing.join(", ")} — public/fonts/original 을 확인한다`);
   if (!(await page.evaluate(() => document.getElementById("shot").naturalWidth))) throw new Error("사이트 캡처를 못 불렀다");
-  return async (t) => {
+  const shot = async (t) => {
     const over = await page.evaluate((tt) => { window.render(tt); return window.overflow(tt); }, t);
     if (over.length) throw new Error(`${t.toFixed(2)}초: 화면 밖으로 나간 것 — ${over.join(", ")}`);
     return page.screenshot({ omitBackground: true, type: "png" });
   };
+  shot.thumbT = await page.evaluate(() => window.thumbT); /* 대표 화면 순간 — 장면 순서에 따라 화면 쪽이 정한다 */
+  return shot;
 }
 
 /* 한 장 — 배경의 t 초 화면 위에 화면 층 */
@@ -139,12 +143,13 @@ function composeStill(bg, png, t, out) {
     }
 
     /* 대표 화면(링크드인에서 썸네일로 고른다) */
+    fs.mkdirSync(OUT, { recursive: true });
     const thumb = path.join(WORK, `layer-${FMT}-thumb.png`);
-    fs.writeFileSync(thumb, await shot(THUMB_T));
-    composeStill(bg, thumb, THUMB_T, path.join(ASSETS, `intro-${FMT}.png`));
+    fs.writeFileSync(thumb, await shot(shot.thumbT));
+    composeStill(bg, thumb, shot.thumbT, path.join(OUT, `intro-${FMT}.png`));
 
     /* 영상 — 화면 층 PNG 를 표준 입력으로 흘려 배경 위에 얹는다 */
-    const out = path.join(ASSETS, `intro-${FMT}.mp4`);
+    const out = path.join(OUT, `intro-${FMT}.mp4`);
     const ff = spawn("ffmpeg", ["-v", "error", "-y",
       "-f", "image2pipe", "-framerate", String(FPS), "-c:v", "png", "-i", "-",
       "-i", bg,
