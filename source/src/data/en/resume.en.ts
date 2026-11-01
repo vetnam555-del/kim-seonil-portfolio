@@ -12,7 +12,7 @@ export function careerLengthEn(now: Date = new Date()): string {
 }
 
 export const narrativeEn = [
-  "Over four years at PlayD and HLL JoongAng, I've run ads for 30+ brands, including New Balance, Dyson and J.ESTINA. When performance stalls, I check the comparison baseline first to find the cause, set a hypothesis and test it, then reset budget allocation and operations on verified results. I automate repetitive checks to free up time for decisions.",
+  "At PlayD and HLL JoongAng, I've run ads for 30+ brands, including New Balance, Dyson and J.ESTINA. When performance stalls, I check the comparison baseline first to find the cause, set a hypothesis and test it, then reset budget allocation and operations on verified results. I automate repetitive checks to free up time for decisions.",
   "At PlayD I ran search (SA), display (DA) and social campaigns for 30+ brands. For J.ESTINA I split a search-heavy budget by customer stage, and in the same closing report GA4 ROAS rose from 352% in May 2025 to 583% in July. That campaign won an Excellence Award at the Korea Digital Advertising Awards that year. For Dyson I took on co-planning and media-mix analysis, and moved budget from weaker display ads into video.",
   "At HLL JoongAng I ran New Balance's 10 channels at KRW 1B+ a month as part of a team. I connected the inventory checks people did site by site to ad operations, cutting internal check time from about 2 hours to under 5 minutes, and made the system stop without changing ad settings when data looks wrong. This work was featured as an LG CNS MOP best practice. At Daekyo EduCamp I re-measured a 'performance dropped' report on the same sample and found CVR had actually risen from 0.66% to 2.24%.",
   "I studied business and then industrial design, and surveying 300 car owners for a pre-startup taught me that answers lie in customer data more than in a good idea. To learn how to get the word out, I chose an ad agency, where marketing across the most industries happens. When a campaign ends, I leave reports, check procedures and handover documents so the next person can pick it up.",
@@ -20,7 +20,7 @@ export const narrativeEn = [
 
 export const summaryEn = {
   intro:
-    "A performance marketer who has run search, display and video ads for 30+ brands over four years. I find where budget leaks and move it to what performs, and automate the checks, reports and settlement people used to repeat, so the team has time for decisions.",
+    "A performance marketer who has run search, display and video ads for 30+ brands. I find where budget leaks and move it to what performs, and automate the checks, reports and settlement people used to repeat, so the team has time for decisions.",
   columns: [
     { title: "Insight\u00a0· Brief", items: ["Market, search and performance signal analysis", "Structuring client problems and bottlenecks", "Defining content purpose and KPIs"] },
     { title: "Content\u00a0· Channels", items: ["Content–subscription–commerce journeys", "Role and budget design across 10 channels", "30+ brands managed"] },

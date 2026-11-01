@@ -10,7 +10,7 @@ import { heroStrengths } from "@/data/intro";
 import { EDITION, edition, portfolioPdfPublic, portfolioPdfRequest } from "@/data/edition";
 import { projects, type Project } from "@/data/projects";
 import { caseCards, type CaseCard } from "@/data/caseCards";
-import { automationCases, builtGroups, careerYear, contact, employerLogos, generalCover, site, verification } from "@/data/site";
+import { automationCases, builtGroups, contact, employerLogos, generalCover, site, verification } from "@/data/site";
 import { getProjectEn } from "@/data/en/projects.en";
 import { caseCardsEn } from "@/data/en/caseCards.en";
 import { contactEn, coverEn, NAME_EN_DISPLAY, ORG_EN, otherEn, recordsEn, ROLE_EN, systemsEn } from "@/data/en/home.en";
@@ -72,8 +72,8 @@ const UI = {
     recordsAria: "수상과 공개 우수사례",
     newTab: " (새 탭)",
     workTitle: "대표 사례",
-    /* "N년 차"는 'N번째 해'로 읽혀 채운 연수(careerYear)보다 낮게 보였다 — 이력서·PDF 와 같은 "경력 N년" (2026.10.09) */
-    yearsRole: (y: number) => `경력 ${y}년 ${edition.role}`,
+    /* 경력 연수는 쓰지 않는다(2026-11-01 주인 "사이트랑 이력서에도 경력 4년은 빼줘") — 이름 · 직함만 */
+    eyebrowRole: edition.role,
     workLead: "숫자마다 기간과 제 몫을 함께 적었습니다.",
     capAria: "문제 진단\u00a0· 가설 검증\u00a0· 구조 개선과 해당 사례",
     loopKicker: "How I work",
@@ -109,7 +109,7 @@ const UI = {
     recordsAria: "Awards and published best practice",
     newTab: " (new tab)",
     workTitle: "Case studies",
-    yearsRole: (y: number) => `${ROLE_EN}\u00a0· ${y} years`,
+    eyebrowRole: ROLE_EN,
     workLead: "Every number comes with its period and my share of the work.",
     capAria: "Find, test, improve — and the cases",
     loopKicker: "How I work",
@@ -227,7 +227,7 @@ export default function HomeFolio({ lang = "ko" }: { lang?: Lang }) {
       <section id="hero" className="folio-hero">
         <div className="folio-wrap folio-hero-grid">
           <div className="folio-hero-copy">
-            <p className="folio-eyebrow">{`${en ? NAME_EN_DISPLAY : site.name}\u00a0· ${ui.yearsRole(careerYear())}`}</p>
+            <p className="folio-eyebrow">{`${en ? NAME_EN_DISPLAY : site.name}\u00a0· ${ui.eyebrowRole}`}</p>
             {/* 영문 세 단어로 첫인상, 바로 밑 한국어 한 줄로 뜻 (2026.09.25 K+A) — 스크린리더는 한 제목으로 읽는다 */}
             <h1 className="folio-hero-title">
               {display.map((line, i) => (

@@ -119,6 +119,15 @@ const deckPdf =
     ? "kim-seonil-ably-growth-portfolio.pdf"
     : "kim-seonil-performance-marketing-portfolio.pdf";
 
+/* 일반판은 경력 연수를 쓰지 않는다(2026-11-01 주인 "사이트랑 이력서에도 경력 4년은 빼줘"). 수상의 '2년 연속 · 2 years running'은 연수가 아니다 */
+if (edition === "general") {
+  const yearsPatterns = [/경력\s*(?:<!--\s*-->)?\s*\d+\s*년/, /\d+\s*년\s*동안/, /\b(?:four|\d+)\s+years?\s+(?:at|in|of)\b/i, /\bover\s+(?:four|\d+)\s+years\b/i, /\d+\s*yrs\b/];
+  for (const re of yearsPatterns) {
+    const m = allHtml.match(re);
+    if (m) failures.push(`경력 연수 표기가 남았습니다: "${allHtml.slice(Math.max(0, m.index - 30), m.index + 40).replace(/\s+/g, " ")}"`);
+  }
+}
+
 /* 일반판은 덱을 싣지 않는다(2026-10-31 — 헤드헌터에게만 Drive 로). 실리면 실패, 요청 메일 버튼이 없어도 실패 */
 const deckPublic = edition !== "general";
 if (!deckPublic) {
