@@ -17,9 +17,10 @@
   경력 연수(4년)는 쓰지 않는다(2026-10-31 주인). 소개 한 줄에 쉼표를 넣지 않는다(사이트 2026-10-09).
   막대 길이는 실제 비율이다 — 352 : 583, 전년 같은 기간 1 : 2026.07 4.973(+397.3%).
 
-  v3(2026.11.01): 장면 순서를 바꿀 수 있게 장면마다 제 시간(0초부터)으로 그린다. ?order=s3,s4,s1,… 로 순서를 준다(s7 은 늘 끝).
-  Higgsfield 바이럴 예측(LINKEDIN.md 5절)에서 결과 숫자로 여는 안이 단어 컷 · 얼굴 · 사이트 화면으로 여는 안보다 앞 3초가 강했다.
-  첫 장면은 pre 초만큼 앞당겨 시작해 첫 프레임부터 글자 · 막대가 보인다.
+  v3(2026.11.01): 장면 순서를 바꿀 수 있게 장면마다 제 시간(0초부터)으로 그린다. ?order=s6,s1,… 로 순서를 준다(s7 은 늘 끝).
+  기본 순서는 실제 포트폴리오 화면(6)으로 연다 — Higgsfield 바이럴 예측(LINKEDIN.md 5절)에서 같은 장면을 순서만 바꿔 비교하니
+  사이트 화면으로 연 순서가 v2(단어 컷으로 열기)보다 종합 · 훅 · 몰입이 높았고 세 번 구워 재도 같았다. 제이에스티나 막대로 연 순서는 오히려 낮았다.
+  첫 장면은 pre 초만큼 앞당겨 시작해 첫 프레임부터 기기 · 설명이 다 보인다(들어오는 연출을 건너뛴다).
 -->
 <style>
   @font-face { font-family: "Archivo"; src: url("../../public/fonts/original/Archivo-Var.woff2") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; }
@@ -250,17 +251,18 @@
   const back = (v) => { const c1 = 1.5, c3 = c1 + 1; return v <= 0 ? 0 : 1 + c3 * Math.pow(v - 1, 3) + c1 * Math.pow(v - 1, 2); };
 
   /* 장면 — 길이(초)와 hold(글자가 다 들어와 멈춘 구간, 장면 안 시간 · 화면 밖 검사는 여기서만).
-     pre 는 첫 장면일 때 앞당겨 시작하는 초 — 들어오는 연출을 건너뛰어 첫 프레임부터 내용이 보이게 한다 */
+     pre 는 그 장면이 첫 장면일 때만 앞당겨 시작하는 초 — 들어오는 연출을 건너뛰어 첫 프레임부터 내용이 보이게 한다
+     (6: 기기 · 설명이 다 올라온 뒤 · 3: 막대가 다 오르고 +231%p 직전) */
   const SCENES = {
     s1: { dur: 1.5, hold: [0.3, 0.45] },
     s2: { dur: 2.5, hold: [1.25, 2.2] },
-    s3: { dur: 3.6, hold: [2.5, 3.35], pre: 0.75 },
+    s3: { dur: 3.6, hold: [2.5, 3.35], pre: 1.6 },
     s4: { dur: 2.7, hold: [2.1, 2.45] },
     s5: { dur: 2.6, hold: [1.7, 2.35] },
-    s6: { dur: 3.2, hold: [1.2, 2.95] },
+    s6: { dur: 3.2, hold: [1.2, 2.95], pre: 1.0 },
     s7: { dur: Infinity, hold: [1.9, Infinity] },
   };
-  const DEFAULT_ORDER = "s3,s4,s1,s2,s5,s6,s7";
+  const DEFAULT_ORDER = "s6,s1,s2,s3,s4,s5,s7";
   const ORDER = (Q.get("order") || DEFAULT_ORDER).split(",");
   if (ORDER.length !== 7 || new Set(ORDER).size !== 7 || ORDER.some((id) => !SCENES[id]) || ORDER[6] !== "s7") {
     throw new Error(`order 는 s1–s7 을 한 번씩, s7 을 끝에: ${ORDER.join(",")}`);
@@ -331,9 +333,9 @@
       fit(el, W * (WIDE ? 0.74 : 0.84), H * 0.4);
       w.style.marginTop = -w.getBoundingClientRect().height / 2 + "px";
     });
-    /* 4 — 큰 숫자 · 막대 자리 */
-    const s4top = WIDE ? 290 : TALL ? 760 : 300;
+    /* 4 — 큰 숫자 · 막대 자리. 숫자는 머리글(이름 · 기준) 아래에서 시작한다 — 가로판은 고정 자리면 기준 줄과 겹쳤다(v2) */
     fit($("#s4arch"), W - 2 * m - (WIDE ? 560 : 0), null);
+    const s4top = Math.max(WIDE ? 290 : TALL ? 760 : 300, $("#s4head").getBoundingClientRect().bottom + 28);
     const numH = $("#s4num").getBoundingClientRect().height;
     $("#s4num").style.top = s4top + "px";
     $("#s4rows").style.top = s4top + numH + (TALL ? 110 : 56) + "px";
@@ -476,17 +478,24 @@
     }
   };
 
-  /* 화면 밖(가장자리 40px 안쪽)으로 나간 것 — 장면이 멈춘 구간에서만 본다 */
+  /* 화면 밖(가장자리 40px 안쪽)으로 나간 것 · 글자 덩어리끼리 겹친 것 — 장면이 멈춘 구간에서만 본다 */
   window.overflow = function (t) {
     const cur = SC.find((s) => t >= s.a && t < s.b);
     if (!cur || !cur.hold || t < cur.hold[0] || t > cur.hold[1]) return [];
     const m = 40;
     const els = $$(`#${cur.id} [data-fit], #${cur.id} .card, #${cur.id} .col, #${cur.id} .device, #${cur.id} .word .arch`)
       .filter((el) => getComputedStyle(el).visibility !== "hidden");
-    return els.filter((el) => {
+    const out = els.filter((el) => {
       const r = el.getBoundingClientRect();
       return r.width > 0 && (r.left < m - 1 || r.top < m - 1 || r.right > W - m + 1 || r.bottom > H - m + 1);
     }).map((el) => el.id || el.className);
+    /* 같은 장면의 글자 덩어리끼리 겹친 것 */
+    const fits = els.filter((el) => el.hasAttribute("data-fit") && el.getBoundingClientRect().width > 0);
+    fits.forEach((a, i) => fits.slice(i + 1).forEach((b) => {
+      const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
+      if (ra.left < rb.right - 2 && rb.left < ra.right - 2 && ra.top < rb.bottom - 2 && rb.top < ra.bottom - 2) out.push(`${a.id} ↔ ${b.id} 겹침`);
+    }));
+    return out;
   };
 
   /* 글꼴과 사이트 캡처를 다 불러온 뒤에 배치를 잰다 — 대체 글꼴 폭으로 재면 실제 글꼴에서 넘친다 */
