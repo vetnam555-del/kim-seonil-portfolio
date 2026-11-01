@@ -10,7 +10,6 @@ import {
   awardsArchiveEn,
   awardsEn,
   careerEn,
-  careerLengthEn,
   certificationsEn,
   educationCaptionEn,
   educationEn,
@@ -117,7 +116,8 @@ export default function ResumePageEn() {
                 <span className="ml-3 text-small font-normal text-ink-3" lang="ko">{site.name}</span>
               </h1>
               <p className="mt-3 text-small text-ink-2 sm:text-body">
-                {ROLE_EN} · {ORG_EN} · {careerLengthEn()} in performance marketing
+                {/* No career-length figure (owner, 2026-11-01) */}
+                {ROLE_EN} · {ORG_EN}
               </p>
               <p className="mt-2 text-caption text-ink-3">
                 {site.email} ·{" "}

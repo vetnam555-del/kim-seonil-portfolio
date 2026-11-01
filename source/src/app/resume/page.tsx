@@ -9,7 +9,6 @@ import {
   awards,
   awardsArchive,
   career,
-  careerLength,
   careerNarrative,
   careerSummary,
   certifications,
@@ -129,7 +128,8 @@ export default function ResumePage() {
                 <span className="ml-3 text-small font-normal text-ink-3">{site.nameEn}</span>
               </h1>
               <p className="mt-3 text-small text-ink-2 sm:text-body">
-                {site.role} · {site.org} · 퍼포먼스 마케팅 경력 {careerLength()}
+                {/* 경력 연수는 쓰지 않는다(2026-11-01 주인) */}
+                {site.role} · {site.org}
               </p>
               <p className="mt-2 text-caption text-ink-3">
                 {site.email} ·{" "}
