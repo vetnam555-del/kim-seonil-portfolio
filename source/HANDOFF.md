@@ -8,7 +8,7 @@
 | 담당 | claude |
 | 상태 | 검토 대기 |
 | 작업 브랜치 | `claude/stoic-bohr-gze1d1` |
-| 열린 PR | (사이트 · 이력서 경력 연수 빼기 — 번호는 연 뒤 적는다) · PR #23 은 2026-11-01 main 39868a5 에 합침 |
+| 열린 PR | [#24](https://github.com/vetnam555-del/kim-seonil-portfolio/pull/24) (사이트 · 이력서 경력 연수 빼기) · PR #23 은 2026-11-01 main 39868a5 에 합침 |
 | 마지막 갱신 | 2026-11-01 · Claude |
 
 ## 지금 하던 일
