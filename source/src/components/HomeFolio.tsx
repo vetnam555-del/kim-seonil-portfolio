@@ -7,7 +7,7 @@ import IntroSplash from "@/components/IntroSplash";
 import LoopStory from "@/components/LoopStory";
 import Sentences from "@/components/Sentences";
 import { heroStrengths } from "@/data/intro";
-import { EDITION, edition } from "@/data/edition";
+import { EDITION, edition, portfolioPdfPublic, portfolioPdfRequest } from "@/data/edition";
 import { projects, type Project } from "@/data/projects";
 import { caseCards, type CaseCard } from "@/data/caseCards";
 import { automationCases, builtGroups, careerYear, contact, employerLogos, generalCover, site, verification } from "@/data/site";
@@ -442,7 +442,12 @@ export default function HomeFolio({ lang = "ko" }: { lang?: Lang }) {
           <div className="folio-contact-actions">
             <Link href={ui.resumeHref} prefetch={false} className="folio-btn folio-btn-dark">{ui.resumeWeb}</Link>
             <a href={`${BASE}${site.resumePdfPath}`} download className="folio-btn folio-btn-line">{ui.resumePdf}</a>
-            <a href={`${BASE}${edition.portfolioPdfPath}`} download className="folio-btn folio-btn-line">{ui.portfolioPdf}</a>
+            {portfolioPdfPublic ? (
+              <a href={`${BASE}${edition.portfolioPdfPath}`} download className="folio-btn folio-btn-line">{ui.portfolioPdf}</a>
+            ) : (
+              /* PDF 는 헤드헌터에게만 — 요청 메일로 받는다(2026-10-31) */
+              <a href={en ? portfolioPdfRequest.hrefEn : portfolioPdfRequest.href} className="folio-btn folio-btn-line">{en ? portfolioPdfRequest.labelEn : portfolioPdfRequest.label}</a>
+            )}
             <a href={site.linkedin} target="_blank" rel="noopener" className="folio-btn folio-btn-line">LinkedIn</a>
           </div>
           <Link href="/about/" className="folio-link-strong folio-about-link">{ui.aboutAll} <span aria-hidden="true">→</span></Link>

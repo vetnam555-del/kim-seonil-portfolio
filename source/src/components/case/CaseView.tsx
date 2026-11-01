@@ -5,7 +5,7 @@ import AutomationArchitecture from "@/components/AutomationArchitecture";
 import { Bars, canChart } from "@/components/Bars";
 import { Reveal } from "@/components/motion";
 import { CTAButton, Container, Eyebrow, isIndexDelta, MetricDelta, Tag } from "@/components/ui";
-import { EDITION, edition } from "@/data/edition";
+import { EDITION, edition, portfolioPdfPublic } from "@/data/edition";
 import { hero } from "@/data/site";
 import { caseLedes } from "@/data/caseLedes";
 import { caseCards } from "@/data/caseCards";
@@ -1186,8 +1186,9 @@ export function CaseView({ slug, lang = "ko" }: { slug: string; lang?: Lang }) {
             {/*
               같은 사례가 실린 PDF 쪽으로 바로 (2026.10.24 레퍼런스 비교). 전달·인쇄용으로 PDF 를 찾는 사람이
               29쪽을 넘겨 찾지 않게 한다. 쪽 번호표는 일반판 덱 기준이라 일반판에서만 그린다.
+              2026-10-31 일반판은 PDF 를 사이트에 싣지 않아(헤드헌터에게만) 이 링크도 그리지 않는다.
             */}
-            {deckRange ? (
+            {deckRange && portfolioPdfPublic ? (
               <p className={compactMeta ? "mt-1" : "mt-2"}>
                 <a
                   href={`${basePath}${edition.portfolioPdfPath}#page=${deckRange.from}`}

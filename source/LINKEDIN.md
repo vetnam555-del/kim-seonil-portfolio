@@ -32,10 +32,10 @@
 
 ## 1. 프로필 상단 (이름 아래 연필 → 소개 편집)
 
-헤드라인 (85 / 220)
+헤드라인 (82 / 220)
 
 ```text
-퍼포먼스 마케터 | 리멤버 광고운영팀 | 검색·DA·SNS 4년 · 30여 개 브랜드 | 대한민국 디지털 광고 대상 통합 퍼포먼스 부문 우수상 2년 연속
+퍼포먼스 마케터 | 리멤버 광고운영팀 | 검색·DA·SNS · 30여 개 브랜드 | 대한민국 디지털 광고 대상 통합 퍼포먼스 부문 우수상 2년 연속
 ```
 
 - 위치: 시 · 도까지만(실제 지역으로).
@@ -43,13 +43,14 @@
 - 배경 사진(2026-10-31): `assets/linkedin/banner-a.png`(포트폴리오 공유 이미지와 같은 글꼴 · 색 · 문구) 또는
   `banner-b.png`(같은 문구를 Higgsfield 로 만든 배경 위에 — 8크레딧, 바탕이 살짝 보랏빛). 둘 중 주인이 고른다.
   문구가 바뀌면 `assets/linkedin/banner.html` 을 고치고 `node scripts/render_linkedin_banner.cjs a`(또는 b)로 다시 굽는다.
-  10-31 소개 줄의 쉼표("세우고, 테스트로")를 뺐다 — 사이트 첫 화면과 같게. 그 전 그림을 이미 올렸다면 새 그림으로 바꾼다.
+  10-31 소개 줄의 쉼표("세우고, 테스트로")와 아랫줄의 '4년'을 뺐다 — 사이트 첫 화면과 같게, 연수는 쓰지 않는다(주인).
+  그 전 그림을 이미 올렸다면 새 그림으로 바꾼다.
   글자 있는 그림은 생성 모델이 한글을 틀리기 쉬워 직접 그린다. Higgsfield 는 글자 없는 배경에만 썼다.
 
-## 2. 소개 (908 / 2,600)
+## 2. 소개 (902 / 2,600)
 
 ```text
-4년 동안 9개 업종 30여 개 브랜드의 검색·DA·SNS 광고를 운영했고, 지금은 리멤버에서 B2B 리드 생성 캠페인을 맡고 있습니다.
+9개 업종 30여 개 브랜드의 검색·DA·SNS 광고를 운영했고, 지금은 리멤버에서 B2B 리드 생성 캠페인을 맡고 있습니다.
 성과가 막히면 소재를 바꾸기 전에 비교 기준부터 점검합니다. '성과가 떨어졌다'는 보고를 같은 표본으로 다시 계산해 CVR이 오히려 0.66%에서 2.24%로 올랐음을 확인한 적이 있습니다.
 
 ▸ 대표 사례
@@ -159,15 +160,19 @@
 | 순서 | 제목 | 링크 | 설명 |
 |---|---|---|---|
 | 1 | 김선일 퍼포먼스 마케팅 포트폴리오 | https://vetnam555-del.github.io/kim-seonil-portfolio/ | 대표 사례 5개 — 문제 · 판단 · 실행 · 결과 · 배운 것과 증빙 |
-| 2 | 포트폴리오 PDF (29쪽) | https://vetnam555-del.github.io/kim-seonil-portfolio/kim-seonil-performance-marketing-portfolio.pdf | 전달 · 인쇄용 |
-| 3 | LG CNS MOP 우수사례 | https://blog.mop.co.kr/hll | 쇼핑검색 입찰 최적화와 재고에 따른 소재 ON/OFF 자동화 · 단독 수행 |
-| 4 | EDIT H | https://vetnam555-del.github.io/edit-h-archive/ | 2030 직장인 돈·일·소비 트렌드 뉴스레터 · 기획·발행 |
+| 2 | LG CNS MOP 우수사례 | https://blog.mop.co.kr/hll | 쇼핑검색 입찰 최적화와 재고에 따른 소재 ON/OFF 자동화 · 단독 수행 |
+| 3 | EDIT H | https://vetnam555-del.github.io/edit-h-archive/ | 2030 직장인 돈·일·소비 트렌드 뉴스레터 · 기획·발행 |
 
-- 소개 영상(2026-10-31, 15초 · 소리 없음): `assets/linkedin/intro-16x9.mp4`(가로 1920×1080) · `intro-1x1.mp4`(정사각 1080×1080),
-  대표 화면은 `intro-16x9.png` · `intro-1x1.png`. 글자는 사이트 홈 첫 화면 그대로(제목 · 소개 한 줄 · 증거 세 칸과 기준)이고,
-  끝 장면의 직함 줄은 1절 헤드라인과 같으며 주소를 더했다. 배경만 Higgsfield 로 만든 5초 영상(35크레딧, `hf-intro-bg.mp4`)을 약 3배 느리게 늘려 썼다.
+포트폴리오 PDF(29쪽)는 링크드인에 올리지 않는다 — 헤드헌터에게만 Google Drive 로 공유한다(2026-10-31 주인). 이미 Featured 에 넣었다면 지운다.
+
+- 소개 영상(2026-10-31 v2, 20초 · 소리 없음): `assets/linkedin/intro-1x1.mp4`(정사각 1080×1080 — 피드 기본) ·
+  `intro-9x16.mp4`(세로 1080×1920 — 세로 영상 피드) · `intro-16x9.mp4`(가로 1920×1080), 대표 화면은 같은 이름의 PNG.
+  일곱 장면: FIND. / TEST. / IMPROVE. 단어 컷 → 소개 한 줄 → 제이에스티나 막대(352% → 583%, +231%p) → 강원 막대(+397.3%) →
+  수상 2년 연속(통합 퍼포먼스 부문 우수상) → 실제 포트폴리오 화면(첫 화면 → 대표 사례) → 이름 · 직함 · 주소.
+  글자 · 숫자는 사이트 그대로, 막대 길이는 실제 비율. 경력 연수(4년)는 쓰지 않는다(주인 2026-10-31).
+  배경 원(Higgsfield 5초 · 35크레딧, `hf-intro-bg.mp4`)은 2 · 7장면에만 보인다. v1(15초)은 "단조롭다"(주인) — 바꾼 근거는 REFERENCES 2026-10-31.
   게시물에 영상을 올리고(대표 화면을 고를 수 있으면 위 PNG), 그 게시물을 Featured 에 추가한다. 순서는 주인이 정한다.
-  문구가 바뀌면 `assets/linkedin/intro-video.html` 을 고치고 `node scripts/render_linkedin_video.cjs`(정사각은 `square`)로 다시 굽는다(ffmpeg 필요).
+  문구가 바뀌면 `assets/linkedin/intro-video.html` 을 고치고 `node scripts/render_linkedin_video.cjs 1x1`(9x16 · 16x9)로 다시 굽는다(ffmpeg 필요, 판마다 5~8분).
 
 ## 6. 자격증/수료증 (발행일을 아는 것만 · '만료되지 않음'은 확인한 것만)
 
@@ -204,16 +209,16 @@ Google Ads · Meta 광고 · Google Tag Manager · Looker Studio · AppsFlyer ·
 
 한국어 칸에 영어를 같이 쓰지 않는다(설명이 두 배로 길어진다).
 
-Headline (211 / 220)
+Headline (198 / 220)
 
 ```text
-Performance Marketer | Ad Operations Manager at Remember | Search, display & social ads for 30+ brands over 4 years | Excellence Award, Integrated Performance, Korea Digital Advertising Awards, two years running
+Performance Marketer | Ad Operations Manager at Remember | Search, display & social ads for 30+ brands | Excellence Award, Integrated Performance, Korea Digital Advertising Awards, two years running
 ```
 
 About
 
 ```text
-I've run search, display and social ads for 30+ brands across 9 industries over 4 years, and I now run B2B lead-generation campaigns at Remember. When performance stalls, I check the comparison baseline before changing the creative.
+I've run search, display and social ads for 30+ brands across 9 industries, and I now run B2B lead-generation campaigns at Remember. When performance stalls, I check the comparison baseline before changing the creative.
 
 At PlayD I split J.ESTINA's search-heavy budget by customer stage. In the same closing report, GA4 ROAS rose from 352% in May 2025 to 583% in July, and that campaign won an Excellence Award at the Korea Digital Advertising Awards that year.
 

@@ -193,7 +193,20 @@ await interaction("email", async () => {
   if (!/@naver\.com/.test(r.clip)) throw new Error(JSON.stringify(r));
   return `'${label.slice(0, 30)}' 클릭 → 클립보드 "${r.clip}", 알림 "${r.live.slice(0, 60)}"`;
 });
-for (const [name, sel] of [["resume-pdf", 'a[href*="kim-seonil-resume-public.pdf"]'], ["portfolio-pdf", 'a[href*="performance-marketing-portfolio.pdf"]']]) {
+/* 포트폴리오 PDF 는 일반판에 싣지 않는다(2026-10-31 — 헤드헌터에게만). 링크가 하나라도 남았거나 파일이 열리면 실패, 요청 메일 버튼을 확인한다 */
+await interaction("portfolio-pdf", async () => {
+  const { page } = await open("/", 1440);
+  const r = await page.evaluate(async () => {
+    const links = [...document.querySelectorAll('a[href*="performance-marketing-portfolio.pdf"]')].map((a) => a.href);
+    const req = [...document.querySelectorAll('a[href^="mailto:"]')].filter((a) => decodeURIComponent(a.href).includes("포트폴리오 PDF 요청")).map((a) => ({ text: a.textContent.trim(), href: a.href }));
+    const file = await fetch(new URL("kim-seonil-performance-marketing-portfolio.pdf", location.href.replace(/[^/]*$/, ""))).then((x) => x.status).catch(() => 0);
+    return { links, req, file };
+  });
+  await page.close();
+  if (r.links.length || r.file === 200 || !r.req.length) throw new Error(JSON.stringify(r));
+  return `PDF 링크 0 · 파일 ${r.file} · 요청 메일 버튼 ${r.req.length}개 ('${r.req[0].text}')`;
+});
+for (const [name, sel] of [["resume-pdf", 'a[href*="kim-seonil-resume-public.pdf"]']]) {
   await interaction(name, async () => {
     const { page } = await open("/", 1440);
     const href = await page.$eval(sel, (a) => a.href);

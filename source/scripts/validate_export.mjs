@@ -119,10 +119,20 @@ const deckPdf =
     ? "kim-seonil-ably-growth-portfolio.pdf"
     : "kim-seonil-performance-marketing-portfolio.pdf";
 
+/* 일반판은 덱을 싣지 않는다(2026-10-31 — 헤드헌터에게만 Drive 로). 실리면 실패, 요청 메일 버튼이 없어도 실패 */
+const deckPublic = edition !== "general";
+if (!deckPublic) {
+  if (existsSync(join(root, deckPdf))) failures.push(`일반판에 포트폴리오 PDF 가 실렸습니다: ${deckPdf} (비공개 — Drive 로만 공유)`);
+  if (allHtml.includes(deckPdf)) failures.push(`페이지가 포트폴리오 PDF 로 링크합니다: ${deckPdf} (요청 메일 버튼이어야 한다)`);
+  const request = `mailto:makefair@naver.com?subject=${encodeURIComponent("포트폴리오 PDF 요청드립니다")}`;
+  if (!allHtml.includes(request)) failures.push("포트폴리오 PDF 요청 메일 버튼이 없습니다(edition.ts portfolioPdfRequest)");
+  if (!allHtml.includes("makefair@naver.com")) failures.push("요청 메일 주소가 site.emailPrimary 와 다릅니다");
+}
+
 const requiredAssets = [
   "og-image.png",
   "kim-seonil-resume-public.pdf",
-  deckPdf,
+  ...(deckPublic ? [deckPdf] : []),
   "favicon.svg",
   "favicon-32.png",
   "apple-touch-icon.png",

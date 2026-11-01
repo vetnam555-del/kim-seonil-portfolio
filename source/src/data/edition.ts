@@ -107,6 +107,20 @@ export const roleForClient =
         ? "신사업 그로스\u00a0· 실험 설계"
         : "퍼포먼스 마케터";
 
+/*
+ * 포트폴리오 PDF(덱) 공개 여부 (2026-10-31 주인 "포트폴리오 pdf 버전은 헤드헌터한테만 보여주고 싶다").
+ * 일반판은 PDF 를 사이트에 싣지 않는다 — 내려받기 버튼 자리는 요청 메일 버튼이고, PDF 는 Google Drive
+ * '포트폴리오 PDF (헤드헌터 공유용)' 폴더에서 지정한 사람에게만 공유한다. 다른 판은 그 판의 결정대로 둔다.
+ * 메일 주소는 site.emailPrimary 와 같아야 한다(validate_export 가 확인). 헤더(클라이언트)도 쓰므로 site.ts 를 부르지 않고 여기 둔다.
+ */
+export const portfolioPdfPublic = EDITION !== "general";
+export const portfolioPdfRequest = {
+  href: "mailto:makefair@naver.com?subject=" + encodeURIComponent("포트폴리오 PDF 요청드립니다"),
+  hrefEn: "mailto:makefair@naver.com?subject=" + encodeURIComponent("Portfolio PDF request"),
+  label: "포트폴리오 PDF 요청",
+  labelEn: "Request portfolio PDF (Korean)",
+} as const;
+
 export const portfolioPdfPathForClient =
   EDITION === "ably"
     ? "/kim-seonil-ably-growth-portfolio.pdf"
