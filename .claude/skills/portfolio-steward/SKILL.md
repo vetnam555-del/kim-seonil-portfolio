@@ -51,8 +51,11 @@ description: 김선일 포트폴리오를 고치고·검수하고·배포하고�
 
 - 검증된 값만 쓴다. 출처·기간·기여 범위를 사례마다 적는다. 사이트·이력서·PDF 의 같은 수치는 같아야 한다.
 - 말투: 주장형 제목, 짧은 문장, 한자어 명사 나열·"~하며," 이어 붙이기·AI 상투어(혁신적·압도적·원스톱 등)를 쓰지 않는다.
-  영문판은 em dash 를 쓰지 않는다.
-- 띄어 쓴 구분자 `" · "` 는 NBSP(`" · "`, JSX `&nbsp;· `). 문구를 고친 뒤 `node scripts/nbsp_separators.mjs . --dry` → 적용.
+  영문판은 em dash 를 쓰지 않는다. 라벨과 내용 사이는 콜론이다(사례 화면은 `caseLabels` 의 `labelSep` — 한국어 " — ", 영문 ": ").
+- 가운뎃점은 줄 맨 앞에 오지 않는다(B-06 · 2026-11-03). 화면에 그릴 때 JSX 런타임(`src/jsx/joinDots.ts`, tsconfig `jsxImportSource`)이
+  붙여 쓴 '·' 앞에 U+2060 을 넣고 띄어 쓴 `" · "` 의 앞 공백을 NBSP 로 바꾼다 — JSX 조각 사이(`{이메일} ·{" "}<a>`)도 같다. 원본 문구에 따로 적을 것은 없다.
+  `validate_export`(보이는 글자에 '·' 앞 줄바꿈 자리가 남으면 실패)와 `qa_wrap` D 규칙(브라우저 실측)이 막는다. 원본에 NBSP 를 미리 적는
+  `node scripts/nbsp_separators.mjs . --dry` 는 이제 고르기다. 화면 글자를 데이터 문장과 비교하는 검사를 새로 만들면 U+2060 을 빼고 비교한다(`qa_final` 의 `htmlToText`).
 - 개인정보: 전화번호·주소·생년월일은 사이트·이력서 PDF 어디에도 싣지 않는다. 광고주 원천 데이터는 비식별 처리한다.
 - 다른 판(hll · shinsegae · ably · v260908 · nw) 자료나 비공개 원본을 이 공개 저장소로 옮기지 않는다.
 
@@ -88,7 +91,7 @@ node scripts/qa_release.mjs --approve --runtime=artifacts/release/runtime/runtim
   3. 추적되지 않거나 무시되는 파일(`??`, `!!` — 새 해시 이름의 `_next/…` 같은 것)은 지우지 말고 저장소 밖 스크래치 폴더로
      옮긴다(`mkdir -p <스크래치>/publish-held && mv <경로> <스크래치>/publish-held/`). 배포물이 아닌 메모라면 커밋해도 된다.
   4. 1번 목록이 비면 `cd source && npm run publish:general` 로 다시 돈다. `git checkout HEAD -- .` 같은 일괄 복원과 `git clean` 은 쓰지 않는다.
-- 화면을 바꿨다면 375·390·1440px 캡처를 직접 본다. 가운뎃점이 줄 맨 앞에 오지 않는지 본다.
+- 화면을 바꿨다면 375·390·1440px 캡처를 직접 본다. 가운뎃점이 줄 맨 앞에 오는 곳은 `qa_wrap` D 규칙이 잰다.
 
 ## 4. 커밋
 

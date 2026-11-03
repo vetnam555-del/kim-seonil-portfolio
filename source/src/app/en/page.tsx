@@ -13,7 +13,7 @@ import { langAlternates } from "@/data/en/alternates";
 /* 2026.09.25 한국어판 경력직 개편(직함 하나 · 결과형 첫 문장)에 맞췄다 — 옛 제목·설명이 영문판에만 남아 있었다 */
 const title = "Kim Seonill | Performance Marketer Portfolio";
 const description =
-  "Find. Test. Improve. I structure problems into hypotheses and improve them through testing — performance marketer portfolio of Kim Seonill, 30+ brands at PlayD and HLL JoongAng.";
+  "Find. Test. Improve. I turn problems into hypotheses and improve results through testing. Portfolio of performance marketer Kim Seonill: 30+ brands at PlayD and HLL JoongAng.";
 
 export const metadata: Metadata = {
   title: { absolute: title },

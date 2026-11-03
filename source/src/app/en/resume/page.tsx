@@ -262,7 +262,7 @@ export default function ResumePageEn() {
 
         <H2>Extended capabilities</H2>
         <p className="mt-3 text-caption text-ink-3">
-          A case run alone with its measurement scope aligned, and experience building repeatable operating systems.
+          An account I ran alone with its measurement scope aligned, plus experience building repeatable operating systems.
         </p>
         <dl className="mt-4">
           {supporting.map((ko) => {
