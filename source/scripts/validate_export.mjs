@@ -126,6 +126,12 @@ if (edition === "general") {
     const m = allHtml.match(re);
     if (m) failures.push(`경력 연수 표기가 남았습니다: "${allHtml.slice(Math.max(0, m.index - 30), m.index + 40).replace(/\s+/g, " ")}"`);
   }
+  /* 소개 줄 · 사진 캡션 · 이력서 머리줄에 전 직장 직함을 붙이지 않는다(2026-11-01 주인 "포트폴리오에서 전 hll중앙 과장은 제외해줘").
+     경력 칸의 'HLL중앙 · 퍼포먼스전략국 과장'(재직 기간과 함께 쓴 경력 사실)은 해당하지 않는다 */
+  for (const re of [/전\s*(?:<!--\s*-->)?\s*HLL\s*중앙/, /\bEx-HLL\b/i, /\bformer(?:ly)?\b[^<]{0,40}HLL/i]) {
+    const m = allHtml.match(re);
+    if (m) failures.push(`전 직장 직함 표기가 남았습니다: "${allHtml.slice(Math.max(0, m.index - 30), m.index + 40).replace(/\s+/g, " ")}"`);
+  }
 }
 
 /* 일반판은 덱을 싣지 않는다(2026-10-31 — 헤드헌터에게만 Drive 로). 실리면 실패, 요청 메일 버튼이 없어도 실패 */

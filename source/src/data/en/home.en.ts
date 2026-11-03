@@ -7,8 +7,8 @@
  */
 
 export { NAME_EN_DISPLAY, ROLE_EN } from "./meta";
-/* 2026.10.15 리멤버앤컴퍼니 합류 — site.org 와 같은 내용 */
-export const ORG_EN = "Ad Operations Manager at Remember\u00a0· Ex-HLL JoongAng";
+/* 2026.10.15 리멤버앤컴퍼니 합류 — site.org 와 같은 내용(지금 직함만 · 2026-11-01 'Ex-HLL JoongAng' 뺌) */
+export const ORG_EN = "Ad Operations Manager at Remember";
 
 export const coverEn = {
   display: ["FIND. TEST.", "IMPROVE."],

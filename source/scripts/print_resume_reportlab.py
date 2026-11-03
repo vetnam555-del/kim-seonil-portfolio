@@ -94,7 +94,7 @@ def project(slug, metric_labels):
     story.append(link('사례와 증빙 보기', D['site']['url'] + 'projects/' + slug + '/'))
 
 
-# 소속은 site.org 에서 읽는다(2026.10.15 리멤버 합류) — 예전엔 "전 HLL중앙 퍼포먼스전략국 과장"이 박혀 있었다
+# 소속은 site.org 에서 읽는다(2026.10.15 리멤버 합류) — 지금 직함만(2026-11-01 '전 HLL중앙 과장' 뺌, 주인)
 # 경력 연수는 쓰지 않는다(2026-11-01 주인 "사이트랑 이력서에도 경력 4년은 빼줘")
 add('김선일', 'h1'); add(f"퍼포먼스 마케터 | {D['site']['org'].replace(chr(0xa0) + '· ', ' | ')}", 'h3')
 add(' '.join(D['generalCover']['statement']).replace('\u00a0', ' '))
