@@ -5,10 +5,11 @@
  * 정적 검사로는 절대 안 잡힌다. 폭이 정해져야 비로소 생기는 결함이라
  * 실제로 그려 놓고 글자마다 줄 위치를 재는 수밖에 없다.
  *
- * 잡는 것 세 가지
+ * 잡는 것 네 가지
  *   P 괄호 쪼개짐 — "(내부 / 실측 기준)" 처럼 여는 괄호와 닫는 괄호가 다른 줄에 있는 것
  *   U 단위 끊김   — "2 / 시간", "583 / %" 처럼 수와 단위가 갈라진 것
  *   A 화살표 고립 — "→" 만 줄 끝이나 줄 머리에 혼자 남은 것
+ *   D 가운뎃점 줄 머리 — "운영 / ·분석", "메일 / · LinkedIn" 처럼 '·' 가 줄 맨 앞에 온 것 (B-06 · 2026-11-03)
  *
  * 실행: node scripts/qa_wrap.mjs
  */
@@ -139,6 +140,31 @@ const PROBE = `(async()=>{
       if(same.join('').trim()==='→') hits.push('A|'+ctx(i));
     }
   }
+  /* ④ 가운뎃점 줄 머리 (B-06 · 2026-11-03) — 글자 크기와 상관없이 본문 전체(푸터 포함)를 본다.
+     '·' 바로 앞의 보이는 글자는 다른 텍스트 노드({이메일} · <a>LinkedIn</a>)에 있을 수 있어 노드를 건너서 잰다.
+     같은 블록 안에서 그 글자보다 아랫줄에 '·' 가 있으면 줄 머리에 온 것이다 */
+  {
+    const WJ=String.fromCharCode(0x2060);
+    const blank=c=>c===WJ||c.trim()==='';
+    const blockOf=e=>{while(e&&getComputedStyle(e).display.startsWith('inline'))e=e.parentElement;return e;};
+    const rectAt=(n,i)=>{const r=document.createRange();r.setStart(n,i);r.setEnd(n,i+1);return r.getClientRects()[0]||null;};
+    const dw=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+    let prev=null;
+    while(dw.nextNode()){
+      const n=dw.currentNode,t=n.nodeValue,el=n.parentElement;
+      if(!t||!el||el.closest('script,style,noscript,details:not([open])')) continue;
+      if(el.checkVisibility&&!el.checkVisibility({checkOpacity:true,checkVisibilityCSS:true})) continue;
+      for(let i=0;i<t.length;i++){
+        if(blank(t[i])) continue;
+        if(t[i]==='·'&&prev){
+          const a=rectAt(prev.n,prev.i),b=rectAt(n,i);
+          if(a&&b&&b.width&&b.top>a.top+a.height*0.5&&blockOf(prev.n.parentElement)===blockOf(el))
+            hits.push('D|'+(prev.n.nodeValue.slice(Math.max(0,prev.i-14),prev.i+1)+' / '+t.slice(i,i+14)).replace(/\\s+/g,' ').trim());
+        }
+        prev={n,i};
+      }
+    }
+  }
   return [...new Set(hits)];
 })()`;
 
@@ -156,10 +182,10 @@ for (const w of WIDTHS) {
 
 socket.close(); browser.kill(); server.kill();
 
-const KIND = { P: "괄호 쪼개짐", U: "단위 끊김", A: "화살표 고립" };
+const KIND = { P: "괄호 쪼개짐", U: "단위 끊김", A: "화살표 고립", D: "가운뎃점 줄 머리" };
 console.log(`\n=== 줄바꿈 검수 · ${edition} · 폭 ${WIDTHS.join("·")} · ${routes.length}쪽 ===\n`);
 if (!findings.length) {
-  console.log("통과 — 위반 0건 (괄호·단위·화살표가 줄에서 갈라진 곳 없음)\n");
+  console.log("통과 — 위반 0건 (괄호·단위·화살표가 줄에서 갈라진 곳, 줄 머리 가운뎃점 없음)\n");
   process.exit(0);
 }
 const seen = new Set();

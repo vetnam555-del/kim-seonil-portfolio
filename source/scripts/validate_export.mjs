@@ -107,7 +107,8 @@ for (const htmlFile of htmlFiles) {
 }
 
 /* 문구 검사는 공백 종류를 가리지 않는다 — " · " 구분자의 앞 공백이 2026.10.10 부터 줄바꿈 없는 공백(U+00A0)이다 */
-const flat = (html) => html.replace(/\u00a0|&nbsp;|&#160;|&#xa0;/gi, " ");
+/* 문구 비교용 — NBSP 는 공백으로, 가운뎃점 앞 줄바꿈 금지 문자(U+2060, src/jsx/joinDots.ts · B-06)는 빼고 비교한다 */
+const flat = (html) => html.replace(/\u00a0|&nbsp;|&#160;|&#xa0;/gi, " ").replace(/\u2060|&#8288;|&#x2060;/gi, "");
 const allHtml = flat(htmlFiles.map((htmlFile) => readFileSync(htmlFile, "utf8")).join("\n"));
 
 /*
@@ -132,6 +133,25 @@ if (edition === "general") {
     const m = allHtml.match(re);
     if (m) failures.push(`전 직장 직함 표기가 남았습니다: "${allHtml.slice(Math.max(0, m.index - 30), m.index + 40).replace(/\s+/g, " ")}"`);
   }
+}
+
+/* 보이는 글자에서 '·' 앞은 줄바꿈 자리가 아니어야 한다 — 아니면 좁은 화면에서 '·' 가 줄 맨 앞에 온다(B-06).
+   붙여 쓴 가운뎃점(운영·분석)은 앞에 U+2060, 띄어 쓴 구분자(" · ")는 앞 공백이 NBSP 여야 한다.
+   JSX 런타임(src/jsx)이 넣는다. 스크립트 · 스타일 · 코드 · 태그 속성은 보지 않는다 */
+{
+  const missing = [];
+  for (const htmlFile of htmlFiles) {
+    const text = readFileSync(htmlFile, "utf8")
+      .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<code[\s\S]*?<\/code>|<pre[\s\S]*?<\/pre>/gi, "")
+      .replace(/<!--[\s\S]*?-->/g, "")
+      .replace(/<[^>]+>/g, "")
+      .replace(/&#8288;|&#x2060;/gi, "\u2060")
+      .replace(/&nbsp;|&#160;|&#xa0;/gi, "\u00a0");
+    for (const m of text.matchAll(/[^\s\u00a0\u2060]·| ·/g)) {
+      missing.push(`${htmlFile.slice(root.length + 1)}: "${text.slice(Math.max(0, m.index - 12), m.index + 12).replace(/\s+/g, " ")}"`);
+    }
+  }
+  if (missing.length) failures.push(`가운뎃점 앞 줄바꿈 자리 ${missing.length}곳(U+2060 또는 NBSP 가 없음 — src/jsx 런타임 확인): ${missing.slice(0, 3).join(" · ")}`);
 }
 
 /* 일반판은 덱을 싣지 않는다(2026-10-31 — 헤드헌터에게만 Drive 로). 실리면 실패, 요청 메일 버튼이 없어도 실패 */
