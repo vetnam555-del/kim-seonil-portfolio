@@ -3,7 +3,7 @@ import { MotionRuntime } from "@/components/MotionRuntime";
 import ContentProtection from "@/components/ContentProtection";
 import Header from "@/components/Header";
 import { HtmlLang, SiteFooter, SkipLink } from "@/components/SiteChrome";
-import { edition, isGeneralLike, roleForClient, EDITION, OG_VERSION } from "@/data/edition";
+import { edition, isGeneralLike, roleForClient, EDITION, OG_VERSION, ROBOTS_CLOSED } from "@/data/edition";
 import { INSIGHT_URL, insightScript } from "@/lib/insight";
 
 /*
@@ -70,37 +70,15 @@ export const metadata: Metadata = {
     images: [ogImage],
   },
   /*
-   * 색인 정책 — 기본은 두 판 모두 차단이다.
+   * 색인 정책 — 이 기본값은 닫힘이다. 검색에 여는 페이지는 각자 robotsFor(true) 로 연다
+   * (2026.10.31 주인 결정: 일반판의 홈 · 이력서만. 근거와 판별은 edition.ts indexable).
    *
-   * ── 잠금 이유가 바뀌었다 (2026.08.17)
-   * 원래 이유는 광고주 절대 금액이었다. 제이에스티나 GA4 전환매출 약 11.9억, 뉴발란스
-   * 월 매체 예산 10억이 브랜드 실명과 함께 홈에 있어서, 브랜드명으로 검색해 닿는 것은
-   * 광고주 동의 없이 넘어갈 선이 아니라고 봤다.
-   * 그 두 값은 본인이 공개 허용을 확인했다. 그래서 이 이유는 해소됐다.
-   *
-   * 그런데도 계속 차단한다. 남은 이유는 성격이 다르다 —
-   * 일반판은 사외 지원용이다. 검색에 열면 현 직장 동료·상급자가 이름 검색으로
-   * 바로 찾을 수 있고, 사내 이동을 진행하는 지금 그건 수치 공개와 별개의 위험이다.
-   * URL 을 직접 전달하는 것은 그대로 가능하다 — 막는 것은 '검색으로 발견되는 것'뿐이다.
-   *
-   * 열어야 할 때: 이직이 확정되거나 사외 공개가 문제되지 않는 시점.
-   *   PowerShell:  $env:ALLOW_INDEX="1"; npm run build:general
+   * 지나온 이유 — 처음엔 광고주 절대 금액(제이에스티나 GA4 전환매출 약 11.9억, 뉴발란스 월 매체 예산
+   * 10억)이 브랜드 실명과 홈에 있어서 닫았고, 본인이 공개를 허용한 뒤(2026.08.17)에는 이직을 준비하는
+   * 동안 현 직장 동료가 이름 검색으로 찾는 것을 막으려고 닫아 두었다. 2026.10 리멤버앤컴퍼니로
+   * 옮기면서 그 이유도 끝났다. 사례 상세는 광고주 이름으로 수치가 검색되지 않게 계속 닫는다.
    */
-  robots:
-    process.env.ALLOW_INDEX === "1" && !edition.showWhyStudio
-      ? {
-          index: true,
-          follow: true,
-          noarchive: true,
-          googleBot: { index: true, follow: true, noarchive: true, "max-snippet": 160 },
-        }
-      : {
-          index: false,
-          follow: false,
-          noarchive: true,
-          nosnippet: true,
-          googleBot: { index: false, follow: false, noarchive: true, nosnippet: true },
-        },
+  robots: ROBOTS_CLOSED,
   /**
    * icons 는 og:image 와 달리 metadataBase 로 절대화되지 않고 그대로 출력된다.
    * 상대경로로 두면 /projects/<slug>/ 에서 그 하위를 찾아 404가 되므로 basePath 를 붙인다.

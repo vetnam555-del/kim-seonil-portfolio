@@ -42,7 +42,9 @@ description: 김선일 포트폴리오를 고치고·검수하고·배포하고�
 | 영문판 (새 사실을 더하지 않고 옮긴다) | `source/src/data/en/projects.en.json` · `caseCards.en.ts` · `caseLedes.en.ts` · `home.en.ts` · `resume.en.ts` |
 | 증빙 이미지 | `source/public/evidence/` + `python3 scripts/measure_evidence.py` 로 `evidence-sizes.json` |
 | 이력서 PDF (5쪽) | `source/README.md` "이력서" 절대로 다시 인쇄 → `site.ts` `resumePdfPath` `?v=` 올림 |
-| 포트폴리오 PDF (29쪽 덱) | 아래 7절. 덱 문구(`v3/cases.js`)도 같은 사실로 맞춘다 |
+| 포트폴리오 PDF (29쪽 덱) | 아래 7절. 덱 문구(`v3/cases.js`)도 같은 사실로 맞춘다. **사이트 · 저장소에 싣지 않는다**(2026-10-31) — Drive 공유 폴더만 바꾼다 |
+| 링크드인 (사이트 밖 · 주인이 붙여 넣는다) | `source/LINKEDIN.md` 해당 칸 — 같은 사실 · 같은 표기로 맞추고 주인에게 알린다 |
+| 채용 플랫폼 — 리멤버 · 사람인 · 잡코리아 · 원티드 (사이트 밖 · 주인이 붙여 넣는다) | `source/JOB_PLATFORMS.md` 해당 칸 — 같은 사실 · 같은 표기. 공개 저장소라 현 직장 · 구직 설정에 관한 메모는 적지 않는다(주인에게 직접 전한다) |
 | 백로그 | `source/BACKLOG.md` 완료 기록 |
 
 ## 2. 문구·수치 원칙
@@ -136,8 +138,15 @@ node scripts/qa_release.mjs --approve --runtime=artifacts/release/runtime/runtim
    `python3 portfolio-deck-v3-cloud-20261025-part4.py` 를 실행한다(바꿀 곳이 어긋나거나 결과 해시가 다르면 아무것도 쓰지 않고 멈춘다).
 3. `bash build3_cloud.sh` 로 굽는다(명령은 `source/README.md` "포트폴리오 PDF" 절 · 실측 줄 수가 바뀌면 스스로 한 번 더 굽는다).
    `qa_boxes` 넘침 0 · `qa_breaks` 줄바꿈 결함 0 이어야 한다. 줄바꿈은 문구 안 "\n" 으로만 고치고 문구는 바꾸지 않는다.
-4. 쪽별 글자를 이전 PDF 와 비교하고, `site.ts` · `edition.ts` 의 `portfolioPdfPath` `?v=` 를 올린다.
-   `python3 scripts/check_deck_pages.py public/kim-seonil-performance-marketing-portfolio.pdf src/data/deck-pages.json` 로 사례 쪽 번호표도 확인한다.
+4. 쪽별 글자를 이전 PDF 와 비교하고 `python3 scripts/check_deck_pages.py <구운 PDF> src/data/deck-pages.json` 로 쪽 번호표를 확인한다.
+5. **2026-10-31 부터 덱은 사이트 · 공개 저장소에 싣지 않는다**(주인: 헤드헌터에게만). 구운 PDF 는 Google Drive '포트폴리오 PDF (헤드헌터 공유용)' 폴더(https://drive.google.com/drive/folders/11hb1Ma0YOZYrsp2nr7fzhR3iAZ1vALQD)의
+   파일에 '새 버전 업로드'로 바꾼다(지정한 사람의 권한이 그대로 남는다). `public/` 에 넣지 않는다 — `.gitignore` 가 막고 검수가 실패로 센다.
+   사이트 버튼은 요청 메일(`edition.ts` `portfolioPdfRequest`)이다. 공유할 사람은 주인이 정한다(메일 주소를 받으면 Claude 가 읽기 권한으로 공유할 수 있다).
+6. **경력 연수와 전 직장 직함을 쓰지 않는다**(2026-11-01 주인). Drive 의 v3 원본에는 아직 '경력 4년' 이 세 곳 있다 — 1쪽 소개 "4년 동안 …" 과
+   1 · 2쪽 프로필 "퍼포먼스 마케터 | 경력 4년", 3쪽 첫 칸(경력 / 4년 / 2022.09 – 현재). 1 · 2쪽 소속 줄 끝의 "· 전 HLL중앙 과장" 도 남아 있다.
+   2026-11 판 PDF 는 `python3 scripts/patch_deck_no_years.py <원래.pdf> <고친.pdf>` 로 그 글자만 고쳤다(3쪽 첫 칸은 같은 쪽 표 06행의
+   "운영 자동화 6종 · 기획·구축·운영 100%", 소속 줄은 "리멤버 광고운영팀 매니저"). 원본으로 다시 구울 때는 v3 원본에서 같은 곳을 같은 글자로 고친 뒤 굽고,
+   구운 PDF 글자에 `경력\s*\d+\s*년` · `\d+\s*년\s*동안` · `전\s*HLL\s*중앙` 이 없는지 확인한다(경력 칸 'HLL중앙 · 퍼포먼스전략국 과장'은 그대로).
 
 비공개 원본 저장소(BACKLOG O-03)가 생기면 덱 원본을 거기로 옮기고 이 절을 고친다.
 

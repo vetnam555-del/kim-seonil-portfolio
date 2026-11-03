@@ -6,9 +6,11 @@ import type { Metadata } from "next";
 import { EDITION, edition } from "@/data/edition";
 import { EN_SLUGS } from "./meta";
 
-export function langAlternates(koPath: string, enPath: string): Metadata["alternates"] {
+export function langAlternates(koPath: string, enPath: string, self?: "ko" | "en"): Metadata["alternates"] {
   if (EDITION !== "general") return undefined;
   return {
+    /* 검색에 여는 홈 · 이력서는 자기 주소를 canonical 로 단다(2026.10.31) — ?intro=0 같은 주소가 따로 색인되지 않게 */
+    ...(self ? { canonical: `${edition.url}${self === "ko" ? koPath : enPath}` } : {}),
     languages: {
       ko: `${edition.url}${koPath}`,
       en: `${edition.url}${enPath}`,

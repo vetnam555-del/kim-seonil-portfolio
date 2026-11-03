@@ -6,36 +6,37 @@
 | 항목 | 값 |
 |---|---|
 | 담당 | claude |
-| 상태 | 진행 중 |
-| 작업 브랜치 | `claude/quirky-rubin-va27c0` |
-| 열린 PR | [#20](https://github.com/vetnam555-del/kim-seonil-portfolio/pull/20) (초안 · 자비스 검토 요청 전) |
-| 마지막 갱신 | 2026-10-29 · Claude |
+| 상태 | 검토 대기 |
+| 작업 브랜치 | `claude/stoic-bohr-gze1d1` |
+| 열린 PR | 새 PR(전 HLL중앙 과장 빼기) · PR #25 는 2026-11-01 main b466180 에 합침 |
+| 마지막 갱신 | 2026-11-01 · Claude |
 
 ## 지금 하던 일
 
-B-13 글꼴 서브셋 결정성(주인 요청: 보이는 글자가 그대로인데 `publish:general` 마다 `fonts/` 의 woff2 5개가 바이트만 달라진다 —
-같은 문자 집합이면 같은 바이트가 나오게). 원인은 fontTools 가 저장할 때 `head.modified` 에 지금 시각을 적는 것.
-`subset_fonts.py` 가 원본을 `recalcTimestamp=False` 로 연다(8b68a55). 첫 빌드에서 글꼴 5개가 한 번 바뀌고(6e1c778 — `head` 수정 시각 · 체크섬만 다름),
-이어서 두 번(한 번은 `PYTHONHASHSEED=4242`) publish 해도 `fonts/` 변경 0 · 서브셋 검증 통과. typecheck · `qa_release` 정적 통과.
-RELEASE_PASS 는 "hero: count-up changed layout width" 로 실패했다 — main 빌드도 4번 중 3번 실패하는 기존 경합(첫 표본이 글꼴 도착 전).
-`runtime_evidence.mjs` 가 `__ksiFontsReady` 를 기다리게 고친 커밋을 따로 두었다(이 브랜치 3/3 · main 빌드 통과). PR #18 은 main 에 합쳐졌다(e6787a9).
+1. PR #26('전 HLL중앙 과장' 빼기) — 주인 지시를 기다린다(초안). 같은 브랜치에 채용 플랫폼 원문도 올렸다.
+2. 채용 플랫폼(리멤버 · 사람인 · 잡코리아 · 원티드 · 링크드인) — `source/JOB_PLATFORMS.md` · `LINKEDIN.md` 원문으로 주인 컴퓨터의
+   데스크톱 세션이 주인이 로그인한 화면에서 이어서 맞춘다(주인 2026-11-03 "데스크톱에서 이어서 진행할게"). 클라우드 세션은 그 사이트들을 열지 못한다.
+   현 직장 · 구직 설정에 관한 지시는 주인에게 준 요청문에만 있고 저장소에는 적지 않는다.
 
 ## 다음 할 일
 
-1. 주인 답 대기: `runtime_evidence.mjs` 고침을 이 PR 에 둘지(두면 RELEASE_PASS 를 받는다), 빼서 따로 할지(빼면 그 커밋만 revert 하고 B-14 로 할 일에 넣는다).
-2. RELEASE_PASS: `node scripts/qa_release.mjs` 로 fingerprint → `runtime_evidence.mjs` → `qa_release --approve` (SKILL 3절).
-3. PR 제목에 `[자비스 검토]` · 새 head 에 자비스 검토 요청(SKILL 5절) → 합친 뒤 `npm run health`, 이 표를 "끝"으로.
+1. 이 PR — 자비스 응답을 원문 그대로 주인에게, 주인이 합치라고 하면 main 에 합치고 라이브 확인(홈 사진 캡션 · 이력서 머리줄 · 이력서 PDF 새 판 · `npm run health`).
+2. 덱 2026.11 판 — 3쪽 첫 칸 '운영 자동화 6종 · 기획·구축·운영 100%' 주인 승인, 드라이브 공유 폴더 업로드(주인).
+3. 헤드헌터 공유 — 주인이 메일 주소를 주면 읽기 권한으로 공유한다(필요하면 만료일).
+4. 자비스 — PR #19 · #21 · #22 · #23 · #24 · #25 요청은 응답 없이 합쳤다. 오면 원문 그대로 주인에게.
+5. B-14 — qa_interactions 9건 실패(이전부터) · B-05 이력서 PDF 태그. (주인 확인) 검색 등록.
 
 ## 이어받을 때 주의
 
-- 덱 PDF 를 다시 굽는 일은 Drive 원본이 필요하다(SKILL 7절).
+- 덱 PDF 를 다시 굽는 일은 Drive 원본이 필요하다(SKILL 7절). 원본에는 아직 '경력 4년' 이 있다 — 7절 6번.
+- Higgsfield 바이럴 예측은 16초 이하 영상만 받고, 요금제상 동시에 두 건까지다. 점수는 영상마다 따로 정규화한 추정값이다.
 - 주인 확인(O-)이 필요한 항목은 사실을 받기 전에 문장을 만들지 않는다.
 
 <!--
 진행 중일 때 쓰는 모양:
 
 | 담당 | claude 또는 codex |
-| 상태 | 진행 중 |
+| 상태 | 검토 대기 |
 | 작업 브랜치 | <브랜치> |
 | 열린 PR | <PR 링크> |
 | 마지막 갱신 | <날짜 · 누가> |

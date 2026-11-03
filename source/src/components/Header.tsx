@@ -10,6 +10,8 @@ import {
   NAME_KO,
   roleForClient,
   portfolioPdfPathForClient,
+  portfolioPdfPublic,
+  portfolioPdfRequest,
   showsWhyAbly,
   showsWhyShinsegae,
   showsWhyStudio,
@@ -280,14 +282,15 @@ export default function Header() {
           >
             {en ? "Résumé" : "이력서"}
           </Link>
+          {/* 일반판은 PDF 를 싣지 않고 요청 메일로 받는다(2026-10-31, edition.ts portfolioPdfPublic) */}
           {!IS_TARGETED && !en ? (
             <a
-              href={`${basePath}${portfolioPdfPathForClient}`}
-              download
+              href={portfolioPdfPublic ? `${basePath}${portfolioPdfPathForClient}` : portfolioPdfRequest.href}
+              download={portfolioPdfPublic ? true : undefined}
               className="inline-flex min-h-[44px] items-center border border-signal-ink px-4 font-mono text-caption font-bold text-signal-ink transition-colors hover:bg-signal-ink hover:text-ink"
-              aria-label="김선일 퍼포먼스 마케팅 포트폴리오 PDF 다운로드"
+              aria-label={portfolioPdfPublic ? "김선일 퍼포먼스 마케팅 포트폴리오 PDF 다운로드" : "포트폴리오 PDF 요청 메일 쓰기"}
             >
-              포트폴리오 PDF
+              {portfolioPdfPublic ? "포트폴리오 PDF" : portfolioPdfRequest.label}
             </a>
           ) : null}
           {SHOW_LANG ? <LangSwitch isEn={lang.isEn} koHref={lang.ko} enHref={lang.en} className="flex" /> : null}
@@ -338,13 +341,13 @@ export default function Header() {
             </Link>
             {!IS_TARGETED && !en ? (
               <a
-                href={`${basePath}${portfolioPdfPathForClient}`}
-                download
+                href={portfolioPdfPublic ? `${basePath}${portfolioPdfPathForClient}` : portfolioPdfRequest.href}
+                download={portfolioPdfPublic ? true : undefined}
                 onClick={() => setOpen(false)}
                 className="flex min-h-[52px] items-center justify-center border border-signal-ink px-3 text-body font-bold text-signal-ink"
-                aria-label="김선일 퍼포먼스 마케팅 포트폴리오 PDF 다운로드"
+                aria-label={portfolioPdfPublic ? "김선일 퍼포먼스 마케팅 포트폴리오 PDF 다운로드" : "포트폴리오 PDF 요청 메일 쓰기"}
               >
-                포트폴리오 PDF
+                {portfolioPdfPublic ? "포트폴리오 PDF" : portfolioPdfRequest.label}
               </a>
             ) : null}
           </div>

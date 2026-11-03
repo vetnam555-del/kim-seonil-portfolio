@@ -117,9 +117,10 @@ async function frames(path, selector, scrollTo) {
   const url = `${BASE}${path}${path.includes("?") ? "&" : "?"}intro=0`;
   await page.goto(url, { waitUntil: "networkidle0" }); // 글꼴·이미지를 캐시에 올려 두고
   await page.goto(url, { waitUntil: scrollTo ? "networkidle0" : "domcontentloaded" }); // 다시 열어 처음부터 잰다 — 글꼴 교체로 폭이 바뀌는 것을 빼기 위해
-  // serve_export 는 no-store 라 캐시를 데워도 글꼴을 다시 받고, 0720cfd(B-04) 뒤로는 글꼴이 첫 그림 뒤에 붙는다.
-  // 그래서 첫 표본이 대체 서체 폭으로 찍혀 폭 검사가 운에 따라 실패했다 — 사이트가 글꼴을 다 붙였다는 신호를 기다린 뒤 잰다.
-  await page.evaluate(() => Promise.race([window.__ksiFontsReady ?? document.fonts.ready, new Promise((r) => setTimeout(r, 6000))]).then(() => true));
+  /* 캐시에 있어도 글꼴은 FontFace 로 붙어 첫 프레임에는 대체 서체일 수 있다 — 사이트 글꼴 로더가 정한 대로
+     window.__ksiFontsReady 를 기다린 뒤 잰다(layout.tsx). 2026.10.31 새 컨테이너에서 첫 프레임만 92.4px(대체 서체)
+     → 95.6px 로 잡혀 "count-up changed layout width" 로 두 번 떨어졌다. 카운트업 자체의 폭 변화는 그대로 잰다 */
+  await page.evaluate(() => window.__ksiFontsReady || document.fonts.ready);
   if (scrollTo) await page.$eval(scrollTo, (el) => el.scrollIntoView({ block: "center" }));
   const out = [];
   const t0 = Date.now();
@@ -192,7 +193,20 @@ await interaction("email", async () => {
   if (!/@naver\.com/.test(r.clip)) throw new Error(JSON.stringify(r));
   return `'${label.slice(0, 30)}' 클릭 → 클립보드 "${r.clip}", 알림 "${r.live.slice(0, 60)}"`;
 });
-for (const [name, sel] of [["resume-pdf", 'a[href*="kim-seonil-resume-public.pdf"]'], ["portfolio-pdf", 'a[href*="performance-marketing-portfolio.pdf"]']]) {
+/* 포트폴리오 PDF 는 일반판에 싣지 않는다(2026-10-31 — 헤드헌터에게만). 링크가 하나라도 남았거나 파일이 열리면 실패, 요청 메일 버튼을 확인한다 */
+await interaction("portfolio-pdf", async () => {
+  const { page } = await open("/", 1440);
+  const r = await page.evaluate(async () => {
+    const links = [...document.querySelectorAll('a[href*="performance-marketing-portfolio.pdf"]')].map((a) => a.href);
+    const req = [...document.querySelectorAll('a[href^="mailto:"]')].filter((a) => decodeURIComponent(a.href).includes("포트폴리오 PDF 요청")).map((a) => ({ text: a.textContent.trim(), href: a.href }));
+    const file = await fetch(new URL("kim-seonil-performance-marketing-portfolio.pdf", location.href.replace(/[^/]*$/, ""))).then((x) => x.status).catch(() => 0);
+    return { links, req, file };
+  });
+  await page.close();
+  if (r.links.length || r.file === 200 || !r.req.length) throw new Error(JSON.stringify(r));
+  return `PDF 링크 0 · 파일 ${r.file} · 요청 메일 버튼 ${r.req.length}개 ('${r.req[0].text}')`;
+});
+for (const [name, sel] of [["resume-pdf", 'a[href*="kim-seonil-resume-public.pdf"]']]) {
   await interaction(name, async () => {
     const { page } = await open("/", 1440);
     const href = await page.$eval(sel, (a) => a.href);

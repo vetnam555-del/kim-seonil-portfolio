@@ -119,10 +119,35 @@ const deckPdf =
     ? "kim-seonil-ably-growth-portfolio.pdf"
     : "kim-seonil-performance-marketing-portfolio.pdf";
 
+/* 일반판은 경력 연수를 쓰지 않는다(2026-11-01 주인 "사이트랑 이력서에도 경력 4년은 빼줘"). 수상의 '2년 연속 · 2 years running'은 연수가 아니다 */
+if (edition === "general") {
+  const yearsPatterns = [/경력\s*(?:<!--\s*-->)?\s*\d+\s*년/, /\d+\s*년\s*동안/, /\b(?:four|\d+)\s+years?\s+(?:at|in|of)\b/i, /\bover\s+(?:four|\d+)\s+years\b/i, /\d+\s*yrs\b/];
+  for (const re of yearsPatterns) {
+    const m = allHtml.match(re);
+    if (m) failures.push(`경력 연수 표기가 남았습니다: "${allHtml.slice(Math.max(0, m.index - 30), m.index + 40).replace(/\s+/g, " ")}"`);
+  }
+  /* 소개 줄 · 사진 캡션 · 이력서 머리줄에 전 직장 직함을 붙이지 않는다(2026-11-01 주인 "포트폴리오에서 전 hll중앙 과장은 제외해줘").
+     경력 칸의 'HLL중앙 · 퍼포먼스전략국 과장'(재직 기간과 함께 쓴 경력 사실)은 해당하지 않는다 */
+  for (const re of [/전\s*(?:<!--\s*-->)?\s*HLL\s*중앙/, /\bEx-HLL\b/i, /\bformer(?:ly)?\b[^<]{0,40}HLL/i]) {
+    const m = allHtml.match(re);
+    if (m) failures.push(`전 직장 직함 표기가 남았습니다: "${allHtml.slice(Math.max(0, m.index - 30), m.index + 40).replace(/\s+/g, " ")}"`);
+  }
+}
+
+/* 일반판은 덱을 싣지 않는다(2026-10-31 — 헤드헌터에게만 Drive 로). 실리면 실패, 요청 메일 버튼이 없어도 실패 */
+const deckPublic = edition !== "general";
+if (!deckPublic) {
+  if (existsSync(join(root, deckPdf))) failures.push(`일반판에 포트폴리오 PDF 가 실렸습니다: ${deckPdf} (비공개 — Drive 로만 공유)`);
+  if (allHtml.includes(deckPdf)) failures.push(`페이지가 포트폴리오 PDF 로 링크합니다: ${deckPdf} (요청 메일 버튼이어야 한다)`);
+  const request = `mailto:makefair@naver.com?subject=${encodeURIComponent("포트폴리오 PDF 요청드립니다")}`;
+  if (!allHtml.includes(request)) failures.push("포트폴리오 PDF 요청 메일 버튼이 없습니다(edition.ts portfolioPdfRequest)");
+  if (!allHtml.includes("makefair@naver.com")) failures.push("요청 메일 주소가 site.emailPrimary 와 다릅니다");
+}
+
 const requiredAssets = [
   "og-image.png",
   "kim-seonil-resume-public.pdf",
-  deckPdf,
+  ...(deckPublic ? [deckPdf] : []),
   "favicon.svg",
   "favicon-32.png",
   "apple-touch-icon.png",

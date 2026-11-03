@@ -102,7 +102,12 @@ python3 scripts/print_resume_reportlab.py /tmp/resume-data.json public/kim-seoni
 
 ## 포트폴리오 PDF (29쪽)
 
-`public/kim-seonil-performance-marketing-portfolio.pdf` 는 pptxgenjs 덱(portfolio-deck v3)을 PDF 로 구운 것이다.
+**2026-10-31 부터 사이트 · 이 공개 저장소에 싣지 않는다** — 주인 결정 "헤드헌터한테만 보여주고 싶다".
+PDF 는 Google Drive '포트폴리오 PDF (헤드헌터 공유용)' 폴더(https://drive.google.com/drive/folders/11hb1Ma0YOZYrsp2nr7fzhR3iAZ1vALQD)에 두고 지정한 사람에게만 공유한다(주인 계정 · 받는 사람은 구글 계정으로 로그인).
+사이트의 버튼은 요청 메일(`edition.ts` `portfolioPdfRequest`)이다. `.gitignore` 가 덱 PDF 를 막고, `validate_export` · `runtime_evidence` ·
+`health_check` 가 실리거나 열리면 실패로 센다. 지난 커밋 기록에는 예전 판이 남아 있다(주인 결정 — 기록은 두기).
+
+덱 PDF 는 pptxgenjs 덱(portfolio-deck v3)을 PDF 로 구운 것이다.
 덱 원본(`v3/*.js` · `img/` · `post_pptx.py` · `finalize_v3.py` · `qa/qa_boxes.py`)은 Drive `portfolio-deck-v2` 폴더에 있다.
 문구는 이 저장소의 `src/data` 와 같은 사실만 쓰고, 사이트 문구를 고치면 덱 문구도 같이 맞춘다.
 
@@ -135,7 +140,8 @@ python3 finalize_v3.py deck3_lo.pdf final3.pdf     # 책갈피 · 목차 쪽 이
   그림 Alt 는 덱 생성기 `v3/lib.js` 의 `ALT` 표에 적는다(빠지면 생성 단계에서 멈춘다).
 - ODP 의 서양 문자 언어를 ko 로 바꾸지 않는다 — 영문 단어(GPS·Contest)가 중간에서 끊긴다.
 - `qa_boxes.py` 의 '3pt 넘침'은 LibreOffice 와 PowerPoint 의 줄 높이 차이일 때가 있다. 2026.10.25 판은 0건이다. 화면에서 다른 요소와 겹치지 않는지 쪽마다 눈으로 확인한다.
-- 바꾼 뒤 이전 PDF 와 쪽별 글자를 비교해 의도한 곳만 바뀌었는지 보고, `site.ts` · `edition.ts` 의 `portfolioPdfPath` `?v=` 판 번호를 올린다.
+- 바꾼 뒤 이전 PDF 와 쪽별 글자를 비교해 의도한 곳만 바뀌었는지 보고, 위 Drive 폴더의 파일을 바꾼다(공유 권한은 그대로 남는다 — '새 버전 업로드').
+  저장소에 커밋하지 않는다. 사례 쪽 번호표(`deck-pages.json`)는 사이트가 쓰지 않지만 덱과 맞춰 둔다.
 
 ## 폰트
 
@@ -196,7 +202,7 @@ CSS 파일 안의 `url()` 은 webpack 이 빌드 시점 모듈로 해석해서 `
 
 ### 인쇄 · JS 없는 환경 폴백
 
-Reveal 컴포넌트는 정적 HTML에 `data-reveal` 속성을 심고 스크롤 진입 때 내용을 드러낸다.
+Reveal 컴포넌트(`src/components/motion.tsx`)는 정적 HTML에 `data-enter` 속성을 심고, `MotionRuntime` 의 옵저버 하나가 스크롤 진입 때 내용을 드러낸다.
 그대로 두면 **인쇄하면 아직 안 본 섹션이 백지로 찍히고**, JS가 없으면 화면이 비어 보인다.
 그래서 두 겹을 둔다.
 

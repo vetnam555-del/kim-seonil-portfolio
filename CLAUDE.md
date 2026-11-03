@@ -61,6 +61,9 @@ Next.js 16 주의사항은 `source/AGENTS.md` 에 있다. 코드를 고치기 �
 
 ## 이 저장소에 없는 것
 
+- 포트폴리오 PDF(29쪽 덱) — 2026-10-31 부터 사이트 · 공개 저장소에 싣지 않는다(주인: 헤드헌터에게만).
+  Google Drive '포트폴리오 PDF (헤드헌터 공유용)' 폴더에서 지정한 사람에게만 공유하고, 사이트 버튼은 요청 메일이다(SKILL 7절).
+
 - 다른 판(hll · shinsegae · ably · v260908 · nw)의 OG 자산과 에이블리 덱 PDF — 일반판만 이 저장소로 배포하므로 옮기지 않았다.
   그 판을 빌드하려면 Google Drive `코덱스/kim-seonil-portfolio-HLL-source` 에서 `assets/og/<판>/` 과 PDF 를 가져온다.
 - 기획·검수 메모(`docs/`, `insight/CODEX_유입분석_요청.md`) — 공개 저장소라 올리지 않았다. 원본은 같은 Drive 폴더에 있다.

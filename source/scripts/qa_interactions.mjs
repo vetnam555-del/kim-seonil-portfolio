@@ -117,7 +117,7 @@ function component(file, exported = "default", env = environment()) {
     "react/jsx-runtime": { jsx, jsxs: jsx, Fragment: "fragment" },
     "next/link": { default: "link" },
     "next/navigation": { usePathname: () => env.pathname },
-    "@/data/edition": { edition: { showWhyStudio: false, portfolioPdfPath: "/portfolio.pdf" } },
+    "@/data/edition": { edition: { showWhyStudio: false, portfolioPdfPath: "/portfolio.pdf" }, portfolioPdfPublic: false, portfolioPdfRequest: { href: "mailto:makefair@naver.com?subject=x", label: "포트폴리오 PDF 요청" } },
     "@/data/site": { site: { name: "김선일", role: "마케터" } },
   };
   const exports = {};

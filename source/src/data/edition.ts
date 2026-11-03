@@ -48,6 +48,28 @@ export const isV260908 = EDITION === "v260908";
 export const isNew = EDITION === "nw";
 
 /*
+ * 검색 색인 (2026.10.31 주인 결정 · BACKLOG O-01). 일반판만, 홈과 이력서(국 · 영)만 연다.
+ * 사례 상세와 소개는 계속 noindex 다 — 광고주 이름으로 사례 수치가 검색되는 것은 원하지 않는다.
+ * robots.txt 로는 막지 않는다. 막으면 검색 로봇이 noindex 를 읽지 못해 주소만 색인될 수 있고,
+ * 링크드인 · 카카오톡 같은 미리보기 로봇도 페이지를 읽지 못한다(링크에 그림이 안 뜬다).
+ * 다른 판은 지원처별 서류라 지금처럼 전면 차단한다.
+ */
+export const indexable = EDITION === "general";
+
+export const ROBOTS_CLOSED = { index: false, follow: false, noarchive: true, nosnippet: true };
+const ROBOTS_OPEN = {
+  index: true,
+  follow: true,
+  noarchive: true,
+  googleBot: { index: true, follow: true, noarchive: true, "max-snippet": 160 },
+};
+
+/** 홈 · 이력서만 open 으로 부른다. 그 밖의 페이지는 layout 기본값(닫힘)을 따른다. */
+export function robotsFor(open: boolean) {
+  return open && indexable ? ROBOTS_OPEN : ROBOTS_CLOSED;
+}
+
+/*
  * ── 클라이언트 전용 파생값 ──
  *
  * Header 는 "use client" 다. 거기서 edition 객체를 읽으면 판별 카피 표(COPY)가 통째로
@@ -84,6 +106,20 @@ export const roleForClient =
       : EDITION === "ably"
         ? "신사업 그로스\u00a0· 실험 설계"
         : "퍼포먼스 마케터";
+
+/*
+ * 포트폴리오 PDF(덱) 공개 여부 (2026-10-31 주인 "포트폴리오 pdf 버전은 헤드헌터한테만 보여주고 싶다").
+ * 일반판은 PDF 를 사이트에 싣지 않는다 — 내려받기 버튼 자리는 요청 메일 버튼이고, PDF 는 Google Drive
+ * '포트폴리오 PDF (헤드헌터 공유용)' 폴더에서 지정한 사람에게만 공유한다. 다른 판은 그 판의 결정대로 둔다.
+ * 메일 주소는 site.emailPrimary 와 같아야 한다(validate_export 가 확인). 헤더(클라이언트)도 쓰므로 site.ts 를 부르지 않고 여기 둔다.
+ */
+export const portfolioPdfPublic = EDITION !== "general";
+export const portfolioPdfRequest = {
+  href: "mailto:makefair@naver.com?subject=" + encodeURIComponent("포트폴리오 PDF 요청드립니다"),
+  hrefEn: "mailto:makefair@naver.com?subject=" + encodeURIComponent("Portfolio PDF request"),
+  label: "포트폴리오 PDF 요청",
+  labelEn: "Request portfolio PDF (Korean)",
+} as const;
 
 export const portfolioPdfPathForClient =
   EDITION === "ably"
@@ -246,7 +282,7 @@ const COPY: Record<Exclude<Edition, "v260908" | "nw">, EditionCopy> = {
       "제이에스티나에서는 고객 단계별 예산 배분을, 뉴발란스에서는 재고 연동 자동화를 다룹니다. 이어지는 세 사례는 측정 기준 점검, 구매 경로 분석, 유튜브 채널 성장 경험입니다.",
     seoTitle: "김선일 | 퍼포먼스 마케터 포트폴리오",
     seoDescription:
-      "FIND. TEST. IMPROVE. 문제를 구조화해 가설을 세우고 테스트로 개선합니다. 30여 개 브랜드를 운영한 경력 4년 퍼포먼스 마케터 김선일의 포트폴리오입니다.",
+      "FIND. TEST. IMPROVE. 문제를 구조화해 가설을 세우고 테스트로 개선합니다. 30여 개 브랜드를 운영한 퍼포먼스 마케터 김선일의 포트폴리오입니다.",
     ogAlt: "김선일 퍼포먼스 마케터 포트폴리오",
     caseDescription:
       "문제 정의부터 측정 기준, 운영 시스템까지의 판단 과정을 근거와 함께 담은 퍼포먼스 마케팅 사례입니다.",

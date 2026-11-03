@@ -63,7 +63,7 @@ import {
  * 뜻하는데, 그 둘을 한 플래그로 묶었더니 지면을 끄자 프로필·대표 수치까지 기본판으로
  * 돌아갔다. 노출 여부와 카피 선택은 다른 질문이다.
  */
-import { EDITION, edition, isAbly, isGeneralLike, isV260908 } from "@/data/edition";
+import { EDITION, edition, isAbly, isGeneralLike, isV260908, portfolioPdfPublic, portfolioPdfRequest } from "@/data/edition";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const isGeneralEdition =
@@ -2105,13 +2105,14 @@ export function Credits() {
               이력서 PDF
             </a>
             {isGeneralEdition ? (
+              /* 일반판은 PDF 를 싣지 않고 요청 메일로 받는다(2026-10-31, edition.ts portfolioPdfPublic) */
               <a
-                href={`${basePath}${edition.portfolioPdfPath}`}
-                download
+                href={portfolioPdfPublic ? `${basePath}${edition.portfolioPdfPath}` : portfolioPdfRequest.href}
+                download={portfolioPdfPublic ? true : undefined}
                 className="inline-flex min-h-[48px] items-center justify-center border border-signal-ink px-6 font-mono text-[0.8125rem] font-bold text-signal-ink hover:bg-signal-ink hover:text-ink"
-                aria-label="김선일 퍼포먼스 마케팅 포트폴리오 PDF 다운로드"
+                aria-label={portfolioPdfPublic ? "김선일 퍼포먼스 마케팅 포트폴리오 PDF 다운로드" : "포트폴리오 PDF 요청 메일 쓰기"}
               >
-                포트폴리오 PDF
+                {portfolioPdfPublic ? "포트폴리오 PDF" : portfolioPdfRequest.label}
               </a>
             ) : null}
             <a

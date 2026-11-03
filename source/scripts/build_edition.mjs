@@ -148,10 +148,11 @@ const decks = {
   ably: "kim-seonil-ably-growth-portfolio.pdf",
   other: "kim-seonil-performance-marketing-portfolio.pdf",
 };
-const keepDeck = edition === "ably" ? decks.ably : decks.other;
-if (!existsSync(join(process.cwd(), "out", keepDeck))) {
+/* 일반판은 덱을 싣지 않는다(2026-10-31 주인 — 헤드헌터에게만 Drive 로 공유, edition.ts portfolioPdfPublic) */
+const keepDeck = edition === "general" ? null : edition === "ably" ? decks.ably : decks.other;
+if (keepDeck && !existsSync(join(process.cwd(), "out", keepDeck))) {
   console.error(`
-[build_edition] 이 판이 쓸 덱 PDF가 out/ 에 없습니다: ${keepDeck}`);
+[build_edition] 이 판이 쓸 덱 PDF가 out/ 에 없습니다: ${keepDeck} — 공개 저장소에는 덱을 두지 않으니 Drive 에서 public/ 으로 받아 빌드한다(커밋하지 않는다)`);
   process.exit(1);
 }
 for (const name of Object.values(decks)) {
