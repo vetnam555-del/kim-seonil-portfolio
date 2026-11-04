@@ -57,5 +57,6 @@ Claude 는 사용량 한도에 걸리는 순간 아무것도 할 수 없으므�
 
 - 이력서 PDF 에 전화번호 · 주소 · 생년월일을 넣지 않는다. 공개 저장소에 비공개 자료(기획 메모 · 사내 자료)를 올리지 않는다.
 - 사실 · 수치를 지어내지 않는다. 모르는 값은 묻거나 뺀다. 광고주 로고는 쓰지 않는다.
-- 저장소 이름을 바꾸지 않는다. Pages Source 는 GitHub Actions 다.
-- 루트에 빌드 결과가 아닌 파일을 더하면 `source/scripts/publish_general.mjs` 의 KEEP 과 `.github/workflows/pages.yml` 제외 목록을 같이 고친다.
+- 저장소 이름을 바꾸지 않는다. 사이트는 `publish-public.yml` 이 공개 사이트 저장소(`vetnam555-del.github.io`)로 올린다 —
+  이 저장소는 2026-11-04 주인 결정으로 비공개로 돌린다. 공개인 동안은 `pages.yml`(Pages Source = GitHub Actions)도 돈다.
+- 루트에 빌드 결과가 아닌 파일을 더하면 `source/scripts/publish_general.mjs` 의 KEEP 과 `.github/workflows/pages.yml` · `publish-public.yml` 제외 목록을 같이 고친다.

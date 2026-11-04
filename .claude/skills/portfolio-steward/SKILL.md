@@ -117,15 +117,30 @@ node scripts/qa_release.mjs --approve --runtime=artifacts/release/runtime/runtim
 
 ## 6. main 배포 (라이브)
 
-`main` 에는 원본과 빌드 결과가 함께 있다(2026-10-10 주인 결정 — 비공개 저장소를 따로 두지 않는다).
-사이트에는 GitHub Actions(`.github/workflows/pages.yml`)가 루트 빌드 결과만 골라 올린다.
+`main` 에는 원본과 빌드 결과가 함께 있다. **2026-11-04 주인 결정 — 이 저장소(원본 · 메모 · 기록)는 비공개로 돌리고**, 사이트는 공개 저장소
+`vetnam555-del.github.io` 의 `kim-seonil-portfolio/` 폴더가 같은 주소로 낸다(2026-10-10 의 '비공개 저장소를 따로 두지 않는다'를 바꾼다).
+`main` 에 push 되면 `publish-public.yml` 이 루트 빌드 결과만 골라 그 저장소로 올린다(변수 `PUBLIC_SITE_REPO` 가 없으면 건너뛴다).
+이 저장소가 공개인 동안은 `pages.yml` 도 같은 결과를 이 저장소의 Pages 로 올린다(비공개가 되면 건너뛴다).
 빼는 목록은 `publish_general.mjs` 의 KEEP(`.git` `.github` `.claude` `.gitignore` `CLAUDE.md` `README.md` `source`)과 같다.
 
 1. 작업 브랜치에서 3·4절까지 마치고(빌드 결과가 같은 커밋에 있어야 한다) 자비스 검토를 받는다.
-2. PR 을 `main` 에 합친다(merge commit). `main` 에 push 되면 "Deploy Pages" 워크플로가 돈다.
+2. PR 을 `main` 에 합친다(merge commit). `main` 에 push 되면 "Publish public site"(와 공개인 동안 "Deploy Pages") 워크플로가 돈다.
 3. 워크플로가 초록인지 보고, 1–3분 뒤 `npm run health` 로 라이브가 `main` 과 같은지, 원본 파일이 사이트에서 404 인지 확인한다.
 
-- 저장소 Settings → Pages → Source 는 **GitHub Actions** 다. "Deploy from a branch" 로 바꾸면 원본이 사이트에서 열린다.
+- 이 저장소가 공개인 동안 Settings → Pages → Source 는 **GitHub Actions** 다. "Deploy from a branch" 로 바꾸면 원본이 사이트에서 열린다.
+- 공개 사이트 저장소에는 빌드 결과만 들어간다 — 뿌리에 `.nojekyll`(`_next` 폴더를 살린다) · 짧은 주소 페이지(`.github/public-site/index.html`,
+  `?r=` 를 들고 `/kim-seonil-portfolio/` 로) · 포트폴리오의 `404.html` · `robots.txt`. 그 저장소의 Pages 는 "Deploy from a branch"(main / root)다.
+
+### 공개 사이트 분리 순서 (2026-11-04 · 끝나면 이 절을 줄인다)
+
+1. (Claude) `publish-public.yml` · `pages.yml` 건너뛰기 조건 · 짧은 주소 페이지가 든 PR 을 `main` 에 합친다(주인 "합쳐").
+2. (주인) 새 공개 저장소 `vetnam555-del.github.io` — 비어 있게(README 없이).
+3. (주인) fine-grained 토큰 — 그 저장소 하나만, Contents 읽기 · 쓰기. 이 저장소 Settings → Secrets and variables → Actions 에
+   비밀값 `PUBLIC_SITE_TOKEN`, 변수 `PUBLIC_SITE_REPO` = `vetnam555-del/vetnam555-del.github.io`. 토큰 값은 대화에 붙이지 않는다.
+4. (Claude) "Publish public site" 를 수동 실행 → 공개 저장소에 파일이 들어왔는지 본다.
+5. (주인) 공개 저장소 Settings → Pages → Deploy from a branch → main / (root). `https://vetnam555-del.github.io/` 가 포트폴리오로 넘어가는지 본다.
+6. (주인) 이 저장소 Settings → Change visibility → Private. 이 저장소의 Pages 가 내려가고 같은 주소를 공개 저장소가 이어서 낸다.
+7. (Claude) `npm run health` — 20쪽이 `main` 과 같은지 · 원본 파일 404 · 이력서 PDF. 토큰이 만료되면 배포가 멈추고 health 가 '라이브 ≠ main' 으로 잡는다.
 - 워크플로는 결과물에 `source/` `.claude/` `CLAUDE.md` 나 `.ts` `.tsx` `.mjs` `.py` `.md` 파일이 있으면 배포하지 않고 멈춘다.
   루트에 새 파일을 둘 때(빌드 결과가 아닌 것) KEEP 과 워크플로 제외 목록을 같이 고친다.
 

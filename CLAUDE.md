@@ -1,10 +1,12 @@
 # 김선일 포트폴리오 — 클라우드 작업 안내
 
 이 저장소는 **배포물과 원본이 함께 있는** 저장소다. 2026-10-01 에 로컬 PC(Windows)에서 클라우드로 옮겼다.
+**2026-11-04 주인 결정 — 이 저장소는 비공개로 돌린다.** 사이트는 공개 저장소 `vetnam555-del.github.io` 의 `kim-seonil-portfolio/` 폴더가
+같은 주소로 낸다(`.github/workflows/publish-public.yml`). 전환 순서와 지금 어디까지 왔는지는 매뉴얼 6절 · `source/HANDOFF.md`.
 
 | 위치 | 내용 | 직접 고치나 |
 |---|---|---|
-| 저장소 루트 (`index.html`, `_next/`, `projects/`, `evidence/`, `fonts/` …) | **일반판 빌드 결과**. `main` 에 들어가면 GitHub Actions(`.github/workflows/pages.yml`)가 이것만 골라 사이트에 올린다 (https://vetnam555-del.github.io/kim-seonil-portfolio/) | **아니다.** 빌드로만 바꾼다 |
+| 저장소 루트 (`index.html`, `_next/`, `projects/`, `evidence/`, `fonts/` …) | **일반판 빌드 결과**. `main` 에 들어가면 GitHub Actions 가 이것만 골라 사이트에 올린다 (https://vetnam555-del.github.io/kim-seonil-portfolio/) — `publish-public.yml`(공개 사이트 저장소로 · 설정한 뒤) · `pages.yml`(이 저장소가 공개인 동안만) | **아니다.** 빌드로만 바꾼다 |
 | `source/` | Next.js 16 원본 (`src/`, `scripts/`, `public/`, `assets/og/general/`). 저장소에는 공개되지만 사이트에는 올라가지 않는다 | 여기를 고친다 |
 
 원본 사용법·수치 원칙은 `source/README.md`, 출시 검수 기준은 `source/RELEASE_CHECKLIST.md`,
@@ -34,8 +36,9 @@ Next.js 16 주의사항은 `source/AGENTS.md` 에 있다. 코드를 고치기 �
 4. `source/` 변경과 루트 빌드 결과를 **같은 커밋**에 넣어 작업 브랜치에 push 하고, 자비스 검토 뒤 `main` 에 합친다.
    `main` 에 들어가면 Actions 가 루트 빌드 결과만 사이트에 올린다(원본·작업 메모·설정은 뺀다). 매뉴얼 6절.
    - 저장소 이름(`kim-seonil-portfolio`)은 바꾸지 않는다. Pages 주소가 이름을 따라 바뀌고 예전 주소는 넘겨주지 않는다 — 제출한 서류가 이 주소다(2026-10-15).
-   - 저장소 Settings → Pages → Source 는 **GitHub Actions** 여야 한다. "Deploy from a branch" 로 돌아가면 `main` 의 원본이
-     사이트에서 그대로 열린다 — `npm run health` 가 이것을 결함으로 잡는다.
+   - 이 저장소가 공개인 동안 Settings → Pages → Source 는 **GitHub Actions** 여야 한다. "Deploy from a branch" 로 돌아가면 `main` 의 원본이
+     사이트에서 그대로 열린다 — `npm run health` 가 이것을 결함으로 잡는다. 비공개로 돌린 뒤에는 이 저장소의 Pages 는 꺼지고
+     공개 사이트 저장소가 같은 주소를 낸다(그 저장소에는 빌드 결과만 들어간다).
 
 ## 클라우드 환경
 

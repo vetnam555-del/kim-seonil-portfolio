@@ -72,15 +72,16 @@ for (const f of pages) {
   else if (!same) hard.push(`라이브 ${path} 가 ${REF} 와 다릅니다(배포 지연 또는 캐시)`);
 }
 
-/* 2-1. 원본·작업 메모가 사이트에 올라가 있지 않은가. Pages 는 Actions 가 빌드 결과만 골라 올린다(.github/workflows/pages.yml).
-   설정이 "브랜치에서 배포"로 돌아가면 main 의 원본이 그대로 열리므로 결함으로 센다 */
+/* 2-1. 원본·작업 메모가 사이트에 올라가 있지 않은가. Actions 가 빌드 결과만 골라 올린다 — 공개 사이트 저장소로(publish-public.yml),
+   이 저장소가 공개인 동안은 이 저장소의 Pages 로도(pages.yml). 설정이 "브랜치에서 배포"로 돌아가거나 공개 저장소에 원본이 섞이면
+   원본이 그대로 열리므로 결함으로 센다 */
 report.privateFiles = [];
 /* 포트폴리오 PDF 도 사이트에서 열리면 안 된다 — 헤드헌터에게만 Drive 로 공유(2026-10-31 주인) */
 for (const path of ["source/package.json", "source/src/data/site.ts", "CLAUDE.md", "AGENTS.md", ".claude/settings.json", "kim-seonil-performance-marketing-portfolio.pdf"]) {
   const r = await get(`${LIVE}/${path}`);
   report.privateFiles.push({ path, status: r.status });
   /* 404·410 만 "없음"을 확인한 것이다. 403·429·5xx·연결 실패는 확인하지 못한 것이라 경고로 남긴다(자비스 b2beb47 P2) */
-  if (r.status === 200) hard.push(`원본 파일이 사이트에서 열립니다: /${path} — Settings → Pages → Source 가 GitHub Actions 인지 확인`);
+  if (r.status === 200) hard.push(`원본 파일이 사이트에서 열립니다: /${path} — 이 저장소가 공개면 Settings → Pages → Source 가 GitHub Actions 인지, 공개 사이트 저장소(vetnam555-del.github.io)에 원본이 섞이지 않았는지 확인`);
   else if (r.status !== 404 && r.status !== 410) warn.push(`원본 비공개 확인 못 함: /${path} → ${r.status || r.error}`);
 }
 
