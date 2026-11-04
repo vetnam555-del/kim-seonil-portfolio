@@ -50,6 +50,11 @@ ENTITY = {"&nbsp;": " ", "&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": '"', 
 
 EXTRA = " ·…—–‘’“”※×÷±≈°₩→←↑↓↔↗−▲▼●○■□★☆✓✗•©®™‰"
 
+# 저장할 때 head.modified 를 지금 시각으로 바꾸지 않는다(B-13 · 2026-11-04). fontTools 기본값은 저장 시각을 적어
+# 문자표 · 글리프가 같아도 빌드마다 바이트가 달라졌고, 문구를 안 바꾼 PR 에도 글꼴 5개가 섞였다.
+# 끄면 같은 원본 · 같은 문자로는 늘 같은 파일이 나온다(같은 입력 두 번 저장 → sha256 같음 확인).
+STABLE = {"recalcTimestamp": False}
+
 
 def rendered_chars():
     files = glob.glob(os.path.join(ROOT, "out", "**", "*.html"), recursive=True)
@@ -89,7 +94,7 @@ def main():
         total = 0
         os.makedirs(DEPLOY_OUT, exist_ok=True)
         for name in WEIGHTS:
-            font = TTFont(os.path.join(SRC, name))
+            font = TTFont(os.path.join(SRC, name), **STABLE)
             o = Options()
             o.flavor = "woff2"
             o.layout_features = ["*"]
@@ -106,7 +111,8 @@ def main():
             after = os.path.getsize(dst)
             total += after
             print("  %-30s %8d -> %7d bytes (%d%%)" % (name, before, after, after * 100 // before))
-        font = instancer.instantiateVariableFont(TTFont(os.path.join(SRC, ARCHIVO)), ARCHIVO_AXES)
+        font = instancer.instantiateVariableFont(TTFont(os.path.join(SRC, ARCHIVO), **STABLE), ARCHIVO_AXES)
+        font.recalcTimestamp = False  # instancer 가 새 객체를 돌려줄 때도 저장 시각을 적지 않게
         o = Options()
         o.flavor = "woff2"
         o.layout_features = ["*"]

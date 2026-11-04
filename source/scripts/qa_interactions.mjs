@@ -13,6 +13,20 @@ const sourceRoot = resolve(option("source-root") ?? "src");
 const read = (name) => readFileSync(join(sourceRoot, name), "utf8");
 const equalDeps = (a, b) => a && b && a.length === b.length && a.every((v, i) => Object.is(v, b[i]));
 
+/* 다른 모듈을 가져오지 않는 데이터 파일(판 · 영문 주소 규칙)은 흉내 내지 않고 실제 파일을 읽는다(B-14 · 2026-11-04).
+   손으로 쓴 대역은 Header · EmailCopyButton 이 @/data/en/meta 를 가져오기 시작한 뒤로 따라가지 못해 9건 중 7건이 늘 실패했다 */
+const ENV_VARS = { NEXT_PUBLIC_BASE_PATH: "/kim-seonil-portfolio", NEXT_PUBLIC_EDITION: "general" };
+function plainModule(file) {
+  const exports = {};
+  const code = ts.transpileModule(read(file), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText;
+  vm.runInNewContext(code, {
+    exports, console, process: { env: ENV_VARS },
+    require: (name) => { throw new Error(`${file} 는 다른 모듈을 가져오지 않아야 한다: ${name}`); },
+  }, { filename: file });
+  return exports;
+}
+const DATA_MODULES = { "@/data/edition": plainModule("data/edition.ts"), "@/data/en/meta": plainModule("data/en/meta.ts") };
+
 function environment({ reduced = false, observer = true, hidden = false } = {}) {
   const listeners = new Map();
   const timers = new Map();
@@ -117,7 +131,7 @@ function component(file, exported = "default", env = environment()) {
     "react/jsx-runtime": { jsx, jsxs: jsx, Fragment: "fragment" },
     "next/link": { default: "link" },
     "next/navigation": { usePathname: () => env.pathname },
-    "@/data/edition": { edition: { showWhyStudio: false, portfolioPdfPath: "/portfolio.pdf" }, portfolioPdfPublic: false, portfolioPdfRequest: { href: "mailto:makefair@naver.com?subject=x", label: "포트폴리오 PDF 요청" } },
+    ...DATA_MODULES,
     "@/data/site": { site: { name: "김선일", role: "마케터" } },
   };
   const exports = {};
@@ -126,7 +140,7 @@ function component(file, exported = "default", env = environment()) {
   } }).outputText;
   vm.runInNewContext(code, {
     ...env.globals, navigator: env.navigator, exports, console,
-    process: { env: { NEXT_PUBLIC_BASE_PATH: "/kim-seonil-portfolio" } },
+    process: { env: ENV_VARS },
     require: (name) => { if (!(name in imports)) throw new Error(`Unmocked import: ${name}`); return imports[name]; },
   }, { filename: file });
   return {
@@ -251,10 +265,16 @@ for (const mode of ["clipboard", "fallback", "failure"]) await test(`email copy 
 const css = read("app/globals.css");
 await test("short viewport mobile menu has a bounded scroll container", () => {
   assert.match(css, /\.mobile-nav\s*\{[^}]*max-height:[^}]*overflow-y:\s*auto/s);
-  assert.match(read("components/Header.tsx"), /className="mobile-nav\s/);
+  assert.match(read("components/Header.tsx"), /className=(?:"|\{`)mobile-nav\s/);
 });
 await test("print uses final values and reveals clipped text", () => {
-  const print = css.slice(css.lastIndexOf("@media print"));
+  /* 인쇄 규칙은 여러 @media print 블록에 나뉘어 있다 — 마지막 블록만 보면 앞 블록의 규칙을 놓친다(B-14) */
+  let print = "";
+  for (let i = css.indexOf("@media print"); i !== -1; i = css.indexOf("@media print", i + 1)) {
+    let depth = 0, j = css.indexOf("{", i);
+    for (; j < css.length; j++) { if (css[j] === "{") depth++; else if (css[j] === "}" && --depth === 0) break; }
+    print += css.slice(i, j + 1) + "\n";
+  }
   assert.match(print, /\.count-up-measure\s*\{[^}]*visibility:\s*visible/);
   assert.match(print, /\.count-up-visual\s*\{[^}]*display:\s*none/);
   assert.match(print, /\[data-enter\][^}]*clip-path:\s*none/s);

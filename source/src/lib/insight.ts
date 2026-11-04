@@ -63,13 +63,25 @@ addEventListener("scroll",depth,{passive:true});addEventListener("resize",depth,
 /* 체류. 탭이 숨으면 시간을 세지 않는다 — 열어만 두고 안 본 시간을 읽은 시간으로 세면 안 된다. */
 var vis=Date.now(),acc=0;
 function seen(){return Math.round((acc+(document.hidden?0:Date.now()-vis))/1000)}
-setInterval(function(){var s=seen();${JSON.stringify(DWELLS)}.forEach(function(m){if(s>=m&&!wd[m]){wd[m]=1;ev("dwell",{d:m})}})},2000);
+setInterval(function(){try{moved()}catch(e){}var s=seen();${JSON.stringify(DWELLS)}.forEach(function(m){if(s>=m&&!wd[m]){wd[m]=1;ev("dwell",{d:m})}})},2000);
 addEventListener("visibilitychange",function(){if(document.hidden){acc+=Date.now()-vis;send()}else{vis=Date.now()}});
 /* 섹션 도달. 본문에서 실제로 높이가 있는 칸만 본다 — 각주·마퀴 앵커를 세면 퍼널이 더러워진다. */
 try{var io=new IntersectionObserver(function(es){es.forEach(function(x){
-if(x.isIntersecting&&!x.target.__s){x.target.__s=1;sect=x.target.id;ev("sect",{k:x.target.id})}})},{threshold:0.4});
-[].forEach.call(document.querySelectorAll("main [id]"),function(el){
-if(el.getBoundingClientRect().height>=240)io.observe(el)})}catch(e){}
+if(x.isIntersecting&&!x.target.__s){x.target.__s=1;sect=x.target.id;ev("sect",{k:x.target.id})}})},{threshold:0.4})}catch(e){}
+function scan(){try{[].forEach.call(document.querySelectorAll("main [id]"),function(el){
+if(!el.__s&&el.getBoundingClientRect().height>=240)io.observe(el)})}catch(e){}}
+scan();
+/* 앱 안 이동(next/link)은 문서를 새로 읽지 않아 이 스크립트가 다시 돌지 않는다. 2026-11-04 실측에서 홈 → 사례로 옮겨 간 뒤
+   사례 화면의 view · sect 가 하나도 없었고 읽은 시간이 홈에 합쳐졌다. 주소가 바뀌면 새 화면의 view 를 남기고
+   깊이 표시를 화면마다 새로 잡고 새 화면의 칸을 다시 찾는다. 유입 경로(r)는 비운다 — 안에서 옮긴 것이라 외부 유입이 아니다.
+   history 를 감싸는 것에 더해, 놓친 이동은 2초마다 도는 체류 확인에서 주소를 비교해 잡는다. */
+var P=location.pathname;
+function moved(){if(location.pathname===P)return;P=location.pathname;maxD=0;dd={};sect="";
+ev("view",{r:"",w:vw(),h:vh(),dpr:devicePixelRatio||1,l:(navigator.language||"").slice(0,8),nav:1});send();
+setTimeout(function(){scan();tick=0;depth()},700);setTimeout(scan,2500)}
+try{["pushState","replaceState"].forEach(function(f){var o=history[f];if(typeof o!=="function")return;
+history[f]=function(){var x=o.apply(this,arguments);try{moved()}catch(e){}return x}})}catch(e){}
+addEventListener("popstate",function(){setTimeout(moved,0)});
 /* 링크 클릭. 어디로 나갔는지가 이 사이트의 전환이다. */
 addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a)return;
 var h=a.getAttribute("href")||"",g=h.toLowerCase(),k="link",F=function(x){return g.indexOf(x)>-1};
