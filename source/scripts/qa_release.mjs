@@ -24,6 +24,8 @@ for (const [script, scriptArgs] of [
   ["test_tone_headings.mjs", []],
   ["test_release_contract.mjs", []],
   ["test_count_up_fallback.mjs", []],
+  /* 머리글 · 메뉴 · 이메일 복사 · 수치 애니메이션 동작 시험(B-14 · 2026-11-04) — 출시 검수에 없어서 9건이 실패한 채 지나갔다 */
+  ["qa_interactions.mjs", []],
 ]) {
   const result = spawnSync(process.execPath, [join(root, "scripts", script), ...scriptArgs], { cwd: root, encoding: "utf8", windowsHide: true, env: { ...process.env, QA_EXPORT_ROOT: out } });
   checks.push({ script, exitCode: result.status, output: `${result.stdout || ""}${result.stderr || ""}` });

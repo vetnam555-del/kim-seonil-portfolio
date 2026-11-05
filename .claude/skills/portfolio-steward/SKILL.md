@@ -51,8 +51,11 @@ description: 김선일 포트폴리오를 고치고·검수하고·배포하고�
 
 - 검증된 값만 쓴다. 출처·기간·기여 범위를 사례마다 적는다. 사이트·이력서·PDF 의 같은 수치는 같아야 한다.
 - 말투: 주장형 제목, 짧은 문장, 한자어 명사 나열·"~하며," 이어 붙이기·AI 상투어(혁신적·압도적·원스톱 등)를 쓰지 않는다.
-  영문판은 em dash 를 쓰지 않는다.
-- 띄어 쓴 구분자 `" · "` 는 NBSP(`" · "`, JSX `&nbsp;· `). 문구를 고친 뒤 `node scripts/nbsp_separators.mjs . --dry` → 적용.
+  영문판은 em dash 를 쓰지 않는다. 라벨과 내용 사이는 콜론이다(사례 화면은 `caseLabels` 의 `labelSep` — 한국어 " — ", 영문 ": ").
+- 가운뎃점은 줄 맨 앞에 오지 않는다(B-06 · 2026-11-03). 화면에 그릴 때 JSX 런타임(`src/jsx/joinDots.ts`, tsconfig `jsxImportSource`)이
+  붙여 쓴 '·' 앞에 U+2060 을 넣고 띄어 쓴 `" · "` 의 앞 공백을 NBSP 로 바꾼다 — JSX 조각 사이(`{이메일} ·{" "}<a>`)도 같다. 원본 문구에 따로 적을 것은 없다.
+  `validate_export`(보이는 글자에 '·' 앞 줄바꿈 자리가 남으면 실패)와 `qa_wrap` D 규칙(브라우저 실측)이 막는다. 원본에 NBSP 를 미리 적는
+  `node scripts/nbsp_separators.mjs . --dry` 는 이제 고르기다. 화면 글자를 데이터 문장과 비교하는 검사를 새로 만들면 U+2060 을 빼고 비교한다(`qa_final` 의 `htmlToText`).
 - 개인정보: 전화번호·주소·생년월일은 사이트·이력서 PDF 어디에도 싣지 않는다. 광고주 원천 데이터는 비식별 처리한다.
 - 다른 판(hll · shinsegae · ably · v260908 · nw) 자료나 비공개 원본을 이 공개 저장소로 옮기지 않는다.
 
@@ -66,8 +69,10 @@ npm run typecheck
 npm run qa:tone && npm run qa:en && npm run qa:final
 QA_BROWSER=$PWD/scripts/cloud_chromium.sh node scripts/qa_layout.mjs general
 QA_BROWSER=$PWD/scripts/cloud_chromium.sh node scripts/qa_wrap.mjs general
-node scripts/qa_release.mjs    # STATIC_PASS_RUNTIME_PENDING 과 fingerprint 를 얻는다
+node scripts/qa_release.mjs    # STATIC_PASS_RUNTIME_PENDING 과 fingerprint 를 얻는다 (동작 시험 qa_interactions 23건도 여기서 돈다 · 2026-11-04)
 ```
+
+- 글꼴 서브셋은 같은 문자로는 늘 같은 파일이 나온다(B-13 · 2026-11-04). publish 뒤 `fonts/` 가 바뀌었으면 화면 문자가 바뀐 것이니 그대로 커밋한다.
 
 출시 승인(RELEASE_PASS)까지:
 
@@ -88,7 +93,7 @@ node scripts/qa_release.mjs --approve --runtime=artifacts/release/runtime/runtim
   3. 추적되지 않거나 무시되는 파일(`??`, `!!` — 새 해시 이름의 `_next/…` 같은 것)은 지우지 말고 저장소 밖 스크래치 폴더로
      옮긴다(`mkdir -p <스크래치>/publish-held && mv <경로> <스크래치>/publish-held/`). 배포물이 아닌 메모라면 커밋해도 된다.
   4. 1번 목록이 비면 `cd source && npm run publish:general` 로 다시 돈다. `git checkout HEAD -- .` 같은 일괄 복원과 `git clean` 은 쓰지 않는다.
-- 화면을 바꿨다면 375·390·1440px 캡처를 직접 본다. 가운뎃점이 줄 맨 앞에 오지 않는지 본다.
+- 화면을 바꿨다면 375·390·1440px 캡처를 직접 본다. 가운뎃점이 줄 맨 앞에 오는 곳은 `qa_wrap` D 규칙이 잰다.
 
 ## 4. 커밋
 
@@ -112,15 +117,30 @@ node scripts/qa_release.mjs --approve --runtime=artifacts/release/runtime/runtim
 
 ## 6. main 배포 (라이브)
 
-`main` 에는 원본과 빌드 결과가 함께 있다(2026-10-10 주인 결정 — 비공개 저장소를 따로 두지 않는다).
-사이트에는 GitHub Actions(`.github/workflows/pages.yml`)가 루트 빌드 결과만 골라 올린다.
+`main` 에는 원본과 빌드 결과가 함께 있다. **2026-11-04 주인 결정 — 이 저장소(원본 · 메모 · 기록)는 비공개로 돌리고**, 사이트는 공개 저장소
+`vetnam555-del.github.io` 의 `kim-seonil-portfolio/` 폴더가 같은 주소로 낸다(2026-10-10 의 '비공개 저장소를 따로 두지 않는다'를 바꾼다).
+`main` 에 push 되면 `publish-public.yml` 이 루트 빌드 결과만 골라 그 저장소로 올린다(변수 `PUBLIC_SITE_REPO` 가 없으면 건너뛴다).
+이 저장소가 공개인 동안은 `pages.yml` 도 같은 결과를 이 저장소의 Pages 로 올린다(비공개가 되면 건너뛴다).
 빼는 목록은 `publish_general.mjs` 의 KEEP(`.git` `.github` `.claude` `.gitignore` `CLAUDE.md` `README.md` `source`)과 같다.
 
 1. 작업 브랜치에서 3·4절까지 마치고(빌드 결과가 같은 커밋에 있어야 한다) 자비스 검토를 받는다.
-2. PR 을 `main` 에 합친다(merge commit). `main` 에 push 되면 "Deploy Pages" 워크플로가 돈다.
+2. PR 을 `main` 에 합친다(merge commit). `main` 에 push 되면 "Publish public site"(와 공개인 동안 "Deploy Pages") 워크플로가 돈다.
 3. 워크플로가 초록인지 보고, 1–3분 뒤 `npm run health` 로 라이브가 `main` 과 같은지, 원본 파일이 사이트에서 404 인지 확인한다.
 
-- 저장소 Settings → Pages → Source 는 **GitHub Actions** 다. "Deploy from a branch" 로 바꾸면 원본이 사이트에서 열린다.
+- 이 저장소가 공개인 동안 Settings → Pages → Source 는 **GitHub Actions** 다. "Deploy from a branch" 로 바꾸면 원본이 사이트에서 열린다.
+- 공개 사이트 저장소에는 빌드 결과만 들어간다 — 뿌리에 `.nojekyll`(`_next` 폴더를 살린다) · 짧은 주소 페이지(`.github/public-site/index.html`,
+  `?r=` 를 들고 `/kim-seonil-portfolio/` 로) · 포트폴리오의 `404.html` · `robots.txt`. 그 저장소의 Pages 는 "Deploy from a branch"(main / root)다.
+
+### 공개 사이트 분리 순서 (2026-11-04 · 끝나면 이 절을 줄인다)
+
+1. (Claude) `publish-public.yml` · `pages.yml` 건너뛰기 조건 · 짧은 주소 페이지가 든 PR 을 `main` 에 합친다(주인 "합쳐").
+2. (주인) 새 공개 저장소 `vetnam555-del.github.io` — 비어 있게(README 없이).
+3. (주인) fine-grained 토큰 — 그 저장소 하나만, Contents 읽기 · 쓰기. 이 저장소 Settings → Secrets and variables → Actions 에
+   비밀값 `PUBLIC_SITE_TOKEN`, 변수 `PUBLIC_SITE_REPO` = `vetnam555-del/vetnam555-del.github.io`. 토큰 값은 대화에 붙이지 않는다.
+4. (Claude) "Publish public site" 를 수동 실행 → 공개 저장소에 파일이 들어왔는지 본다.
+5. (주인) 공개 저장소 Settings → Pages → Deploy from a branch → main / (root). `https://vetnam555-del.github.io/` 가 포트폴리오로 넘어가는지 본다.
+6. (주인) 이 저장소 Settings → Change visibility → Private. 이 저장소의 Pages 가 내려가고 같은 주소를 공개 저장소가 이어서 낸다.
+7. (Claude) `npm run health` — 20쪽이 `main` 과 같은지 · 원본 파일 404 · 이력서 PDF. 토큰이 만료되면 배포가 멈추고 health 가 '라이브 ≠ main' 으로 잡는다.
 - 워크플로는 결과물에 `source/` `.claude/` `CLAUDE.md` 나 `.ts` `.tsx` `.mjs` `.py` `.md` 파일이 있으면 배포하지 않고 멈춘다.
   루트에 새 파일을 둘 때(빌드 결과가 아닌 것) KEEP 과 워크플로 제외 목록을 같이 고친다.
 

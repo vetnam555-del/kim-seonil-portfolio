@@ -1154,7 +1154,7 @@ export function CaseView({ slug, lang = "ko" }: { slug: string; lang?: Lang }) {
                 </div>
               ))}
             </dl>
-            <p className="mt-2 text-caption text-ink-3">{t.evidenceType} — {p.evidenceLabel}</p>
+            <p className="mt-2 text-caption text-ink-3">{t.evidenceType}{t.labelSep}{p.evidenceLabel}</p>
             </>
             )}
 
@@ -1344,7 +1344,7 @@ export function CaseView({ slug, lang = "ko" }: { slug: string; lang?: Lang }) {
                 href={`${t.casePrefix}${next.slug}/`}
                 className="mt-2 block max-w-[38rem] text-h3 text-on-ink hover:text-signal-ink"
               >
-                {next.brand} — {next.headline} →
+                {next.brand}{t.labelSep}{next.headline} →
               </Link>
             </div>
             <div className="flex flex-wrap gap-3">

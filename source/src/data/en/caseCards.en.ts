@@ -14,7 +14,7 @@ const text: Record<string, Pick<CaseCard, "capability" | "alt" | "basis" | "scop
   },
   newbalance: {
     capability: "Bottleneck beyond ads",
-    award: "LG CNS MOP best practice\u00a0· done alone",
+    award: "LG CNS MOP best practice\u00a0· built alone",
     alt: "Eight New Balance Kakao Bizboard creatives that ran",
     basis: "Internal daily average, measured\u00a0· before vs after automation",
     scope: "Account operations 40%\u00a0· automation design & build 100%",

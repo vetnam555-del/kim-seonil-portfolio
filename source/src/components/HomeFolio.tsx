@@ -121,7 +121,7 @@ const UI = {
     moreResults: "6 more operating results",
     moreResultsLine: "Periods and headline figures for Samsonite, KakaoTalk Channel, Dongwon Mall, Saenghwal Baekseo, FUJIFILM BI and Autobell (Korean)",
     autoTitle: "Six automations I planned and built",
-    autoLead: "I moved the inventory checks, reports and settlement people used to repeat into systems. I built them with AI tools, and decided myself when they must stop.",
+    autoLead: "I moved the inventory checks, reports and settlement people used to repeat into systems. I built them with AI tools and set the stop rules myself.",
     autoCase: "Automation case study",
     autoCaseHref: "/en/projects/automation/",
     autoAbout: "Effects and checks by system (Korean)",

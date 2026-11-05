@@ -38,6 +38,8 @@ function htmlToText(html) {
       }
       return m;
     })
+    /* 가운뎃점 앞 줄바꿈 금지 문자(U+2060)는 화면에 그릴 때만 JSX 런타임이 넣는다(src/jsx · B-06) — 데이터 문장과 비교하려고 뺀다 */
+    .replace(/\u2060/g, "")
     .replace(/\s+/g, " ")
     .trim();
 }

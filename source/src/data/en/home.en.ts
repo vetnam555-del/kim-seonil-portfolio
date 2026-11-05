@@ -12,8 +12,8 @@ export const ORG_EN = "Ad Operations Manager at Remember";
 
 export const coverEn = {
   display: ["FIND. TEST.", "IMPROVE."],
-  statement: ["I structure problems into hypotheses", "and improve them through testing."],
-  note: "I've run ads for 30+ brands across 9 industries, including New Balance, Dyson and J.ESTINA. I check the comparison baseline first, then improve budget allocation and conversion paths.",
+  statement: ["I turn problems into hypotheses", "and improve results through testing."],
+  note: "I've run ads for 30+ brands across 9 industries, including New Balance, Dyson and J.ESTINA. I start by checking the baseline, then improve budget allocation and conversion paths.",
   proof: [
     { before: "352% →", after: "583%", label: "J.ESTINA GA4 ROAS", basis: "May → Jul 2025\u00a0· same closing report", href: "#case-jestina" },
     { after: "+397.3%", label: "Gangwon store sales", basis: "Jul 2026 vs same period last year", href: "#case-gangwon" },
@@ -55,8 +55,8 @@ export const coverEn = {
     {
       stage: "FIND",
       role: "the problem",
-      line: "I find why performance stalls, in the numbers and the structure",
-      story: "The comparison behind the 'performance dropped' call included a creative that had spent only about KRW 9,000. Re-measured on the same sample, conversion was actually higher and cost per acquisition (CPA) was 14.1% lower. So instead of scrapping the creatives, I first fixed where people dropped out of the consultation form.",
+      line: "I look for why performance stalls, in both the numbers and the structure",
+      story: "The comparison behind the 'performance dropped' call included a creative that had spent only about KRW 9,000. When I re-measured on the same sample, conversion was actually higher and cost per acquisition (CPA) was 14.1% lower. So instead of scrapping the creatives, I first fixed where people dropped out of the consultation form.",
       metrics: [{ before: "0.66% →", after: "2.24%", label: "Daekyo EduCamp CVR", basis: "Re-measured on the same sample\u00a0· measurement QA design 100%" }],
       points: ["Comparison bases aligned to the same sample and scope", "GA4 conversion design and measurement QA", "Bottlenecks beyond ads: inventory, landing pages, consultation forms"],
       proof: [
@@ -68,9 +68,9 @@ export const coverEn = {
     {
       stage: "TEST",
       role: "the hypothesis",
-      line: "I pick one thing to change and test it small",
-      story: "I reworked the consultation form three times, changing one thing each time. With the instant form back in June, the lead conversion rate rose to 7.55%. Question changes from July partly recovered the paid-service conversion rate, which had dipped, to 11.28%.",
-      metrics: [{ before: "2.84% →", after: "7.55%", label: "Daekyo Mypace lead conversion rate", basis: "May → Jun 2026\u00a0· paid-service conversion 13.7% → 9.9% → 11.28% (from Jul)" }],
+      line: "I pick one thing to change and test it on a small scale",
+      story: "I reworked the consultation form three times, changing one thing each time. After I brought the instant form back in June, the lead conversion rate rose to 7.55%. From July, changes to the questions brought the paid-service conversion rate, which had dipped, partway back to 11.28%.",
+      metrics: [{ before: "2.84% →", after: "7.55%", label: "Daekyo MyPace lead conversion rate", basis: "May → Jun 2026\u00a0· paid-service conversion 13.7% → 9.9% → 11.28% (from Jul)" }],
       points: ["Media operations on Naver, Meta, Kakao and Google", "Placement, format and landing-page tests", "Consultation form reworked three times, lead-quality control"],
       proof: [
         { label: "Daekyo EduCamp", href: "#case-daekyo" },
@@ -80,12 +80,12 @@ export const coverEn = {
     {
       stage: "IMPROVE",
       role: "the structure",
-      line: "I rebuild budget and operations on what's confirmed",
+      line: "I rebuild budget and operations around what's been confirmed",
       story: "I rebuilt a search-heavy budget around customer stages, opened group-buys where ads alone had stalled sales, and turned repetitive checks into six automations.",
       metrics: [
         { after: "+32.4%", label: "J.ESTINA brand search queries", basis: "Change stated in the closing report\u00a0· different basis from ROAS\u00a0· strategy & measurement 75%" },
       ],
-      points: ["Channel roles and budget rebuilt by customer stage", "Sales channels beyond ads, such as group-buys", "Six automations that turn repetitive checks into operations"],
+      points: ["Channel roles and budget rebuilt by customer stage", "Sales channels beyond ads, such as group-buys", "Six automations that take over repetitive checks"],
       proof: [
         { label: "J.ESTINA", href: "#case-jestina" },
         { label: "Gangwon Deep Sea Water", href: "#case-gangwon" },
@@ -99,7 +99,7 @@ export const coverEn = {
       period: "2026.10 – Present",
       where: "Remember & Company\u00a0· Ad Operations Manager",
       logo: "remember",
-      text: "I plan and run B2B lead-generation campaigns on Google, Meta and other network media, targeted by industry, job, seniority and company size with Remember's business-card data on professionals. I also analyze results to improve targeting, creatives, landing pages and campaign structure, and propose next steps to advertisers in performance reviews.",
+      text: "I plan and run B2B lead-generation campaigns on Google, Meta and other ad networks, targeted by industry, job, seniority and company size with Remember's business-card data on professionals. I also analyze results to improve targeting, creatives, landing pages and campaign structure, and propose next steps to advertisers in performance reviews.",
     },
     {
       period: "2025.11 – 2026.09",
@@ -129,7 +129,7 @@ export const coverEn = {
 export const recordsEn = [
   {
     title: "LG CNS MOP best practice",
-    scope: "Shopping-search bidding & inventory automation\u00a0· done alone",
+    scope: "Shopping-search bidding & inventory automation\u00a0· built alone",
     href: "https://blog.mop.co.kr/hll",
   },
   {
@@ -180,13 +180,13 @@ export const systemsEn: Record<string, { name: string; built: string; effect: st
 
 /** 영문판이 없는 기록 — 한국어 상세로 보낸다 */
 export const otherEn: Record<string, { brand: string; line: string }> = {
-  edith: { brand: "EDIT H", line: "Before publishing speed, I decided what not to publish." },
-  hanssem: { brand: "Hanssem", line: "Unify web and app data scattered across channels on a purchase-contribution basis" },
-  ktalpha: { brand: "KT alpha Shopping", line: "Separate each channel's role hidden behind a blended ROAS" },
+  edith: { brand: "EDIT H", line: "I plan and publish a daily trend newsletter that runs its main stories only after cross-checking." },
+  hanssem: { brand: "Hanssem", line: "Unifying web and app data around purchase contribution" },
+  ktalpha: { brand: "KT alpha Shopping", line: "Separating out each channel's role, hidden behind a blended ROAS" },
 };
 
 export const contactEn = {
-  title: ["I fix the comparison baseline first,", "then test hypotheses and grow the brand with the team."],
-  note: "I'll show the original reports and operating documents in person.",
+  title: ["I get the baseline right first,", "then test hypotheses and grow the brand with the team."],
+  note: "I can walk you through the original reports and operating documents in person.",
   status: null as string | null,
 } as const;

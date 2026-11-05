@@ -19,10 +19,10 @@ export const caseLedesEn: Record<string, { problem?: string; analysis?: string; 
   },
   daekyo: {
     problem: "The 'performance dropped' report had a creative that spent only about KRW 9,000 mixed into its comparison.",
-    analysis: "Measured again on the same sample, the click-through rate dipped slightly but the conversion rate more than tripled.",
+    analysis: "On the same sample, the click-through rate dipped slightly but the conversion rate more than tripled.",
     strategy: "Instead of overhauling creatives, I started with where people dropped out of the consultation form.",
     results: "Recalculated on the same sample without the low-spend creative, CVR went from 0.66% to 2.24%.",
-    learning: "When form fields are cut, consultation connection rate has to be read alongside CVR.",
+    learning: "When form fields are cut, the consultation connection rate has to be read alongside CVR.",
   },
   dyson: {
     problem: "More budget was going to display (DP) ads, which were performing worse.",
@@ -41,7 +41,7 @@ export const caseLedesEn: Record<string, { problem?: string; analysis?: string; 
   automation: {
     problem: "It started as a way to cut one-by-one manual checks and make time for decisions.",
     analysis: "Even data from a half-finished collection could switch off ads all at once.",
-    strategy: "Ads change only when the data passes every soundness condition.",
+    strategy: "Ads change only when the data passes every sanity check.",
     results: "Six tasks moved into systems, and each one's effect is recorded separately.",
     learning: "Because stop conditions came first, I never had to undo a bad run while operating it.",
   },
