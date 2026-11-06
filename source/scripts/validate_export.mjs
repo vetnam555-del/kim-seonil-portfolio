@@ -567,15 +567,16 @@ for (const file of ["portfolio-polish.js", "portfolio-polish.css", "motion.js", 
  * 공개 문서 수와 확인일을 함께 검사한다. 과거 제작 이미지의 날짜는 보존한다.
  */
 /* 2026.10.16 최근 형식 갱신 — 114편 · VOL.114 · 2026.10.15 */
-const EDITH_PUBLIC = "공개 문서 114편";
+/* 2026.11.07 다시 갱신 — 136편 · VOL.136 · 2026.11.06 (edit-h-archive da2f426) */
+const EDITH_PUBLIC = "공개 문서 136편";
 if (!allHtml.includes(EDITH_PUBLIC)) {
   failures.push(`EDIT H ${EDITH_PUBLIC} 문구 없음`);
 }
 const edithHtml = flat(readFileSync(join(root, "projects", "edith", "index.html"), "utf8"));
-for (const expected of ["114편", "2026.10.15", "VOL.114"]) {
+for (const expected of ["136편", "2026.11.06", "VOL.136"]) {
   if (!edithHtml.includes(expected)) failures.push(`EDIT H 최신 공개 기준 누락: ${expected}`);
 }
-for (const stale of ["공개 아카이브 69호", "제작·발행 70호", "VOL.001–070", "공개 아카이브 75호", "VOL.033 게시 대기", "공개 문서 89편", "VOL.089"]) {
+for (const stale of ["공개 아카이브 69호", "제작·발행 70호", "VOL.001–070", "공개 아카이브 75호", "VOL.033 게시 대기", "공개 문서 89편", "VOL.089", "공개 문서 114편", "VOL.114", "22일 연속 발행"]) {
   if (allHtml.includes(stale)) failures.push(`EDIT H 옛 호수 잔존: ${stale}`);
 }
 
