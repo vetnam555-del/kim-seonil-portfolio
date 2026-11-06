@@ -6,9 +6,9 @@
 | 항목 | 값 |
 |---|---|
 | 담당 | claude |
-| 상태 | 진행 중 |
+| 상태 | 검토 대기 · 주인 "합쳐" 대기 |
 | 작업 브랜치 | `claude/stoic-bohr-gze1d1` |
-| 열린 PR | 없음 — #27 은 2026-11-05 `main` 902914c 로 합쳤다(라이브 확인 · health 결함 0) |
+| 열린 PR | #28 (EDIT H 11.06 갱신) — #27 은 2026-11-05 `main` 902914c 로 합쳤다(라이브 확인 · health 결함 0) |
 | 마지막 갱신 | 2026-11-07 · Claude |
 
 ## 지금 하던 일
@@ -20,11 +20,12 @@
      공개 작업물 카드 · `resumePdfPath` v=20261107a), `en/resume.en.ts`, `edition.ts` OG_VERSION 20261107a, `render_og_cases.mjs` →
      `assets/og/general/og/edith.png`, `validate_export.mjs` EDIT H 기준, 증빙 4장(11.06 카드 10장 · 뉴스레터), 이력서 PDF(2026.11.07 인쇄 —
      글자 차이는 머리 날짜와 4쪽 EDIT H 한 줄뿐), `LINKEDIN.md` · `JOB_PLATFORMS.md` EDIT H 소개, `proposals/O-10`.
-   - 다음: `npm run publish:general` → 검수(typecheck · tone · en · final · layout · wrap · release) → RELEASE_PASS → 커밋 · PR → 리뷰 요청.
+   - 빌드 · 검수 끝: `publish:general` [글자 바뀜] 4쪽(edith · resume · en/resume · about) · typecheck · tone · en · final · layout · wrap 0 ·
+     동작 시험 23 · RELEASE_PASS 1f1a4771 · 390 · 1440px 캡처 확인. PR #28 · 자비스 요청.
 
 ## 다음 할 일
 
-1. 위 1번을 끝내고 PR 을 연다. 주인이 합치라고 하면 main 에 합치고 라이브 확인(`npm run health` · EDIT H 사례 136편 · 이력서 PDF v=20261107a).
+1. PR #28 — 주인이 합치라고 하면 main 에 합치고 라이브 확인(`npm run health` · EDIT H 사례 136편 · 이력서 PDF v=20261107a · og/edith.png).
 2. 주인에게 알릴 것: 링크드인 소개 · Featured 3번, 채용 플랫폼 항목 3 의 EDIT H 문구를 바꿨다(다시 붙여 넣기).
 3. O-15 — 주인이 공개 저장소 · 토큰 · 변수를 만들면 "Publish public site" 수동 실행 → 공개 저장소 파일 확인 → 주인 Pages · 비공개 전환 → `npm run health`.
 4. O-13 계측 — 주인이 웹앱 주소를 주면 `NEXT_PUBLIC_INSIGHT_URL` 로 빌드(로컬 주소로 만든 산출물은 배포하지 않는다).
