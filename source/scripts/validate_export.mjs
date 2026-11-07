@@ -580,6 +580,22 @@ for (const stale of ["공개 아카이브 69호", "제작·발행 70호", "VOL.0
   if (allHtml.includes(stale)) failures.push(`EDIT H 옛 호수 잔존: ${stale}`);
 }
 
+/*
+ * 링크 미리보기 칸 (2026.11.07) — 쪽이 openGraph 를 따로 적으면 layout 의 칸이 통째로 빠진다(src/data/og.ts).
+ * 모든 쪽에 og:type · og:site_name · og:locale · og:title · og:image · og:url 이 있고, og:locale 이 html lang 과 맞아야 한다.
+ */
+const OG_REQUIRED = ["og:type", "og:site_name", "og:locale", "og:title", "og:image", "og:url"];
+for (const file of htmlFiles) {
+  const html = readFileSync(file, "utf8");
+  const missing = OG_REQUIRED.filter((name) => !html.includes(`property="${name}"`));
+  if (missing.length) failures.push(`링크 미리보기 칸 빠짐: ${relative(root, file)} — ${missing.join(" · ")} (src/data/og.ts ogBase)`);
+  const lang = (html.match(/<html[^>]*\blang="([^"]+)"/) || [])[1];
+  const locale = (html.match(/<meta[^>]*property="og:locale"[^>]*content="([^"]+)"/) || [])[1];
+  if (lang && locale && locale !== (lang.startsWith("en") ? "en_US" : "ko_KR")) {
+    failures.push(`og:locale ${locale} 이 html lang ${lang} 과 다름: ${relative(root, file)}`);
+  }
+}
+
 const summary = {
   edition,
   htmlFiles: htmlFiles.length,

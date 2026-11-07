@@ -23,6 +23,10 @@
    - 빌드 · 검수 끝: `publish:general` [글자 바뀜] 4쪽(edith · resume · en/resume · about) · typecheck · tone · en · final · layout · wrap 0 ·
      동작 시험 23 · RELEASE_PASS 1f1a4771 · 390 · 1440px 캡처 확인. PR #28 · 자비스 요청.
 
+2. 레퍼런스 비교(주인 11-07 "레퍼런스에서 참고하여 개선할 부분 분석 · 있으면 적용") — AI 크리에이터 개인 사이트 한 곳. 가져온 것은 링크 미리보기 칸 채우기(`src/data/og.ts` · `validate_export` 가드) 하나, 나머지는 REFERENCES.md 2026-11-07 에 이유와 함께.
+   - 빌드 · 검수 끝: [글자 바뀜] 0쪽 · `validate_export` 0(새 가드 포함) · typecheck · tone · en · final · layout · wrap 0 · 동작 시험 23 ·
+     RELEASE_PASS 0b4c382f. PR #28 에 실었다 · 새 자비스 요청.
+
 ## 다음 할 일
 
 1. PR #28 — 주인이 합치라고 하면 main 에 합치고 라이브 확인(`npm run health` · EDIT H 사례 136편 · 이력서 PDF v=20261107a · og/edith.png).

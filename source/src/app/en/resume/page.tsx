@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CTAButton } from "@/components/ui";
 import { OG_VERSION, robotsFor } from "@/data/edition";
 import { langAlternates } from "@/data/en/alternates";
+import { ogBase } from "@/data/og";
 import { getProjectEn, projectsEn } from "@/data/en/projects.en";
 import { NAME_EN_DISPLAY, ORG_EN, ROLE_EN } from "@/data/en/home.en";
 import {
@@ -47,7 +48,7 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description,
-    locale: "en_US",
+    ...ogBase("en"),
     url: "en/resume/",
     images: [{ url: `og-image.png?v=${OG_VERSION}`, width: 1200, height: 630, alt: `${NAME_EN_DISPLAY} résumé` }],
   },

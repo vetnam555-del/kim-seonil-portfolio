@@ -3,6 +3,7 @@ import { CaseView } from "@/components/case/CaseView";
 import { EDITION, edition, OG_VERSION } from "@/data/edition";
 import { caseCards } from "@/data/caseCards";
 import { caseAlternates } from "@/data/en/alternates";
+import { ogBase } from "@/data/og";
 import { getProject, projects } from "@/data/projects";
 
 /* 본문은 components/case/CaseView.tsx — 영문판(/en/projects/…)과 같이 쓴다 (2026.09.25) */
@@ -65,8 +66,10 @@ export async function generateMetadata({
     robots: { index: false, follow: false, noarchive: true, nosnippet: true },
     alternates: caseAlternates(p.slug),
     openGraph: {
+      ...ogBase("ko"),
       title: `${p.brand} 사례 | 김선일 포트폴리오`,
       description,
+      url: `projects/${p.slug}/`,
       images: [ogImage],
     },
     twitter: {

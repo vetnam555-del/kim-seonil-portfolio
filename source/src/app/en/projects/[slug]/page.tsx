@@ -4,6 +4,7 @@ import { EDITION, OG_VERSION } from "@/data/edition";
 import { caseCardsEn } from "@/data/en/caseCards.en";
 import { EN_SLUGS, getProjectEn } from "@/data/en/projects.en";
 import { caseAlternates } from "@/data/en/alternates";
+import { ogBase } from "@/data/og";
 
 /*
  * 영문 사례 상세 (2026.09.25) — 본문은 한국어와 같은 CaseView 를 쓴다.
@@ -37,7 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     description,
     robots: { index: false, follow: false, noarchive: true, nosnippet: true },
     alternates: caseAlternates(p.slug),
-    openGraph: { title, description, locale: "en_US", url: `en/projects/${p.slug}/`, images: [ogImage] },
+    openGraph: { ...ogBase("en"), title, description, url: `en/projects/${p.slug}/`, images: [ogImage] },
     twitter: { card: "summary_large_image", title, description, images: [ogImage.url] },
   };
 }

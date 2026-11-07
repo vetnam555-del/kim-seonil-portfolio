@@ -18,6 +18,7 @@ if (edition.role !== roleForClient) {
   );
 }
 import { site } from "@/data/site";
+import { ogBase } from "@/data/og";
 import "./globals.css";
 
 const description = edition.seoDescription;
@@ -55,10 +56,8 @@ export const metadata: Metadata = {
       }
     : undefined,
   openGraph: {
-    type: "website",
-    locale: "ko_KR",
+    ...ogBase("ko"),
     url: site.url,
-    siteName: `${site.nameEn} Portfolio`,
     title: seoTitle,
     description,
     images: [ogImage],
