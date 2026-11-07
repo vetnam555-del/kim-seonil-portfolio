@@ -5,6 +5,7 @@ import { PersonJsonLd } from "@/components/PersonJsonLd";
 import { Container } from "@/components/ui";
 import { EDITION, OG_VERSION, robotsFor } from "@/data/edition";
 import { langAlternates } from "@/data/en/alternates";
+import { ogBase } from "@/data/og";
 
 /*
  * 영문 홈 (2026.09.25) — 레퍼런스(dainahys)처럼 같은 사이트 안에 언어별 주소를 둔다.
@@ -21,8 +22,7 @@ export const metadata: Metadata = {
   robots: robotsFor(true),
   alternates: langAlternates("", "en/", "en"),
   openGraph: {
-    type: "website",
-    locale: "en_US",
+    ...ogBase("en"),
     url: "en/",
     title,
     description,

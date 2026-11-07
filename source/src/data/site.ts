@@ -37,7 +37,7 @@ export const site = {
     "mailto:makefair@naver.com?subject=%EC%9D%B4%EB%A0%A5%EC%84%9C%20%EC%9B%90%EB%B3%B8%20%EC%9A%94%EC%B2%AD%EB%93%9C%EB%A6%BD%EB%8B%88%EB%8B%A4",
   /** 전화번호·주소·생년월일을 제외한 공개용 PDF */
   /* 2026.10.09 문장 다듬기 반영본(scripts/print_resume_reportlab.py) — 캐시를 넘기려고 판 번호를 올린다 */
-  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261101b" : "/kim-seonil-resume-public.pdf",
+  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261107a" : "/kim-seonil-resume-public.pdf",
   /** 웹 포트폴리오의 PDF 공유본 — 일반판은 2026-10-31 부터 사이트에 싣지 않는다(edition.ts portfolioPdfPublic). 다른 판의 경로로만 쓴다 */
   portfolioPdfPath: isGeneralLike ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261025a" : "/kim-seonil-performance-marketing-portfolio.pdf",
 } as const;
@@ -1661,7 +1661,7 @@ export const skills: SkillGroup[] = [
     ],
     proof: [
       "자동화 6종 전부 인수인계 문서로 남김",
-      "EDIT H 기획·발행\u00a0· 공개 문서 114편 (2026.10.15 VOL.114까지)",
+      "EDIT H 기획·발행\u00a0· 공개 문서 136편 (2026.11.06 VOL.136까지)",
       /* "사내 배포"는 근거가 없다(마스터 컨텍스트 14-2: 공개 웹 · 배포·업데이트) — 공개 사실만 적는다 (2026.09.25) */
       "PM 실무 허브 — 실무 도구 8개\u00a0· 매체 가이드 9개 공개",
     ],
@@ -2342,8 +2342,9 @@ export const publicWork: PublicWork[] = [
      * 사실 3개도 검증 가능한 값으로 바꾼다 — 공개 아카이브에서 바로 셀 수 있다.
      */
     /* 2026.10.15 최근 형식으로 — 마케팅 브리프로 시작해 2030 직장인의 돈·일·소비를 다루는 트렌드 브리프로 바뀌었다(projects.ts edith 주석) */
-    desc: "2030 직장인의 돈·일·소비 뉴스를 매일 아침 뉴스레터와 카드뉴스 10장·릴스로 발행합니다. 메인 이슈의 숫자·날짜는 원 보도 2건이 일치하거나 1차 출처일 때만 싣습니다.",
-    facts: ["공개 문서 114편", "2026.10.15 VOL.114까지", "2026.09.24부터 22일 연속 발행"],
+    /* 2026.11.07 — 11.01 부터 독자를 2030 전체(경제·트렌드·마케팅·테크)로 넓혔다. 숫자는 11.06 VOL.136 기준(projects.ts edith 주석) */
+    desc: "경제부터 트렌드까지 2030이 알아야 할 소식을 매일 아침 뉴스레터와 카드뉴스 10장으로 발행하고 릴스·웹툰도 올립니다. 메인 이슈의 숫자·날짜는 원 보도 2건이 일치하거나 1차 출처일 때만 싣습니다.",
+    facts: ["공개 문서 136편", "2026.11.06 VOL.136까지", "2026.09.24부터 44일 연속 발행"],
     href: "https://vetnam555-del.github.io/edit-h-archive/",
     linkLabel: "EDIT H 아카이브 보기",
   },
