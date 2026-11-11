@@ -15,9 +15,9 @@ export const coverEn = {
   statement: ["I turn problems into hypotheses", "and improve results through testing."],
   note: "I've run ads for 30+ brands across 9 industries, including New Balance, Dyson and J.ESTINA. I start by checking the baseline, then improve budget allocation and conversion paths.",
   proof: [
-    { before: "352% →", after: "583%", label: "J.ESTINA GA4 ROAS", basis: "May → Jul 2025\u00a0· same closing report", href: "#case-jestina" },
-    { after: "+397.3%", label: "Gangwon store sales", basis: "Jul 2026 vs same period last year", href: "#case-gangwon" },
-    { after: "2×", label: "Korea Digital Advertising Awards, Excellence", basis: "2 years running\u00a0· 2024 Dongnimmun\u00a0· 2025 J.ESTINA", href: "#records" },
+    { before: "352% →", after: "583%", label: "J.ESTINA GA4 ROAS", basis: "May → Jul 2025\u00a0· same closing report", href: "#case-jestina", bars: [352, 583] },
+    { after: "+397.3%", label: "Gangwon store sales", basis: "Jul 2026 vs same period last year", href: "#case-gangwon", bars: [100, 497.3] },
+    { after: "2×", label: "Korea Digital Advertising Awards, Excellence", basis: "2 years running\u00a0· 2024 Dongnimmun\u00a0· 2025 J.ESTINA", href: "#records", marks: ["2024", "2025"] },
   ],
   capabilities: [
     {

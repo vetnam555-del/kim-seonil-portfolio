@@ -76,11 +76,13 @@ for (const width of [360, 390, 768, 1024, 1440]) {
         if (!cut) clipped.push(`${el.tagName.toLowerCase()}.${String(el.className).slice(0, 40)} ${Math.round(r.left)}–${Math.round(r.right)}`);
       }
     }
-    // 히어로 핵심(사진·이름·제목·강점·소개·행동 버튼)이 첫 화면 안에 끝나는가 — 행동 버튼 줄의 아래 끝을 문서 기준으로 잰다.
-    // 표지 수치 세 칸(folio-proof)은 첫 화면 아래로 이어지도록 설계돼 있어 넣지 않는다.
+    // 히어로 핵심(사진·이름·제목·결과 세 칸·행동 버튼)이 첫 화면 안에 끝나는가 — 결과 칸과 행동 버튼 줄 중 더 아래 끝을 문서 기준으로 잰다.
+    // 2026.11.11 첫 화면 개편: 결과 세 칸(folio-proof)을 제목 바로 아래로 올렸다(전에는 버튼 아래라 재지 않았다).
+    // 소개 문단 · 강점은 좁은 화면과 낮은 창에서 버튼 아래로 간다. 둘 중 하나라도 없으면 실패로 센다.
     const actions = document.querySelector(".folio-hero-actions");
-    const heroBottom = actions ? Math.round(actions.getBoundingClientRect().bottom + scrollY) : 0;
-    return { width, clientWidth: de.clientWidth, scrollWidth: de.scrollWidth, clipped: clipped.slice(0, 10), heroHeight: heroBottom, heroMeasure: "bottom of .folio-hero-actions (page Y)", height: innerHeight, pageHeight: de.scrollHeight };
+    const proofEl = document.querySelector(".folio-hero .folio-proof");
+    const heroBottom = actions && proofEl ? Math.round(Math.max(actions.getBoundingClientRect().bottom, proofEl.getBoundingClientRect().bottom) + scrollY) : 99999;
+    return { width, clientWidth: de.clientWidth, scrollWidth: de.scrollWidth, clipped: clipped.slice(0, 10), heroHeight: heroBottom, heroMeasure: "lower bottom of .folio-hero-actions and .folio-proof (page Y)", height: innerHeight, pageHeight: de.scrollHeight };
   }, width);
   evidence.viewports.push(row);
   const shot = `home-${width}.png`;

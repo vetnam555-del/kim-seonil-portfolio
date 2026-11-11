@@ -2258,3 +2258,111 @@ html.js [data-enter="split"].is-in .case-split-parts li { opacity: 1; transform:
 /* 문장 단위 줄바꿈 (2026.09.26, Sentences.tsx) — 다음 문장이 줄 끝에 걸리면 통째로 다음 줄로. 말(괄호)은 붙여 둔다 */
 .sent { display: inline-block; max-width: 100%; }
 .nw { white-space: nowrap; }
+
+/* ── 첫 화면 개편 (2026.11.11) ────────────────────────────────────────────────
+   주인 "처음 보는 사람도 딱 보고 10점". 처음 여는 사람이 한 화면에서 사람 · 주장 · 증거 · 다음 행동을 다 보게 한다.
+   고치기 전 390×844 첫 화면에는 결과 숫자도 지금 소속도 없었다(숫자는 버튼 아래, 소속 칩은 좁은 화면에서 숨김).
+   - 결과 세 칸: 제목 바로 아래. 값을 키우고 값 아래에 작은 막대(회색 기준 · 빨강 결과, 0부터 같은 척도)나 연도 표시를 둔다. 칸을 누르면 그 사례로 간다.
+   - 좁은 화면(767px 이하): 사진을 이름 옆으로 줄이고 소속 한 줄을 붙인다. 제목 → 결과 세 칸 → 소개 → 버튼 → 강점 순서 —
+     360×800 · 390×844 한 화면에 버튼까지 들어온다(runtime_evidence 가 버튼 줄 아래 끝을 잰다).
+   - 경력: 넓은 화면은 세 칸 연표(지금 다니는 곳이 검은 줄 · 빨간 점), 좁은 화면은 왼쪽 세로줄.
+   옛 dl.folio-facts 규칙은 다른 판이 쓰지 않지만 그대로 둔다 — 이 블록이 뒤에서 덮는다. */
+.folio-eyebrow-org { display: none; }
+.folio-hero-grid { grid-template-columns: minmax(0,1.5fr) minmax(0,1fr); }
+.folio-hero .folio-proofs { display: grid; grid-template-columns: minmax(0,1.22fr) minmax(0,1fr) minmax(0,1.12fr); gap: 0 26px; max-width: 46rem; margin: 30px 0 0; padding: 0; list-style: none; border-top: 1px solid #e5e7ea; }
+.folio-proofs > li { min-width: 0; }
+.folio-proofs a { display: flex; flex-direction: column; align-items: flex-start; height: 100%; padding-top: 20px; color: inherit; text-decoration: none; }
+.folio-proofs .folio-proof-value { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; font-family: "Archivo", "Pretendard", sans-serif; font-stretch: 118%; font-size: clamp(26px, 2.55vw, 36px); line-height: 1.1; font-weight: 800; letter-spacing: -.02em; white-space: nowrap; color: #0f1216; }
+.folio-proofs .folio-proof-before { font-size: .5em; font-weight: 700; letter-spacing: -.01em; color: #646d76; }
+.folio-proof-bars { display: grid; gap: 3px; width: 100%; max-width: 172px; height: 15px; margin-top: 12px; }
+.folio-proof-bars i { display: block; height: 6px; border-radius: 3px; background: var(--color-signal); transform-origin: left center; }
+.folio-proof-bars i:first-child { width: var(--w, 50%); background: #c5cad0; }
+.folio-proof-marks { display: flex; gap: 6px; height: 18px; margin-top: 9px; }
+.folio-proof-marks i { display: inline-flex; align-items: center; gap: 6px; height: 18px; padding: 0 8px 0 7px; border-radius: 999px; background: #f1f2f4; font-style: normal; font-size: 11px; font-weight: 800; letter-spacing: .02em; color: #1d2227; font-variant-numeric: tabular-nums; }
+.folio-proof-marks i::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--color-signal); }
+.folio-proof-label { margin-top: 12px; font-size: 14px; font-weight: 700; line-height: 1.4; color: #1d2227; }
+.folio-proofs .folio-proof-basis { margin-top: 3px; font-size: 12.5px; font-weight: 400; line-height: 1.45; letter-spacing: 0; color: #646d76; white-space: normal; }
+.folio-proofs a:hover .folio-proof-label, .folio-proofs a:focus-visible .folio-proof-label { text-decoration: underline; text-decoration-color: #c9ced3; text-underline-offset: 4px; }
+.folio-proofs a:focus-visible { outline: 2px solid var(--color-signal); outline-offset: 4px; border-radius: 4px; }
+.folio-hero .folio-hero-note { margin-top: 26px; max-width: 40rem; font-size: 17px; line-height: 1.7; }
+.folio-hero .folio-hero-actions { margin-top: 26px; }
+/* 인트로가 걷힐 때 제목 · 강점에 이어 결과 칸도 올라온다. 막대는 숫자가 올라가는 동안 자란다(인트로가 없으면 바로) */
+html[data-intro="play"] .folio-proofs { animation: hero-rise .8s cubic-bezier(.2,.8,.2,1) calc(2.55s + var(--l, 0) * 90ms) both; }
+html[data-intro="reveal"] .folio-proofs { animation: hero-rise-now .7s cubic-bezier(.2,.8,.2,1) calc(var(--l, 0) * 70ms) both; }
+@media (prefers-reduced-motion: no-preference) {
+  .folio-proof-bars i { animation: proof-bar .9s cubic-bezier(.2,.8,.2,1) .35s both; }
+  .folio-proof-bars i + i { animation-delay: .5s; }
+  html[data-intro="play"] .folio-proof-bars i { animation-delay: 3.2s; }
+  html[data-intro="play"] .folio-proof-bars i + i { animation-delay: 3.35s; }
+}
+@keyframes proof-bar { from { transform: scaleX(0); } to { transform: none; } }
+@media print { .folio-proof-bars i { animation: none !important; transform: none !important; } }
+
+/* 경력 — 세 칸 연표 */
+@media (min-width: 1024px) {
+  .folio-career ol { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0; margin-top: 26px; }
+  .folio-career li { position: relative; padding: 26px 36px 0 0; border-top: 2px solid #e5e7ea; }
+  .folio-career li:last-child { padding-right: 0; }
+  .folio-career li::before { content: ""; position: absolute; top: -6px; left: 0; width: 10px; height: 10px; border-radius: 50%; background: #c5cad0; box-shadow: 0 0 0 4px #fff; }
+  .folio-career li:first-child { border-top-color: #0f1216; }
+  .folio-career li:first-child::before { background: var(--color-signal); }
+  .folio-career li strong { font-size: 17px; }
+  .folio-brands { margin-top: 36px; }
+}
+@media (max-width: 1023px) {
+  .folio-hero-grid { grid-template-columns: minmax(0,1fr) 260px; }
+  .folio-hero .folio-proofs { grid-template-columns: minmax(0,1fr); gap: 0; max-width: none; margin-top: 22px; }
+  .folio-proofs a { display: grid; grid-template-columns: 9.25rem minmax(0,1fr); grid-template-rows: auto auto; column-gap: 14px; align-items: start; padding: 10px 0 11px; border-bottom: 1px solid #eef0f2; }
+  .folio-proofs .folio-proof-value { grid-column: 1; grid-row: 1; font-size: 25px; }
+  .folio-proof-bars, .folio-proof-marks { grid-column: 1; grid-row: 2; margin-top: 6px; max-width: 124px; }
+  .folio-proof-bars { height: 13px; }
+  .folio-proof-bars i { height: 5px; }
+  .folio-proof-marks, .folio-proof-marks i { height: 17px; }
+  .folio-proof-label { grid-column: 2; grid-row: 1; margin-top: 3px; }
+  .folio-proofs .folio-proof-basis { grid-column: 2; grid-row: 2; margin-top: 2px; font-size: 12px; }
+  .folio-hero .folio-hero-note { margin-top: 18px; font-size: 16px; line-height: 1.65; }
+  .folio-hero .folio-hero-actions { margin-top: 20px; }
+  .folio-career ol { margin-top: 18px; gap: 0; }
+  .folio-career li { position: relative; padding: 0 0 26px 22px; border-left: 2px solid #e5e7ea; }
+  .folio-career li:last-child { padding-bottom: 0; }
+  .folio-career li::before { content: ""; position: absolute; top: 2px; left: -6px; width: 10px; height: 10px; border-radius: 50%; background: #c5cad0; box-shadow: 0 0 0 4px #fff; }
+  .folio-career li:first-child { border-left-color: #0f1216; }
+  .folio-career li:first-child::before { background: var(--color-signal); }
+}
+@media (max-width: 767px) {
+  /* 사진 · 이름 한 줄. .folio-hero-copy 를 풀어(display: contents) 그 자식들을 같은 격자에 놓는다 */
+  .folio-hero-grid { grid-template-columns: 64px minmax(0,1fr); gap: 0 14px; align-items: start; }
+  .folio-hero-copy { display: contents; }
+  .folio-hero-copy > * { grid-column: 1 / -1; }
+  .folio-hero-photo { grid-column: 1; grid-row: 1; order: 0; max-width: 64px; align-self: center; }
+  .folio-hero-photo img { border-radius: 14px; }
+  .folio-hero-copy > .folio-eyebrow { grid-column: 2; grid-row: 1; align-self: center; display: flex; flex-direction: column; gap: 3px; font-size: 15px; line-height: 1.3; color: #0f1216; }
+  .folio-eyebrow-org { display: block; font-size: 13px; font-weight: 600; color: #646d76; }
+  .folio-hero-title { order: 1; }
+  .folio-hero .folio-proofs { order: 2; }
+  .folio-hero .folio-hero-actions { order: 3; }
+  .folio-hero .folio-hero-note { order: 4; margin-top: 22px; }
+  .folio-hero-strengths { order: 5; }
+  .folio-hero .folio-hero-strengths { margin-top: 18px; }
+}
+/* 낮은 화면(1024×768 같은 창): 소개 문단을 버튼 아래로 내려 결과 세 칸과 버튼이 한 화면에 들어오게 한다 */
+@media (min-width: 768px) and (max-height: 840px) {
+  .folio-hero-copy { display: flex; flex-direction: column; }
+  .folio-hero-copy > .folio-hero-actions { order: 1; }
+  .folio-hero-copy > .folio-hero-note { order: 2; margin-top: 22px; }
+}
+@media (min-width: 768px) {
+  .folio-eyebrow { font-size: 16px; font-weight: 800; color: #0f1216; }
+  /* 영문은 줄이 길다 — 소개 문단을 늘 버튼 아래에 둔다 */
+  [lang="en"] .folio-hero-copy { display: flex; flex-direction: column; }
+  [lang="en"] .folio-hero-copy > .folio-hero-actions { order: 1; }
+  [lang="en"] .folio-hero-copy > .folio-hero-note { order: 2; margin-top: 22px; }
+}
+@media (min-width: 1024px) {
+  [lang="en"] .folio-hero .folio-hero-strengths { gap: 6px; }
+  [lang="en"] .folio-hero .folio-hero-strengths li { padding: 6px 11px 6px 10px; font-size: 13px; }
+}
+@media (max-width: 639px) {
+  .folio-hero { padding-top: 84px; }
+  .folio-hero-title { margin-top: 18px; }
+}

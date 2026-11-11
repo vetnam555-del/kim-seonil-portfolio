@@ -166,6 +166,27 @@ AI 크리에이터의 개인 사이트 겸 미디어 키트다(인스타그램 �
 | 직무·연차 맞춤 | '나를 만든 관점' 세 칸(브랜드 쪽 경력 → 코칭 → 자기 채널), 협업 종류 세 가지 | 없음 — 경력 세 칸과 일하는 순서(FIND · TEST · IMPROVE)가 같은 일을 한다 | 협업 종류(상품 목록) — 채용 포트폴리오에 맞지 않는다 |
 | 속도·접근성 · 메타 | 움직임 줄이기 · 로고 띠 멈춤 버튼 · 언어별 주소(hreflang) · 쪽마다 og:site_name · og:locale | **링크 미리보기 칸 채우기** — 쪽이 openGraph 를 따로 적으면 layout 칸이 통째로 빠져, 국문 이력서 · 사례 10쪽과 영문 홈 · 이력서 · 사례 8쪽에 og:type · og:site_name · og:locale(국문 사례는 og:url 도)이 없었다. `src/data/og.ts` 로 모으고 `validate_export` 가 막는다(고치기 전 빌드에서 18쪽 실패 확인). 움직임 줄이기 · 멈춤 버튼 · hreflang 은 이미 있다 | 이메일 가리기 — 복사 버튼과 JS 없는 화면이 깨진다 |
 
+### 2026-11-11 (주인 "국내 최고 · 처음 보는 사람도 딱 보고 10점" — 첫 화면 기준 조사)
+
+첫 화면을 고치기 전에 '처음 훑는 사람이 무엇을 보는가'를 찾아봤다. 한국 인사담당자를 대상으로 포트폴리오 첫 화면 검토 시간을 잰 조사는 찾지 못했다 —
+6초 · 30초 · 55초 · 90초 같은 숫자는 글마다 다르고 출처가 없어 근거로 쓰지 않는다. 실무자 글에서 공통으로 나온 방법만 가져왔다.
+
+- 첫 화면 · 증거 배치: [Unicorn Platform 2026 개인 사이트 가이드](https://unicornplatform.com/blog/great-personal-websites-showcase-your-best-self-online/) · [같은 곳 개인 브랜드 글](https://unicornplatform.com/blog/personal-brand-website-strategy-in-2026/) · [Fueler 포트폴리오 예시](https://fueler.io/blog/portfolio-website-examples) · [Digital Silk 예시 모음](https://www.digitalsilk.com/digital-trends/best-portfolio-website-examples/)
+- 1차 검토: [Only 30 seconds to reject your portfolio?(UX Collective)](https://uxdesign.cc/only-30-seconds-to-reject-your-portfolio-8cb14ac70674) · [30-Second Portfolio Test(Level Up UX)](https://level-up-ux.kit.com/posts/how-to-pass-the-30-second-portfolio-test)
+- 마케터 포트폴리오: [ClickUp 마케팅 포트폴리오 예시(한국어)](https://clickup.com/ko/blog/148596/marketing-portfolio-examples) · [아이보스 글 — 마케팅은 참고할 포트폴리오가 드물다](https://www.i-boss.co.kr/ab-1486505-47831) · [위픽 마케터 포트폴리오 위키](https://letter.wepick.kr/wiki/portfolio-and-job-hunting-for-marketers)
+
+고치기 전 실측(빌드 f11d339): 처음 여는 사람은 3.0초 인트로(숫자 세 개 · 이름) 뒤에 첫 화면을 본다. 390×844 첫 화면에는 사진(88px) · 이름 · 제목 · 강점 네 칸 · 소개 네 줄 · 버튼뿐이고
+결과 숫자와 지금 소속이 없었다(숫자는 850px 아래, 소속 칩은 좁은 화면에서 숨김). 1440px 에서는 결과 세 칸이 버튼 아래 가장 작은 글자였다. 경력은 2열에 세 번째 회사가 혼자 남는 문단 묶음이었다.
+
+| 기준 | 본 것 | 가져온 것 (2026-11-11 첫 화면 개편) | 안 가져온 것 · 이유 |
+|---|---|---|---|
+| 첫 화면 | 홈은 한 화면 안에서 누구 · 무엇 · 증거에 답해야 한다. 1차 검토는 길어야 한두 화면 | 사람(사진 · 이름 · 직함 · 소속) → 주장(제목) → 증거(결과 세 칸) → 다음 행동(버튼)이 360×800 · 390×844 · 768×1024 · 1024×768 · 1440×900 한 화면에 들어온다. `runtime_evidence` 가 결과 칸과 버튼 줄 아래 끝을 같이 잰다 | 첫 화면에 사례 썸네일 세 장(Digital Silk 가 든 예) — 결과 숫자가 그 일을 하고, 썸네일은 광고 소재라 처음 보는 사람에게 뜻이 없다 |
+| 증거 배치 | 증거는 맨 아래 한 구간에 몰지 말고 판단하는 자리 옆에 둔다 | 결과 세 칸을 제목 바로 아래 · 버튼 위로. 값 아래 작은 막대(회색 기준 · 빨강 결과, 0부터 같은 척도)와 수상 연도 표시 | — |
+| 탐색 | 홈의 할 일은 사례 하나를 누르게 하는 것 | 결과 칸마다 그 사례(수상 칸은 수상 목록)로 가는 링크 | 주 버튼을 하나만 남기기 — 이메일 복사 · 이력서는 인사 담당자가 바로 쓰는 버튼이라 둔다(주 버튼은 '대표 사례 보기' 하나) |
+| 직무·연차 맞춤 | 인사 담당자는 회사 · 기간 · 직함을 먼저 찾는다 | 경력을 세 칸 연표로(지금 다니는 곳이 검은 줄 · 빨간 점, 좁은 화면은 세로줄). 좁은 화면 이름 옆에 소속 한 줄 | 경력 문장을 개조식으로 줄이기 — 리멤버 업무 문장은 본인이 확인한 그대로 쓰기로 했다(2026-10-15) |
+| 신뢰 장치 | 역할과 맥락이 붙은 추천사 | 없음 | O-08 그대로 — 받은 문장과 공개 동의가 있어야 한다 |
+| 속도 | — | 같은 조건(로컬 서버 · Lighthouse 모바일)으로 전후 비교: 성능 78–79 → 80–85, CLS 0.03–0.07 → 0.005, 접근성 100 그대로(로컬은 압축이 없어 라이브보다 낮게 나온다 — 전후 비교용) | — |
+
 ## 참고: 검색에서 반복해 나온 공통 원칙 (2026-10-10)
 
 - 사례는 4–6개로 줄이고 문제 → 실행 → 결과 구조로 쓴다. 이야기마다 수치 하나를 앞세운다(theinterviewguys, Marketers Help Marketers).
