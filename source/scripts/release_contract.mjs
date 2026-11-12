@@ -9,7 +9,11 @@ export const requiredShortWindows = [[360, 640], [1280, 585], [1366, 625]];
  * 접기 (2026.11.12 R-09) — 소개 쪽은 휴대폰에서 자동화 카드 설명과 창업·기획 기록의 자료 · 본문을 접는다(PhoneFold).
  * 접힌 글은 눌러야 보이므로, 눌러서 열리는지와 넓은 화면에서 버튼 없이 다 보이는지를 실제 화면에서 확인한 증거가 있어야 한다.
  */
-export const requiredInteractions = ["menu", "case-index", "detail", "original", "email", "resume-pdf", "portfolio-pdf", "demo", "fold"];
+export const requiredInteractions = ["menu", "case-index", "detail", "original", "email", "resume-pdf", "portfolio-pdf", "demo", "fold", "fragment"];
+/*
+ * #주소 (2026.11.12 B-16) — 주소에 #이 붙어 새로 열린 쪽은 구간 머리가 제자리에 서야 한다. 고치기 전에는 글꼴이 붙기 전의 긴 배치에서
+ * 부드러운 스크롤이 떠나, 390px /about/#career 가 988px 지나쳐 멈췄다. `fragment` 항목은 처음 온 브라우저로 연 실제 화면에서 잰다.
+ */
 /* 쪽마다 390 · 1440 에서 가로 넘침 · 깨진 이미지 · 제목 · 불러오기 오류를 본다. 소개 쪽은 2026.11.12 에 넣었다(연도별 표 · 접기가 여기 있다) */
 export const requiredRoutes = ["/", "/about/", "/resume/", ...["jestina", "newbalance", "daekyo", "gangwon", "dyson", "automation", "edith", "hanssem", "ktalpha"].map(s => `/projects/${s}/`)];
 

@@ -209,6 +209,14 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* 스크립트가 붙기 전에는 부드러운 스크롤을 쓰지 않는다 (2026.11.12 B-16 · FragmentAnchor.tsx).
+   주소에 #이 붙어 새로 열린 쪽은 글꼴이 붙기 전의 긴 배치에서 떠나는데, 부드러운 스크롤은 도착점을 다시 잡지 않아
+   글꼴이 붙고 위 내용이 줄어든 만큼 지나쳐 멈췄다(390px /about/#career 988px). 바로 가면 그 뒤 변화는 스크롤 고정이 따라간다.
+   html.js 는 MotionRuntime 이 붙인다 — 쪽 안에서 누르는 이동은 그 뒤이므로 전처럼 부드럽다 */
+html:not(.js) {
+  scroll-behavior: auto;
+}
+
 /* 감속 선호 시에는 부드러운 스크롤도 끈다 — 기존엔 무조건 smooth라 이 설정이 무시됐다 */
 @media (prefers-reduced-motion: reduce) {
   html {

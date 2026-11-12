@@ -26,6 +26,9 @@ assert.ok(checkRuntime(missing, "current").some(s => s.includes(`Interaction ${d
 const foldFailed = structuredClone(valid);
 foldFailed.interactions.find(i => i.name === "fold").passed = false;
 assert.ok(checkRuntime(foldFailed, "current").some(s => s.includes("Interaction fold")), "a fold that does not open must fail");
+const offTarget = structuredClone(valid);
+offTarget.interactions.find(i => i.name === "fragment").passed = false;
+assert.ok(checkRuntime(offTarget, "current").some(s => s.includes("Interaction fragment")), "a fragment that lands past its section must fail");
 const noAbout = structuredClone(valid);
 noAbout.pages = noAbout.pages.filter(p => p.route !== "/about/");
 assert.equal(checkRuntime(noAbout, "current").filter(s => s.includes("/about/")).length, 2, "missing about-page evidence must fail at both widths");
@@ -36,4 +39,4 @@ const noShort = structuredClone(valid);
 delete noShort.shortWindows;
 assert.equal(checkRuntime(noShort, "current").filter(s => s.includes("Short window")).length, requiredShortWindows.length, "missing short-window evidence must fail");
 assert.ok(checkHome('<section class="final-hero on-ink"></section>').length, "missing evidence or motion must fail");
-console.log("Release contract: 10 regression checks passed");
+console.log("Release contract: 11 regression checks passed");

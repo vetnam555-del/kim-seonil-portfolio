@@ -69,7 +69,7 @@ npm run typecheck
 npm run qa:tone && npm run qa:en && npm run qa:final
 QA_BROWSER=$PWD/scripts/cloud_chromium.sh node scripts/qa_layout.mjs general
 QA_BROWSER=$PWD/scripts/cloud_chromium.sh node scripts/qa_wrap.mjs general
-node scripts/qa_release.mjs    # STATIC_PASS_RUNTIME_PENDING 과 fingerprint 를 얻는다 (동작 시험 qa_interactions 26건도 여기서 돈다 · 2026-11-04, 접기 3건 2026-11-12)
+node scripts/qa_release.mjs    # STATIC_PASS_RUNTIME_PENDING 과 fingerprint 를 얻는다 (동작 시험 qa_interactions 33건도 여기서 돈다 · 2026-11-04, 접기 3건 · #주소와 메뉴 7건 2026-11-12)
 ```
 
 - 글꼴 서브셋은 같은 문자로는 늘 같은 파일이 나온다(B-13 · 2026-11-04). publish 뒤 `fonts/` 가 바뀌었으면 화면 문자가 바뀐 것이니 그대로 커밋한다.

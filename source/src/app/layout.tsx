@@ -1,5 +1,6 @@
 ﻿import type { Metadata, Viewport } from "next";
 import { MotionRuntime } from "@/components/MotionRuntime";
+import FragmentAnchor from "@/components/FragmentAnchor";
 import ContentProtection from "@/components/ContentProtection";
 import Header from "@/components/Header";
 import { HtmlLang, SiteFooter, SkipLink } from "@/components/SiteChrome";
@@ -186,6 +187,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={contentProtectionEnabled ? "content-protected" : undefined}>
         <MotionRuntime />
+        {/* 주소에 #이 붙어 새로 열린 쪽을 글꼴이 붙은 뒤 제자리에 세운다 (B-16) */}
+        <FragmentAnchor />
         {contentProtectionEnabled ? <ContentProtection /> : null}
         {/*
           읽기 진행 바. JS 가 --read 를 채우기 전에는 폭 0 이라 아무것도 보이지 않고,

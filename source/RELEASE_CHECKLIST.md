@@ -15,6 +15,7 @@ Use the connected browser on the new export. Inspect actual rendered screens, no
 - Home, about, resume, and all nine case pages at both 390 and 1440 pixels. Check horizontal overflow, failed images, headings, and site console errors.
 - Capture intermediate and completed count-up values for the hero and a case. Their measured widths must stay fixed. Final numbers alone do not demonstrate animation.
 - Test the mobile menu, case index, detail navigation, original evidence, email copy and notification, the resume PDF, the absence of the portfolio PDF, and the automation demo.
+- Fresh loads with a fragment (for example `/about/#career`, a case page `#case-results`, home `#contact`), opened in a browser that has never visited: the section heading must sit where an in-page jump puts it, not past it. The header menu must also jump on the first click when the address carries a query string (`?utm_source=…`, `?fbclid=…`).
 - Phone folds on the about page: at 390 every fold starts closed, opens on tap and closes again; at 1440 there is no fold button and nothing is hidden. Only explanations fold. Results, career, awards and skills stay open.
 - Inspect at least eight fresh screenshots. Record unresolved issues honestly. Preserve image formats returned by the browser instead of assuming PNG.
 - Preserve metric definitions, comparison periods, personal contribution, and source/production credits.

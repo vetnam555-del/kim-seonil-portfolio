@@ -276,6 +276,49 @@ await interaction("fold", async () => {
   if (desk.buttons !== 0 || desk.bodies !== desk.folds || desk.folds !== closed.folds) throw new Error(`넓은 화면에서 가려진 묶음이 있음 — ${seen}`);
   return `소개 쪽 접기 '${label}' 외 — ${seen}`;
 });
+/* 주소에 #이 붙어 새로 열린 쪽 (2026.11.12 B-16 · FragmentAnchor) — 처음 온 브라우저(글꼴 캐시 없음)로 열어 구간 머리가 제자리에 서는지 본다.
+   제자리는 브라우저가 계산하는 값이다: 자리 잡은 뒤 scrollIntoView 로 다시 세운 위치(scroll-padding-top · scroll-margin-top 반영)와 비교한다 */
+await interaction("fragment", async () => {
+  const cases = [["/about/", "#career", 390], ["/about/", "#skills", 1440], ["/projects/newbalance/", "#case-results", 390], ["/", "#contact", 390], ["/", "#automation", 1440]];
+  const seen = [];
+  for (const [path, hash, width] of cases) {
+    const fresh = await browser.createBrowserContext();
+    const page = await fresh.newPage();
+    await page.setViewport({ width, height: HEIGHTS[width] || 900 });
+    await page.goto(`${BASE}${path}?intro=0${hash}`, { waitUntil: "networkidle0", timeout: 60000 });
+    await sleep(1500);
+    const r = await page.evaluate(async (h) => {
+      const el = document.querySelector(h);
+      if (!el) return null;
+      const lands = Math.round(el.getBoundingClientRect().top);
+      el.scrollIntoView({ behavior: "instant", block: "start" });
+      await new Promise((res) => requestAnimationFrame(() => requestAnimationFrame(res)));
+      return { lands, want: Math.round(el.getBoundingClientRect().top) };
+    }, hash);
+    await fresh.close();
+    if (!r) throw new Error(`${path}${hash} — 구간을 찾지 못함`);
+    seen.push({ path, hash, width, ...r });
+  }
+  const text = seen.map((s) => `${s.width}px ${s.path}${s.hash} ${s.lands}px(제자리 ${s.want}px)`).join(" · ");
+  if (seen.some((s) => Math.abs(s.lands - s.want) > 40)) throw new Error(`구간을 지나쳐 멈춤 — ${text}`);
+  /* 주소에 물음표가 붙어 들어온 방문자(?utm_source=… · ?fbclid=…)가 머리줄 메뉴를 처음 눌렀을 때도 움직여야 한다.
+     고치기 전에는 주소만 #projects 로 바뀌고 화면은 그대로였다(Header.tsx hrefOf) */
+  const tagged = await browser.createBrowserContext();
+  const tp = await tagged.newPage();
+  await tp.setViewport({ width: 1440, height: 900 });
+  await tp.goto(`${BASE}/?utm_source=release-check`, { waitUntil: "networkidle0", timeout: 60000 });
+  await tp.click('header nav a[href$="#projects"]'); await sleep(2500);
+  const menu = await tp.evaluate(async () => {
+    const el = document.querySelector("#projects");
+    const lands = Math.round(el.getBoundingClientRect().top);
+    el.scrollIntoView({ behavior: "instant", block: "start" });
+    await new Promise((res) => requestAnimationFrame(() => requestAnimationFrame(res)));
+    return { lands, want: Math.round(el.getBoundingClientRect().top), url: location.search + location.hash };
+  });
+  await tagged.close();
+  if (Math.abs(menu.lands - menu.want) > 40) throw new Error(`물음표가 붙은 주소에서 메뉴 첫 클릭이 움직이지 않음 — ${JSON.stringify(menu)}`);
+  return `새로 연 #주소 — ${text} · ?utm_source 로 들어와 '대표 사례' 첫 클릭 ${menu.lands}px(제자리 ${menu.want}px · 주소 ${menu.url})`;
+});
 await interaction("demo", async () => {
   const { page } = await open("/", 1440);
   await page.$eval("#inventory-demo", (el) => el.scrollIntoView({ block: "center" })); await sleep(1500);
