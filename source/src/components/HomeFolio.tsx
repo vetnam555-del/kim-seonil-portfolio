@@ -70,6 +70,7 @@ const UI = {
     resumeHref: "/resume/",
     photoAlt: "김선일 프로필 사진",
     recordsAria: "수상과 공개 우수사례",
+    proofAria: "대표 결과 세 가지",
     newTab: " (새 탭)",
     workTitle: "대표 사례",
     /* 경력 연수는 쓰지 않는다(2026-11-01 주인 "사이트랑 이력서에도 경력 4년은 빼줘") — 이름 · 직함만 */
@@ -107,6 +108,7 @@ const UI = {
     resumeHref: "/en/resume/",
     photoAlt: "Profile photo of Kim Seonill",
     recordsAria: "Awards and published best practice",
+    proofAria: "Three headline results",
     newTab: " (new tab)",
     workTitle: "Case studies",
     eyebrowRole: ROLE_EN,
@@ -227,7 +229,11 @@ export default function HomeFolio({ lang = "ko" }: { lang?: Lang }) {
       <section id="hero" className="folio-hero">
         <div className="folio-wrap folio-hero-grid">
           <div className="folio-hero-copy">
-            <p className="folio-eyebrow">{`${en ? NAME_EN_DISPLAY : site.name}\u00a0· ${ui.eyebrowRole}`}</p>
+            {/* 좁은 화면에서는 사진 옆에 놓이고 소속 한 줄이 붙는다 — 사진 위 소속 칩은 넓은 화면에서만 보인다(2026.11.11) */}
+            <p className="folio-eyebrow">
+              {`${en ? NAME_EN_DISPLAY : site.name}\u00a0· ${ui.eyebrowRole}`}{" "}
+              <span className="folio-eyebrow-org">{en ? ORG_EN : site.org}</span>
+            </p>
             {/* 영문 세 단어로 첫인상, 바로 밑 한국어 한 줄로 뜻 (2026.09.25 K+A) — 스크린리더는 한 제목으로 읽는다 */}
             <h1 className="folio-hero-title">
               {display.map((line, i) => (
@@ -249,31 +255,52 @@ export default function HomeFolio({ lang = "ko" }: { lang?: Lang }) {
                 </li>
               ))}
             </ul>
+            {/*
+              결과 세 칸 — 제목 바로 아래로 올렸다(2026.11.11 첫 화면 개편). 전에는 버튼 아래라 390px 첫 화면에 숫자가 하나도 없었다.
+              값 · 작은 막대(회색 기준 · 빨강 결과, 0부터 같은 척도) · 이름 · 기준 순서이고 칸을 누르면 그 사례로 간다.
+            */}
+            <ul className="folio-proof folio-proofs" aria-label={ui.proofAria} style={{ "--l": display.length + 2 } as CSSProperties}>
+              {proof.map((f, i) => (
+                <li key={f.label}>
+                  <a href={f.href}>
+                    {/* 값 쪽 · 설명 쪽을 따로 묶는다 — 좁은 화면에서 설명이 두 줄이 돼도 값 아래 막대 · 연도가 밀려 내려가지 않는다 */}
+                    <span className="folio-proof-main">
+                      <span className="folio-proof-value">
+                        {"before" in f && f.before ? <span className="folio-proof-before">{f.before} </span> : null}
+                        <CountUpValue value={f.after} delay={150 + i * 100} duration={1300} />
+                      </span>
+                      {"bars" in f && f.bars ? (
+                        <span className="folio-proof-bars" aria-hidden="true">
+                          <i style={{ "--w": `${Math.round((f.bars[0] / f.bars[1]) * 1000) / 10}%` } as CSSProperties} />
+                          <i />
+                        </span>
+                      ) : null}
+                      {"marks" in f && f.marks ? (
+                        <span className="folio-proof-marks" aria-hidden="true">
+                          {f.marks.map((m) => <i key={m}>{m}</i>)}
+                        </span>
+                      ) : null}
+                    </span>
+                    <span className="folio-proof-text">
+                      <span className="folio-proof-label">{f.label}</span>
+                      <span className="folio-proof-basis">{f.basis}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
             <p className="folio-hero-note"><Sentences text={en ? coverEn.note : generalCover.note} /></p>
             <div className="folio-hero-actions">
               <a href="#projects" className="folio-btn folio-btn-dark">{ui.seeWork} <span aria-hidden="true">↓</span></a>
               <EmailCopyButton email={site.emailPrimary} className="folio-btn folio-btn-line">{ui.copyEmail}</EmailCopyButton>
               <Link href={ui.resumeHref} prefetch={false} className="folio-link-strong">{ui.resume} <span aria-hidden="true">→</span></Link>
             </div>
-            {/* 결과 세 칸 — 값 아래 작은 줄이 기준이다 (2026.09.25) */}
-            <dl className="folio-facts folio-proof">
-              {proof.map((f, i) => (
-                <div key={f.label}>
-                  <dt>{f.label}</dt>
-                  <dd className="folio-proof-value">
-                    {"before" in f && f.before ? <span className="folio-proof-before">{f.before} </span> : null}
-                    <CountUpValue value={f.after} delay={150 + i * 100} duration={1300} />
-                  </dd>
-                  <dd className="folio-proof-basis">{f.basis}</dd>
-                </div>
-              ))}
-            </dl>
           </div>
           <figure className="folio-hero-photo">
             <img
               src={`${BASE}${site.profileImagePath}`}
               srcSet={`${BASE}${site.profileImageSmallPath} 300w, ${BASE}${site.profileImagePath} 600w`}
-              sizes="(max-width: 767px) 88px, (max-width: 1023px) 260px, 360px"
+              sizes="(max-width: 767px) 72px, (max-width: 1023px) 260px, 360px"
               alt={ui.photoAlt}
               width={354}
               height={472}

@@ -1,11 +1,12 @@
 import assert from "node:assert/strict";
-import { checkHome, checkRuntime, requiredWidths, requiredInteractions } from "./release_contract.mjs";
+import { checkHome, checkRuntime, requiredWidths, requiredShortWindows, requiredInteractions } from "./release_contract.mjs";
 
 const routes = ["/", "/resume/", ...["jestina", "newbalance", "daekyo", "gangwon", "dyson", "automation", "edith", "hanssem", "ktalpha"].map(s => `/projects/${s}/`)];
 const frames = [{ visual: "4", target: "10", state: "running", width: 90 }, { visual: "10", target: "10", state: "done", width: 90 }];
 const valid = {
   version: 1, fingerprint: "current",
   viewports: requiredWidths.map(width => ({ width, height: 1000, heroHeight: 600, scrollWidth: width, clientWidth: width, clipped: [] })),
+  shortWindows: requiredShortWindows.map(([width, height]) => ({ width, height, clientWidth: width, scrollWidth: width, innerHeight: height, proofBottom: height - 60, primaryBottom: height - 10 })),
   pages: [390, 1440].flatMap(width => routes.map(route => ({ width, route, scrollWidth: width, clientWidth: width, brokenImages: [], missingTitle: false, loadingErrors: [] }))),
   motion: { hero: frames, case: frames },
   interactions: requiredInteractions.map(name => ({ name, passed: true, observed: "Test fixture observation" })),
@@ -22,5 +23,11 @@ assert.ok(checkRuntime(overflow, "current").some(s => s.includes("Viewport")), "
 const missing = structuredClone(valid);
 missing.interactions.pop();
 assert.ok(checkRuntime(missing, "current").some(s => s.includes("demo")), "missing interaction must fail");
+const belowFold = structuredClone(valid);
+belowFold.shortWindows[0].primaryBottom = belowFold.shortWindows[0].height + 24;
+assert.ok(checkRuntime(belowFold, "current").some(s => s.includes("Short window 360x640")), "a primary button below a short first screen must fail");
+const noShort = structuredClone(valid);
+delete noShort.shortWindows;
+assert.equal(checkRuntime(noShort, "current").filter(s => s.includes("Short window")).length, requiredShortWindows.length, "missing short-window evidence must fail");
 assert.ok(checkHome('<section class="final-hero on-ink"></section>').length, "missing evidence or motion must fail");
-console.log("Release contract: 6 regression checks passed");
+console.log("Release contract: 8 regression checks passed");

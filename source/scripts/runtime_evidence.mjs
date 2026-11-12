@@ -9,6 +9,7 @@
 import { createRequire } from "node:module";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { requiredShortWindows as SHORT_WINDOWS } from "./release_contract.mjs";
 
 const TOOLS = process.env.QA_TOOLS_DIR ?? "/tmp/portfolio-qa-tools";
 let puppeteer;
@@ -36,14 +37,14 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const HEIGHTS = { 360: 800, 390: 844, 768: 1024, 1024: 768, 1440: 900 };
 const evidence = { version: 1, fingerprint: FP, generatedAt: new Date().toISOString(), viewports: [], pages: [], motion: {}, interactions: [], visualReview: { screenshots: [], openIssues: 0, notes: [] } };
 
-async function open(path, width, { intro = false } = {}) {
+async function open(path, width, { intro = false, height } = {}) {
   const page = await browser.newPage();
   const errors = [];
   page.on("console", (m) => { if (m.type() === "error") errors.push(`console: ${m.text()}`); });
   page.on("pageerror", (e) => errors.push(`pageerror: ${e.message}`));
   page.on("requestfailed", (r) => { const why = r.failure()?.errorText || ""; if (!r.url().includes("_rsc=") && !/ERR_ABORTED/.test(why)) errors.push(`requestfailed: ${r.url()} ${why}`); });
   page.on("response", (r) => { if (r.status() >= 400) errors.push(`http ${r.status()}: ${r.url()}`); });
-  await page.setViewport({ width, height: HEIGHTS[width] || 900 });
+  await page.setViewport({ width, height: height || HEIGHTS[width] || 900 });
   const url = `${BASE}${path}${intro ? "" : (path.includes("?") ? "&" : "?") + "intro=0"}`;
   await page.goto(url, { waitUntil: "networkidle0", timeout: 60000 });
   return { page, errors };
@@ -76,14 +77,38 @@ for (const width of [360, 390, 768, 1024, 1440]) {
         if (!cut) clipped.push(`${el.tagName.toLowerCase()}.${String(el.className).slice(0, 40)} ${Math.round(r.left)}–${Math.round(r.right)}`);
       }
     }
-    // 히어로 핵심(사진·이름·제목·강점·소개·행동 버튼)이 첫 화면 안에 끝나는가 — 행동 버튼 줄의 아래 끝을 문서 기준으로 잰다.
-    // 표지 수치 세 칸(folio-proof)은 첫 화면 아래로 이어지도록 설계돼 있어 넣지 않는다.
+    // 히어로 핵심(사진·이름·제목·결과 세 칸·행동 버튼)이 첫 화면 안에 끝나는가 — 결과 칸과 행동 버튼 줄 중 더 아래 끝을 문서 기준으로 잰다.
+    // 2026.11.11 첫 화면 개편: 결과 세 칸(folio-proof)을 제목 바로 아래로 올렸다(전에는 버튼 아래라 재지 않았다).
+    // 소개 문단 · 강점은 좁은 화면과 낮은 창에서 버튼 아래로 간다. 둘 중 하나라도 없으면 실패로 센다.
     const actions = document.querySelector(".folio-hero-actions");
-    const heroBottom = actions ? Math.round(actions.getBoundingClientRect().bottom + scrollY) : 0;
-    return { width, clientWidth: de.clientWidth, scrollWidth: de.scrollWidth, clipped: clipped.slice(0, 10), heroHeight: heroBottom, heroMeasure: "bottom of .folio-hero-actions (page Y)", height: innerHeight, pageHeight: de.scrollHeight };
+    const proofEl = document.querySelector(".folio-hero .folio-proof");
+    const heroBottom = actions && proofEl ? Math.round(Math.max(actions.getBoundingClientRect().bottom, proofEl.getBoundingClientRect().bottom) + scrollY) : 99999;
+    return { width, clientWidth: de.clientWidth, scrollWidth: de.scrollWidth, clipped: clipped.slice(0, 10), heroHeight: heroBottom, heroMeasure: "lower bottom of .folio-hero-actions and .folio-proof (page Y)", height: innerHeight, pageHeight: de.scrollHeight };
   }, width);
   evidence.viewports.push(row);
   const shot = `home-${width}.png`;
+  await page.screenshot({ path: join(OUT, shot) });
+  evidence.visualReview.screenshots.push(shot);
+  await page.close();
+}
+
+// 1-2. 낮은 창 세 개 (2026.11.12) — 위 다섯 폭은 높이가 넉넉하다(360×800 · 1440×900). 실제 첫 화면은 더 낮다:
+// 갤럭시 브라우저 · 인앱 브라우저는 주소창 · 아래 막대를 빼면 360×640 남짓, 14인치 FHD 노트북 150% 배율은 1280×585, 1366×768 노트북은 1366×625.
+// 이 창에서도 결과 세 칸과 첫 버튼('대표 사례 보기')이 첫 화면 안에 끝나야 한다(둘째 줄 '이력서' 링크는 재지 않는다).
+evidence.shortWindows = [];
+for (const [width, height] of SHORT_WINDOWS) {
+  const { page } = await open("/", width, { height });
+  const row = await page.evaluate(() => {
+    const bottom = (el) => (el ? Math.round(el.getBoundingClientRect().bottom + scrollY) : 99999);
+    const de = document.documentElement;
+    return {
+      clientWidth: de.clientWidth, scrollWidth: de.scrollWidth, innerHeight,
+      proofBottom: bottom(document.querySelector(".folio-hero .folio-proof")),
+      primaryBottom: bottom(document.querySelector(".folio-hero-actions .folio-btn-dark")),
+    };
+  });
+  evidence.shortWindows.push({ width, height, ...row });
+  const shot = `home-short-${width}x${height}.png`;
   await page.screenshot({ path: join(OUT, shot) });
   evidence.visualReview.screenshots.push(shot);
   await page.close();
@@ -253,5 +278,5 @@ await interaction("demo", async () => {
 
 writeFileSync(join(OUT, "runtime.json"), JSON.stringify(evidence, null, 2));
 await browser.close();
-const bad = [...evidence.viewports.filter((v) => v.scrollWidth > v.clientWidth + 1 || v.clipped.length || !(v.heroHeight < v.height)), ...evidence.pages.filter((p) => p.scrollWidth > p.clientWidth + 1 || p.brokenImages.length || p.loadingErrors.length || p.missingTitle), ...evidence.interactions.filter((i) => !i.passed)];
-console.log(JSON.stringify({ viewports: evidence.viewports.map((v) => [v.width, v.clientWidth, v.scrollWidth, v.heroHeight, v.height, v.clipped.length]), problems: bad, heroFrames: evidence.motion.hero.length, caseFrames: evidence.motion.case.length }, null, 1));
+const bad = [...evidence.viewports.filter((v) => v.scrollWidth > v.clientWidth + 1 || v.clipped.length || !(v.heroHeight < v.height)), ...evidence.shortWindows.filter((v) => !(v.proofBottom < v.height) || !(v.primaryBottom < v.height)), ...evidence.pages.filter((p) => p.scrollWidth > p.clientWidth + 1 || p.brokenImages.length || p.loadingErrors.length || p.missingTitle), ...evidence.interactions.filter((i) => !i.passed)];
+console.log(JSON.stringify({ viewports: evidence.viewports.map((v) => [v.width, v.clientWidth, v.scrollWidth, v.heroHeight, v.height, v.clipped.length]), shortWindows: evidence.shortWindows.map((v) => [v.width, v.height, v.proofBottom, v.primaryBottom]), problems: bad, heroFrames: evidence.motion.hero.length, caseFrames: evidence.motion.case.length }, null, 1));

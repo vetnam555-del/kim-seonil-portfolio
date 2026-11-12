@@ -567,16 +567,33 @@ for (const file of ["portfolio-polish.js", "portfolio-polish.css", "motion.js", 
  * 공개 문서 수와 확인일을 함께 검사한다. 과거 제작 이미지의 날짜는 보존한다.
  */
 /* 2026.10.16 최근 형식 갱신 — 114편 · VOL.114 · 2026.10.15 */
-const EDITH_PUBLIC = "공개 문서 114편";
+/* 2026.11.07 다시 갱신 — 136편 · VOL.136 · 2026.11.06 (edit-h-archive da2f426) */
+const EDITH_PUBLIC = "공개 문서 136편";
 if (!allHtml.includes(EDITH_PUBLIC)) {
   failures.push(`EDIT H ${EDITH_PUBLIC} 문구 없음`);
 }
 const edithHtml = flat(readFileSync(join(root, "projects", "edith", "index.html"), "utf8"));
-for (const expected of ["114편", "2026.10.15", "VOL.114"]) {
+for (const expected of ["136편", "2026.11.06", "VOL.136"]) {
   if (!edithHtml.includes(expected)) failures.push(`EDIT H 최신 공개 기준 누락: ${expected}`);
 }
-for (const stale of ["공개 아카이브 69호", "제작·발행 70호", "VOL.001–070", "공개 아카이브 75호", "VOL.033 게시 대기", "공개 문서 89편", "VOL.089"]) {
+for (const stale of ["공개 아카이브 69호", "제작·발행 70호", "VOL.001–070", "공개 아카이브 75호", "VOL.033 게시 대기", "공개 문서 89편", "VOL.089", "공개 문서 114편", "VOL.114", "22일 연속 발행"]) {
   if (allHtml.includes(stale)) failures.push(`EDIT H 옛 호수 잔존: ${stale}`);
+}
+
+/*
+ * 링크 미리보기 칸 (2026.11.07) — 쪽이 openGraph 를 따로 적으면 layout 의 칸이 통째로 빠진다(src/data/og.ts).
+ * 모든 쪽에 og:type · og:site_name · og:locale · og:title · og:image · og:url 이 있고, og:locale 이 html lang 과 맞아야 한다.
+ */
+const OG_REQUIRED = ["og:type", "og:site_name", "og:locale", "og:title", "og:image", "og:url"];
+for (const file of htmlFiles) {
+  const html = readFileSync(file, "utf8");
+  const missing = OG_REQUIRED.filter((name) => !html.includes(`property="${name}"`));
+  if (missing.length) failures.push(`링크 미리보기 칸 빠짐: ${relative(root, file)} — ${missing.join(" · ")} (src/data/og.ts ogBase)`);
+  const lang = (html.match(/<html[^>]*\blang="([^"]+)"/) || [])[1];
+  const locale = (html.match(/<meta[^>]*property="og:locale"[^>]*content="([^"]+)"/) || [])[1];
+  if (lang && locale && locale !== (lang.startsWith("en") ? "en_US" : "ko_KR")) {
+    failures.push(`og:locale ${locale} 이 html lang ${lang} 과 다름: ${relative(root, file)}`);
+  }
 }
 
 const summary = {

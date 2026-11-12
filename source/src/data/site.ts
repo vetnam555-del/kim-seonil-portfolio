@@ -37,7 +37,7 @@ export const site = {
     "mailto:makefair@naver.com?subject=%EC%9D%B4%EB%A0%A5%EC%84%9C%20%EC%9B%90%EB%B3%B8%20%EC%9A%94%EC%B2%AD%EB%93%9C%EB%A6%BD%EB%8B%88%EB%8B%A4",
   /** 전화번호·주소·생년월일을 제외한 공개용 PDF */
   /* 2026.10.09 문장 다듬기 반영본(scripts/print_resume_reportlab.py) — 캐시를 넘기려고 판 번호를 올린다 */
-  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261101b" : "/kim-seonil-resume-public.pdf",
+  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261107a" : "/kim-seonil-resume-public.pdf",
   /** 웹 포트폴리오의 PDF 공유본 — 일반판은 2026-10-31 부터 사이트에 싣지 않는다(edition.ts portfolioPdfPublic). 다른 판의 경로로만 쓴다 */
   portfolioPdfPath: isGeneralLike ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261025a" : "/kim-seonil-performance-marketing-portfolio.pdf",
 } as const;
@@ -299,10 +299,11 @@ export const generalCover = {
    * 본인이 주어인 결과만 싣는다: 전략·측정 75% · 자동화 100% · 담당 캠페인 수상. 기준은 각 칸 아래 작은 줄.
    */
   proof: [
-    { before: "352% →", after: "583%", label: "제이에스티나 GA4 ROAS", basis: "2025.05 → 07\u00a0· 동일 마감보고", href: "#case-jestina" },
+    /* 2026.11.11 첫 화면 개편 — 값 아래 작은 막대(bars: 기준·결과, 0부터 같은 척도)와 연도 표시(marks). 숫자는 그대로다 */
+    { before: "352% →", after: "583%", label: "제이에스티나 GA4 ROAS", basis: "2025.05 → 07\u00a0· 동일 마감보고", href: "#case-jestina", bars: [352, 583] },
     /* 2026.09.26 뉴발란스 점검 5분 → 강원 스토어 매출. 첫 화면에 자동화가 겹쳐 보였다(사용자). 5분은 카드·자동화 구간에 그대로 있다 */
-    { after: "+397.3%", label: "강원심층수 스토어 판매금액", basis: "2026.07\u00a0· 전년 같은 기간 대비", href: "#case-gangwon" },
-    { after: "2년 연속", label: "대한민국 디지털 광고 대상 우수상", basis: "2024 독립문\u00a0· 2025 제이에스티나", href: "#records" },
+    { after: "+397.3%", label: "강원심층수 스토어 판매금액", basis: "2026.07\u00a0· 전년 같은 기간 대비", href: "#case-gangwon", bars: [100, 497.3] },
+    { after: "2년 연속", label: "대한민국 디지털 광고 대상 우수상", basis: "2024\u00a0독립문\u00a0· 2025\u00a0제이에스티나", href: "#records", marks: ["2024", "2025"] },
   ],
   /*
    * 첫 화면 아래 경력 두 줄 (2026.09.25) — "지나온 길"(발명·창업 동아리 → 전공 → 회사)을 이 자리에서 뺐다.
@@ -1661,7 +1662,7 @@ export const skills: SkillGroup[] = [
     ],
     proof: [
       "자동화 6종 전부 인수인계 문서로 남김",
-      "EDIT H 기획·발행\u00a0· 공개 문서 114편 (2026.10.15 VOL.114까지)",
+      "EDIT H 기획·발행\u00a0· 공개 문서 136편 (2026.11.06 VOL.136까지)",
       /* "사내 배포"는 근거가 없다(마스터 컨텍스트 14-2: 공개 웹 · 배포·업데이트) — 공개 사실만 적는다 (2026.09.25) */
       "PM 실무 허브 — 실무 도구 8개\u00a0· 매체 가이드 9개 공개",
     ],
@@ -2342,8 +2343,9 @@ export const publicWork: PublicWork[] = [
      * 사실 3개도 검증 가능한 값으로 바꾼다 — 공개 아카이브에서 바로 셀 수 있다.
      */
     /* 2026.10.15 최근 형식으로 — 마케팅 브리프로 시작해 2030 직장인의 돈·일·소비를 다루는 트렌드 브리프로 바뀌었다(projects.ts edith 주석) */
-    desc: "2030 직장인의 돈·일·소비 뉴스를 매일 아침 뉴스레터와 카드뉴스 10장·릴스로 발행합니다. 메인 이슈의 숫자·날짜는 원 보도 2건이 일치하거나 1차 출처일 때만 싣습니다.",
-    facts: ["공개 문서 114편", "2026.10.15 VOL.114까지", "2026.09.24부터 22일 연속 발행"],
+    /* 2026.11.07 — 11.01 부터 독자를 2030 전체(경제·트렌드·마케팅·테크)로 넓혔다. 숫자는 11.06 VOL.136 기준(projects.ts edith 주석) */
+    desc: "경제부터 트렌드까지 2030이 알아야 할 소식을 매일 아침 뉴스레터와 카드뉴스 10장으로 발행하고 릴스·웹툰도 올립니다. 메인 이슈의 숫자·날짜는 원 보도 2건이 일치하거나 1차 출처일 때만 싣습니다.",
+    facts: ["공개 문서 136편", "2026.11.06 VOL.136까지", "2026.09.24부터 44일 연속 발행"],
     href: "https://vetnam555-del.github.io/edit-h-archive/",
     linkLabel: "EDIT H 아카이브 보기",
   },
