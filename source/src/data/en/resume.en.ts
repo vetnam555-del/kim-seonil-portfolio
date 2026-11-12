@@ -115,8 +115,8 @@ export const resumeMetricIndexKo: Record<string, string[]> = {
 export const supportingEn: Record<string, { brand: string; role: string; scope: string; evidence: string; objective: string }> = {
   edith: {
     brand: "EDIT H",
-    role: "Planning\u00a0· editorial standards\u00a0· production pipeline\u00a0· publishing",
-    scope: "Planning, editing, building and publishing\u00a0· 100%, alone",
+    role: "Planning\u00a0· editorial standards\u00a0· AI production pipeline\u00a0· publishing operations",
+    scope: "Planning, editorial standards, build and operations\u00a0· 100%, alone\u00a0· daily production by an AI routine",
     evidence: "Public archive (link available)",
     objective: "Build a publishing standard that keeps only what's verified, and automate it so the standard holds every day",
   },
@@ -173,7 +173,7 @@ export const publicWorkEn = [
   {
     label: "Content planning\u00a0· self-published",
     title: "EDIT H trend newsletter\u00a0· card news",
-    desc: "Every morning I publish what people in their 20s and 30s need to know, from the economy to trends, as a newsletter and 10-slide card news, plus reels and a webtoon. In the main stories, a number or date goes in only when two separate original reports agree or it comes from a primary source.",
+    desc: "Every morning I publish what people in their 20s and 30s need to know, from the economy to trends, as a newsletter and 10-slide card news, plus reels and a webtoon. In the main stories, a number or date goes in only when two separate original reports agree or it comes from a primary source. An AI routine produces each issue under these rules.",
     facts: ["136 public issues", "Up to VOL.136\u00a0· 2026.11.06", "44 days in a row since 2026.09.24"],
     href: "https://vetnam555-del.github.io/edit-h-archive/",
   },

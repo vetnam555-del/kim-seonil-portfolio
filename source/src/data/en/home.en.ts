@@ -180,7 +180,7 @@ export const systemsEn: Record<string, { name: string; built: string; effect: st
 
 /** 영문판이 없는 기록 — 한국어 상세로 보낸다 */
 export const otherEn: Record<string, { brand: string; line: string }> = {
-  edith: { brand: "EDIT H", line: "I plan and publish a daily trend newsletter that runs its main stories only after cross-checking." },
+  edith: { brand: "EDIT H", line: "I plan and run a daily trend newsletter that cross-checks its main stories; an AI routine I set up produces each issue." },
   hanssem: { brand: "Hanssem", line: "Unifying web and app data around purchase contribution" },
   ktalpha: { brand: "KT alpha Shopping", line: "Separating out each channel's role, hidden behind a blended ROAS" },
 };
