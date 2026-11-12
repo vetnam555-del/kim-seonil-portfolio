@@ -2396,6 +2396,74 @@ html[data-intro="reveal"] .folio-proofs { animation: hero-rise-now .7s cubic-bez
   .folio-hero-title { margin-top: 16px; }
   .folio-hero-title .folio-hero-sub { margin-top: 10px; }
 }
+/* ── 연도별 담당 브랜드 (2026.11.12 R-10 · BrandTimeline.tsx) ─────────────────────
+   소개 쪽 '업종별로 운영한 광고주' 아래. 2022–2026 다섯 칸에 소속(검정 막대)과 그때 맡은 브랜드(회색 막대)를 놓는다.
+   좁은 화면은 이름 · 기간 한 줄 아래 막대, 넓은 화면은 이름 · 기간 · 막대가 한 줄이다. 막대는 장식이고 글자(이름 · 기간)가 내용이다 */
+.tl { margin-top: 40px; }
+.tl-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 20px; }
+.tl-title { font-size: 1.125rem; font-weight: 700; color: #0f1216; }
+.tl-note { font-size: 13px; color: #646d76; }
+.tl-axis { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); margin-top: 16px; font-size: 12px; font-weight: 700; color: #646d76; }
+.tl-axis span { padding: 0 0 6px 5px; border-left: 1px solid #d5d9dd; }
+.tl-list, .tl-brands { margin: 0; padding: 0; list-style: none; }
+.tl-row { padding: 7px 0 9px; border-top: 1px solid #eef0f2; }
+.tl-row-org { border-top-color: #cfd4d9; }
+.tl-label { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0; }
+.tl-name { min-width: 0; font-size: 14px; font-weight: 600; line-height: 1.4; color: #1d2227; }
+.tl-row-org .tl-name { font-weight: 800; color: #0f1216; }
+/* 누를 수 있는 높이를 44px 로 — 줄 간격(약 50px) 안에서 위아래로만 늘린다(BrandWall 의 사례 링크와 같은 방법) */
+.tl-name a { display: inline-block; margin: -12px 0; padding: 12px 0; text-decoration: underline; text-decoration-color: #aab0b7; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.tl-name a:hover, .tl-name a:focus-visible { text-decoration-color: #0f1216; }
+.tl-period { flex-shrink: 0; font-size: 12px; line-height: 1.4; color: #646d76; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tl-track { position: relative; display: block; height: 8px; margin-top: 6px; background: repeating-linear-gradient(to right, #e5e7ea 0 1px, transparent 1px 20%); }
+.tl-track i { position: absolute; top: 0; bottom: 0; left: var(--s, 0); width: var(--w, 0); min-width: 3px; border-radius: 2px; background: #aab0b7; }
+.tl-row-org .tl-track i { background: #0f1216; }
+@media (min-width: 768px) {
+  .tl { margin-top: 56px; }
+  .tl-axis { margin-left: 24rem; }
+  .tl-row { display: grid; grid-template-columns: 24rem minmax(0,1fr); align-items: center; padding: 7px 0; }
+  .tl-label { justify-content: flex-start; gap: 0; }
+  .tl-name { width: 14.5rem; padding-right: 12px; }
+  .tl-brands .tl-name { padding-left: 14px; }
+  .tl-period { width: 9.5rem; }
+  .tl-track { margin-top: 0; }
+}
+@media print { .tl-track i { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+
+/* ── 휴대폰에서만 접는 묶음 (2026.11.12 R-09 · PhoneFold.tsx) ─────────────────────
+   소개 쪽 자동화 카드의 설명과 창업·기획 기록의 자료 · 본문을 휴대폰에서 접는다. 제목 · 효과 · 경력 · 수상 · 역량은 접지 않는다.
+   · 접는 규칙은 화면(screen) · 768px 미만에만 건다. 넓은 화면 · 인쇄 · 스크립트 꺼짐에서는 버튼이 없고 다 보인다.
+   · 첫 그림부터 접혀 있다. 부품이 붙기 전에는 html.folds(layout.tsx FOLD_GUARD 가 그리기 전에 붙인다)가 접힌 모양을 내고,
+     붙으면 부품이 data-ready 를 달고 접힌 동안 hidden="until-found" 를 붙인다 — 쪽 안 찾기가 접힌 글에 닿으면 브라우저가 편다.
+     html.js 아래에 두지 않는다: 그 표시는 하이드레이션 뒤에 붙어서, 다 펼쳐 그렸다가 접으면 #주소 · 새로고침 자리가 밀린다.
+     부품이 끝내 붙지 않으면 FOLD_GUARD 가 html.folds 를 떼어 모두 펼친다.
+   · 두 묶음의 조건은 서로 정확히 반대다(not). 767.5px 같은 폭에서 버튼은 없는데 글이 숨는 틈을 만들지 않는다.
+   · 표식은 origin-detail 과 같은 "+" 하나다(열리면 45도) */
+.pfold-btn { display: none; }
+.pfold-mark { display: inline-block; font-weight: 700; line-height: 1; color: var(--color-signal); transition: transform 180ms ease; }
+.pfold[data-open="true"] > .pfold-btn .pfold-mark { transform: rotate(45deg); }
+@media (prefers-reduced-motion: reduce) { .pfold-mark { transition: none; } }
+@media screen and (max-width: 767.98px) {
+  :is(html.folds .pfold, .pfold[data-ready]) > .pfold-btn { display: flex; width: 100%; min-height: 48px; align-items: center; gap: 10px; margin-top: 16px; border-block: 1px solid var(--color-line); font-size: var(--text-small); line-height: 1.5; font-weight: 700; color: var(--color-ink); text-align: left; cursor: pointer; }
+  /* 부품이 붙기 전 — 붙은 뒤에는 hidden="until-found" 가 숨긴다 */
+  html.folds .pfold:not([data-ready]) > .pfold-body { display: none; }
+  /* 카드 안에서는 카드 테두리가 아래 선을 대신한다 — 접힌 버튼은 아래 여백으로 조금 내려 앉힌다 */
+  .auto-card > :is(html.folds .pfold, .pfold[data-ready]) > .pfold-btn { margin-top: 14px; border-bottom-color: transparent; }
+  .auto-card > :is(html.folds .pfold, .pfold[data-ready])[data-open="false"] > .pfold-btn { margin-bottom: -14px; }
+  .auto-card > :is(html.folds .pfold, .pfold[data-ready])[data-open="true"] > .pfold-btn { border-bottom-color: var(--color-line); margin-bottom: 6px; }
+}
+@media not screen and (max-width: 767.98px) {
+  .pfold-body[hidden] { display: block; content-visibility: visible; }
+  /* 자동화 카드 — 묶음 상자를 없애 안의 글이 카드의 줄로 바로 놓이게 하고, 예전 순서(기존 → 바꾼 것 → 효과 → 장치)를 order 로 낸다.
+     코드 순서는 휴대폰에서 읽는 순서(제목 → 효과 → 설명)다 */
+  .auto-card > .pfold,
+  .auto-card > .pfold > .pfold-body,
+  .auto-card > .pfold > .pfold-body[hidden] { display: contents; }
+  .auto-card .auto-card-was, .auto-card .auto-card-how { order: 1; }
+  .auto-card > .auto-card-effect { order: 2; }
+  .auto-card .auto-card-note { order: 3; }
+}
+
 /* 영문 한 줄 소개는 휴대폰에서 세 줄이 됐다 — 두 줄에 들어오는 크기로 둔다(360px 에서 약 17.6px) */
 @media (max-width: 479px) {
   [lang="en"] .folio-hero-title .folio-hero-sub { font-size: clamp(17px, 4.9vw, 19px); }

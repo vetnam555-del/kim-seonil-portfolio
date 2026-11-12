@@ -69,7 +69,7 @@ npm run typecheck
 npm run qa:tone && npm run qa:en && npm run qa:final
 QA_BROWSER=$PWD/scripts/cloud_chromium.sh node scripts/qa_layout.mjs general
 QA_BROWSER=$PWD/scripts/cloud_chromium.sh node scripts/qa_wrap.mjs general
-node scripts/qa_release.mjs    # STATIC_PASS_RUNTIME_PENDING 과 fingerprint 를 얻는다 (동작 시험 qa_interactions 23건도 여기서 돈다 · 2026-11-04)
+node scripts/qa_release.mjs    # STATIC_PASS_RUNTIME_PENDING 과 fingerprint 를 얻는다 (동작 시험 qa_interactions 26건도 여기서 돈다 · 2026-11-04, 접기 3건 2026-11-12)
 ```
 
 - 글꼴 서브셋은 같은 문자로는 늘 같은 파일이 나온다(B-13 · 2026-11-04). publish 뒤 `fonts/` 가 바뀌었으면 화면 문자가 바뀐 것이니 그대로 커밋한다.
@@ -94,6 +94,9 @@ node scripts/qa_release.mjs --approve --runtime=artifacts/release/runtime/runtim
      옮긴다(`mkdir -p <스크래치>/publish-held && mv <경로> <스크래치>/publish-held/`). 배포물이 아닌 메모라면 커밋해도 된다.
   4. 1번 목록이 비면 `cd source && npm run publish:general` 로 다시 돈다. `git checkout HEAD -- .` 같은 일괄 복원과 `git clean` 은 쓰지 않는다.
 - 화면을 바꿨다면 375·390·1440px 캡처를 직접 본다. 가운뎃점이 줄 맨 앞에 오는 곳은 `qa_wrap` D 규칙이 잰다.
+- 휴대폰에서만 접는 묶음은 `PhoneFold` 로 만든다(2026-11-12 R-09 — 소개 쪽 자동화 카드의 설명 · 창업·기획 기록의 자료와 본문).
+  **설명만 접는다. 결과 숫자 · 경력 · 수상 · 역량은 접지 않는다**(BACKLOG '정해 둔 것'). 넓은 화면 · 인쇄 · 스크립트 꺼짐에서는 다 보여야 한다.
+  `qa_layout` · `qa_wrap` 은 접힌 화면을 편 상태로 한 번 더 보고, 눌러서 열리는지는 출시 계약의 `fold` 항목이 잰다.
 
 ## 4. 커밋
 

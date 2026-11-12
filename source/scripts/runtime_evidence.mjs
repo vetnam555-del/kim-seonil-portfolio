@@ -9,7 +9,7 @@
 import { createRequire } from "node:module";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { requiredShortWindows as SHORT_WINDOWS } from "./release_contract.mjs";
+import { requiredRoutes, requiredShortWindows as SHORT_WINDOWS } from "./release_contract.mjs";
 
 const TOOLS = process.env.QA_TOOLS_DIR ?? "/tmp/portfolio-qa-tools";
 let puppeteer;
@@ -115,7 +115,7 @@ for (const [width, height] of SHORT_WINDOWS) {
 }
 
 // 2. 쪽마다 390 · 1440
-const routes = ["/", "/resume/", ...["jestina", "newbalance", "daekyo", "gangwon", "dyson", "automation", "edith", "hanssem", "ktalpha"].map((s) => `/projects/${s}/`)];
+const routes = requiredRoutes;
 for (const width of [390, 1440]) {
   for (const route of routes) {
     const { page, errors } = await open(route, width);
@@ -241,6 +241,41 @@ for (const [name, sel] of [["resume-pdf", 'a[href*="kim-seonil-resume-public.pdf
     return `${href.split("/").pop()} → ${res.status} ${res.type} ${Math.round(res.size / 1024)}KB, %PDF 머리, 쪽 객체 ${res.pages}개`;
   });
 }
+/* 소개 쪽 접기 (2026.11.12 R-09 · PhoneFold) — 390px 에서는 모두 접혀 있다가 눌러서 열리고 다시 접히며, 1440px 에서는 버튼 없이 다 보여야 한다.
+   눌러도 열리지 않으면 그 글은 읽을 길이 없다 */
+await interaction("fold", async () => {
+  const shown = () => {
+    const vis = (el) => { const b = el.getBoundingClientRect(); const cs = getComputedStyle(el); return cs.display !== "none" && cs.visibility !== "hidden" && b.height > 0; };
+    const folds = [...document.querySelectorAll(".pfold")];
+    return {
+      folds: folds.length,
+      buttons: folds.filter((f) => vis(f.querySelector(".pfold-btn"))).length,
+      bodies: folds.filter((f) => { const b = f.querySelector(".pfold-body"); const cs = getComputedStyle(b); return cs.display === "contents" ? [...b.children].some(vis) : vis(b) && cs.contentVisibility !== "hidden"; }).length,
+      expanded: folds.filter((f) => f.querySelector(".pfold-btn").getAttribute("aria-expanded") === "true").length,
+    };
+  };
+  const { page, errors } = await open("/about/", 390);
+  const closed = await page.evaluate(shown);
+  await page.$$eval(".pfold-btn", (bs) => bs.forEach((b) => b.click())); await sleep(500);
+  const opened = await page.evaluate(shown);
+  const label = await page.$eval(".pfold-btn", (b) => b.textContent.trim().replace(/\s+/g, " "));
+  await page.$eval(".pfold-btn", (b) => b.scrollIntoView({ block: "center", behavior: "instant" })); await sleep(300);
+  await page.screenshot({ path: join(OUT, "fold-390-open.png") });
+  evidence.visualReview.screenshots.push("fold-390-open.png");
+  await page.$$eval(".pfold-btn", (bs) => bs.forEach((b) => b.click())); await sleep(500);
+  const reclosed = await page.evaluate(shown);
+  await page.close();
+  const wide = await open("/about/", 1440);
+  const desk = await wide.page.evaluate(shown);
+  await wide.page.close();
+  const seen = `390px ${closed.folds}곳: 처음 ${closed.bodies}곳 보임 → 누르면 ${opened.bodies}곳 → 다시 누르면 ${reclosed.bodies}곳; 1440px 버튼 ${desk.buttons}개 · ${desk.bodies}곳 보임`;
+  if (errors.length || wide.errors.length) throw new Error(`불러오기 오류: ${[...errors, ...wide.errors].slice(0, 3).join(" | ")}`);
+  if (!closed.folds || closed.buttons !== closed.folds || closed.bodies !== 0) throw new Error(`휴대폰에서 처음부터 접혀 있지 않음 — ${seen}`);
+  if (opened.bodies !== opened.folds || opened.expanded !== opened.folds) throw new Error(`눌러도 열리지 않는 묶음이 있음 — ${seen}`);
+  if (reclosed.bodies !== 0 || reclosed.expanded !== 0) throw new Error(`다시 접히지 않음 — ${seen}`);
+  if (desk.buttons !== 0 || desk.bodies !== desk.folds || desk.folds !== closed.folds) throw new Error(`넓은 화면에서 가려진 묶음이 있음 — ${seen}`);
+  return `소개 쪽 접기 '${label}' 외 — ${seen}`;
+});
 await interaction("demo", async () => {
   const { page } = await open("/", 1440);
   await page.$eval("#inventory-demo", (el) => el.scrollIntoView({ block: "center" })); await sleep(1500);

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BrandTimeline from "@/components/BrandTimeline";
 import CountUpValue from "@/components/CountUpValue";
 import { Container, SectionHead } from "@/components/ui";
 import {
@@ -114,6 +115,9 @@ export default function BrandWall() {
             </li>
           ))}
         </ul>
+
+        {/* 업종별 목록 아래에 같은 브랜드를 기간으로 다시 보여 준다 (2026.11.12 R-10) */}
+        <BrandTimeline />
       </Container>
     </section>
   );

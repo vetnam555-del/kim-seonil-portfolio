@@ -6,9 +6,9 @@
 | 항목 | 값 |
 |---|---|
 | 담당 | claude |
-| 상태 | 2026-11-12 주인 "합쳐" + 판단 위임 — 손질한 것을 검수한 뒤 main 에 합친다 |
+| 상태 | 2026-11-12 골드넥스 레퍼런스 세 가지(R-08 · R-09 · R-10)를 적용해 PR #30 에 올렸다(RELEASE_PASS 911fbbec). `main` 에 들어갔는지는 `git log origin/main` 으로 확인한다 |
 | 작업 브랜치 | `claude/stoic-bohr-gze1d1` |
-| 열린 PR | 판단 위임 손질(문장 · EDIT H 역할 · 영문 낮은 창) — #28 은 2026-11-12 `main` 3a8dd3f 로 합쳤다(라이브 확인 · health 결함 0) |
+| 열린 PR | #30 — 휴대폰 머리줄 이력서 바로가기 · 연도별 담당 브랜드 · 소개 쪽 휴대폰 접기. #28 은 3a8dd3f, #29 는 06cbbb9 로 합쳤다 |
 | 마지막 갱신 | 2026-11-12 · Claude |
 
 ## 지금 하던 일
@@ -44,13 +44,22 @@
      `validate_export` 소개 페이지 필수 문구 · 영문 낮은 창 규칙(`globals.css`). 빌드 [글자 바뀜] 7쪽 · 검수 0 · RELEASE_PASS cd63dc27.
    - 기준은 BACKLOG '정해 둔 것' 맨 위 '2026-11-12 주인 위임' — 바꾸지 않는 것(사실 추가 · 개인정보 · 주소 · 덱 공유 범위 · 로고)도 거기 있다.
 
+6. 레퍼런스 세 가지 적용(주인 11-12 "적용해" — 골드넥스 분석의 R-08 · R-09 · R-10).
+   - 끝: 휴대폰 머리줄 이력서 바로가기(`Header.tsx`) · 연도별 담당 브랜드(`BrandTimeline.tsx` · `BrandWall.tsx` · `globals.css` `.tl`) ·
+     소개 쪽 휴대폰 접기(`PhoneFold.tsx` · `sections.tsx` BuiltByMe 카드 · `CreativeHistory.tsx` · `globals.css` `.pfold` `.auto-card` ·
+     `layout.tsx` FOLD_GUARD — 첫 그림부터 접고, 부품이 끝내 안 붙으면 펼친다).
+     가드: `qa_interactions` 26건 · `qa_layout` `qa_wrap` 펼친 상태 · 출시 계약 `fold` 와 소개 쪽(`release_contract.mjs` · `runtime_evidence.mjs` · 계약 시험 10건).
+     빌드 [글자 바뀜] 21쪽 · 검수 0 · RELEASE_PASS 911fbbec · PR #30.
+   - 접는 기준은 BACKLOG '정해 둔 것'의 '휴대폰에서 접는 것은 설명뿐이다'. 소개 쪽 390px 은 28.3화면이다(목표로 적었던 20화면은 버렸다 — 이유는 완료 기록).
+
 ## 다음 할 일
 
-1. 판단 위임 손질 PR 을 합친 뒤 라이브 확인(`npm run health` · 연락 제목 '브랜드를' · EDIT H 사례 제목 · og/edith.png?v=20261112a).
+1. PR #30 이 `main` 에 들어갔는지 확인한다. 들어갔으면 `npm run health` 로 라이브를 보고 작업 브랜치를 main 으로 맞춘다. 안 들어갔으면 자비스 검토(또는 주인 지시)를 기다린다.
 2. 주인에게 알릴 것: 링크드인 소개 · Featured 3번, 채용 플랫폼 항목 3 의 EDIT H 문구를 바꿨다(다시 붙여 넣기).
 3. O-15 — 주인이 공개 저장소 · 토큰 · 변수를 만들면 "Publish public site" 수동 실행 → 공개 저장소 파일 확인 → 주인 Pages · 비공개 전환 → `npm run health`.
 4. O-13 계측 — 주인이 웹앱 주소를 주면 `NEXT_PUBLIC_INSIGHT_URL` 로 빌드(로컬 주소로 만든 산출물은 배포하지 않는다).
 5. O-14 검토 방식 · O-16 다른 공개 저장소 · O-12 다이슨 신규 칸 — 주인이 정한다.
+   B-16(주소에 #을 붙여 새로 열면 목표 구간을 지나쳐 멈춘다 · main 에서도 같음)은 원인까지 백로그에 적어 두었다 — 다음 손질 후보.
 6. B-09 코드 정리(주인이 골랐다 · 비공개 전환 뒤 P3) · B-05 이력서 PDF 태그 · 채용 플랫폼 반영(주인).
 7. 덱 PDF(비공개 · Drive)에 EDIT H 숫자가 있으면 다음에 다시 구울 때 같은 기준으로 맞춘다(SKILL 7절).
 

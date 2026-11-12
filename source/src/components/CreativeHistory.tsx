@@ -1,6 +1,8 @@
 import { Container, SectionHead } from "@/components/ui";
 import { Reveal } from "@/components/motion";
+import PhoneFold from "@/components/PhoneFold";
 import { creativeHistory } from "@/data/creative-history";
+import { EDITION } from "@/data/edition";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
@@ -15,39 +17,53 @@ export default function CreativeHistory() {
             이때 익힌 관찰과 제작 경험은 광고 메시지와 고객의 다음 행동을 함께 보는 기준이 됐습니다.
           </p>
           <div className="mt-9 grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-2">
-            {creativeHistory.map((item, index) => (
-              <article key={item.id} id={`origin-${item.id}`} className="min-w-0 border-t border-rule pt-5">
-                <p className="font-mono text-mono text-ink-3">{String(index + 1).padStart(2, "0")} · {item.stage}</p>
-                <h3 className="mt-3 text-[1.5rem] leading-[1.35] font-bold text-ink">{item.name}</h3>
-                <p className="mt-2 text-small font-bold text-ink-2">{item.title}</p>
-                <Reveal as="figure" className="mt-5">
-                  <a href={`${basePath}/evidence/${item.image}`} target="_blank" rel="noopener noreferrer" aria-label={`${item.name} 증빙 이미지 원본 크기로 열기 (새 탭)`} className="block border border-line bg-paper">
-                    <img src={`${basePath}/evidence/${item.image}`} alt={item.alt} width={1200} height={675} loading="lazy" decoding="async" className="aspect-video w-full object-contain" />
-                  </a>
-                  <figcaption className="mt-3 flex flex-wrap items-start justify-between gap-x-4 gap-y-2 text-caption leading-[1.6] text-ink-3">
-                    <span className="min-w-0 flex-1">{item.caption}</span>
-                    <a href={`${basePath}/evidence/${item.image}`} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[44px] shrink-0 items-center font-bold text-ink underline underline-offset-4" aria-label={`${item.name} 원본 보기 (새 탭)`}>원본 보기 ↗</a>
-                  </figcaption>
-                </Reveal>
-                <p className="mt-4 text-body text-ink-2">{item.body}</p>
-                <p className="mt-4 text-caption leading-[1.7] text-ink-3"><span className="font-bold text-ink">참여 범위</span> · {item.role}</p>
-                <details className="origin-detail mt-5 border-y border-line">
-                  <summary className="flex cursor-pointer list-none items-center gap-2.5 py-4 text-small font-bold text-ink">
-                    <span className="origin-detail-mark text-signal" aria-hidden="true">+</span>
-                    <span>기획 판단과 근거<span className="sr-only"> · {item.name}</span></span>
-                  </summary>
-                  <dl className="space-y-4 pb-5">
-                    {item.decisions.map((decision) => (
-                      <div key={decision.label} className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3">
-                        <dt className="text-caption font-bold text-ink">{decision.label}</dt>
-                        <dd className="text-small leading-[1.75] text-ink-2">{decision.text}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                  <p className="border-t border-line py-4 text-caption leading-[1.7] text-ink-3">확인 자료&nbsp;· {item.evidence}</p>
-                </details>
-              </article>
-            ))}
+            {creativeHistory.map((item, index) => {
+              const detail = (
+                <>
+                  <Reveal as="figure" className="mt-5">
+                    <a href={`${basePath}/evidence/${item.image}`} target="_blank" rel="noopener noreferrer" aria-label={`${item.name} 증빙 이미지 원본 크기로 열기 (새 탭)`} className="block border border-line bg-paper">
+                      <img src={`${basePath}/evidence/${item.image}`} alt={item.alt} width={1200} height={675} loading="lazy" decoding="async" className="aspect-video w-full object-contain" />
+                    </a>
+                    <figcaption className="mt-3 flex flex-wrap items-start justify-between gap-x-4 gap-y-2 text-caption leading-[1.6] text-ink-3">
+                      <span className="min-w-0 flex-1">{item.caption}</span>
+                      <a href={`${basePath}/evidence/${item.image}`} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[44px] shrink-0 items-center font-bold text-ink underline underline-offset-4" aria-label={`${item.name} 원본 보기 (새 탭)`}>원본 보기 ↗</a>
+                    </figcaption>
+                  </Reveal>
+                  <p className="mt-4 text-body text-ink-2">{item.body}</p>
+                  <p className="mt-4 text-caption leading-[1.7] text-ink-3"><span className="font-bold text-ink">참여 범위</span> · {item.role}</p>
+                  <details className="origin-detail mt-5 border-y border-line">
+                    <summary className="flex cursor-pointer list-none items-center gap-2.5 py-4 text-small font-bold text-ink">
+                      <span className="origin-detail-mark text-signal" aria-hidden="true">+</span>
+                      <span>기획 판단과 근거<span className="sr-only"> · {item.name}</span></span>
+                    </summary>
+                    <dl className="space-y-4 pb-5">
+                      {item.decisions.map((decision) => (
+                        <div key={decision.label} className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3">
+                          <dt className="text-caption font-bold text-ink">{decision.label}</dt>
+                          <dd className="text-small leading-[1.75] text-ink-2">{decision.text}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                    <p className="border-t border-line py-4 text-caption leading-[1.7] text-ink-3">확인 자료&nbsp;· {item.evidence}</p>
+                  </details>
+                </>
+              );
+              return (
+                <article key={item.id} id={`origin-${item.id}`} className="min-w-0 border-t border-rule pt-5">
+                  <p className="font-mono text-mono text-ink-3">{String(index + 1).padStart(2, "0")} · {item.stage}</p>
+                  <h3 className="mt-3 text-[1.5rem] leading-[1.35] font-bold text-ink">{item.name}</h3>
+                  <p className="mt-2 text-small font-bold text-ink-2">{item.title}</p>
+                  {/*
+                    2026.11.12 R-09 — 마케터 이전 기록 다섯 건이 휴대폰에서 4.6화면이었다. 휴대폰에서는 이름과 한 줄 설명만
+                    먼저 보이고 자료 · 본문 · 참여 범위 · 판단 근거는 눌러서 편다. 넓은 화면과 인쇄는 그대로다(PhoneFold).
+                    공용판에만 건다 — 다른 판은 지원처에 나간 화면 그대로 둔다.
+                  */}
+                  {EDITION === "general" ? (
+                    <PhoneFold label="자료와 설명" name={item.name} className="origin-fold">{detail}</PhoneFold>
+                  ) : detail}
+                </article>
+              );
+            })}
           </div>
         </div>
       </Container>

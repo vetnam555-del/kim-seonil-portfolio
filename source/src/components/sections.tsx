@@ -7,6 +7,7 @@ import { splitCaptionSentences } from "@/components/ProjectsSection";
 import CountUpValue from "@/components/CountUpValue";
 import EmailCopyButton from "@/components/EmailCopyButton";
 import MarqueePause from "@/components/MarqueePause";
+import PhoneFold from "@/components/PhoneFold";
 import { evidenceSize } from "@/lib/evidence-size";
 import {
   AnchorStub,
@@ -938,9 +939,18 @@ export function BuiltByMe() {
                 </div>
 
                 <ul className={`mt-5 grid grid-cols-1 gap-6 md:grid-cols-2 ${EDITION === "general" && systems.length === 2 && !hasPublic ? "lg:grid-cols-2" : "lg:grid-cols-3"}`}>
-                  {systems.map((c, i) => (
-                    <Reveal as="li" key={c.no} delay={i * 0.05}>
-                      <article className="card-lift flex h-full min-h-[208px] flex-col border border-line-p bg-white p-6">
+                  {systems.map((c, i) => {
+                    /*
+                     * "약 2시간 → 5분 이내 (내부 실측 기준)" 을 한 줄로 흘려보냈더니
+                     * 좁은 단에서 괄호 안이 "…(내부 / 실측 기준)" 으로 쪼개졌다.
+                     * 수치와 그 산출 기준은 성격이 다르니 줄을 나누고, 기준은 한 덩어리로
+                     * 묶어 어떤 폭에서도 안에서 끊기지 않게 한다.
+                     */
+                    const m = c.effect.match(/^(.*?)\s*\(([^)]*)\)\s*$/);
+                    const value = m ? m[1] : c.effect;
+                    const basis = m ? m[2] : null;
+                    const head = (
+                      <>
                         <div className="flex flex-wrap items-center gap-2">
                           <span className="font-mono text-mono font-bold text-ink-3">{c.no}</span>
                           {c.tools.slice(0, 3).map((t) => (
@@ -948,52 +958,70 @@ export function BuiltByMe() {
                           ))}
                         </div>
                         <h3 className="mt-3 text-h3">{c.name}</h3>
-                        {/*
-                          효과 줄이 숫자가 아닌 카드(S2·S3·S5·S6)는 효과가 자동화 문장을 다시 말하는
-                          모양이라, 무엇이 문제였는지가 어디에도 없었다. 공용판에서만 "기존"을 먼저 싣는다.
-                        */}
-                        {EDITION === "general" ? (
-                          <p className="mt-2 text-caption text-ink-3">
-                            <span className="mr-1.5 font-mono text-mono font-bold text-ink-2">기존</span>
-                            {c.problemShort ?? c.problem}
+                      </>
+                    );
+                    const effect = (
+                      <>
+                        <p className="tnum text-metric-sm text-ink">
+                          <span className="figure text-system">
+                            {/\d/.test(value) ? <CountUpValue value={value} delay={i * 70} duration={1000} className="count-up-prose" /> : value}
+                          </span>
+                          {/* 이 페이지의 유일한 각주 — S1 효과의 산출 기준을 밝힌다 */}
+                          {c.no === "S1" ? <FootnoteRef id="1" /> : null}
+                        </p>
+                        {basis ? (
+                          <p className="mt-1.5 whitespace-nowrap text-caption text-ink-3">
+                            {basis}
                           </p>
                         ) : null}
-                        <p className="mt-2 text-small text-ink-2">{c.automated}</p>
-                        <div className="mt-auto pt-4">
-                          {/*
-                           * "약 2시간 → 5분 이내 (내부 실측 기준)" 을 한 줄로 흘려보냈더니
-                           * 좁은 단에서 괄호 안이 "…(내부 / 실측 기준)" 으로 쪼개졌다.
-                           * 수치와 그 산출 기준은 성격이 다르니 줄을 나누고, 기준은 한 덩어리로
-                           * 묶어 어떤 폭에서도 안에서 끊기지 않게 한다.
-                           */}
-                          {(() => {
-                            const m = c.effect.match(/^(.*?)\s*\(([^)]*)\)\s*$/);
-                            const value = m ? m[1] : c.effect;
-                            const basis = m ? m[2] : null;
-                            return (
-                              <>
-                                <p className="tnum text-metric-sm text-ink">
-                                  <span className="figure text-system">
-                                    {/\d/.test(value) ? <CountUpValue value={value} delay={i * 70} duration={1000} className="count-up-prose" /> : value}
-                                  </span>
-                                  {/* 이 페이지의 유일한 각주 — S1 효과의 산출 기준을 밝힌다 */}
-                                  {c.no === "S1" ? <FootnoteRef id="1" /> : null}
-                                </p>
-                                {basis ? (
-                                  <p className="mt-1.5 whitespace-nowrap text-caption text-ink-3">
-                                    {basis}
-                                  </p>
-                                ) : null}
-                              </>
-                            );
-                          })()}
-                          <p className="mt-3 border-t border-line pt-2.5 font-mono text-mono text-ink-3">
-                            {c.quality}
-                          </p>
-                        </div>
-                      </article>
-                    </Reveal>
-                  ))}
+                      </>
+                    );
+                    const how = <p className="auto-card-how mt-2 text-small text-ink-2">{c.automated}</p>;
+                    const note = (
+                      <p className="auto-card-note mt-3 border-t border-line pt-2.5 font-mono text-mono text-ink-3">
+                        {c.quality}
+                      </p>
+                    );
+
+                    return (
+                      <Reveal as="li" key={c.no} delay={i * 0.05}>
+                        {EDITION === "general" ? (
+                          /*
+                           * 2026.11.12 R-09 — 휴대폰에서는 제목과 효과만 먼저 보이고 설명(기존 · 바꾼 것 · 장치)은 눌러서 편다.
+                           * 코드 순서는 휴대폰에서 읽는 순서(제목 → 효과 → 설명)다. 넓은 화면과 인쇄에서는 globals.css 의
+                           * .auto-card 규칙이 묶음 상자를 없애고(display: contents) order 로 예전 순서
+                           * (기존 → 바꾼 것 → 효과 → 장치)를 그대로 낸다. 효과와 산출 기준은 접지 않는다.
+                           * 공용판에만 건다 — 다른 판은 지원처에 나간 화면 그대로 둔다(아래 갈래).
+                           */
+                          <article className="auto-card card-lift flex h-full min-h-[208px] flex-col border border-line-p bg-white p-6">
+                            {head}
+                            <div className="auto-card-effect mt-auto pt-4">{effect}</div>
+                            <PhoneFold label="기존 방식과 바꾼 점" name={c.name}>
+                              {/*
+                                효과 줄이 숫자가 아닌 카드(S2·S3·S5·S6)는 효과가 자동화 문장을 다시 말하는
+                                모양이라, 무엇이 문제였는지가 어디에도 없었다. 공용판에서만 "기존"을 먼저 싣는다.
+                              */}
+                              <p className="auto-card-was mt-2 text-caption text-ink-3">
+                                <span className="mr-1.5 font-mono text-mono font-bold text-ink-2">기존</span>
+                                {c.problemShort ?? c.problem}
+                              </p>
+                              {how}
+                              {note}
+                            </PhoneFold>
+                          </article>
+                        ) : (
+                          <article className="card-lift flex h-full min-h-[208px] flex-col border border-line-p bg-white p-6">
+                            {head}
+                            {how}
+                            <div className="mt-auto pt-4">
+                              {effect}
+                              {note}
+                            </div>
+                          </article>
+                        )}
+                      </Reveal>
+                    );
+                  })}
 
                   {hasPublic
                     ? publicWork.map((work, i) => (

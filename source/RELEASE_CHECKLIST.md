@@ -12,9 +12,10 @@ Use the connected browser on the new export. Inspect actual rendered screens, no
 
 - Home widths: 360, 390, 768, 1024, and 1440 pixels. Record the actual client width, not only the requested size.
 - Short first screens: 360×640, 1280×585, and 1366×625 (a phone browser with its bars, a 14-inch FHD laptop at 150% scaling, a 1366×768 laptop). The three results and the primary button must end inside the first screen.
-- Home, resume, and all nine case pages at both 390 and 1440 pixels. Check horizontal overflow, failed images, headings, and site console errors.
+- Home, about, resume, and all nine case pages at both 390 and 1440 pixels. Check horizontal overflow, failed images, headings, and site console errors.
 - Capture intermediate and completed count-up values for the hero and a case. Their measured widths must stay fixed. Final numbers alone do not demonstrate animation.
-- Test the mobile menu, case index, detail navigation, original evidence, email copy and notification, both PDFs, and the automation demo.
+- Test the mobile menu, case index, detail navigation, original evidence, email copy and notification, the resume PDF, the absence of the portfolio PDF, and the automation demo.
+- Phone folds on the about page: at 390 every fold starts closed, opens on tap and closes again; at 1440 there is no fold button and nothing is hidden. Only explanations fold. Results, career, awards and skills stay open.
 - Inspect at least eight fresh screenshots. Record unresolved issues honestly. Preserve image formats returned by the browser instead of assuming PNG.
 - Preserve metric definitions, comparison periods, personal contribution, and source/production credits.
 - The reduced-motion and hidden-tab tests execute the actual component with controlled dependencies. They do not replace a real-device accessibility assessment.

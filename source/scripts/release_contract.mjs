@@ -5,7 +5,13 @@ export const requiredWidths = [360, 390, 768, 1024, 1440];
  * 이 창에서도 결과 세 칸과 첫 버튼이 첫 화면 안에 끝나야 한다.
  */
 export const requiredShortWindows = [[360, 640], [1280, 585], [1366, 625]];
-export const requiredInteractions = ["menu", "case-index", "detail", "original", "email", "resume-pdf", "portfolio-pdf", "demo"];
+/*
+ * 접기 (2026.11.12 R-09) — 소개 쪽은 휴대폰에서 자동화 카드 설명과 창업·기획 기록의 자료 · 본문을 접는다(PhoneFold).
+ * 접힌 글은 눌러야 보이므로, 눌러서 열리는지와 넓은 화면에서 버튼 없이 다 보이는지를 실제 화면에서 확인한 증거가 있어야 한다.
+ */
+export const requiredInteractions = ["menu", "case-index", "detail", "original", "email", "resume-pdf", "portfolio-pdf", "demo", "fold"];
+/* 쪽마다 390 · 1440 에서 가로 넘침 · 깨진 이미지 · 제목 · 불러오기 오류를 본다. 소개 쪽은 2026.11.12 에 넣었다(연도별 표 · 접기가 여기 있다) */
+export const requiredRoutes = ["/", "/about/", "/resume/", ...["jestina", "newbalance", "daekyo", "gangwon", "dyson", "automation", "edith", "hanssem", "ktalpha"].map(s => `/projects/${s}/`)];
 
 export function checkHome(html) {
   const failures = [];
@@ -42,7 +48,7 @@ export function checkRuntime(evidence, fingerprint) {
   }
   const pages = evidence.pages || [];
   for (const width of [390, 1440]) {
-    for (const route of ["/", "/resume/", ...["jestina", "newbalance", "daekyo", "gangwon", "dyson", "automation", "edith", "hanssem", "ktalpha"].map(s => `/projects/${s}/`)]) {
+    for (const route of requiredRoutes) {
       const page = pages.find(p => p.width === width && p.route === route);
       if (!measured(page) || !Array.isArray(page.brokenImages) || !Array.isArray(page.loadingErrors) || Math.abs(page.clientWidth - width) > 20 || page.scrollWidth > page.clientWidth + 1 || page.brokenImages.length || page.missingTitle !== false || page.loadingErrors.length) failures.push(`Page ${width} ${route}: missing or failed`);
     }

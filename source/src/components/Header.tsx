@@ -298,6 +298,20 @@ export default function Header() {
 
         {SHOW_LANG ? (
           <div className={`flex items-center gap-2 ${WIDE_NAV === "xl" ? "xl:hidden" : "lg:hidden"}`}>
+            {/*
+              좁은 화면에서도 이력서는 한 번에 간다 (2026.11.12 R-08 · REFERENCES 골드넥스 — 넓은 화면에 늘 붙어 있는 Contact).
+              전에는 이름 · KO/EN · 메뉴뿐이라 쪽 중간에서 이력서까지 두 번 눌렀다(메뉴 → 이력서). 넓은 화면 머리줄의 이력서 버튼과 같은 자리다.
+              이력서 쪽에서는 제 쪽으로 가는 링크라 뺀다. 국문은 360px, 영문은 375px 부터 보인다 — 영문 이름이 길어 360px 에서는 이름과 버튼이 붙는다.
+            */}
+            {EDITION === "general" && !/\/resume\/?$/.test(pathname ?? "") ? (
+              <Link
+                href={en ? "/en/resume/" : "/resume/"}
+                prefetch={false}
+                className={`hidden min-h-[44px] items-center border border-rule-ink px-3 font-mono text-caption font-bold text-on-ink transition-colors hover:border-signal-ink hover:text-signal-ink ${en ? "min-[375px]:inline-flex" : "min-[360px]:inline-flex"}`}
+              >
+                {en ? "Résumé" : "이력서"}
+              </Link>
+            ) : null}
             <LangSwitch isEn={lang.isEn} koHref={lang.ko} enHref={lang.en} className="flex" />
             {menuButton()}
           </div>
