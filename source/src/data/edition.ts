@@ -93,7 +93,7 @@ export const NAME_KO = "김선일";
  */
 /* 2026.10.16 EDIT H 공유 이미지를 89편 → 114편으로 다시 구웠다(자비스 977a788 P3) */
 /* 2026.11.07 EDIT H 공유 이미지를 114편 → 136편(11.06 VOL.136)으로 다시 구웠다 */
-export const OG_VERSION = "20261107a";
+export const OG_VERSION = "20261112a";
 
 /*
  * 판별 직함. COPY[…].role 과 반드시 같아야 하는데 표를 참조할 수 없으므로 값을 다시 적는다.

@@ -2382,6 +2382,10 @@ html[data-intro="reveal"] .folio-proofs { animation: hero-rise-now .7s cubic-bez
 /* 그보다 낮은 창(북마크 막대까지 켠 1280×551): 머리 여백을 한 번 더 줄인다 */
 @media (min-width: 1024px) and (max-height: 600px) {
   .folio-hero { padding-top: 88px; }
+  /* 영문은 한 줄 소개가 두 줄이라 조금 더 줄인다 — 1280×585 에서 첫 버튼이 13px 밖이었다 (2026.11.12) */
+  [lang="en"] .folio-hero { padding-top: 80px; }
+  [lang="en"] .folio-hero-title .folio-hero-display { font-size: min(clamp(44px, 5.2vw, 76px), 9.4vh); }
+  [lang="en"] .folio-hero-title .folio-hero-sub { margin-top: 12px; font-size: 24px; }
 }
 /* 영문은 줄이 길어 한 단계 먼저(높이 800px 이하) 강점 칩을 버튼 아래로 내린다 */
 @media (min-width: 1024px) and (max-height: 800px) {
