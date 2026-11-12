@@ -11,6 +11,7 @@ Run `npm run qa:release`. A static-only pass reports `STATIC_PASS_RUNTIME_PENDIN
 Use the connected browser on the new export. Inspect actual rendered screens, not only extracted text. Record the export fingerprint from `node scripts/qa_release.mjs --fingerprint` with the browser results.
 
 - Home widths: 360, 390, 768, 1024, and 1440 pixels. Record the actual client width, not only the requested size.
+- Short first screens: 360×640, 1280×585, and 1366×625 (a phone browser with its bars, a 14-inch FHD laptop at 150% scaling, a 1366×768 laptop). The three results and the primary button must end inside the first screen.
 - Home, resume, and all nine case pages at both 390 and 1440 pixels. Check horizontal overflow, failed images, headings, and site console errors.
 - Capture intermediate and completed count-up values for the hero and a case. Their measured widths must stay fixed. Final numbers alone do not demonstrate animation.
 - Test the mobile menu, case index, detail navigation, original evidence, email copy and notification, both PDFs, and the automation demo.

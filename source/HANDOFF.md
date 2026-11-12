@@ -9,7 +9,7 @@
 | 상태 | 검토 대기 · 주인 "합쳐" 대기 |
 | 작업 브랜치 | `claude/stoic-bohr-gze1d1` |
 | 열린 PR | #28 (EDIT H 11.06 갱신) — #27 은 2026-11-05 `main` 902914c 로 합쳤다(라이브 확인 · health 결함 0) |
-| 마지막 갱신 | 2026-11-11 · Claude |
+| 마지막 갱신 | 2026-11-12 · Claude |
 
 ## 지금 하던 일
 
@@ -31,6 +31,12 @@
    - 끝: 홈 첫 화면(결과 세 칸을 제목 아래로 · 작은 막대 · 사례 링크 · 좁은 화면 사진 옆 이름 · 소속 · 순서 변경) · 경력 세 칸 연표 · `runtime_evidence` 첫 화면 높이에 결과 칸 포함.
      원본: `HomeFolio.tsx` · `globals.css` 맨 아래 '첫 화면 개편' 블록 · `site.ts` / `en/home.en.ts` proof 의 bars · marks. 빌드 · 검수 0 · RELEASE_PASS 8bb0e2a5 · PR #28.
    - 남은 것: 주인 5초 테스트(O-18) · 다음 손질 후보는 주인 보고에 적은 목록.
+
+4. 낮은 창 보강과 더블체크(주인 11-12 "문구 · 구조 · 디자인이 전체적으로 개선됐나 · 자연스러운가 · AI스럽지 않은가 · 최종판이 맞나").
+   - 끝: 높이 720px 이하 넓은 화면 배치(`globals.css` '첫 화면 개편' 블록 끝) · 휴대폰 여백 · 결과 칸 묶음(`folio-proof-main` · `folio-proof-text`) ·
+     수상 기준 줄 묶음(`site.ts`) · 이력서 표제부(국 · 영 `resume/page.tsx`) · 출시 계약 낮은 창 세 개(`release_contract.mjs` · `runtime_evidence.mjs` · 계약 시험).
+     빌드 [글자 바뀜] 0쪽 · 검수 0 · RELEASE_PASS e73ab073 · PR #28.
+   - 문장은 고치지 않았다. 걸린 세 문장은 O-19(주인이 정한다).
 
 ## 다음 할 일
 

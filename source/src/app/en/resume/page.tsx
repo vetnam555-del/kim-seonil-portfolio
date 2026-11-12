@@ -118,20 +118,8 @@ export default function ResumePageEn() {
               </h1>
               <p className="mt-3 text-small text-ink-2 sm:text-body">
                 {/* No career-length figure (owner, 2026-11-01) */}
-                {ROLE_EN} · {ORG_EN}
+                {ROLE_EN} · <span className="inline-block">{ORG_EN}</span>
               </p>
-              <p className="mt-2 text-caption text-ink-3">
-                {site.email} ·{" "}
-                <a href={site.linkedin} target="_blank" rel="noopener" className="text-accent">
-                  LinkedIn
-                </a>{" "}
-                ·{" "}
-                {/* 주소는 인쇄본에서 읽히게 글자로 적고, 링크는 사이트 안 경로로 건다 */}
-                <Link href="/en/" className="text-accent">
-                  {`${site.url.replace("https://", "")}en/`}
-                </Link>
-              </p>
-              <p className="mt-3 max-w-[38rem] text-caption font-normal text-ink-2 sm:text-small">{summaryEn.intro}</p>
             </div>
             <img
               src={`${basePath}${site.profileImagePath}`}
@@ -141,6 +129,19 @@ export default function ResumePageEn() {
               className="h-[104px] w-[88px] shrink-0 rounded-card border border-line object-cover object-top"
             />
           </div>
+          {/* 연락처 · 한 줄 소개는 표제부 전체 폭에 둔다 (2026.11.12) — 한국어판 resume/page.tsx 와 같은 이유 */}
+          <p className="mt-2 text-caption text-ink-3">
+            {site.email} ·{" "}
+            <a href={site.linkedin} target="_blank" rel="noopener" className="text-accent">
+              LinkedIn
+            </a>{" "}
+            ·{" "}
+            {/* 주소는 인쇄본에서 읽히게 글자로 적고, 링크는 사이트 안 경로로 건다 */}
+            <Link href="/en/" className="inline-block text-accent">
+              {`${site.url.replace("https://", "")}en/`}
+            </Link>
+          </p>
+          <p className="mt-3 max-w-[38rem] text-caption font-normal text-ink-2 sm:text-small">{summaryEn.intro}</p>
           <p className="no-print mt-4 text-caption text-ink-3">
             Detailed contact information and supporting documents are available{" "}
             <a href={mailto} className="font-normal text-accent underline underline-offset-2">

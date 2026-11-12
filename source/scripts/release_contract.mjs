@@ -1,4 +1,10 @@
 export const requiredWidths = [360, 390, 768, 1024, 1440];
+/*
+ * 낮은 창 (2026.11.12) — 위 다섯 폭의 높이(800 · 844 · 1024 · 768 · 900)는 넉넉하다. 실제로 처음 열리는 창은 더 낮다:
+ * 갤럭시 브라우저 · 인앱 브라우저 360×640 남짓, 14인치 FHD 노트북 150% 배율 1280×585, 1366×768 노트북 1366×625.
+ * 이 창에서도 결과 세 칸과 첫 버튼이 첫 화면 안에 끝나야 한다.
+ */
+export const requiredShortWindows = [[360, 640], [1280, 585], [1366, 625]];
 export const requiredInteractions = ["menu", "case-index", "detail", "original", "email", "resume-pdf", "portfolio-pdf", "demo"];
 
 export function checkHome(html) {
@@ -29,6 +35,10 @@ export function checkRuntime(evidence, fingerprint) {
   for (const width of requiredWidths) {
     const row = evidence.viewports?.find(v => v.width === width);
     if (!measured(row) || !Array.isArray(row.clipped) || Math.abs(row.clientWidth - width) > 20 || row.scrollWidth > row.clientWidth + 1 || row.clipped.length || !(row.heroHeight < row.height)) failures.push(`Viewport ${width}: missing evidence, overflow, or oversized hero`);
+  }
+  for (const [width, height] of requiredShortWindows) {
+    const row = evidence.shortWindows?.find(v => v.width === width && v.height === height);
+    if (!row || Math.abs(row.clientWidth - width) > 20 || Math.abs(row.innerHeight - height) > 20 || !(row.proofBottom < height) || !(row.primaryBottom < height)) failures.push(`Short window ${width}x${height}: missing evidence, or results / primary button below the first screen`);
   }
   const pages = evidence.pages || [];
   for (const width of [390, 1440]) {

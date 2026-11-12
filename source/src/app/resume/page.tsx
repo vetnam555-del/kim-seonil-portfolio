@@ -131,20 +131,8 @@ export default function ResumePage() {
               </h1>
               <p className="mt-3 text-small text-ink-2 sm:text-body">
                 {/* 경력 연수는 쓰지 않는다(2026-11-01 주인) */}
-                {site.role} · {site.org}
-              </p>
-              <p className="mt-2 text-caption text-ink-3">
-                {site.email} ·{" "}
-                <a href={site.linkedin} target="_blank" rel="noopener" className="text-accent">
-                  LinkedIn
-                </a>{" "}
-                ·{" "}
-                <a href={site.url} className="text-accent">
-                  {site.url.replace("https://", "")}
-                </a>
-              </p>
-              <p className="mt-3 max-w-[38rem] text-caption font-normal text-ink-2 sm:text-small">
-                {careerSummary.intro}
+                {/* 소속은 한 덩어리 — 좁은 화면에서 '리멤버 / 광고운영팀 매니저'로 끊기지 않게 한다 (2026.11.12) */}
+                {site.role} · <span className="inline-block">{site.org}</span>
               </p>
             </div>
             <img
@@ -155,6 +143,25 @@ export default function ResumePage() {
               className="h-[104px] w-[88px] shrink-0 rounded-card border border-line object-cover object-top"
             />
           </div>
+          {/*
+            연락처 · 한 줄 소개는 사진 옆 칸이 아니라 표제부 전체 폭에 둔다 (2026.11.12).
+            휴대폰(390px)에서 사진 옆 칸은 238px 라 주소가 'kim-' 에서 끊기고 소개가 여섯 줄로 접혔다.
+            넓은 화면 · 인쇄에서는 이름 칸이 사진(104px)보다 높아 자리가 그대로다.
+          */}
+          <p className="mt-2 text-caption text-ink-3">
+            {site.email} ·{" "}
+            <a href={site.linkedin} target="_blank" rel="noopener" className="text-accent">
+              LinkedIn
+            </a>{" "}
+            ·{" "}
+            {/* 주소는 한 덩어리로 다음 줄에 내린다 — 줄 끝에 걸려 'vetnam555-' 에서 끊기지 않게 */}
+            <a href={site.url} className="inline-block text-accent">
+              {site.url.replace("https://", "")}
+            </a>
+          </p>
+          <p className="mt-3 max-w-[38rem] text-caption font-normal text-ink-2 sm:text-small">
+            {careerSummary.intro}
+          </p>
           <p className="no-print mt-4 text-caption text-ink-3">
             상세 연락처와 경력 증빙은{" "}
             <a href={site.resumeMailto} className="font-normal text-accent underline underline-offset-2">

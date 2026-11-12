@@ -263,23 +263,28 @@ export default function HomeFolio({ lang = "ko" }: { lang?: Lang }) {
               {proof.map((f, i) => (
                 <li key={f.label}>
                   <a href={f.href}>
-                    <span className="folio-proof-value">
-                      {"before" in f && f.before ? <span className="folio-proof-before">{f.before} </span> : null}
-                      <CountUpValue value={f.after} delay={150 + i * 100} duration={1300} />
+                    {/* 값 쪽 · 설명 쪽을 따로 묶는다 — 좁은 화면에서 설명이 두 줄이 돼도 값 아래 막대 · 연도가 밀려 내려가지 않는다 */}
+                    <span className="folio-proof-main">
+                      <span className="folio-proof-value">
+                        {"before" in f && f.before ? <span className="folio-proof-before">{f.before} </span> : null}
+                        <CountUpValue value={f.after} delay={150 + i * 100} duration={1300} />
+                      </span>
+                      {"bars" in f && f.bars ? (
+                        <span className="folio-proof-bars" aria-hidden="true">
+                          <i style={{ "--w": `${Math.round((f.bars[0] / f.bars[1]) * 1000) / 10}%` } as CSSProperties} />
+                          <i />
+                        </span>
+                      ) : null}
+                      {"marks" in f && f.marks ? (
+                        <span className="folio-proof-marks" aria-hidden="true">
+                          {f.marks.map((m) => <i key={m}>{m}</i>)}
+                        </span>
+                      ) : null}
                     </span>
-                    {"bars" in f && f.bars ? (
-                      <span className="folio-proof-bars" aria-hidden="true">
-                        <i style={{ "--w": `${Math.round((f.bars[0] / f.bars[1]) * 1000) / 10}%` } as CSSProperties} />
-                        <i />
-                      </span>
-                    ) : null}
-                    {"marks" in f && f.marks ? (
-                      <span className="folio-proof-marks" aria-hidden="true">
-                        {f.marks.map((m) => <i key={m}>{m}</i>)}
-                      </span>
-                    ) : null}
-                    <span className="folio-proof-label">{f.label}</span>
-                    <span className="folio-proof-basis">{f.basis}</span>
+                    <span className="folio-proof-text">
+                      <span className="folio-proof-label">{f.label}</span>
+                      <span className="folio-proof-basis">{f.basis}</span>
+                    </span>
                   </a>
                 </li>
               ))}
