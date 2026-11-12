@@ -165,27 +165,52 @@ const PROBE = `(async()=>{
   return out;
 })()`;
 
+/*
+ * 휴대폰에서 접힌 묶음(PhoneFold · 2026.11.12 R-09)을 눌러 편다. 접힌 글은 그려지지 않아 위 검사에 잡히지 않으므로,
+ * 접힌 묶음이 있는 화면은 편 상태로 한 번 더 본다 — 접었다고 검수 범위에서 빠지면 안 된다.
+ */
+const OPEN_FOLDS = `(async()=>{
+  const closed=[...document.querySelectorAll('.pfold-btn')].filter(b=>b.getClientRects().length&&b.getAttribute('aria-expanded')==='false');
+  closed.forEach(b=>b.click());
+  if(closed.length) await new Promise(r=>setTimeout(r,350));
+  return {found:closed.length,stuck:closed.filter(b=>b.getAttribute('aria-expanded')!=='true').length};
+})()`;
+
 await send("Page.enable");
 await send("Runtime.enable");
 
 let fail = 0;
+let unfolded = 0;
 const rows = [];
+const probe = async () => (await send("Runtime.evaluate", { expression: PROBE, awaitPromise: true, returnByValue: true }))?.result?.value;
+const judge = (v) => {
+  const bad = [];
+  if (v.overflow > 1) bad.push(`가로 넘침 ${v.overflow}px`);
+  if (v.broken.length) bad.push(`깨진 이미지 ${v.broken.length}건 (${v.broken.slice(0, 2).join(", ")})`);
+  if (v.ratio.length) bad.push(`비율 왜곡 ${v.ratio.join(", ")}`);
+  if (v.spill.length) bad.push(`컨테이너 이탈 ${v.spill.join(", ")}`);
+  if (v.overlap.length) bad.push(`겹침 ${v.overlap.join(", ")}`);
+  if (v.cramped.length) bad.push(`칸 넘침 ${v.cramped.join(", ")}`);
+  return bad;
+};
 console.log(`\n=== 배치 검수 · ${edition} · ${routes.length}쪽 × ${WIDTHS.length}폭 ===\n`);
 for (const w of WIDTHS) {
   await send("Emulation.setDeviceMetricsOverride", { width: w, height: 900, deviceScaleFactor: 1, mobile: w < 768 });
   for (const r of routes) {
     await send("Page.navigate", { url: `http://127.0.0.1:${PORT}${basePath}/${r}` });
     await sleep(1400);
-    const res = await send("Runtime.evaluate", { expression: PROBE, awaitPromise: true, returnByValue: true });
-    const v = res?.result?.value;
+    const v = await probe();
     if (!v) { console.log(`  ✗ ${w}px ${r || "/"} — 검사 실패`); fail += 1; continue; }
-    const bad = [];
-    if (v.overflow > 1) bad.push(`가로 넘침 ${v.overflow}px`);
-    if (v.broken.length) bad.push(`깨진 이미지 ${v.broken.length}건 (${v.broken.slice(0, 2).join(", ")})`);
-    if (v.ratio.length) bad.push(`비율 왜곡 ${v.ratio.join(", ")}`);
-    if (v.spill.length) bad.push(`컨테이너 이탈 ${v.spill.join(", ")}`);
-    if (v.overlap.length) bad.push(`겹침 ${v.overlap.join(", ")}`);
-    if (v.cramped.length) bad.push(`칸 넘침 ${v.cramped.join(", ")}`);
+    const bad = judge(v);
+    const folds = (await send("Runtime.evaluate", { expression: OPEN_FOLDS, awaitPromise: true, returnByValue: true }))?.result?.value;
+    if (folds?.found) {
+      unfolded += 1;
+      /* 눌러도 열리지 않으면 그 글은 읽을 길이 없다 */
+      if (folds.stuck) bad.push(`접힌 묶음이 열리지 않음 ${folds.stuck}건`);
+      const opened = await probe();
+      if (!opened) bad.push("펼친 상태 — 검사 실패");
+      else bad.push(...judge(opened).map((b) => `펼친 상태 — ${b}`));
+    }
     rows.push({ w, r: r || "/", h: v.h, bad });
     if (bad.length) { fail += 1; console.log(`  ✗ ${w}px ${r || "/"}\n      ${bad.join("\n      ")}`); }
   }
@@ -200,6 +225,7 @@ if (tall.length) {
   console.log(`    가장 긴 쪽이 가장 짧은 쪽의 ${ratio.toFixed(1)}배`);
 }
 
+if (unfolded) console.log(`\n  접힌 묶음이 있는 화면 ${unfolded}개는 편 상태로 한 번 더 봤다`);
 console.log(fail === 0 ? `\n통과 — 위반 0건\n` : `\n실패 ${fail}건\n`);
 socket.close(); browser.kill(); server.kill();
 process.exit(fail === 0 ? 0 : 1);

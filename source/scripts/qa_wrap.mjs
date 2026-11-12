@@ -168,7 +168,19 @@ const PROBE = `(async()=>{
   return [...new Set(hits)];
 })()`;
 
+/*
+ * 휴대폰에서 접힌 묶음(PhoneFold · 2026.11.12 R-09)을 눌러 편다. 접힌 글은 그려지지 않아 위 검사에 잡히지 않으므로,
+ * 접힌 묶음이 있는 화면은 편 상태로 한 번 더 본다 — 접었다고 검수 범위에서 빠지면 안 된다.
+ */
+const OPEN_FOLDS = `(async()=>{
+  const closed=[...document.querySelectorAll('.pfold-btn')].filter(b=>b.getClientRects().length&&b.getAttribute('aria-expanded')==='false');
+  closed.forEach(b=>b.click());
+  if(closed.length) await new Promise(r=>setTimeout(r,350));
+  return {found:closed.length,stuck:closed.filter(b=>b.getAttribute('aria-expanded')!=='true').length};
+})()`;
+
 const findings = [];
+let unfolded = 0;
 await send("Page.enable");
 for (const w of WIDTHS) {
   await send("Emulation.setDeviceMetricsOverride", { width: w, height: 900, deviceScaleFactor: 1, mobile: w < 768 });
@@ -177,6 +189,12 @@ for (const w of WIDTHS) {
     await sleep(w < 768 ? 700 : 550);
     const res = await send("Runtime.evaluate", { expression: PROBE, awaitPromise: true, returnByValue: true });
     for (const h of res?.result?.value || []) findings.push({ w, r: r || "/", h });
+    const folds = (await send("Runtime.evaluate", { expression: OPEN_FOLDS, awaitPromise: true, returnByValue: true }))?.result?.value;
+    if (folds?.found) {
+      unfolded += 1;
+      const again = await send("Runtime.evaluate", { expression: PROBE, awaitPromise: true, returnByValue: true });
+      for (const h of again?.result?.value || []) findings.push({ w, r: r || "/", h });
+    }
   }
 }
 
@@ -184,6 +202,7 @@ socket.close(); browser.kill(); server.kill();
 
 const KIND = { P: "괄호 쪼개짐", U: "단위 끊김", A: "화살표 고립", D: "가운뎃점 줄 머리" };
 console.log(`\n=== 줄바꿈 검수 · ${edition} · 폭 ${WIDTHS.join("·")} · ${routes.length}쪽 ===\n`);
+if (unfolded) console.log(`  접힌 묶음이 있는 화면 ${unfolded}개는 편 상태로 한 번 더 봤다\n`);
 if (!findings.length) {
   console.log("통과 — 위반 0건 (괄호·단위·화살표가 줄에서 갈라진 곳, 줄 머리 가운뎃점 없음)\n");
   process.exit(0);

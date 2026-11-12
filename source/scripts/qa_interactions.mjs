@@ -43,10 +43,16 @@ function environment({ reduced = false, observer = true, hidden = false } = {}) 
       this.style = { setProperty: () => {} };
       this.parentElement = null;
       this.focusCount = 0;
+      this.attrs = new Map();
+      this.handlers = new Map();
     }
     getBoundingClientRect() { return { top: this.top, bottom: this.top + 100 }; }
     closest() { return null; }
-    setAttribute() {}
+    setAttribute(name, value) { this.attrs.set(name, String(value)); }
+    removeAttribute(name) { this.attrs.delete(name); }
+    addEventListener(name, fn) { const set = this.handlers.get(name) ?? new Set(); set.add(fn); this.handlers.set(name, set); }
+    removeEventListener(name, fn) { this.handlers.get(name)?.delete(fn); }
+    emit(name, event = {}) { [...(this.handlers.get(name) ?? [])].forEach((fn) => fn(event)); }
     select() {}
     remove() { document.temporaryNodes.delete(this); }
     focus() { this.focusCount++; document.activeElement = this; }
@@ -124,7 +130,10 @@ function component(file, exported = "default", env = environment()) {
         hooks[i] = { deps, cleanup: fn() };
       });
     },
+    useId() { const i = index++; return (hooks[i] ??= { value: `id-${i}` }).value; },
   };
+  /* 이 대역에서는 그린 직후 한꺼번에 돌리므로 useLayoutEffect 와 useEffect 의 차이가 없다 */
+  react.useLayoutEffect = react.useEffect;
   const jsx = (type, props) => ({ type, props });
   const imports = {
     react,
@@ -262,7 +271,71 @@ async function copyTest(mode) {
 }
 for (const mode of ["clipboard", "fallback", "failure"]) await test(`email copy ${mode} reports an accurate result`, () => copyTest(mode));
 
+/* 휴대폰에서만 접는 묶음 (R-09 · PhoneFold.tsx) */
+const foldBody = (tree) => walk(tree, (n) => n.props?.className === "pfold-body")[0];
+await test("phone fold starts closed, marks the folded body until-found and toggles", () => {
+  const h = component("components/PhoneFold.tsx");
+  const props = { label: "자료와 설명", name: "GuideRoad", children: "본문" };
+  let tree = h.render(props);
+  const button = () => walk(tree, (n) => n.type === "button")[0];
+  assert.equal(tree.props["data-open"], "false");
+  assert.equal(button().props["aria-expanded"], false);
+  assert.equal(button().props["aria-controls"], foldBody(tree).props.id);
+  assert.equal(foldBody(tree).props.ref.current.attrs.get("hidden"), "until-found");
+  /* 붙은 묶음은 스스로 표시를 단다 — html.folds 가 떨어져도 버튼이 남아야 한다 */
+  assert.ok(tree.props.ref.current.attrs.has("data-ready"));
+  button().props.onClick(); tree = h.render(props);
+  assert.equal(tree.props["data-open"], "true");
+  assert.equal(button().props["aria-expanded"], true);
+  assert.ok(!foldBody(tree).props.ref.current.attrs.has("hidden"));
+  button().props.onClick(); tree = h.render(props);
+  assert.equal(tree.props["data-open"], "false");
+  assert.equal(foldBody(tree).props.ref.current.attrs.get("hidden"), "until-found");
+  h.dispose();
+});
+await test("a find-in-page match opens a folded block before the browser reveals it", () => {
+  const h = component("components/PhoneFold.tsx");
+  const props = { label: "기존 방식과 바꾼 점", children: "본문" };
+  let tree = h.render(props);
+  foldBody(tree).props.ref.current.emit("beforematch");
+  /* 브라우저는 이 알림 바로 뒤에 hidden 을 뗀다 — 다시 그리기를 기다리지 않고 열림 표시가 먼저 바뀌어 있어야 한다 */
+  assert.equal(tree.props.ref.current.attrs.get("data-open"), "true");
+  tree = h.render(props);
+  assert.equal(tree.props["data-open"], "true");
+  assert.equal(walk(tree, (n) => n.type === "button")[0].props["aria-expanded"], true);
+  assert.ok(!foldBody(tree).props.ref.current.attrs.has("hidden"));
+  h.dispose();
+});
+
 const css = read("app/globals.css");
+await test("phone fold hides nothing on wide screens, in print or without script", () => {
+  const block = (head) => {
+    const i = css.indexOf(`${head} {`);
+    assert.ok(i !== -1, `missing ${head}`);
+    let depth = 0, j = css.indexOf("{", i);
+    for (; j < css.length; j++) { if (css[j] === "{") depth++; else if (css[j] === "}" && --depth === 0) break; }
+    return css.slice(css.indexOf("{", i) + 1, j);
+  };
+  /* 두 조건은 서로 정확히 반대여야 한다 — 어긋나면 버튼은 없는데 글이 숨는 폭이 생긴다 */
+  const narrow = block("@media screen and (max-width: 767.98px)");
+  const wide = block("@media not screen and (max-width: 767.98px)");
+  /* 접힌 모양은 첫 그림부터 난다(html.folds) — 부품이 붙으면 data-ready 가 넘겨받는다. 숨기는 줄은 붙기 전 것 하나뿐이어야 한다 */
+  const rules = narrow.split("}").map((r) => r.replace(/\/\*[\s\S]*?\*\//g, "").trim()).filter(Boolean);
+  const hiding = rules.filter((r) => /display:\s*none|content-visibility:\s*hidden|visibility:\s*hidden/.test(r));
+  assert.equal(hiding.length, 1, `exactly one rule may hide a folded body: ${hiding.map((r) => r.slice(0, 60)).join(" | ")}`);
+  assert.match(hiding[0], /^html\.folds \.pfold:not\(\[data-ready\]\) > \.pfold-body\s*\{\s*display:\s*none/);
+  for (const rule of rules.filter((r) => r.includes(".pfold-btn"))) {
+    assert.ok(rule.includes(":is(html.folds .pfold, .pfold[data-ready])"), `a fold button must not show without script or component: ${rule.slice(0, 80)}`);
+  }
+  /* 부품이 끝내 붙지 않으면 표시를 떼어 모두 펼친다 — 접힌 글을 열 길이 막히면 안 된다 */
+  const guard = read("app/layout.tsx").match(/const FOLD_GUARD = `([^`]*)`/)?.[1] ?? "";
+  assert.match(guard, /classList\.add\("folds"\)/);
+  assert.match(guard, /querySelector\("\.pfold\[data-ready\]"\)\)d\.classList\.remove\("folds"\)/);
+  assert.match(guard, /addEventListener\("load"/);
+  assert.match(wide, /\.pfold-body\[hidden\]\s*\{\s*display:\s*block;\s*content-visibility:\s*visible/);
+  assert.match(css, /^\.pfold-btn\s*\{\s*display:\s*none;?\s*\}/m);
+  assert.ok(!/hidden=\{/.test(read("components/PhoneFold.tsx")), "React must not render the hidden attribute (preflight hides it on wide screens too)");
+});
 await test("short viewport mobile menu has a bounded scroll container", () => {
   assert.match(css, /\.mobile-nav\s*\{[^}]*max-height:[^}]*overflow-y:\s*auto/s);
   assert.match(read("components/Header.tsx"), /className=(?:"|\{`)mobile-nav\s/);

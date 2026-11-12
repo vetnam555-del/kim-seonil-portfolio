@@ -155,6 +155,16 @@ const FONT_LOADER = `(function(){var d=document.documentElement,f=document.fonts
   fontFaces,
 )},res,added=0;window.__ksiFontsReady=new Promise(function(r){res=r});d.classList.add("fonts-pending");var release=function(){d.classList.remove("fonts-pending")};function add(){if(added)return;added=1;setTimeout(release,6000);var list=[];try{A.forEach(function(a){var x=new FontFace(a[0],'url("'+a[1]+'") format("'+a[2]+'")',a[3]);f.add(x);list.push(x)})}catch(e){release();res();return}var track=function(){var want=document.querySelector(".folio-hero")?list.filter(function(x){return x.family==="Pretendard"&&(x.weight==="400"||x.weight==="900")}):[];var settle=function(){release();requestAnimationFrame(function(){requestAnimationFrame(function(){f.ready.then(function(){try{if(list.some(function(x){return x.status==="loaded"}))localStorage.setItem(K,"1")}catch(e){}res()})})})};Promise.all(want.map(function(x){return x.load()})).then(settle,settle)};document.readyState==="loading"?addEventListener("DOMContentLoaded",track):track()}var cached=0;try{cached=localStorage.getItem(K)==="1"}catch(e){}if(cached){add();return}var go=function(){setTimeout(add,0)};try{if(PerformanceObserver.supportedEntryTypes.indexOf("paint")>-1){var o=new PerformanceObserver(function(l){l.getEntries().forEach(function(e){if(e.name==="first-contentful-paint"){o.disconnect();go()}})});o.observe({type:"paint",buffered:true})}else addEventListener("DOMContentLoaded",function(){requestAnimationFrame(go)})}catch(e){go()}setTimeout(add,5000)})();`;
 
+/*
+ * 휴대폰 접기를 첫 그림부터 건다 (2026.11.12 R-09 · PhoneFold.tsx · globals.css .pfold).
+ * html.js 는 하이드레이션 뒤에 붙는다(MotionRuntime). 그것을 기다리면 다 펼쳐 그렸다가 접게 되어, 주소에 #이 붙어 열리거나
+ * 새로고침한 화면에서 보던 자리가 접힌 만큼(390px 에서 약 3,300px) 밀린다. 그래서 html.folds 를 그리기 전에 붙인다.
+ * 부품이 끝내 붙지 않으면(스크립트를 못 받았거나 오류) 접힌 글을 열 길이 없다 — 불러오기가 끝나고 3초 뒤에도 준비된 묶음
+ * (data-ready)이 없으면 표시를 떼어 모두 펼친다. load 가 오지 않는 경우에 대비해 20초 뒤에도 한 번 본다.
+ * 접기는 공용판에만 있다.
+ */
+const FOLD_GUARD = `(function(){var d=document.documentElement;d.classList.add("folds");function off(){if(!d.querySelector(".pfold[data-ready]"))d.classList.remove("folds")}window.addEventListener("load",function(){setTimeout(off,3000)});setTimeout(off,20000)})()`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     /* data-intro 는 홈의 인트로 판정 스크립트가 하이드레이션 전에 붙인다(IntroSplash.tsx) — 그 차이만 넘긴다 */
@@ -163,6 +173,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* 글꼴은 첫 그림 뒤에 붙인다 — 위 FONT_LOADER 주석. 경로는 basePath 를 넣어 여기서 만든다
             (CSS 파일 안의 url() 은 webpack 이 빌드 시점에 해석해 basePath 가 반영되지 않는다). */}
         <script dangerouslySetInnerHTML={{ __html: FONT_LOADER }} />
+        {EDITION === "general" ? <script dangerouslySetInnerHTML={{ __html: FOLD_GUARD }} /> : null}
         {/* JS가 없거나 실행되지 않은 환경에서 등장 애니메이션 대기 블록이
             백지로 남는 것을 막는다. Framer Motion 이 정적 HTML에 심는
             style="opacity:0" 을 무력화한다. 글꼴 선언도 여기 둔다 — JS 가 없으면 FONT_LOADER 가 돌지 않는다. */}
