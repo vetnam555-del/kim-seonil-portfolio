@@ -49,6 +49,7 @@ function environment({ reduced = false, observer = true, hidden = false } = {}) 
     getBoundingClientRect() { return { top: this.top, bottom: this.top + 100 }; }
     closest() { return null; }
     setAttribute(name, value) { this.attrs.set(name, String(value)); }
+    scrollIntoView(options) { (this.scrolls ??= []).push(options); }
     removeAttribute(name) { this.attrs.delete(name); }
     addEventListener(name, fn) { const set = this.handlers.get(name) ?? new Set(); set.add(fn); this.handlers.set(name, set); }
     removeEventListener(name, fn) { this.handlers.get(name)?.delete(fn); }
@@ -64,6 +65,7 @@ function environment({ reduced = false, observer = true, hidden = false } = {}) 
     body: { appendChild: (e) => document.temporaryNodes.add(e) },
     querySelectorAll: () => document.nodes,
     querySelector: (selector) => document.selectors.get(selector) ?? null,
+    getElementById: (id) => document.selectors.get(`#${id}`) ?? null,
     createElement: () => new Element(),
     execCommand: () => true,
     addEventListener: (name, fn) => { const set = listeners.get(name) ?? new Set(); set.add(fn); listeners.set(name, set); },
@@ -211,6 +213,21 @@ await test("header still renders without IntersectionObserver", () => {
   const env = environment({ observer: false }); env.document.selectors.set("#projects", new env.Element());
   const h = component("components/Header.tsx", "default", env); h.render(); h.dispose();
 });
+await test("home menu links are fragment-only, so a query string in the address does not block the jump", () => {
+  /* "/#projects" 는 ?utm_source=… 로 들어온 쪽에서 물음표 뒤가 사라지는 이동이 되어 첫 클릭에 화면이 움직이지 않았다 */
+  const h = component("components/Header.tsx");
+  const hrefs = () => walk(h.render(), (n) => n.type === "link").map((n) => n.props.href);
+  h.env.pathname = "/";
+  let seen = hrefs();
+  assert.ok(seen.includes("#projects") && seen.includes("#contact") && !seen.includes("/#projects"), `home: ${seen.join(" ")}`);
+  h.env.pathname = "/about/";
+  seen = hrefs();
+  assert.ok(seen.includes("/#projects") && !seen.includes("#projects"), `about: ${seen.join(" ")}`);
+  h.env.pathname = "/en/";
+  seen = hrefs();
+  assert.ok(seen.includes("#projects") && !seen.includes("/en/#projects"), `en home: ${seen.join(" ")}`);
+  h.dispose();
+});
 await test("Escape closes mobile menu and restores trigger focus", () => {
   const h = component("components/Header.tsx");
   let tree = h.render(); const button = walk(tree, (n) => n.type === "button")[0];
@@ -270,6 +287,52 @@ async function copyTest(mode) {
   h.dispose();
 }
 for (const mode of ["clipboard", "fallback", "failure"]) await test(`email copy ${mode} reports an accurate result`, () => copyTest(mode));
+
+/* 주소에 #이 붙어 새로 열린 쪽 (B-16 · FragmentAnchor.tsx) */
+function fragmentHarness({ hash = "#career", type } = {}) {
+  const env = environment();
+  env.window.location.hash = hash;
+  if (type) env.globals.performance.getEntriesByType = () => [{ type }];
+  const target = new env.Element();
+  env.document.selectors.set("#career", target);
+  const h = component("components/FragmentAnchor.tsx", "default", env);
+  h.render();
+  return { h, env, target };
+}
+const settle = async (env) => { await Promise.resolve(); await Promise.resolve(); env.frame(16); env.frame(32); };
+await test("a fresh load with a fragment is re-aligned after fonts and again after load", async () => {
+  const { h, env, target } = fragmentHarness();
+  assert.equal(target.scrolls, undefined, "nothing moves before fonts are attached");
+  await settle(env);
+  assert.equal(target.scrolls?.length, 1);
+  assert.equal(target.scrolls[0].behavior, "instant");
+  env.dispatch("load"); env.flushTimers();
+  assert.equal(target.scrolls.length, 2);
+  h.dispose();
+});
+await test("a fragment is left alone once the reader moves the page", async () => {
+  const { h, env, target } = fragmentHarness();
+  env.dispatch("wheel");
+  await settle(env); env.dispatch("load"); env.flushTimers();
+  assert.equal(target.scrolls, undefined);
+  h.dispose();
+});
+for (const type of ["reload", "back_forward"]) {
+  await test(`${type} keeps the position the browser restores`, async () => {
+    const { h, env, target } = fragmentHarness({ type });
+    await settle(env); env.dispatch("load"); env.flushTimers();
+    assert.equal(target.scrolls, undefined);
+    assert.equal(env.listeners.get("wheel")?.size ?? 0, 0);
+    h.dispose();
+  });
+}
+await test("a page without a fragment registers nothing", async () => {
+  const { h, env } = fragmentHarness({ hash: "" });
+  await settle(env);
+  assert.equal(env.listeners.get("load")?.size ?? 0, 0);
+  assert.equal(env.listeners.get("wheel")?.size ?? 0, 0);
+  h.dispose();
+});
 
 /* 휴대폰에서만 접는 묶음 (R-09 · PhoneFold.tsx) */
 const foldBody = (tree) => walk(tree, (n) => n.props?.className === "pfold-body")[0];
@@ -335,6 +398,11 @@ await test("phone fold hides nothing on wide screens, in print or without script
   assert.match(wide, /\.pfold-body\[hidden\]\s*\{\s*display:\s*block;\s*content-visibility:\s*visible/);
   assert.match(css, /^\.pfold-btn\s*\{\s*display:\s*none;?\s*\}/m);
   assert.ok(!/hidden=\{/.test(read("components/PhoneFold.tsx")), "React must not render the hidden attribute (preflight hides it on wide screens too)");
+});
+await test("the first fragment jump is not animated and the anchor component is mounted", () => {
+  /* 부드러운 스크롤은 떠난 뒤 도착점을 다시 잡지 않는다 — 스크립트가 붙기 전에는 바로 가야 한다 */
+  assert.match(css, /^html:not\(\.js\)\s*\{\s*scroll-behavior:\s*auto;?\s*\}/m);
+  assert.match(read("app/layout.tsx"), /<FragmentAnchor \/>/);
 });
 await test("short viewport mobile menu has a bounded scroll container", () => {
   assert.match(css, /\.mobile-nav\s*\{[^}]*max-height:[^}]*overflow-y:\s*auto/s);

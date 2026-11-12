@@ -158,6 +158,15 @@ export default function Header() {
   const en = SHOW_LANG && lang.isEn;
   const nav = en ? NAV_GENERAL_EN : NAV;
   const mobileNav = en ? NAV_GENERAL_EN : MOBILE_NAV;
+  /*
+   * 홈에서는 메뉴 주소를 #구간만으로 쓴다 (2026.11.12 최종 검토).
+   * 주소에 ?utm_source=… 나 ?fbclid=… 가 붙어 들어온 방문자가 '대표 사례'를 처음 누르면 주소만 #projects 로 바뀌고 화면은 움직이지 않았다.
+   * "/#projects" 는 물음표 뒤가 사라지는 이동이라 Next 가 #으로 가는 스크롤을 하지 않는다(두 번째부터는 #만 바뀌어 움직였다).
+   * #구간만 쓰면 물음표 뒤가 그대로 남아 처음부터 움직인다. 다른 쪽에서는 홈으로 가야 하므로 원래 주소를 쓴다.
+   */
+  const home = en ? "/en/" : "/";
+  const onHome = `${(pathname ?? "/").replace(/\/+$/, "")}/` === home;
+  const hrefOf = (item: { href: string; anchor: string }) => (onHome && item.href === `${home}${item.anchor}` ? item.anchor : item.href);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [active, setActive] = useState<string>("");
   const [open, setOpen] = useState(false);
@@ -265,7 +274,7 @@ export default function Header() {
           {nav.map((item) => (
             <Link
               key={item.href}
-              href={item.href}
+              href={hrefOf(item)}
               aria-current={active === item.anchor ? "true" : undefined}
               className={`inline-flex min-h-[44px] items-center text-small font-normal transition-colors ${
                 active === item.anchor ? "text-on-ink" : "text-on-ink-2 hover:text-on-ink"
@@ -337,7 +346,7 @@ export default function Header() {
           {mobileNav.map((item) => (
             <Link
               key={item.href}
-              href={item.href}
+              href={hrefOf(item)}
               onClick={() => setOpen(false)}
               className="flex min-h-[52px] items-center border-b border-rule-ink-2 text-body font-normal text-on-ink"
             >
