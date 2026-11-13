@@ -22,7 +22,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { DOCS, count, fingerprintOf, parseDoc } from "./platform_docs.mjs";
+import { DOCS, copyCells, count, fingerprintOf, parseDoc } from "./platform_docs.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);
@@ -77,7 +77,6 @@ const idOf = (prefix, ...parts) => `${prefix}-${createHash("sha1").update(parts.
 /* 안내 글 — 백틱은 걷고 주소는 링크로 */
 const prose = (s) =>
   E(s.replace(/`/g, "")).replace(/https?:\/\/[^\s<)]+[^\s<).,]/g, (u) => `<a href="${u}" target="_blank" rel="noopener">${u}</a>`).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
-const isUrl = (s) => /^https?:\/\/\S+$/.test(s);
 
 function renderPage(page, doc, fingerprint, notes) {
   const used = new Set();
@@ -144,11 +143,12 @@ function renderPage(page, doc, fingerprint, notes) {
           const t = uid("r", tab, title);
           const subs = [];
           const buttons = [`<button class="copy" type="button" data-copy="${t}" aria-label="${E(title)} 복사">${E(n.head[0])}</button>`];
+          /* 주소와 '설명' 칸은 따로 복사한다. 나머지 칸은 읽고 고르는 값이다 — 규칙은 platform_docs.mjs copyCells(검사와 같이 쓴다) */
+          const copied = new Set(copyCells(n.head, r.cells).map((c) => c.index));
           r.cells.slice(1).forEach((cell, k) => {
             if (!cell) return;
             const head = n.head[k + 1] || "";
-            /* 주소와 '설명' 칸은 따로 복사한다. 나머지 칸은 읽고 고르는 값이다 */
-            if (isUrl(cell) || /설명/.test(head)) {
+            if (copied.has(k + 1)) {
               const c = uid("c", tab, title, head);
               subs.push(`<span class="row-sub"><b>${E(head)}</b> <span id="${c}" data-paste>${E(cell)}</span></span>`);
               buttons.push(`<button class="copy" type="button" data-copy="${c}" aria-label="${E(title)} ${E(head)} 복사">${E(head.replace(/^확인\s*/, ""))}</button>`);

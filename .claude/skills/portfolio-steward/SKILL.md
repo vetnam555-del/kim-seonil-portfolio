@@ -249,7 +249,8 @@ Claude 는 한도에 걸리는 순간 아무것도 못 하므로, **언제 멈�
 3. 올라가 있는 두 페이지를 Artifact read 로 받는다(주인만 보는 메모가 그 안에만 있다). 받은 파일을 넘겨 다시 만든다:
    `node scripts/build_paste_pages.mjs --carry <구직 페이지.html> <링크드인 페이지.html> --out <스크래치 폴더>`. 결과물은 저장소 밖에 두고 커밋하지 않는다.
 4. Artifact 로 같은 주소(`url`)에 다시 올리고, 올린 것을 다시 받아(read · `path: index.html`) 확인한다:
-   `node scripts/check_platform_copy.mjs --pages <받은 두 파일>` — E 가 0 이어야 한다.
+   `node scripts/check_platform_copy.mjs --pages <받은 구직 페이지> <받은 링크드인 페이지>`(문서 순서대로) — E 가 0 이어야 한다.
+   E 는 페이지마다 복사 칸을 하나씩 · 개수까지 맞춘다(글 · 짧은 값 · 표의 이름 · 주소 · 설명 칸 — 표 한 줄이 빠져도 잡는다).
 5. `node scripts/check_platform_copy.mjs --stamp` 로 문서의 지문을 고치고 커밋한다. `npm run qa:platforms` 가 실패 0 이면 끝이다.
 6. 주인에게 바뀐 칸을 알린다. 실제 프로필에 넣는 일은 주인이 하거나, 주인이 로그인한 데스크톱 앱 브라우저에서 문서의 '직접 넣게 하기' 요청문으로 한다 —
    클라우드 세션은 다섯 사이트를 열지 못한다. 넣었다고 주인이 알려 주면 문서 머리의 '상태' 표를 고친다.

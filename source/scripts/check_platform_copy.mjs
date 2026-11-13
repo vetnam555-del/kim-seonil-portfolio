@@ -22,7 +22,8 @@
  *   B 표기   경력 연수 · '전 HLL중앙' · 줄여 쓴 수상 이름 · 전화번호 · 포트폴리오 PDF 주소 · 구직 문구
  *   C 길이   칸 이름 옆에 적은 글자 수가 실제와 다르거나 한도를 넘는다
  *   D 지문   문서가 바뀌었는데 붙여넣기 페이지를 다시 올렸다는 표시(지문)가 옛것이다
- *   E 페이지 (--pages) 올린 페이지의 칸과 문서의 칸이 다르다
+ *   E 페이지 (--pages) 올린 페이지의 복사 칸이 그 문서의 복사 칸과 하나씩 · 개수까지 같지 않다
+ *            (글 · 짧은 값 · 표의 이름 · 주소 · 설명 칸. 빠진 표 줄도 남는 칸도 실패). 페이지는 문서 순서대로 넘긴다
  * 경고(읽고 판단한다)
  *   W1 같은 줄이 두 곳에서 조금 다르다   W2 사이트 문장과 거의 같지만 다르다   W3 상투 표현
  */
@@ -290,33 +291,37 @@ if (flag("--stamp")) {
 }
 
 /* ── E 올린 붙여넣기 페이지가 문서와 같은가 ─────────────── */
-if (pageFiles.length) {
-  const pasted = [];
-  for (const file of pageFiles) {
+/* 페이지마다 그 문서의 복사 칸(글 · 짧은 값 · 표의 이름 · 주소 · 설명 칸)을 하나씩, 개수까지 맞춘다.
+   빠진 칸도 남는 칸도 실패다 — 표 한 줄이 통째로 빠져도, 같은 값이 두 번 있어야 하는데 한 번만 있어도 잡는다. */
+if (pageFiles.length && pageFiles.length !== docs.length) {
+  fails.push(`E 페이지  --pages 에는 올린 페이지 ${docs.length}장을 문서 순서(${DOCS.join(" → ")})대로 넘긴다 — ${pageFiles.length}장을 받았다`);
+} else if (pageFiles.length) {
+  pageFiles.forEach((file, i) => {
+    const d = docs[i];
+    const name = file.split(/[\\/]/).pop();
     if (!existsSync(file)) {
       fails.push(`E 페이지  ${file} — 파일이 없다`);
-      continue;
+      return;
     }
     const html = readFileSync(file, "utf8");
     const stamp = html.match(/data-fingerprint="([0-9a-f]{12})"/);
-    if (!stamp) fails.push(`E 페이지  ${file.split("/").pop()} — 지문이 없다(build_paste_pages.mjs 로 만든 페이지가 아니다)`);
-    else if (stamp[1] !== fingerprint) fails.push(`E 페이지  ${file.split("/").pop()} — 페이지 지문 ${stamp[1]} · 문서 ${fingerprint}. 페이지가 옛 문서로 만들어졌다`);
-    const fields = [...html.matchAll(/<(div|span|button)\b[^>]*\bdata-paste\b[^>]*>([\s\S]*?)<\/\1>/g)].map((m) => plain(m[2].replace(/<[^>]+>/g, "")));
-    for (const f of fields) pasted.push(squash(f));
-    console.log(`페이지 ${file.split("/").pop()}: 복사하는 칸 ${fields.length}개`);
-  }
-  const pastedSet = new Set(pasted);
-  const known = new Set();
-  for (const b of blocks) {
-    known.add(squash(b.text));
-    if (b.kind === "row") for (const cell of b.text.split(" · ")) known.add(squash(cell));
-  }
-  for (const d of docs) for (const s of d.pageSections) for (const n of s.nodes) if (n.type === "table") for (const r of n.rows) for (const c of r.cells) known.add(squash(c));
-  for (const t of pastedSet) if (t && !known.has(t)) fails.push(`E 페이지  문서에 없는 칸이 페이지에 있다: ${t.slice(0, 90)}${t.length > 90 ? "…" : ""}`);
-  for (const b of blocks) {
-    if (b.kind === "row") continue;
-    if (!pastedSet.has(squash(b.text))) fails.push(`E 페이지  ${where(b)} — 이 칸이 올린 페이지에 없다(또는 글이 다르다)`);
-  }
+    if (!stamp) fails.push(`E 페이지  ${name} — 지문이 없다(build_paste_pages.mjs 로 만든 페이지가 아니다)`);
+    else if (stamp[1] !== fingerprint) fails.push(`E 페이지  ${name} — 페이지 지문 ${stamp[1]} · 문서 ${fingerprint}. 페이지가 옛 문서로 만들어졌다`);
+    const fields = [...html.matchAll(/<(div|span|button)\b[^>]*\bdata-paste\b[^>]*>([\s\S]*?)<\/\1>/g)].map((m) => squash(m[2].replace(/<[^>]+>/g, ""))).filter(Boolean);
+    const expected = d.pasteFields.filter((f) => squash(f.text));
+    console.log(`페이지 ${name}: 복사하는 칸 ${fields.length}개 · 문서 ${d.name} 는 ${expected.length}개`);
+    const left = new Map();
+    for (const f of fields) left.set(f, (left.get(f) || 0) + 1);
+    for (const f of expected) {
+      const key = squash(f.text);
+      const n = left.get(key) || 0;
+      if (n > 0) left.set(key, n - 1);
+      else fails.push(`E 페이지  ${where(f)} — 이 칸이 올린 페이지(${name})에 없다(또는 글이 다르다)`);
+    }
+    for (const [t, n] of left) {
+      if (n > 0) fails.push(`E 페이지  ${name} — 문서(${d.name})에 없는 칸이 페이지에 있다${n > 1 ? `(${n}번)` : ""}: ${t.slice(0, 90)}${t.length > 90 ? "…" : ""}`);
+    }
+  });
 }
 
 /* ── 보고 ──────────────────────────────────────────────── */

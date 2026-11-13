@@ -10,7 +10,7 @@
  *   > 설명               칸 이름과 블록 사이, 또는 `값` 줄 위. 그 칸의 설명이 된다
  *   ```text … ```        붙여 넣는 글(칸 하나)
  *   이름 `값` · 이름 `값`  짧은 값(하나씩 복사)
- *   | 표 |               칸마다 복사
+ *   | 표 |               한 줄씩 — 첫 칸(이름) · 주소 · '설명' 칸에 복사 버튼(copyCells)
  *   - **제목** — 설명     확인 목록(체크)
  *   - 글 · 그냥 문단       안내 글
  *   <!-- 페이지 끝 -->     이 아래는 페이지에 싣지 않는다(에이전트 순서 · 만든 방법 · 결정 기록)
@@ -31,6 +31,20 @@ export const COUNT_RE = /\s*\((\d[\d,]*)\s*\/\s*(\d[\d,]*)\)\s*$/;
 const NOT_A_VALUE = /^[\w./<>-]+\.(md|mjs|cjs|py|html|png|mp4|ts|tsx|json)$|^node |^npm |^assets\/|^src\/|^scripts\/|^--|^```/;
 
 export const count = (s) => [...s].length;
+const isUrl = (s) => /^https?:\/\/\S+$/.test(s);
+
+/**
+ * 표 한 줄에서 따로 복사하는 칸 — 첫 칸(이름)과, 주소이거나 머리가 '설명'인 칸. 나머지 칸은 읽고 고르는 값이라 복사 버튼이 없다.
+ * 페이지를 만드는 쪽(build_paste_pages)과 올린 페이지를 확인하는 쪽(check --pages)이 이 규칙 하나를 같이 쓴다.
+ */
+export function copyCells(head, cells) {
+  const out = [{ index: 0, head: head[0] || "", text: cells[0] || "" }];
+  cells.slice(1).forEach((cell, k) => {
+    const h = head[k + 1] || "";
+    if (cell && (isUrl(cell) || /설명/.test(h))) out.push({ index: k + 1, head: h, text: cell });
+  });
+  return out;
+}
 
 /** 한 줄의 `값`들을 앞 글(이름)과 묶는다 — 부서 `광고운영팀` · 직급 `매니저` → [{label:"부서",text:"광고운영팀"}, …] */
 export function inlineItems(line) {
@@ -159,13 +173,24 @@ export function parseDoc(name) {
       if (n.type === "table") for (const r of n.rows) blocks.push({ doc: name, kind: "row", section: s.title, label: n.head[0], line: r.line, text: r.cells.join(" · ") });
     }
   }
+  /* 페이지에 복사 칸으로 실리는 것 전부, 실리는 순서대로 — 올린 페이지와 하나씩(개수까지) 맞춰 보는 기준 */
+  const pasteFields = [];
+  for (const s of pageSections) {
+    for (const n of s.nodes) {
+      if (n.type === "field") pasteFields.push({ doc: name, section: s.title, label: n.label, line: n.line, text: n.text });
+      if (n.type === "values") for (const it of n.items) pasteFields.push({ doc: name, section: s.title, label: it.label || s.title, line: n.line, text: it.text });
+      if (n.type === "table") {
+        for (const r of n.rows) for (const c of copyCells(n.head, r.cells)) pasteFields.push({ doc: name, section: s.title, label: `${r.cells[0]} · ${c.head}`, line: r.line, text: c.text });
+      }
+    }
+  }
   /* 페이지에 실리는 부분 = 첫 '## ' 줄부터 '페이지 끝' 줄 앞까지. 머리말이 그 표시를 글로 언급하므로 줄 전체가 같은 것만 센다 */
   const pageText = (() => {
     const start = lines.findIndex((l) => /^## /.test(l));
     const end = lines.findIndex((l, i) => i > start && l.trim() === PAGE_END);
     return lines.slice(start < 0 ? 0 : start, end < 0 ? lines.length : end).join("\n");
   })();
-  return { name, file, text, sections, pageSections, blocks, pageText };
+  return { name, file, text, sections, pageSections, blocks, pasteFields, pageText };
 }
 
 /** 두 문서의 '페이지에 실리는 부분' 전체의 지문 — 한 글자라도 바뀌면 붙여넣기 페이지를 다시 올려야 한다 */
