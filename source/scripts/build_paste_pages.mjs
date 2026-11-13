@@ -274,6 +274,7 @@ const short = (t) => (t.length > 70 ? `${t.slice(0, 70)}…` : t);
 /**
  * 올린 페이지(Artifact read 로 받은 HTML)를 지금 문서 · 템플릿으로 다시 만든 것과 견준다. 다른 점을 글로 돌려준다(같으면 빈 배열).
  * 기준은 '받은 HTML 안에 지금 만든 페이지가 글자 하나까지 그대로 들어 있는가'다 — 올리는 쪽이 앞뒤에 문서 껍데기를 씌우므로 포함으로 본다.
+ * 그 껍데기 쪽에 복사 칸이나 탭이 더 있으면 안 된다(만든 것 말고 다른 내용이 같이 올라간 것이다).
  * 그래서 빠진 칸 · 남는 칸뿐 아니라 다른 탭으로 옮겨진 칸, 바뀐 이름표 · 안내 글, 옛 템플릿도 걸린다.
  * 주인 메모는 받은 페이지에 든 것을 그대로 써서 만든다(메모는 저장소에 없다).
  */
@@ -290,7 +291,12 @@ export function comparePublished(html, page, doc, fingerprint, where = page.file
   } catch (e) {
     return [`${where}: 그 페이지의 메모로 다시 만들지 못했다 — ${e.message}`];
   }
-  if (html.includes(fresh)) return [];
+  const at = html.indexOf(fresh);
+  if (at >= 0) {
+    /* 지금 만든 페이지가 통째로 들어 있다. 그 앞뒤(올리는 쪽이 씌운 껍데기)에 복사 칸이나 탭이 더 있으면 그것은 확인되지 않은 내용이다 */
+    const around = html.slice(0, at) + html.slice(at + fresh.length);
+    return /\bdata-paste\b|\bdata-panel\b/.test(around) ? ["지금 만든 페이지 바깥에 복사 칸 · 탭이 더 있다 — 이 빌더가 만든 것만 올린다"] : [];
+  }
 
   const out = [];
   const stamp = (html.match(/data-fingerprint="([0-9a-f]*)"/) || [])[1];

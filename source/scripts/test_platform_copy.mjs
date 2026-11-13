@@ -182,6 +182,11 @@ check("옛 템플릿(탭 숨김 규칙 없음)이나 옛 지문으로 만든 페
   const old = host(renderPage(jobsPage, jobs, "0123456789ab", notes));
   assert.ok(diff(old).some((x) => x.includes("페이지 지문 0123456789ab")));
 });
+check("만든 페이지 바깥에 복사 칸이나 탭이 더 붙어 있으면 다르다", () => {
+  const extra = published.replace("</body>", '<span data-paste>확인되지 않은 칸</span></body>');
+  assert.ok(diff(extra).some((x) => x.includes("바깥에")));
+  assert.ok(diff(published.replace("</body>", '<section data-panel="x"></section></body>')).some((x) => x.includes("바깥에")));
+});
 check("이 빌더로 만들지 않은 페이지는 다르다", () => {
   assert.ok(diff("<html><body><p>다른 페이지</p></body></html>").some((x) => x.includes("주인 메모 칸")));
 });
