@@ -26,6 +26,11 @@ for (const [script, scriptArgs] of [
   ["test_count_up_fallback.mjs", []],
   /* 머리글 · 메뉴 · 이메일 복사 · 수치 애니메이션 동작 시험(B-14 · 2026-11-04) — 출시 검수에 없어서 9건이 실패한 채 지나갔다 */
   ["qa_interactions.mjs", []],
+  /* 사이트 밖 프로필 원문(리멤버 · 사람인 · 잡코리아 · 원티드 · 링크드인)의 숫자 · 표기가 이 빌드와 맞는지(2026-11-13) —
+     문서는 빌드에 들어가지 않아 사이트가 바뀌어도 아무 검수에 걸리지 않았다. 붙여넣기 페이지가 낡은 것은 경고로만 남긴다 */
+  ["check_platform_copy.mjs", ["--release", "--quiet"]],
+  /* 그 검사와 붙여넣기 페이지를 만드는 도구의 회귀 시험 — 숫자 토큰(여 · 부호) · 문서 경계 · 올린 페이지 대조 */
+  ["test_platform_copy.mjs", []],
 ]) {
   const result = spawnSync(process.execPath, [join(root, "scripts", script), ...scriptArgs], { cwd: root, encoding: "utf8", windowsHide: true, env: { ...process.env, QA_EXPORT_ROOT: out } });
   checks.push({ script, exitCode: result.status, output: `${result.stdout || ""}${result.stderr || ""}` });

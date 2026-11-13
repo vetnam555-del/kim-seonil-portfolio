@@ -1,0 +1,332 @@
+<title>{{TITLE}}</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,700;125,800&family=JetBrains+Mono:wght@500&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: one tab per edit screen (hash routed) over a single column. A field is a label row (count · copy · done) over the text to paste.
+   Colors and type follow the portfolio site: ink on white, warm paper surface, one red accent, teal for "done". */
+:root {
+  --bg: #ffffff;
+  --surface: #f2efe8;
+  --ink: #0b0d10;
+  --ink-2: #5a626c;
+  --line: #ddd8ca;
+  --accent: #c7301b;
+  --accent-soft: #f7ece9;
+  --done: #1a6f6b;
+  --done-soft: #e2efed;
+  --font-body: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
+  --font-display: "Archivo", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b0d10; --surface: #161c24; --ink: #f5f3ef; --ink-2: #a8b0ba; --line: #2c343f;
+    --accent: #ff5a3d; --accent-soft: #2b1714; --done: #4fd1cd; --done-soft: #10292a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0b0d10; --surface: #161c24; --ink: #f5f3ef; --ink-2: #a8b0ba; --line: #2c343f;
+  --accent: #ff5a3d; --accent-soft: #2b1714; --done: #4fd1cd; --done-soft: #10292a;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 10; background: var(--bg);
+}
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding-block: 32px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid;
+  gap: 28px;
+}
+
+/* masthead */
+.masthead { display: grid; gap: 10px; }
+.eyebrow {
+  margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 12px;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--accent);
+}
+h1 {
+  margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 6vw, 40px);
+  line-height: 1.1; letter-spacing: -.02em; text-wrap: balance;
+}
+.lede { margin: 0; color: var(--ink-2); max-width: 62ch; }
+
+/* progress */
+.progress { display: grid; gap: 6px; }
+.progress-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.progress-label { font-size: 13px; color: var(--ink-2); }
+.progress-num { font-family: var(--font-mono); font-size: 13px; font-variant-numeric: tabular-nums; }
+.bar { height: 4px; background: var(--surface); border-radius: 2px; overflow: hidden; }
+.bar > span { display: block; height: 100%; width: 0; background: var(--done); transition: width .25s ease; }
+
+/* tabs */
+.tabs {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 6; background: var(--bg);
+  display: flex; gap: 6px; overflow-x: auto; padding-block: 10px; margin-block: -10px;
+  border-bottom: 1px solid var(--line); scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: 0 0 auto; display: inline-flex; align-items: baseline; gap: 6px;
+  text-decoration: none; color: var(--ink-2); font-size: 14px; font-weight: 600;
+  padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap;
+}
+.tab:hover { color: var(--ink); border-color: var(--ink); }
+.tab[aria-current="page"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tab-count { font-family: var(--font-mono); font-size: 11px; font-variant-numeric: tabular-nums; opacity: .75; }
+.tab.all-done .tab-count { color: var(--done); opacity: 1; }
+.tab[aria-current="page"].all-done .tab-count { color: inherit; }
+
+/* panel */
+.panel { display: grid; gap: 16px; scroll-margin-top: 72px; min-width: 0; }
+/* The tab script hides inactive panels with the hidden attribute. `display: grid` above outranks the browser's own rule for [hidden],
+   so say it here — the page must not depend on a reset supplied by whatever hosts it. */
+.panel[hidden] { display: none; }
+.panel-title { margin: 0; font-size: 21px; font-weight: 700; line-height: 1.3; text-wrap: balance; }
+.sub { margin: 14px 0 0; padding-top: 16px; border-top: 1px solid var(--line); font-size: 16.5px; font-weight: 700; line-height: 1.35; }
+.note { margin: 0; font-size: 14px; color: var(--ink-2); max-width: 68ch; overflow-wrap: anywhere; }
+.notes { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 14px; color: var(--ink-2); }
+.notes li { padding-left: 14px; position: relative; overflow-wrap: anywhere; }
+.notes li::before { content: ""; position: absolute; left: 0; top: .72em; width: 6px; height: 1px; background: var(--ink-2); }
+
+/* entry card — one job in the career list */
+.entry { border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 14px; min-width: 0; }
+.entry-name { margin: 0; font-size: 16.5px; font-weight: 700; }
+
+/* field */
+.field { display: grid; gap: 8px; min-width: 0; }
+.field-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.field-label { font-weight: 700; font-size: 14px; }
+.count { font-family: var(--font-mono); font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; margin-left: auto; }
+.count.over { color: var(--accent); font-weight: 500; }
+.field-hint { margin: -2px 0 0; font-size: 13px; color: var(--ink-2); max-width: 68ch; }
+.value {
+  background: var(--surface); border-radius: 6px; padding: 12px 14px;
+  white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14.5px; line-height: 1.7; min-width: 0;
+}
+.value.one { line-height: 1.5; }
+.is-done > .value, .is-done > .chips { opacity: .55; }
+
+/* short values — label · value · copy */
+.kv { display: grid; gap: 0; margin: 0; border-top: 1px solid var(--line); }
+.kv-row { display: grid; grid-template-columns: minmax(84px, max-content) 1fr auto auto; gap: 4px 12px; align-items: center; padding-block: 9px; border-bottom: 1px solid var(--line); }
+.kv-row dt { font-size: 13px; color: var(--ink-2); }
+.kv-row dd { margin: 0; min-width: 0; overflow-wrap: anywhere; font-size: 14.5px; }
+.kv-row.is-done dd { color: var(--ink-2); }
+
+/* controls */
+button, .done-toggle { font: inherit; }
+.copy {
+  appearance: none; border: 1px solid var(--ink); background: transparent; color: var(--ink);
+  border-radius: 6px; padding: 3px 12px; font-size: 13px; font-weight: 600; cursor: pointer; min-width: 58px;
+}
+.copy:hover { background: var(--ink); color: var(--bg); }
+.copy.ok { border-color: var(--done); background: var(--done); color: var(--bg); }
+.copy:focus-visible, .chip:focus-visible, .done-toggle input:focus-visible, .checks input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.done-toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-2); cursor: pointer; user-select: none; }
+.done-toggle input { width: 16px; height: 16px; accent-color: var(--done); margin: 0; }
+.is-done > .field-head .done-toggle, .is-done > .row-actions .done-toggle, .kv-row.is-done > .done-toggle { color: var(--done); font-weight: 600; }
+
+/* chips */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  appearance: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  border-radius: 999px; padding: 4px 12px; font-size: 14px; cursor: pointer;
+}
+.chip:hover { border-color: var(--ink); }
+.chip.ok { border-color: var(--done); color: var(--done); }
+
+/* rows — one table line each */
+.rows { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.row { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; align-items: center; padding-block: 12px; border-bottom: 1px solid var(--line); }
+.row-main { min-width: 0; display: grid; gap: 2px; }
+.row-title { font-weight: 600; overflow-wrap: anywhere; }
+.row-sub { font-size: 13px; color: var(--ink-2); overflow-wrap: anywhere; }
+.row-sub b { font-weight: 500; color: var(--ink-2); }
+.row-actions { display: flex; align-items: center; gap: 8px 10px; flex-wrap: wrap; justify-content: flex-end; }
+.row.is-done .row-title { color: var(--ink-2); text-decoration: line-through; text-decoration-color: var(--done); }
+
+/* checklist */
+.checks { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.checks label { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; cursor: pointer; }
+.checks input { width: 17px; height: 17px; margin: 3px 0 0; accent-color: var(--done); }
+.checks b { font-weight: 600; }
+.checks small { display: block; color: var(--ink-2); font-size: 13px; }
+.checks .is-done b { color: var(--ink-2); }
+
+.aside { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 14px 16px; border-radius: 0 8px 8px 0; display: grid; gap: 6px; font-size: 14px; }
+.aside h3 { margin: 0; font-size: 15px; }
+.aside p { margin: 0; }
+.footer { margin: 0; font-size: 12.5px; color: var(--ink-2); border-top: 1px solid var(--line); padding-top: 14px; }
+
+a { color: inherit; text-decoration-color: var(--line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+@media (max-width: 520px) {
+  .row { grid-template-columns: 1fr; }
+  .row-actions { justify-content: flex-start; }
+  .count { margin-left: 0; order: 3; }
+  .kv-row { grid-template-columns: 1fr auto auto; }
+  .kv-row dt { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bar > span { transition: none; }
+}
+</style>
+
+<main class="page" data-fingerprint="{{FINGERPRINT}}">
+  <header class="masthead">
+    <p class="eyebrow">{{EYEBROW}}</p>
+    <h1>{{H1}}</h1>
+    <p class="lede">{{LEDE}}</p>
+  </header>
+  <div class="progress" aria-live="polite">
+    <div class="progress-row"><span class="progress-label">넣은 칸</span><span class="progress-num" id="progress-num">0 / 0</span></div>
+    <div class="bar"><span id="progress-bar"></span></div>
+  </div>
+  {{NAV}}
+  {{PANELS}}
+  <p class="footer">{{FOOTER}}</p>
+</main>
+<script type="application/json" id="private-notes">{{PRIVATE_JSON}}</script>
+<script>
+(function () {
+  var KEY_DONE = "{{KEY}}-done";
+  var KEY_TAB = "{{KEY}}-tab";
+  var TABS = {{TABS_JSON}};
+
+  function load(key) { try { return window.localStorage.getItem(key); } catch (e) { return null; } }
+  function save(key, value) { try { window.localStorage.setItem(key, value); } catch (e) { /* storage blocked */ } }
+
+  function updateCounts() {
+    document.querySelectorAll("[data-count]").forEach(function (el) {
+      var target = document.getElementById(el.getAttribute("data-count"));
+      if (!target) return;
+      var n = Array.from(target.textContent).length;
+      var limit = Number(el.getAttribute("data-limit") || 0);
+      el.textContent = limit ? n.toLocaleString("ko-KR") + " / " + limit.toLocaleString("ko-KR") : n.toLocaleString("ko-KR") + "자";
+      el.classList.toggle("over", limit > 0 && n > limit);
+    });
+  }
+
+  function flash(btn, ok, okText, failText) {
+    if (!btn.dataset.label) btn.dataset.label = btn.textContent;
+    btn.textContent = ok ? okText : failText;
+    btn.classList.toggle("ok", ok);
+    clearTimeout(btn._timer);
+    btn._timer = setTimeout(function () {
+      btn.textContent = btn.dataset.label;
+      btn.classList.remove("ok");
+    }, ok ? 1500 : 2600);
+  }
+
+  function selectNode(node) {
+    try {
+      var range = document.createRange();
+      range.selectNodeContents(node);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    } catch (e) { /* nothing to select */ }
+  }
+
+  function copyText(text, btn, node, okText) {
+    var done = function () { flash(btn, true, okText, ""); };
+    var fail = function () { selectNode(node); flash(btn, false, "", "선택됨 · Ctrl+C"); };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fail);
+      else fail();
+    } catch (e) {
+      fail();
+    }
+  }
+
+  document.addEventListener("click", function (ev) {
+    var btn = ev.target.closest("button.copy");
+    if (btn) {
+      var target = document.getElementById(btn.getAttribute("data-copy"));
+      if (target) copyText(target.textContent, btn, target, "복사됨");
+      return;
+    }
+    var chip = ev.target.closest("button.chip");
+    if (chip) copyText(chip.textContent.trim(), chip, chip, chip.textContent);
+  });
+
+  /* done state — kept in this browser only. A box's id is a hash of the whole text of its field, so after the page is
+     republished a field whose text changed has a new id and starts unchecked; unchanged fields keep their mark.
+     Marks whose id no longer exists are dropped. */
+  var boxes = Array.prototype.slice.call(document.querySelectorAll("input[data-done]"));
+  var saved = {};
+  try { saved = JSON.parse(load(KEY_DONE) || "{}") || {}; } catch (e) { saved = {}; }
+  var live = {};
+  boxes.forEach(function (box) { if (saved[box.id]) live[box.id] = true; });
+  if (Object.keys(live).length !== Object.keys(saved).length) save(KEY_DONE, JSON.stringify(live));
+  saved = live;
+
+  function paint(box) {
+    var scope = box.closest("[data-done-scope]");
+    if (scope) scope.classList.toggle("is-done", box.checked);
+  }
+  function updateProgress() {
+    var n = boxes.filter(function (b) { return b.checked; }).length;
+    document.getElementById("progress-num").textContent = n + " / " + boxes.length;
+    document.getElementById("progress-bar").style.width = (boxes.length ? (n / boxes.length) * 100 : 0) + "%";
+    document.querySelectorAll("[data-tab]").forEach(function (a) {
+      var panel = document.querySelector('[data-panel="' + a.getAttribute("data-tab") + '"]');
+      var inside = panel ? Array.prototype.slice.call(panel.querySelectorAll("input[data-done]")) : [];
+      var badge = a.querySelector(".tab-count");
+      if (!badge) return;
+      var k = inside.filter(function (b) { return b.checked; }).length;
+      badge.textContent = inside.length ? k + "/" + inside.length : "";
+      a.classList.toggle("all-done", inside.length > 0 && k === inside.length);
+    });
+  }
+  boxes.forEach(function (box) {
+    box.checked = !!saved[box.id];
+    paint(box);
+    box.addEventListener("change", function () {
+      saved[box.id] = box.checked;
+      save(KEY_DONE, JSON.stringify(saved));
+      paint(box);
+      updateProgress();
+    });
+  });
+
+  /* tabs */
+  function show(tab, fromHash) {
+    if (TABS.indexOf(tab) < 0) tab = TABS[0];
+    document.querySelectorAll("[data-panel]").forEach(function (p) { p.hidden = p.getAttribute("data-panel") !== tab; });
+    document.querySelectorAll("[data-tab]").forEach(function (a) {
+      if (a.getAttribute("data-tab") === tab) {
+        a.setAttribute("aria-current", "page");
+        try { a.scrollIntoView({ block: "nearest", inline: "nearest" }); } catch (e) { /* older engines */ }
+      } else a.removeAttribute("aria-current");
+    });
+    save(KEY_TAB, tab);
+    if (fromHash) window.scrollTo(0, 0);
+    updateCounts();
+  }
+  window.addEventListener("hashchange", function () { show(location.hash.slice(1), true); });
+  show(location.hash.slice(1) || load(KEY_TAB) || TABS[0], false);
+  updateCounts();
+  updateProgress();
+})();
+</script>
