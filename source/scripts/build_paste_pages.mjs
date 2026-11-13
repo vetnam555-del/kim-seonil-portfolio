@@ -111,6 +111,8 @@ export function notesFromPrivate(raw, where) {
 export function renderPage(page, doc, fingerprint, notes) {
   const used = new Set();
   const usedIds = new Set();
+  /* 칸의 이름(id)은 그 칸의 글 전체에서 낸다. '넣음' 표시는 이 이름으로 브라우저에 남으므로,
+     글이 한 글자라도 바뀐 칸은 이름이 달라져 다시 올린 페이지에서 표시가 풀린다(바뀐 칸을 다시 넣게 된다). 그대로인 칸의 표시는 남는다 */
   const uid = (prefix, ...parts) => {
     let id = idOf(prefix, ...parts);
     for (let k = 2; usedIds.has(id); k += 1) id = idOf(prefix, ...parts, String(k));
@@ -133,7 +135,7 @@ export function renderPage(page, doc, fingerprint, notes) {
     let checksPlaced = privateChecks.length === 0;
     const privateCheckList = () =>
       `<ul class="checks">${privateChecks
-        .map((m) => `<li data-done-scope><label><input type="checkbox" id="d-${uid("p", tab, m.title)}" data-done><span><b>${prose(m.title)}</b><small>${prose(m.body)}</small></span></label></li>`)
+        .map((m) => `<li data-done-scope><label><input type="checkbox" id="d-${uid("p", tab, m.title, m.body)}" data-done><span><b>${prose(m.title)}</b><small>${prose(m.body)}</small></span></label></li>`)
         .join("")}</ul>`;
 
     for (const n of section.nodes) {
@@ -146,7 +148,7 @@ export function renderPage(page, doc, fingerprint, notes) {
       } else if (n.type === "note") {
         out.push(`<p class="note">${prose(n.text)}</p>`);
       } else if (n.type === "field") {
-        const v = uid("v", tab, n.label, n.text.slice(0, 40));
+        const v = uid("v", tab, n.label, n.text);
         const one = !n.text.includes("\n") && count(n.text) <= 120;
         const hint = n.hints.map((h) => `<p class="field-hint">${prose(h)}</p>`).join("");
         out.push(
@@ -158,19 +160,29 @@ export function renderPage(page, doc, fingerprint, notes) {
         );
       } else if (n.type === "values") {
         const hint = n.hints.map((h) => `<p class="field-hint">${prose(h)}</p>`).join("");
+        /* 복사하는 것마다 '넣음' 표시가 있어야 진행 숫자가 맞는다 — 짧은 값은 줄마다, 키워드 묶음은 묶음에 하나 */
         if (n.items.every((it) => !it.label)) {
-          out.push(`<div class="field">${hint}<div class="chips">${n.items.map((it) => `<button class="chip" type="button" data-paste>${E(it.text)}</button>`).join("")}</div></div>`);
+          const g = uid("g", tab, ...n.items.map((it) => it.text));
+          out.push(
+            `<div class="field" data-done-scope><div class="field-head"><span class="field-label">${n.items.length}개</span>` +
+              `<label class="done-toggle"><input type="checkbox" id="d-${g}" data-done> 넣음</label></div>${hint}` +
+              `<div class="chips">${n.items.map((it) => `<button class="chip" type="button" data-paste>${E(it.text)}</button>`).join("")}</div></div>`,
+          );
         } else {
           const rows = n.items.map((it) => {
             const v = uid("k", tab, it.label, it.text);
-            return `<div class="kv-row"><dt>${E(it.label || "값")}</dt><dd><span id="${v}" data-paste>${E(it.text)}</span></dd><button class="copy" type="button" data-copy="${v}" aria-label="${E(it.label)} 복사">복사</button></div>`;
+            return (
+              `<div class="kv-row" data-done-scope><dt>${E(it.label || "값")}</dt><dd><span id="${v}" data-paste>${E(it.text)}</span></dd>` +
+              `<button class="copy" type="button" data-copy="${v}" aria-label="${E(it.label)} 복사">복사</button>` +
+              `<label class="done-toggle"><input type="checkbox" id="d-${v}" data-done aria-label="${E(it.label || "값")} 넣음"> 넣음</label></div>`
+            );
           });
           out.push(`${hint}<dl class="kv">${rows.join("")}</dl>${n.tail ? `<p class="note">${prose(n.tail)}</p>` : ""}`);
         }
       } else if (n.type === "table") {
         const rows = n.rows.map((r) => {
           const title = r.cells[0];
-          const t = uid("r", tab, title);
+          const t = uid("r", tab, ...r.cells);
           const subs = [];
           const buttons = [`<button class="copy" type="button" data-copy="${t}" aria-label="${E(title)} 복사">${E(n.head[0])}</button>`];
           /* 주소와 '설명' 칸은 따로 복사한다. 나머지 칸은 읽고 고르는 값이다 — 규칙은 platform_docs.mjs copyCells(검사와 같이 쓴다) */
@@ -179,7 +191,7 @@ export function renderPage(page, doc, fingerprint, notes) {
             if (!cell) return;
             const head = n.head[k + 1] || "";
             if (copied.has(k + 1)) {
-              const c = uid("c", tab, title, head);
+              const c = uid("c", tab, title, head, cell);
               subs.push(`<span class="row-sub"><b>${E(head)}</b> <span id="${c}" data-paste>${E(cell)}</span></span>`);
               buttons.push(`<button class="copy" type="button" data-copy="${c}" aria-label="${E(title)} ${E(head)} 복사">${E(head.replace(/^확인\s*/, ""))}</button>`);
             } else subs.push(`<span class="row-sub"><b>${E(head)}</b> ${prose(cell)}</span>`);
@@ -193,7 +205,7 @@ export function renderPage(page, doc, fingerprint, notes) {
       } else if (n.type === "list") {
         if (n.items.every((it) => it.title)) {
           const items = n.items.map((it) => {
-            const k = uid("c", tab, it.title);
+            const k = uid("c", tab, it.title, it.body);
             return `<li data-done-scope><label><input type="checkbox" id="d-${k}" data-done><span><b>${prose(it.title)}</b><small>${prose(it.body)}</small></span></label></li>`;
           });
           out.push(`<ul class="checks">${items.join("")}</ul>`);

@@ -135,6 +135,36 @@ check("만든 페이지는 탭 숨김 규칙을 스스로 갖고, 싣지 않는 
   assert.ok(!built.includes("싣지않는값") && !built.includes("적용 순서"));
   assert.ok(built.includes("주인만 보는 확인") && built.includes("주인만 보는 글"));
 });
+check("복사하는 것마다 '넣음' 표시가 있다 — 짧은 값은 줄마다, 키워드 묶음은 묶음에 하나", () => {
+  const kv = built.match(/<div class="kv-row" data-done-scope>[\s\S]*?<\/label><\/div>/g);
+  assert.equal(kv.length, 2);
+  for (const row of kv) assert.match(row, /<input type="checkbox" id="d-k-[0-9a-f]+" data-done/);
+  const withChips = renderPage(jobsPage, parseDocText("JOB_PLATFORMS.md", docText("\n`키워드 하나` · `키워드 둘`\n")), fp, []);
+  assert.match(withChips, /<div class="field" data-done-scope><div class="field-head"><span class="field-label">2개<\/span><label class="done-toggle"><input type="checkbox" id="d-g-[0-9a-f]+" data-done>/);
+  /* 표시 없는 복사 칸이 없다: 복사 칸을 품은 묶음(data-done-scope)마다 표시가 하나씩 있다 */
+  const panels = withChips.slice(withChips.indexOf('<nav class="tabs"'), withChips.indexOf('<p class="footer">'));
+  const scopes = (panels.match(/ data-done-scope>/g) || []).length;
+  const boxes = (panels.match(/<input type="checkbox" id="d-[^"]+" data-done/g) || []).length;
+  assert.ok(scopes > 0);
+  assert.equal(scopes, boxes);
+  const fields = (panels.match(/ data-paste>/g) || []).length;
+  assert.equal(fields, 11, "복사 칸: 짧은 값 2 · 글 2 · 표 5 · 키워드 2");
+});
+check("'넣음' 표시의 이름은 칸의 글 전체에서 나온다 — 뒤쪽만 바뀌어도 그 칸의 표시만 풀린다", () => {
+  const ids = (html) => [...html.matchAll(/id="(d-[^"]+)"/g)].map((m) => m[1]);
+  const long = "가나다라마바사아자차카타파하 ".repeat(5);
+  const page = (tail) => renderPage(jobsPage, parseDocText("JOB_PLATFORMS.md", docText().replace("소개 글입니다.", `${long}${tail}`)), fp, notes);
+  const [a, b] = [ids(page("끝이 이렇습니다.")), ids(page("끝이 바뀌었습니다."))];
+  assert.equal(a.length, b.length);
+  assert.equal(new Set(a).size, a.length, "이름이 겹치지 않는다");
+  assert.equal(a.filter((id, i) => id !== b[i]).length, 1, "글이 바뀐 칸 하나만 이름이 달라진다");
+  /* 표의 줄은 어느 칸이 바뀌어도, 확인 목록은 설명만 바뀌어도 이름이 달라진다 */
+  const row = ids(renderPage(jobsPage, parseDocText("JOB_PLATFORMS.md", docText().replace("| 2025 |", "| 2026 |")), fp, notes));
+  const base = ids(built);
+  assert.equal(base.filter((id, i) => id !== row[i]).length, 1);
+  const list = ids(renderPage(jobsPage, parseDocText("JOB_PLATFORMS.md", docText().replace("설명 하나.", "설명을 고쳤다.")), fp, notes));
+  assert.equal(base.filter((id, i) => id !== list[i]).length, 1);
+});
 check("메모의 모양이 다르거나 갈 탭이 없으면 멈춘다", () => {
   assert.throws(() => validateNotes([{ tab: "먼저 볼 것", kind: "memo", title: "가", body: "나" }], "시험"), /모양이 다르다/);
   assert.throws(() => validateNotes({ jobs: [] }, "시험"), /배열/);
