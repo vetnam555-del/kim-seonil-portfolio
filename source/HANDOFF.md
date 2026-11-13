@@ -63,6 +63,9 @@
    - 끝: `JOB_PLATFORMS.md` · `LINKEDIN.md` v4(바뀐 칸은 두 문서의 '먼저 볼 것') · 문서 → 붙여넣기 페이지(`platform_docs.mjs` · `build_paste_pages.mjs` · `paste_page_template.html`) ·
      검사 `check_platform_copy.mjs`(`npm run qa:platforms` · `qa_release` · `health_check` 경고) · 두 페이지 다시 올림(지문 3e7e9a4fd7b8) · 영상 v3.1 세 판형.
    - Codex 지적(5adce1c · P2) 반영: `--pages` 가 페이지마다 복사 칸을 개수까지 맞춘다(표 줄 포함 · `platform_docs.mjs` `copyCells` · `pasteFields`). 페이지는 문서 순서대로 넘긴다.
+   - Codex 재검토 지적(b2522bb · P2 3건) 반영: 템플릿 `.panel[hidden] { display: none; }`(빌더가 없으면 멈춘다) · `--pages` 는 2장이 아니면 실패 ·
+     숫자 검사가 '30여 개'를 읽는다. 템플릿이 바뀌어 두 페이지를 다시 올렸다(문서 지문은 그대로 3e7e9a4fd7b8).
+     지문은 `--pages <올린 두 페이지> --stamp` 로만 고쳐진다(확인에 실패가 없을 때).
    - 주인만 보는 메모는 페이지 안에만 있다(저장소에는 내용도 주제도 적지 않는다). 다시 만들 때 `--carry` 로 옮긴다(SKILL 13절).
    - 남은 것: 실제 프로필에 넣기(O-20 · 주인). 넣었다고 알려 주면 두 문서 머리의 '상태' 표를 고친다.
 

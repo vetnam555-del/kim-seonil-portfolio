@@ -163,6 +163,8 @@ export function parseDoc(name) {
     } else push({ type: "note", text: line, line: i + 1, endLine: i + 1 });
   }
 
+  /* 닫지 않은 ``` 블록은 그 아래 문서를 통째로 삼킨다 — 조용히 넘어가지 않는다 */
+  if (fence) throw new Error(`${name}:${fence.line - 1} — \`\`\` 블록이 닫히지 않았다. 그 아래 칸이 전부 빠진다.`);
   const pageSections = sections.filter((s) => s.inPage);
   /* 붙여 넣는 글 — 검사와 지문이 보는 것 */
   const blocks = [];

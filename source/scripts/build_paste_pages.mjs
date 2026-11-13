@@ -15,7 +15,7 @@
  * 결과물에는 그 메모가 들어 있으므로 저장소 밖(기본: 운영체제 임시 폴더)에 쓴다. 커밋하지 않는다.
  *
  * 올리는 순서(SKILL 13절): check --fix-counts → 이 스크립트 → Artifact 로 두 주소에 다시 올리기 →
- * check --pages <올린 두 파일> → check --stamp → 커밋.
+ * 올린 것을 다시 받아 check --pages <받은 두 파일> --stamp(같을 때만 지문을 고친다) → 커밋.
  */
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -200,6 +200,8 @@ function renderPage(page, doc, fingerprint, notes) {
     PRIVATE_JSON: JSON.stringify(notes).replace(/</g, "\\u003c"),
   };
   const template = readFileSync(join(HERE, "paste_page_template.html"), "utf8");
+  /* 탭은 hidden 속성으로 접는다. .panel 의 display 가 그 속성을 이기므로 이 규칙이 빠지면 모든 탭이 한꺼번에 보인다(2026.11.13 Codex 지적) */
+  if (!/\.panel\[hidden\]\s*\{\s*display:\s*none/.test(template)) throw new Error("paste_page_template.html: `.panel[hidden] { display: none; }` 규칙이 없다 — 탭을 바꿔도 다른 탭이 숨지 않는다.");
   return template.replace(/\{\{([A-Z_0-9]+)\}\}/g, (all, k) => (k in fill ? fill[k] : all));
 }
 
@@ -240,5 +242,5 @@ for (const page of PAGES) {
   const fields = (html.match(/data-paste/g) || []).length;
   console.log(`${file}  — 탭 ${doc.pageSections.length} · 복사하는 칸 ${fields} · 주인 메모 ${notes.length} · ${Math.round(Buffer.byteLength(html) / 1024)}KB`);
 }
-console.log(`문서 지문 ${fingerprint} — 두 주소에 다시 올린 뒤 check_platform_copy.mjs --pages 로 확인하고 --stamp.`);
+console.log(`문서 지문 ${fingerprint} — 두 주소에 다시 올린 뒤, 올린 것을 받아 check_platform_copy.mjs --pages <두 파일> --stamp.`);
 if (!existsSync(OUT)) process.exit(1);

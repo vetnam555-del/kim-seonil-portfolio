@@ -9,7 +9,8 @@
  *   node scripts/check_platform_copy.mjs --fix-counts   칸 이름 옆 '(글자 수 / 한도)'의 글자 수를 실제 값으로 고친다
  *   node scripts/check_platform_copy.mjs --pages <구직 페이지.html> <링크드인 페이지.html>
  *                                                      올린 붙여넣기 페이지(Artifact read 로 받은 HTML)가 문서와 같은지
- *   node scripts/check_platform_copy.mjs --stamp        붙여넣기 페이지를 다시 올린 뒤 문서 머리의 지문을 지금 원문으로 고친다
+ *   node scripts/check_platform_copy.mjs --pages <구직 페이지.html> <링크드인 페이지.html> --stamp
+ *                                                      위 확인에 실패가 없을 때만 문서 머리의 지문을 지금 원문으로 고친다(--pages 없이는 안 고친다)
  *   node scripts/check_platform_copy.mjs --release      출시 검수(qa_release.mjs)가 부르는 방식 — D 지문은 경고로만 남긴다.
  *                                                      페이지는 Claude 만 다시 올릴 수 있어서, 그것 때문에 사이트 출시가 막히면 안 된다
  *
@@ -18,7 +19,8 @@
  * '붙여 넣는 글'은 문서의 ```text 블록 · `백틱` 값 · 표다(platform_docs.mjs). 설명 문단은 보지 않는다.
  *
  * 실패(고쳐야 한다)
- *   A 숫자   붙여 넣는 글의 숫자(단위 포함)가 사이트 화면 글자에 없다
+ *   A 숫자   붙여 넣는 글의 숫자(단위 포함)가 사이트 화면 글자에 없다. 사이트 전체에서 찾으므로, 틀린 숫자라도 다른 쪽에 같은
+ *            숫자 · 단위가 있으면 통과한다(예: '40여 개') — 문장이 사이트와 달라진 것은 W2 가 알린다
  *   B 표기   경력 연수 · '전 HLL중앙' · 줄여 쓴 수상 이름 · 전화번호 · 포트폴리오 PDF 주소 · 구직 문구
  *   C 길이   칸 이름 옆에 적은 글자 수가 실제와 다르거나 한도를 넘는다
  *   D 지문   문서가 바뀌었는데 붙여넣기 페이지를 다시 올렸다는 표시(지문)가 옛것이다
@@ -93,7 +95,9 @@ if (!site.ko.includes("김선일")) {
 
 /* ── 숫자 토큰 — 숫자와 바로 뒤 단위를 한 덩어리로 본다 ── */
 const UNIT = "%p|%|pp|배|억|만|천|개|종|명|건|편|일|시간|분|초|년|월|곳|장|회|차|축|주|줄|단계|hours?|minutes?|months?|days?|channels?|brands?|industries|B\\+|M\\+|K\\+|x";
-const NUM_RE = new RegExp(`(\\d[\\d,]*(?:\\.\\d+)?)(\\+)?\\s?(${UNIT})?`, "gi");
+/* '30여 개' 처럼 숫자와 단위 사이에 '여'가 끼면 단위까지 한 덩어리로 읽는다(30개) — 안 그러면 단위 없는 두 자리 숫자로 버려져
+   문서의 '30여 개'가 '40여 개'로 바뀌어도 걸리지 않는다(2026.11.13 Codex 지적). 뒤에 단위가 올 때만 '여'로 본다('2025 여름'은 아니다) */
+const NUM_RE = new RegExp(`(\\d[\\d,]*(?:\\.\\d+)?)(\\+)?(?:\\s?여(?=\\s?(?:${UNIT})))?\\s?(${UNIT})?`, "gi");
 function numberTokens(text) {
   const out = [];
   for (const m of noUrls(plain(text)).matchAll(NUM_RE)) {
@@ -268,32 +272,27 @@ for (const b of pasteBlocks) {
 
 /* ── D 지문 — 문서가 바뀌면 붙여넣기 페이지도 다시 올린다 ─ */
 const fingerprint = fingerprintOf(docs);
-if (flag("--stamp")) {
-  for (const d of docs) {
-    const raw = readFileSync(d.file, "utf8");
-    if (!STAMP_RE.test(raw)) {
-      console.error(`${d.name}: 지문 줄이 없다 — 머리말에 '<!-- 붙여넣기 페이지 지문: 없음 -->' 을 넣는다.`);
-      process.exit(2);
-    }
-    writeFileSync(d.file, raw.replace(STAMP_RE, `<!-- 붙여넣기 페이지 지문: ${fingerprint} -->`));
-  }
-  console.log(`지문을 ${fingerprint} 로 고쳤다 — 붙여넣기 페이지 두 곳을 지금 문서로 다시 올린 뒤에만 쓴다.`);
-} else {
+/* --stamp 는 지문을 지금 문서로 고친다. 올린 두 페이지를 --pages 로 같이 넘겨 문서와 같다고 확인됐을 때만, 그리고 다른 실패가 없을 때만
+   고친다(맨 아래) — 확인 없이 지문만 고치면 낡은 페이지가 최신으로 보인다. */
+const stamping = flag("--stamp");
+{
   /* 출시 검수에서는 경고로만 — 페이지를 다시 올리는 일은 Claude 세션만 할 수 있다 */
   const stale = flag("--release") ? warns : fails;
   for (const d of docs) {
     const m = d.text.match(STAMP_RE);
-    if (!m) fails.push(`D 지문  ${d.name} — 지문 줄이 없다`);
-    else if (m[1] !== fingerprint) {
-      stale.push(`D 지문  ${d.name} — 문서가 바뀌었다(적힌 지문 ${m[1]} · 지금 ${fingerprint}). build_paste_pages.mjs 로 페이지를 만들어 다시 올리고 --pages 로 확인한 뒤 --stamp`);
+    if (!m) fails.push(`D 지문  ${d.name} — 지문 줄이 없다. 머리말에 '<!-- 붙여넣기 페이지 지문: 없음 -->' 을 넣는다`);
+    else if (m[1] !== fingerprint && !stamping) {
+      stale.push(`D 지문  ${d.name} — 문서가 바뀌었다(적힌 지문 ${m[1]} · 지금 ${fingerprint}). build_paste_pages.mjs 로 페이지를 만들어 다시 올리고 --pages <올린 두 페이지> --stamp`);
     }
   }
+  if (stamping && pagesAt < 0) fails.push("D 지문  --stamp 는 --pages <올린 두 페이지> 와 같이 쓴다 — 올린 페이지가 지금 문서와 같은지 확인한 뒤에만 지문을 고친다");
 }
 
 /* ── E 올린 붙여넣기 페이지가 문서와 같은가 ─────────────── */
 /* 페이지마다 그 문서의 복사 칸(글 · 짧은 값 · 표의 이름 · 주소 · 설명 칸)을 하나씩, 개수까지 맞춘다.
    빠진 칸도 남는 칸도 실패다 — 표 한 줄이 통째로 빠져도, 같은 값이 두 번 있어야 하는데 한 번만 있어도 잡는다. */
-if (pageFiles.length && pageFiles.length !== docs.length) {
+if (pagesAt >= 0 && pageFiles.length !== docs.length) {
+  /* 파일을 하나도 안 넘긴 것도 여기서 막는다 — 확인한 것처럼 조용히 통과하면 안 된다 */
   fails.push(`E 페이지  --pages 에는 올린 페이지 ${docs.length}장을 문서 순서(${DOCS.join(" → ")})대로 넘긴다 — ${pageFiles.length}장을 받았다`);
 } else if (pageFiles.length) {
   pageFiles.forEach((file, i) => {
@@ -333,6 +332,11 @@ if (warns.length && !flag("--quiet")) {
 if (fails.length) {
   console.log(`\n실패 ${fails.length}건`);
   for (const f of fails) console.log(`  ${f}`);
+  if (stamping) console.log("\n지문은 고치지 않았다 — 위 실패를 먼저 없앤다.");
   process.exit(1);
 }
 console.log("\n실패 0건");
+if (stamping) {
+  for (const d of docs) writeFileSync(d.file, readFileSync(d.file, "utf8").replace(STAMP_RE, `<!-- 붙여넣기 페이지 지문: ${fingerprint} -->`));
+  console.log(`올린 두 페이지가 지금 문서와 같다 — 문서의 지문을 ${fingerprint} 로 고쳤다.`);
+}
