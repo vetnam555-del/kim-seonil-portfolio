@@ -1,5 +1,5 @@
 /*
- * 대체 글꼴 폭 재기 (B-18 · 2026.11.13) — globals.css 의 "Pretendard Fallback KR" · "Pretendard Fallback Num" 이 쓰는 size-adjust 의 근거.
+ * 대체 글꼴 폭 재기 (B-18 · 2026.11.13) — globals.css 의 "Pretendard Fallback KR · Num · Alpha · Space" 가 쓰는 size-adjust 의 근거.
  *
  * 웹 글꼴(Pretendard)은 첫 그림 뒤에 붙는다. 그 사이 Android · 리눅스가 쓰는 시스템 글꼴(Noto Sans CJK KR · Roboto)과 폭이 다르면
  * 줄 수가 달라져 글꼴이 붙는 순간 화면이 밀린다. 이 스크립트는 그 차이와, 차이가 만드는 밀림(CLS)을 잰다.
@@ -16,6 +16,7 @@
  *     <alias binding="strong"><family>system-ui</family><prefer><family>Roboto</family><family>Noto Sans CJK KR</family></prefer></alias>
  *     (sans-serif 도 같게)
  * iOS · macOS(Apple SD Gothic Neo)와 Windows(맑은 고딕)는 여기서 잴 수 없다 — 그 글꼴이 없다(BACKLOG B-19).
+ * 여기서 재는 것도 실제 Android 기기가 아니라 같은 글꼴을 깐 Chromium 이다. 기본 한글 글꼴이 다른 기기는 기기에서 봐야 한다(B-19).
  */
 const { chromium } = require("playwright");
 

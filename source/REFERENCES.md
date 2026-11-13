@@ -238,7 +238,7 @@ AI 크리에이터의 개인 사이트 겸 미디어 키트다(인스타그램 �
 사이트가 아니라 사이트 밖 프로필 원문(`JOB_PLATFORMS.md` · `LINKEDIN.md`)을 다시 맞출 때 봤다(주인 "사람인 · 리멤버 · 잡코리아 · 원티드 · 링크드인도 전부 업데이트 · 완벽하게").
 로그인이 필요한 편집 화면은 볼 수 없어 공개된 안내만 썼다.
 
-- 사람인 고객센터 [이력서 등록 방법](https://www.saramin.co.kr/zf_user/help/help-word/view?idx=612) — 이력서 제목은 최대 100자, 인재풀 열람 제한 설정.
+- 사람인 고객센터 [이력서 등록 방법](https://www.saramin.co.kr/zf_user/help/help-word/view?idx=612) — 이력서 제목은 최대 100자.
 - 잡코리아 [경력직 이력서 작성법 2026](https://www.jobkorea.co.kr/goodjob/tip/view?News_No=18441) · [경력기술서 작성법](https://www.jobkorea.co.kr/goodjob/tip/view?News_No=13228&schCtgr=101011).
 - 원티드 이력서 글 두 편(wanted.co.kr/events/article_23_01_06 · article_23_01_09)은 자동 접속이 막혀 검색 요약으로만 확인했다(성과를 수치로 적은 이력서의 서류 합격률 +13%).
 

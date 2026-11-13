@@ -182,6 +182,19 @@ report.links = {
   server: linkRows.filter((r) => r.kind === "server").map((r) => `${r.url} (${r.status})`),
 };
 
+/* 4-2. 사이트 밖 프로필 원문(링크드인 · 채용 플랫폼) — 저장소 안의 문서와 빌드 결과만 본다(라이브 요청 없음 · 2026-11-13).
+   숫자 · 표기가 사이트와 어긋났거나, 문서를 고치고 붙여넣기 페이지를 다시 올리지 않았으면 경고로 알린다. 고치는 순서는 SKILL 13절 */
+{
+  const r = spawnSync(process.execPath, [join("scripts", "check_platform_copy.mjs"), "--quiet"], { encoding: "utf8" });
+  const lines = `${r.stdout || ""}${r.stderr || ""}`.split("\n").map((l) => l.trim());
+  const failed = lines.filter((l) => /^[A-E] /.test(l));
+  report.platformCopy = { ok: r.status === 0, failures: failed };
+  if (r.status !== 0) {
+    if (failed.length) for (const f of failed.slice(0, 6)) warn.push(`프로필 원문(링크드인 · 채용 플랫폼): ${f}`);
+    else warn.push(`프로필 원문 검사를 돌리지 못했습니다 — ${lines.filter(Boolean).slice(-1)[0] || `종료 코드 ${r.status}`}`);
+  }
+}
+
 /* 5. Lighthouse — 모바일 홈·대표 사례, 데스크톱 홈 */
 const LH_TARGETS = [
   ["mobile", `${LIVE}/?intro=0`, "홈"],
@@ -287,6 +300,9 @@ const md = [
   ...(report.lighthouse.length
     ? [``, `## Lighthouse (화면마다 ${LH_REPEAT}번, 성능 중앙값 회차)`, ...report.lighthouse.map((l) => `- ${l.form} ${l.page}: 성능 ${l.performance} (${l.performanceAll.join("·")}) · 접근성 ${l.accessibility} · 권장사항 ${l.bestPractices} · LCP ${l.lcp} · CLS ${l.cls} · TBT ${l.tbt}`)]
     : []),
+  ``,
+  `## 프로필 원문 (링크드인 · 채용 플랫폼)`,
+  `- ${report.platformCopy.ok ? "사이트와 맞음 · 붙여넣기 페이지 최신" : `확인 필요 ${report.platformCopy.failures.length}건 — 아래 경고`}`,
   ``,
   `## 측정 점수 (BACKLOG.md 채점 기준)`,
   ...report.scores.map((s) => `- ${s.area}: ${s.value} → ${s.score ?? "점수 없음(측정 못 함)"}`),

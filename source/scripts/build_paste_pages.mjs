@@ -9,7 +9,7 @@
  *   node scripts/build_paste_pages.mjs --private <메모.json> [--out <폴더>]
  *   node scripts/build_paste_pages.mjs --no-private [--out <폴더>]
  *
- * 주인만 보는 메모(재직 중이라 저장소에 적지 않는 것 — 현 직장 열람 제한 등)는 페이지 안에만 있다.
+ * 주인만 보는 메모(저장소에 적지 않는 것 — SKILL 1절 표의 채용 플랫폼 줄)는 페이지 안에만 있다.
  * 다시 만들 때는 올라가 있는 앞 판(Artifact read 로 받은 HTML)을 --carry 로 넘기면 그 메모를 그대로 옮긴다.
  * 메모 없이 만들려면 --no-private 를 일부러 적어야 한다(모르고 빠뜨리지 않게).
  * 결과물에는 그 메모가 들어 있으므로 저장소 밖(기본: 운영체제 임시 폴더)에 쓴다. 커밋하지 않는다.
