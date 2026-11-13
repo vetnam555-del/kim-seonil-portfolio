@@ -73,9 +73,11 @@
   /* --- 서체 ---
      역할을 인식론으로 나눈다: 측정된 값은 display/mono, 주장과 서술은 sans.
      이 분리가 형광펜 없이 수치를 튀어나오게 만드는 유일한 정공법이다. */
-  --font-sans: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  /* 2026.11.13 — "Pretendard Fallback …" 은 웹 글꼴이 오기 전에만 쓰이는 폭 맞춤 글꼴이다(아래 @font-face 설명).
+     Apple SD Gothic Neo · 맑은 고딕이 있는 기기는 그것이 먼저 잡혀 전과 같다 */
+  --font-sans: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", "Pretendard Fallback Num", "Pretendard Fallback Alpha", "Pretendard Fallback Space", "Pretendard Fallback KR", system-ui, sans-serif;
   /* 수치 전용. 가변축 wght 100–900 · wdth 62–125 를 그대로 쓴다. */
-  --font-display: "Archivo", "Pretendard", system-ui, sans-serif;
+  --font-display: "Archivo", "Pretendard", "Pretendard Fallback KR", system-ui, sans-serif;
   /* 라벨·기간·출처·각주 번호. 시스템 모노는 플랫폼마다 폭이 달라 표가 흔들렸다.
      ★ Pretendard 가 반드시 JetBrains Mono 바로 뒤에 와야 한다.
      JetBrains Mono 에는 한글 글리프가 없는데 이 스택에 한글 폴백이 없었다 —
@@ -83,7 +85,7 @@
      전부 마지막 generic `monospace` 로 떨어져 윈도우에서 굴림으로 렌더됐다.
      사이트 텍스트의 상당량이 여기에 해당해서 "폰트가 다 깨진다"로 보였던 원인이다.
      이제 라틴·숫자는 JetBrains Mono, 한글은 Pretendard 로 각자 제 서체를 찾아간다. */
-  --font-mono: "JetBrains Mono", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic",
+  --font-mono: "JetBrains Mono", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", "Pretendard Fallback KR",
     ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
   /* --- 타입 스케일 ---
@@ -223,6 +225,38 @@ html:not(.js) {
     scroll-behavior: auto;
   }
 }
+
+/*
+ * 글꼴이 오기 전의 대체 글꼴 폭 맞춤 (2026.11.13 · B-18)
+ *
+ * 웹 글꼴(Pretendard)은 첫 그림 뒤에 붙는다(layout.tsx FONT_LOADER). 그 사이 Android · 리눅스는 한글을 Noto Sans CJK KR 로,
+ * 숫자 · 영문을 Roboto 로 그리는데 Pretendard 와 폭이 다르다 — 한글은 6.4% 넓고, 숫자는 3.6–9% · 굵은 영문은 3–8% 좁고, 굵은 글씨의 빈칸은 4–14% 넓다.
+ * 줄 수가 달라져서 글꼴이 붙는 순간 그 아래가 밀렸다(소개 쪽 390px 은 CLS 0.14). 잰 값은 BACKLOG 2026-11-13 완료 기록에 있다.
+ *
+ * 같은 시스템 글꼴을 local() 로 불러 폭만 맞춘다. 받는 파일이 없어 속도에는 영향이 없다. 글자 묶음(unicode-range)마다 맞출 비율이 달라
+ * 한글 · 숫자 · 영문 · 빈칸을 따로 선언했고, 굵기마다 Pretendard 의 폭이 달라 400 · 600 · 700 · 900 을 따로 둔다. 문장부호는 전처럼 system-ui 가 그린다.
+ * 굵은 글씨는 Roboto Bold · Black 을 먼저 찾고, 없으면(가변 글꼴 하나만 있는 기기) Roboto 를 그 굵기로 쓴다.
+ *
+ * 이 규칙이 쓰이지 않는 곳은 전과 같다: Apple SD Gothic Neo(iOS · macOS)나 맑은 고딕(Windows)이 있는 기기는 그것이 먼저 잡히고(--font-sans 순서),
+ * 그 시스템 글꼴이 없거나 size-adjust 를 모르는 브라우저는 다음 글꼴(system-ui)로 넘어간다.
+ * 비율은 `node scripts/measure_font_fallback.cjs ratio` 로 다시 잰다 — Pretendard 파일을 바꾸면 다시 잰다(qa_interactions 가 이 규칙이 남아 있는지 본다).
+ */
+@font-face { font-family: "Pretendard Fallback KR"; src: local("Noto Sans CJK KR"), local("Noto Sans CJK KR Regular"), local("NotoSansCJKkr-Regular"), local("Noto Sans KR"), local("NotoSansKR-Regular"), local("Noto Sans CJK JP"); size-adjust: 93.94%; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7A3; }
+/* 숫자와 % + . */
+@font-face { font-family: "Pretendard Fallback Num"; font-weight: 400; src: local("Roboto"), local("Roboto Regular"), local("Roboto-Regular"); size-adjust: 103.74%; unicode-range: U+0025, U+002B, U+002E, U+0030-0039; }
+@font-face { font-family: "Pretendard Fallback Num"; font-weight: 600; src: local("Roboto Bold"), local("Roboto-Bold"), local("Roboto"); size-adjust: 105.36%; unicode-range: U+0025, U+002B, U+002E, U+0030-0039; }
+@font-face { font-family: "Pretendard Fallback Num"; font-weight: 700; src: local("Roboto Bold"), local("Roboto-Bold"), local("Roboto"); size-adjust: 107.23%; unicode-range: U+0025, U+002B, U+002E, U+0030-0039; }
+@font-face { font-family: "Pretendard Fallback Num"; font-weight: 900; src: local("Roboto Black"), local("Roboto-Black"), local("Roboto Bold"), local("Roboto-Bold"), local("Roboto"); size-adjust: 109.91%; unicode-range: U+0025, U+002B, U+002E, U+0030-0039; }
+/* 영문 글자 A–Z a–z */
+@font-face { font-family: "Pretendard Fallback Alpha"; font-weight: 400; src: local("Roboto"), local("Roboto Regular"), local("Roboto-Regular"); size-adjust: 100.3%; unicode-range: U+0041-005A, U+0061-007A; }
+@font-face { font-family: "Pretendard Fallback Alpha"; font-weight: 600; src: local("Roboto Bold"), local("Roboto-Bold"), local("Roboto"); size-adjust: 102.82%; unicode-range: U+0041-005A, U+0061-007A; }
+@font-face { font-family: "Pretendard Fallback Alpha"; font-weight: 700; src: local("Roboto Bold"), local("Roboto-Bold"), local("Roboto"); size-adjust: 104.91%; unicode-range: U+0041-005A, U+0061-007A; }
+@font-face { font-family: "Pretendard Fallback Alpha"; font-weight: 900; src: local("Roboto Black"), local("Roboto-Black"), local("Roboto Bold"), local("Roboto-Bold"), local("Roboto"); size-adjust: 108.29%; unicode-range: U+0041-005A, U+0061-007A; }
+/* 빈칸(보통 · 줄바꿈 없는 빈칸) — Pretendard 는 굵을수록 빈칸이 좁아지고 Roboto 는 그대로다 */
+@font-face { font-family: "Pretendard Fallback Space"; font-weight: 400; src: local("Roboto"), local("Roboto Regular"), local("Roboto-Regular"); size-adjust: 101.18%; unicode-range: U+0020, U+00A0; }
+@font-face { font-family: "Pretendard Fallback Space"; font-weight: 600; src: local("Roboto"), local("Roboto Regular"), local("Roboto-Regular"); size-adjust: 95.67%; unicode-range: U+0020, U+00A0; }
+@font-face { font-family: "Pretendard Fallback Space"; font-weight: 700; src: local("Roboto"), local("Roboto Regular"), local("Roboto-Regular"); size-adjust: 92.91%; unicode-range: U+0020, U+00A0; }
+@font-face { font-family: "Pretendard Fallback Space"; font-weight: 900; src: local("Roboto"), local("Roboto Regular"), local("Roboto-Regular"); size-adjust: 87.8%; unicode-range: U+0020, U+00A0; }
 
 body {
   background: var(--color-bg);

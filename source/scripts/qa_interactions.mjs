@@ -420,6 +420,26 @@ await test("print uses final values and reveals clipped text", () => {
   assert.match(print, /\.count-up-visual\s*\{[^}]*display:\s*none/);
   assert.match(print, /\[data-enter\][^}]*clip-path:\s*none/s);
 });
+await test("fallback faces keep text widths close to Pretendard before the web font arrives", () => {
+  /* B-18 (2026.11.13) — 이 규칙이 빠지면 Android 에서 글꼴이 붙는 순간 줄 수가 바뀌어 그 아래가 밀린다(소개 쪽 390px CLS 0.14 였다).
+     비율은 scripts/measure_font_fallback.cjs ratio 로 잰 값이다. Pretendard 파일을 바꿔 값을 고치면 여기도 같이 고친다 */
+  const css = read("app/globals.css");
+  const faces = [...css.matchAll(/@font-face\s*\{([^}]*)\}/g)].map((m) => m[1]);
+  const adjust = (family, weight) => {
+    const body = faces.find((b) => b.includes(`"${family}"`) && (weight ? new RegExp(`font-weight:\\s*${weight}\\b`).test(b) : true));
+    assert.ok(body, `${family} ${weight || ""} face is missing`);
+    assert.match(body, /src:\s*local\(/, `${family} must use local() only`);
+    assert.ok(!/url\(/.test(body), `${family} must not download a file`);
+    return Number(body.match(/size-adjust:\s*([\d.]+)%/)[1]);
+  };
+  assert.equal(adjust("Pretendard Fallback KR"), 93.94);
+  assert.deepEqual([400, 600, 700, 900].map((w) => adjust("Pretendard Fallback Num", w)), [103.74, 105.36, 107.23, 109.91]);
+  assert.deepEqual([400, 600, 700, 900].map((w) => adjust("Pretendard Fallback Alpha", w)), [100.3, 102.82, 104.91, 108.29]);
+  assert.deepEqual([400, 600, 700, 900].map((w) => adjust("Pretendard Fallback Space", w)), [101.18, 95.67, 92.91, 87.8]);
+  assert.match(faces.find((b) => b.includes('"Pretendard Fallback KR"')), /unicode-range:[^;]*U\+AC00-D7A3/);
+  /* 시스템 한글 글꼴(Apple SD Gothic Neo · 맑은 고딕)이 먼저, 그다음 폭 맞춤 글꼴, 끝에 system-ui */
+  assert.match(css, /--font-sans:\s*"Pretendard",\s*"Apple SD Gothic Neo",\s*"Malgun Gothic",\s*"Pretendard Fallback Num",\s*"Pretendard Fallback Alpha",\s*"Pretendard Fallback Space",\s*"Pretendard Fallback KR",\s*system-ui/);
+});
 await test("Gangwon homepage image has accurate responsive dimensions", () => {
   const source = read("components/ProjectsSection.tsx");
   assert.match(source, /"gangwon-meta-originals\.webp":\s*\{\s*width:\s*1896,\s*height:\s*700/);

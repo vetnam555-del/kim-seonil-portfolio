@@ -14,7 +14,7 @@
  * 메모 없이 만들려면 --no-private 를 일부러 적어야 한다(모르고 빠뜨리지 않게).
  * 결과물에는 그 메모가 들어 있으므로 저장소 밖(기본: 운영체제 임시 폴더)에 쓴다. 커밋하지 않는다.
  *
- * 올리는 순서(SKILL 11절): check --fix-counts → 이 스크립트 → Artifact 로 두 주소에 다시 올리기 →
+ * 올리는 순서(SKILL 13절): check --fix-counts → 이 스크립트 → Artifact 로 두 주소에 다시 올리기 →
  * check --pages <올린 두 파일> → check --stamp → 커밋.
  */
 import { createHash } from "node:crypto";

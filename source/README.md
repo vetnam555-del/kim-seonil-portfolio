@@ -19,6 +19,7 @@ npm run dev          # http://localhost:3000
 | `npm run build:full` | 빌드 + 폰트 서브셋 (기본 판 hll · 윈도우 `py` 전용 — 일반판 배포에는 쓰지 않는다) |
 | `npm run typecheck` | 타입 검사 |
 | `npm run health` | 라이브 점검 — main 과 같은지 · PDF · 외부 링크 (`health:full` 은 Lighthouse 포함) |
+| `npm run qa:platforms` | 사이트 밖 프로필 원문(`LINKEDIN.md` · `JOB_PLATFORMS.md`)이 지금 빌드와 맞는지 — 숫자 · 표기 · 글자 수 · 붙여넣기 페이지 지문 (SKILL 13절) |
 | `npm run fonts` | 폰트 서브셋만 재생성 |
 
 ## 계속 발전시키기

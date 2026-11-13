@@ -43,8 +43,8 @@ description: 김선일 포트폴리오를 고치고·검수하고·배포하고�
 | 증빙 이미지 | `source/public/evidence/` + `python3 scripts/measure_evidence.py` 로 `evidence-sizes.json` |
 | 이력서 PDF (5쪽) | `source/README.md` "이력서" 절대로 다시 인쇄 → `site.ts` `resumePdfPath` `?v=` 올림 |
 | 포트폴리오 PDF (29쪽 덱) | 아래 7절. 덱 문구(`v3/cases.js`)도 같은 사실로 맞춘다. **사이트 · 저장소에 싣지 않는다**(2026-10-31) — Drive 공유 폴더만 바꾼다 |
-| 링크드인 (사이트 밖 · 주인이 붙여 넣는다) | `source/LINKEDIN.md` 해당 칸 — 같은 사실 · 같은 표기로 맞추고 주인에게 알린다 |
-| 채용 플랫폼 — 리멤버 · 사람인 · 잡코리아 · 원티드 (사이트 밖 · 주인이 붙여 넣는다) | `source/JOB_PLATFORMS.md` 해당 칸 — 같은 사실 · 같은 표기. 공개 저장소라 현 직장 · 구직 설정에 관한 메모는 적지 않는다(주인에게 직접 전한다) |
+| 링크드인 (사이트 밖 · 주인이 붙여 넣는다) | `source/LINKEDIN.md` 해당 칸 — 같은 사실 · 같은 표기로 맞추고 붙여넣기 페이지를 다시 올린 뒤(13절) 주인에게 바뀐 칸을 알린다 |
+| 채용 플랫폼 — 리멤버 · 사람인 · 잡코리아 · 원티드 (사이트 밖 · 주인이 붙여 넣는다) | `source/JOB_PLATFORMS.md` 해당 칸 — 같은 사실 · 같은 표기. 공개 저장소라 현 직장 · 구직 설정에 관한 메모는 적지 않는다(주인에게 직접 전한다) 순서는 13절 |
 | 백로그 | `source/BACKLOG.md` 완료 기록 |
 
 ## 2. 문구·수치 원칙
@@ -69,7 +69,7 @@ npm run typecheck
 npm run qa:tone && npm run qa:en && npm run qa:final
 QA_BROWSER=$PWD/scripts/cloud_chromium.sh node scripts/qa_layout.mjs general
 QA_BROWSER=$PWD/scripts/cloud_chromium.sh node scripts/qa_wrap.mjs general
-node scripts/qa_release.mjs    # STATIC_PASS_RUNTIME_PENDING 과 fingerprint 를 얻는다 (동작 시험 qa_interactions 33건도 여기서 돈다 · 2026-11-04, 접기 3건 · #주소와 메뉴 7건 2026-11-12)
+node scripts/qa_release.mjs    # STATIC_PASS_RUNTIME_PENDING 과 fingerprint 를 얻는다 (동작 시험 qa_interactions 34건 · 프로필 원문 검사 check_platform_copy 도 여기서 돈다 — 13절)
 ```
 
 - 글꼴 서브셋은 같은 문자로는 늘 같은 파일이 나온다(B-13 · 2026-11-04). publish 뒤 `fonts/` 가 바뀌었으면 화면 문자가 바뀐 것이니 그대로 커밋한다.
@@ -213,6 +213,9 @@ node scripts/qa_release.mjs --approve --runtime=artifacts/release/runtime/runtim
   컨테이너의 프록시 CA 를 Chromium 인증서 저장소에 넣는 것이다. TLS 검증을 끄거나 프록시 설정을 지우지 않는다.
 - 덱을 구우려면 `apt-get install -y --no-install-recommends libreoffice-impress` 와 Pretendard TTF(`~/.fonts`, `fc-cache -f`)가 필요하다.
 - `pkill -f <패턴>` 은 자기 셸까지 끝낼 수 있다. 서버는 PID 로 끈다.
+- 컨테이너의 기본 한글 글꼴(WenQuanYi)은 실제 휴대폰 글꼴보다 훨씬 넓다. 웹 글꼴이 붙기 전 화면(글꼴 교체 때의 밀림 · Lighthouse CLS)을
+  재려면 Android 글꼴을 먼저 깐다 — `scripts/measure_font_fallback.cjs` 머리 주석의 '준비'(fonts-noto-cjk · fonts-roboto · fontconfig alias).
+  깔지 않고 잰 CLS 는 실제보다 크게 나온다(2026-11-12 라이브 모바일 홈 0.094 가 그랬다).
 
 ## 12. 코덱스(자비스)로 넘기기 (2026-10-25 주인 결정)
 
@@ -231,3 +234,30 @@ Claude 는 한도에 걸리는 순간 아무것도 못 하므로, **언제 멈�
 - 코덱스가 만든 커밋은 자비스 검토 대신 Claude 가 교차 검토한다: diff 를 읽고, 정적 검수와 RELEASE_PASS 를 다시 돌리고,
   결과를 주인에게 알린 뒤 6절 순서로 합친다. 코덱스는 `main` 에 직접 합치지 않는다(주인이 합치라고 할 때만).
 - 루트 `AGENTS.md` 는 빌드 결과가 아니다 — `publish_general.mjs` KEEP · `pages.yml` 제외 목록 · `health_check.mjs` 비공개 확인에 들어 있다.
+
+## 13. 사이트 밖 프로필 원문 — 링크드인 · 채용 플랫폼 (2026-11-13)
+
+`source/LINKEDIN.md` 와 `source/JOB_PLATFORMS.md` 는 주인이 다섯 곳(링크드인 · 리멤버 · 사람인 · 잡코리아 · 원티드)에 붙여 넣는 글이다.
+**문서가 원본이고 붙여넣기 페이지(주소는 각 문서 머리말)는 문서를 그대로 옮긴 것**이다. 페이지를 손으로 고치지 않는다 —
+2026-11-06 에 문서만 고치고 페이지를 그대로 둬서 링크드인 페이지에 옛 EDIT H 문구가 일주일 남아 있었다.
+
+고칠 때 (`cd source`):
+
+1. 문서를 고친다. 쓰는 법은 `scripts/platform_docs.mjs` 머리 주석 — 칸 이름 줄 · `> ` 설명 · ```` ```text ```` 블록 · `` `값` `` · 표 · `<!-- 페이지 끝 -->`.
+   사이트에 있는 사실 · 숫자만 쓴다. 바뀐 칸은 '먼저 볼 것'의 '바뀐 칸' 목록에 적어 주인이 무엇을 다시 넣을지 알게 한다.
+2. `node scripts/check_platform_copy.mjs --fix-counts` — 글자 수를 채우고 숫자(A) · 표기(B) · 길이(C)를 본다. 경고(W)는 읽고 판단한다.
+3. 올라가 있는 두 페이지를 Artifact read 로 받는다(주인만 보는 메모가 그 안에만 있다). 받은 파일을 넘겨 다시 만든다:
+   `node scripts/build_paste_pages.mjs --carry <구직 페이지.html> <링크드인 페이지.html> --out <스크래치 폴더>`. 결과물은 저장소 밖에 두고 커밋하지 않는다.
+4. Artifact 로 같은 주소(`url`)에 다시 올리고, 올린 것을 다시 받아(read · `path: index.html`) 확인한다:
+   `node scripts/check_platform_copy.mjs --pages <받은 두 파일>` — E 가 0 이어야 한다.
+5. `node scripts/check_platform_copy.mjs --stamp` 로 문서의 지문을 고치고 커밋한다. `npm run qa:platforms` 가 실패 0 이면 끝이다.
+6. 주인에게 바뀐 칸을 알린다. 실제 프로필에 넣는 일은 주인이 하거나, 주인이 로그인한 데스크톱 앱 브라우저에서 문서의 '직접 넣게 하기' 요청문으로 한다 —
+   클라우드 세션은 다섯 사이트를 열지 못한다. 넣었다고 주인이 알려 주면 문서 머리의 '상태' 표를 고친다.
+
+- 출시 검수(`qa_release`)는 A · B · C 만 실패로 세고 낡은 페이지(D 지문)는 경고로 남긴다. 페이지는 Claude 세션만 올릴 수 있어서다.
+  코덱스가 문서를 고쳤다면 `HANDOFF.md` 에 "붙여넣기 페이지 다시 올릴 것"을 적고, 다음 Claude 세션이 3–5번을 한다.
+- 주인만 보는 메모(현 직장 열람 제한 · 사내 규정 확인처럼 재직 중 구직에 관한 것)는 저장소에 적지 않는다. 페이지 안에만 있고 `--carry` 가 옮긴다.
+  더하거나 고치려면 `--private <json>`(`{ "jobs": [{ "tab": 탭 이름 일부, "kind": "check" | "aside", "title", "body" }], "linkedin": [...] }`)으로 넘긴다.
+- 한 줄로 잘려 보이는 칸(이력서 제목 · 링크드인 헤드라인)은 '통합 퍼포먼스 부문 우수상'을 시상식 이름보다 앞에 둔다(BACKLOG '정해 둔 것').
+- 링크드인 소개 영상은 사이트 첫 화면을 찍어 쓴다. 첫 화면을 바꾸면 다시 굽는다(`LINKEDIN.md` '자료' 절).
+

@@ -6,6 +6,8 @@ Run `node scripts/build_edition.mjs general`. The general edition preserves the 
 
 Run `npm run qa:release`. A static-only pass reports `STATIC_PASS_RUNTIME_PENDING`; it is not a release approval. The gate checks facts, internal links, evidence, wording, featured layouts, motion fallbacks, and reviewed PDF hashes.
 
+The same run compares the off-site profile copy (`LINKEDIN.md`, `JOB_PLATFORMS.md`) with this build: every number in the text that gets pasted must appear on the site, and banned wording (career years, a shortened award name, phone numbers, the private deck's address) fails the gate. If a fact changed on the site, change those two documents in the same commit. A stale paste page is only a warning here; `npm run qa:platforms` fails on it until the pages are republished (manual, section 13).
+
 ## Browser Review
 
 Use the connected browser on the new export. Inspect actual rendered screens, not only extracted text. Record the export fingerprint from `node scripts/qa_release.mjs --fingerprint` with the browser results.
