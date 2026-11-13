@@ -1,12 +1,18 @@
 /**
  * 사이트 밖 프로필 원문 도구의 회귀 시험 (2026.11.13) — 문서 읽기 · 숫자 토큰 · 페이지 만들기 · 올린 페이지 대조.
  * Codex 검토가 세 번에 걸쳐 짚은 것(빠진 표 줄, 탭 숨김, '30여 개', 부호, 옮겨진 칸, 빠진 '페이지 끝')을 한곳에 묶어 둔다.
- * 지어낸 문서로 돌리므로 실제 문서 · 사이트 빌드가 없어도 된다. qa_release.mjs 가 부른다.
+ * 앞부분은 지어낸 문서로 돌린다. 끝의 명령줄 시험은 실제 두 문서로 페이지를 만들어 보되 결과물은 임시 폴더에만 쓴다.
+ * qa_release.mjs 가 부른다.
  *
  *   node scripts/test_platform_copy.mjs
  */
 import assert from "node:assert/strict";
-import { PAGES, comparePublished, pageFingerprint, renderPage, validateNotes } from "./build_paste_pages.mjs";
+import { spawnSync } from "node:child_process";
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { PAGES, comparePublished, notesFromPrivate, pageFingerprint, renderPage, validateNotes } from "./build_paste_pages.mjs";
 import { PAGE_END, copyCells, numberTokens, parseDocText } from "./platform_docs.mjs";
 
 let passed = 0;
@@ -179,5 +185,85 @@ check("옛 템플릿(탭 숨김 규칙 없음)이나 옛 지문으로 만든 페
 check("이 빌더로 만들지 않은 페이지는 다르다", () => {
   assert.ok(diff("<html><body><p>다른 페이지</p></body></html>").some((x) => x.includes("주인 메모 칸")));
 });
+
+/* ── 메모 묶음의 모양 ──────────────────────────────────── */
+check("--private JSON 은 페이지마다 묶음이 있어야 한다(빈 배열은 된다)", () => {
+  const one = { tab: "먼저 볼 것", kind: "check", title: "가", body: "나" };
+  assert.deepEqual(notesFromPrivate({ jobs: [one], linkedin: [] }, "시험"), { jobs: [one], linkedin: [] });
+  assert.throws(() => notesFromPrivate({ jobs: [one] }, "시험"), /linkedin 묶음이 없다/);
+  assert.throws(() => notesFromPrivate({ jobs: [one], linkedIn: [] }, "시험"), /모르는 열쇠 linkedIn/);
+  assert.throws(() => notesFromPrivate([one], "시험"), /모양이어야 한다/);
+});
+
+/* ── 명령줄 — 실제 문서로 만들어 본다(결과물은 임시 폴더에만 쓴다) ── */
+const HERE = dirname(fileURLToPath(import.meta.url));
+const run = (script, ...args) => spawnSync(process.execPath, [join(HERE, script), ...args], { encoding: "utf8" });
+const tmp = mkdtempSync(join(tmpdir(), "ksi-paste-test-"));
+try {
+  const fake = { jobs: [{ tab: "먼저 볼 것", kind: "check", title: "시험 메모", body: "시험." }], linkedin: [{ tab: "먼저 볼 것", kind: "aside", title: "시험 메모", body: "시험." }] };
+  const priv = join(tmp, "notes.json");
+  writeFileSync(priv, JSON.stringify(fake));
+  const first = join(tmp, "first");
+  const built1 = run("build_paste_pages.mjs", "--private", priv, "--out", first);
+  check("빌더는 임시 폴더에 두 장을 만든다", () => {
+    assert.equal(built1.status, 0, built1.stderr);
+    assert.deepEqual(readdirSync(first).sort(), PAGES.map((x) => x.file).sort());
+  });
+  const files = PAGES.map((x) => join(first, x.file));
+  check("모르는 깃발 · 메모를 가져올 곳이 없거나 둘이면 멈춘다", () => {
+    assert.equal(run("build_paste_pages.mjs", "--carry", ...files, "--outt", join(tmp, "x")).status, 2);
+    assert.equal(run("build_paste_pages.mjs", "--out", join(tmp, "x")).status, 2);
+    assert.equal(run("build_paste_pages.mjs", "--carry", ...files, "--no-private", "--out", join(tmp, "x")).status, 2);
+    assert.ok(!existsSync(join(tmp, "x")));
+  });
+  check("--private 에 한 페이지의 묶음이 빠지면 만들지 않는다", () => {
+    const bad = join(tmp, "bad.json");
+    writeFileSync(bad, JSON.stringify({ jobs: fake.jobs }));
+    const r = run("build_paste_pages.mjs", "--private", bad, "--out", join(tmp, "bad"));
+    assert.equal(r.status, 2);
+    assert.match(r.stderr, /linkedin 묶음이 없다/);
+    assert.ok(!existsSync(join(tmp, "bad")));
+  });
+  check("--carry 의 순서가 바뀌면 만들지 않는다", () => {
+    const r = run("build_paste_pages.mjs", "--carry", files[1], files[0], "--out", join(tmp, "swapped"));
+    assert.equal(r.status, 2);
+    assert.match(r.stderr, /페이지가 아니다/);
+    assert.ok(!existsSync(join(tmp, "swapped")));
+  });
+  check("메모가 든 결과물은 저장소 안으로 쓰지 않는다 — 밖에 있는 링크가 안을 가리켜도", () => {
+    const inside = join(HERE, "..", "artifacts", `paste-test-${process.pid}`);
+    try {
+      assert.equal(run("build_paste_pages.mjs", "--carry", ...files, "--out", inside).status, 2);
+      assert.ok(!existsSync(inside), "저장소 안에 폴더를 만들지 않는다");
+      mkdirSync(inside, { recursive: true });
+      const link = join(tmp, "link");
+      let linked = true;
+      try {
+        symlinkSync(inside, link, "dir");
+      } catch {
+        linked = false; /* 링크를 만들 권한이 없는 환경(Windows 기본값)에서는 이 경우를 건너뛴다 */
+      }
+      if (linked) {
+        assert.equal(run("build_paste_pages.mjs", "--carry", ...files, "--out", link).status, 2);
+        assert.equal(run("build_paste_pages.mjs", "--carry", ...files, "--out", join(link, "deeper")).status, 2);
+        const fileLink = join(tmp, "filelink");
+        mkdirSync(fileLink);
+        symlinkSync(join(inside, "leak.html"), join(fileLink, PAGES[0].file), "file");
+        assert.equal(run("build_paste_pages.mjs", "--carry", ...files, "--out", fileLink).status, 2);
+      }
+      assert.deepEqual(readdirSync(inside), [], "저장소 안에 아무것도 쓰이지 않았다");
+      /* 메모가 없으면 저장소 안에도 쓸 수 있다 — 숨길 것이 없다 */
+      assert.equal(run("build_paste_pages.mjs", "--no-private", "--out", inside).status, 0);
+    } finally {
+      rmSync(inside, { recursive: true, force: true });
+    }
+  });
+  check("검사도 모르는 깃발 · 자리 없는 값을 받지 않는다", () => {
+    assert.equal(run("check_platform_copy.mjs", "--page", ...files).status, 2);
+    assert.equal(run("check_platform_copy.mjs", files[0]).status, 2);
+  });
+} finally {
+  rmSync(tmp, { recursive: true, force: true });
+}
 
 console.log(`Platform copy tools: ${passed} regression checks passed`);

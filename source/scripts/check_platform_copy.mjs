@@ -43,6 +43,15 @@ const args = process.argv.slice(2);
 const flag = (name) => args.includes(name);
 const pagesAt = args.indexOf("--pages");
 const pageFiles = pagesAt >= 0 ? args.slice(pagesAt + 1).filter((a) => !a.startsWith("--")) : [];
+/* 잘못 적은 깃발('--page' 등)이 조용히 무시되면 확인하지 않은 것이 확인한 것처럼 지나간다 — 모르는 것은 받지 않는다 */
+{
+  const unknown = args.filter((a) => a.startsWith("--") && !["--fix-counts", "--pages", "--stamp", "--release", "--quiet"].includes(a));
+  const stray = (pagesAt < 0 ? args : args.slice(0, pagesAt)).filter((a) => !a.startsWith("--"));
+  if (unknown.length || stray.length) {
+    console.error(`${unknown.length ? `모르는 깃발 ${unknown.join(" ")}` : `어디에도 속하지 않는 값 ${stray.join(" ")}`}\n쓰는 법: check_platform_copy.mjs [--fix-counts] [--release] [--quiet] [--pages <구직 페이지.html> <링크드인 페이지.html> [--stamp]]`);
+    process.exit(2);
+  }
+}
 
 /* ── 사이트 화면 글자 (루트 빌드 결과) ─────────────────── */
 function htmlFiles(dir, acc = []) {

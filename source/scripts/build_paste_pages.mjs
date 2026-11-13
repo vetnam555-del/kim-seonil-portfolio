@@ -22,9 +22,9 @@
  * 검사(check_platform_copy.mjs)와 시험(test_platform_copy.mjs)이 이 파일의 함수를 가져다 쓴다.
  */
 import { createHash } from "node:crypto";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve, sep } from "node:path";
+import { basename, dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DOCS, copyCells, count, parseDoc, squash } from "./platform_docs.mjs";
 
@@ -92,6 +92,20 @@ export function validateNotes(notes, where) {
     if (!ok) throw new Error(`${where}: 주인 메모 ${i + 1}번의 모양이 다르다 — { tab, kind: "check" | "aside", title, body } 가 다 있어야 한다.`);
   });
   return notes;
+}
+
+/**
+ * --private 로 받은 JSON 을 페이지별 메모로. 페이지마다 열쇠(jobs · linkedin)가 꼭 있어야 한다 — 빈 배열은 되지만,
+ * 빠지거나 잘못 적힌 열쇠를 '메모 없음'으로 넘기면 그 페이지가 메모 없이 다시 올라간다.
+ */
+export function notesFromPrivate(raw, where) {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new Error(`${where}: { ${PAGES.map((x) => `"${x.id}": [...]`).join(", ")} } 모양이어야 한다.`);
+  const ids = PAGES.map((x) => x.id);
+  const unknown = Object.keys(raw).filter((k) => !ids.includes(k));
+  if (unknown.length) throw new Error(`${where}: 모르는 열쇠 ${unknown.join(", ")} — 쓸 수 있는 것은 ${ids.join(" · ")} 다.`);
+  const missing = ids.filter((k) => !(k in raw));
+  if (missing.length) throw new Error(`${where}: ${missing.join(", ")} 묶음이 없다 — 그 페이지에 메모가 없으면 빈 배열([])을 적는다.`);
+  return Object.fromEntries(ids.map((k) => [k, validateNotes(raw[k], `${where} 의 ${k}`)]));
 }
 
 export function renderPage(page, doc, fingerprint, notes) {
@@ -332,6 +346,13 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
 
 function main() {
   const args = process.argv.slice(2);
+  const stop = (msg) => {
+    console.error(msg);
+    process.exit(2);
+  };
+  const USAGE = "쓰는 법: build_paste_pages.mjs (--carry <앞 판 구직 페이지> <앞 판 링크드인 페이지> | --private <메모.json> | --no-private) [--out <저장소 밖 폴더>]";
+  const unknown = args.filter((a) => a.startsWith("--") && !["--carry", "--private", "--no-private", "--out"].includes(a));
+  if (unknown.length) stop(`모르는 깃발 ${unknown.join(" ")}\n${USAGE}`);
   /** 깃발 뒤에 이어지는 값들(다음 깃발 전까지) */
   const after = (flag) => {
     const i = args.indexOf(flag);
@@ -340,38 +361,69 @@ function main() {
     const end = rest.findIndex((a) => a.startsWith("--"));
     return end < 0 ? rest : rest.slice(0, end);
   };
-  const OUT = resolve((after("--out") || [])[0] || join(tmpdir(), "ksi-paste-pages"));
-  let notesBy = null;
-  const carry = after("--carry");
-  const priv = after("--private");
-  if (carry && carry.length) {
-    if (carry.length !== PAGES.length) throw new Error(`--carry 에는 앞 판 페이지 ${PAGES.length}장(구직 · 링크드인 순서)을 넘긴다.`);
-    notesBy = Object.fromEntries(PAGES.map((p, i) => [p.id, notesFromHtml(readFileSync(carry[i], "utf8"), carry[i])]));
-  } else if (priv && priv.length) {
-    notesBy = JSON.parse(readFileSync(priv[0], "utf8"));
-    for (const page of PAGES) validateNotes(notesBy[page.id] || [], `${priv[0]} 의 ${page.id}`);
-  } else if (args.includes("--no-private")) {
-    notesBy = {};
-  } else {
-    console.error("주인만 보는 메모를 어디서 가져올지 정한다: --carry <앞 판 두 장> · --private <json> · --no-private(메모 없이).");
-    process.exit(2);
+  const outArg = after("--out");
+  if (outArg && outArg.length !== 1) stop(`--out 에는 폴더 하나를 준다.\n${USAGE}`);
+  const OUT = resolve(outArg ? outArg[0] : join(tmpdir(), "ksi-paste-pages"));
+
+  /* 주인만 보는 메모를 어디서 가져올지는 하나만 — 둘을 같이 주면 어느 쪽이 쓰였는지 모르게 된다 */
+  const sources = ["--carry", "--private", "--no-private"].filter((f) => args.includes(f));
+  if (sources.length !== 1) stop(`주인만 보는 메모를 어디서 가져올지 하나만 정한다: --carry <앞 판 두 장> · --private <json> · --no-private(메모 없이).\n${USAGE}`);
+  let notesBy;
+  try {
+    if (sources[0] === "--carry") {
+      const carry = after("--carry");
+      if (carry.length !== PAGES.length) stop(`--carry 에는 앞 판 페이지 ${PAGES.length}장을 ${PAGES.map((x) => x.h1).join(" → ")} 순서로 넘긴다.`);
+      notesBy = Object.fromEntries(
+        PAGES.map((page, i) => {
+          const html = readFileSync(carry[i], "utf8");
+          /* 순서가 바뀌면 한 페이지의 메모가 다른 페이지로 간다 — 제목으로 그 페이지가 맞는지 본다 */
+          if (!html.includes(`<title>${E(page.title)}</title>`)) stop(`${carry[i]}: '${page.title}' 페이지가 아니다 — --carry 는 ${PAGES.map((x) => x.h1).join(" → ")} 순서로 넘긴다.`);
+          return [page.id, notesFromHtml(html, carry[i])];
+        }),
+      );
+    } else if (sources[0] === "--private") {
+      const priv = after("--private");
+      if (priv.length !== 1) stop(`--private 에는 JSON 파일 하나를 준다.\n${USAGE}`);
+      notesBy = notesFromPrivate(JSON.parse(readFileSync(priv[0], "utf8")), priv[0]);
+    } else {
+      notesBy = Object.fromEntries(PAGES.map((page) => [page.id, []]));
+    }
+  } catch (e) {
+    stop(`주인 메모를 읽지 못했다 — ${e.message}`);
   }
 
   const docs = DOCS.map(parseDoc);
   const fingerprint = pageFingerprint(docs);
-  /* 결과물에는 주인만 보는 메모가 들어 있다 — 저장소 안에는 쓰지 않는다(실수로 커밋되면 공개된다) */
-  const repo = resolve(HERE, "..", "..");
-  const hasNotes = PAGES.some((page) => (notesBy[page.id] || []).length);
-  if (hasNotes && (OUT === repo || OUT.startsWith(repo + sep))) {
-    console.error(`--out 이 저장소 안이다(${OUT}). 결과물에 주인만 보는 메모가 들어가므로 저장소 밖 폴더를 준다.`);
-    process.exit(2);
-  }
+  /* 결과물에는 주인만 보는 메모가 들어 있다 — 저장소 안에는 쓰지 않는다(실수로 커밋되면 공개된다).
+     저장소 밖에 있는 링크가 안을 가리킬 수 있으므로 글자로 된 경로가 아니라 실제 자리로 본다. 아직 없는 폴더는 있는 데까지 풀고 나머지를 붙인다 */
+  const repo = realpathSync(resolve(HERE, "..", ".."));
+  const realOf = (target) => {
+    let cur = target;
+    const rest = [];
+    while (!existsSync(cur)) {
+      const parent = dirname(cur);
+      if (parent === cur) break;
+      rest.unshift(basename(cur));
+      cur = parent;
+    }
+    return join(realpathSync(cur), ...rest);
+  };
+  const insideRepo = (target) => {
+    const real = realOf(target);
+    return real === repo || real.startsWith(repo + sep);
+  };
+  const hasNotes = PAGES.some((page) => notesBy[page.id].length);
+  const refuse = (target) => stop(`결과물 자리가 저장소 안이다(${target} → ${realOf(target)}). 주인만 보는 메모가 들어가므로 저장소 밖 폴더를 준다.`);
+  if (hasNotes && insideRepo(OUT)) refuse(OUT);
   mkdirSync(OUT, { recursive: true });
+  if (hasNotes && insideRepo(OUT)) refuse(OUT);
   for (const page of PAGES) {
     const doc = docs.find((d) => d.name === page.doc);
-    const notes = notesBy[page.id] || [];
+    const notes = notesBy[page.id];
     const html = renderPage(page, doc, fingerprint, notes);
     const file = join(OUT, page.file);
+    /* 파일 자리에 링크가 놓여 있으면 쓰는 순간 그 링크가 가리키는 곳에 쓰인다(끊긴 링크도 마찬가지다) */
+    if (hasNotes && lstatSync(file, { throwIfNoEntry: false })?.isSymbolicLink()) stop(`${file} 자리에 링크가 있다 — 지우고 다시 한다(메모가 든 결과물을 링크 너머에 쓰지 않는다).`);
     writeFileSync(file, html);
     const fields = (html.match(/data-paste/g) || []).length;
     console.log(`${file}  — 탭 ${doc.pageSections.length} · 복사하는 칸 ${fields} · 주인 메모 ${notes.length} · ${Math.round(Buffer.byteLength(html) / 1024)}KB`);
