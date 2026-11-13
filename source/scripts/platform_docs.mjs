@@ -15,7 +15,6 @@
  *   - 글 · 그냥 문단       안내 글
  *   <!-- 페이지 끝 -->     이 아래는 페이지에 싣지 않는다(에이전트 순서 · 만든 방법 · 결정 기록)
  */
-import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -31,6 +30,51 @@ export const COUNT_RE = /\s*\((\d[\d,]*)\s*\/\s*(\d[\d,]*)\)\s*$/;
 const NOT_A_VALUE = /^[\w./<>-]+\.(md|mjs|cjs|py|html|png|mp4|ts|tsx|json)$|^node |^npm |^assets\/|^src\/|^scripts\/|^--|^```/;
 
 export const count = (s) => [...s].length;
+
+/* ── 글자 다듬기 — 검사와 페이지 대조가 같은 눈으로 본다 ── */
+export const plain = (s) =>
+  s
+    .replace(/[   ]/g, " ")
+    .replace(/[⁠​﻿]/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;|&#39;|&apos;/g, "'")
+    .replace(/&lsquo;|&rsquo;/g, "'")
+    .replace(/&ldquo;|&rdquo;/g, '"')
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
+    .replace(/&amp;/g, "&");
+export const squash = (s) => plain(s).replace(/\s+/g, " ").trim();
+export const noUrls = (s) => s.replace(/https?:\/\/\S+/g, " ");
+
+/* ── 숫자 토큰 — 숫자와 바로 뒤 단위를 한 덩어리로 본다 ── */
+const UNIT = "%p|%|pp|배|억|만|천|개|종|명|건|편|일|시간|분|초|년|월|곳|장|회|차|축|주|줄|단계|hours?|minutes?|months?|days?|channels?|brands?|industries|B\\+|M\\+|K\\+|x";
+/* '30여 개' 처럼 숫자와 단위 사이에 '여'가 끼면 단위까지 한 덩어리로 읽는다(30개) — 안 그러면 단위 없는 두 자리 숫자로 버려져
+   문서의 '30여 개'가 '47여 개'로 바뀌어도 걸리지 않는다. 뒤에 단위가 올 때만 '여'로 본다('2025 여름'은 아니다) */
+const NUM_RE = new RegExp(`([-−–+])?(\\d[\\d,]*(?:\\.\\d+)?)(\\+)?(?:\\s?여(?=\\s?(?:${UNIT})))?\\s?(${UNIT})?`, "gi");
+
+/**
+ * 글의 숫자를 { token, sign, shown } 으로 — token 은 숫자+단위('397.3%' · '30개'), sign 은 '+' · '-' · ''.
+ * 부호는 숫자 바로 앞에 붙어 있고 그 앞이 숫자 · 글자가 아닐 때만 부호로 본다:
+ * '+397.3%' · '(−1.0%)' 는 부호, '35–75%' · '1+1' · 'A-1' · 'D−1' · '2026-11-13' · '2023.10 – 2025.10' 은 아니다.
+ * 빼기는 '-' · '−' · '–' 를 같은 것으로 본다.
+ */
+export function numberTokens(text) {
+  const src = noUrls(plain(text));
+  const out = [];
+  for (const m of src.matchAll(NUM_RE)) {
+    const digits = m[2].replace(/,/g, "");
+    const unit = (m[4] || "").toLowerCase().replace(/s$/, "");
+    /* 단위 없는 한두 자리 숫자(순번 · 날짜의 일)는 어디에나 있어 뜻이 없다 */
+    if (!unit && digits.replace(".", "").length < 3) continue;
+    let sign = "";
+    if (m[1] && !/[0-9A-Za-z가-힣]/.test(src[m.index - 1] || " ")) sign = m[1] === "+" ? "+" : "-";
+    out.push({ token: digits + unit, sign, shown: (sign ? m[0] : m[0].slice(m[1] ? 1 : 0)).trim() });
+  }
+  return out;
+}
 const isUrl = (s) => /^https?:\/\/\S+$/.test(s);
 
 /**
@@ -62,8 +106,17 @@ export function inlineItems(line) {
 
 export function parseDoc(name) {
   const file = join(SOURCE, name);
-  const text = readFileSync(file, "utf8").replace(/\r\n/g, "\n");
+  return parseDocText(name, readFileSync(file, "utf8"), file);
+}
+
+/** 문서 글을 읽는다(파일을 읽지 않는다 — 시험에서 지어낸 문서를 넣을 수 있다) */
+export function parseDocText(name, source, file = name) {
+  const text = source.replace(/\r\n/g, "\n");
   const lines = text.split("\n");
+  /* '페이지 끝' 줄이 없으면 그 아래(에이전트 순서 · 결정 기록)가 전부 페이지에 실린다 — 만들기 전에 멈춘다 */
+  if (!lines.some((l) => l.trim() === PAGE_END)) {
+    throw new Error(`${name} — '${PAGE_END}' 줄이 없다. 이 줄 아래는 페이지에 싣지 않는 부분이라, 없으면 문서 끝까지 페이지에 실린다.`);
+  }
   const sections = [];
   let section = null;
   let inPage = true;
@@ -186,19 +239,5 @@ export function parseDoc(name) {
       }
     }
   }
-  /* 페이지에 실리는 부분 = 첫 '## ' 줄부터 '페이지 끝' 줄 앞까지. 머리말이 그 표시를 글로 언급하므로 줄 전체가 같은 것만 센다 */
-  const pageText = (() => {
-    const start = lines.findIndex((l) => /^## /.test(l));
-    const end = lines.findIndex((l, i) => i > start && l.trim() === PAGE_END);
-    return lines.slice(start < 0 ? 0 : start, end < 0 ? lines.length : end).join("\n");
-  })();
-  return { name, file, text, sections, pageSections, blocks, pasteFields, pageText };
-}
-
-/** 두 문서의 '페이지에 실리는 부분' 전체의 지문 — 한 글자라도 바뀌면 붙여넣기 페이지를 다시 올려야 한다 */
-export function fingerprintOf(docs) {
-  return createHash("sha256")
-    .update(docs.map((d) => `${d.name}\n${d.pageText}`).join("\n\u0000\n"))
-    .digest("hex")
-    .slice(0, 12);
+  return { name, file, text, sections, pageSections, blocks, pasteFields };
 }

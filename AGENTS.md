@@ -53,6 +53,8 @@ Claude 는 사용량 한도에 걸리는 순간 아무것도 할 수 없으므�
 - 사이트 밖 프로필 원문(`source/LINKEDIN.md` · `source/JOB_PLATFORMS.md`)의 붙여넣기 페이지는 claude.ai 에 있어 코덱스가 다시 올릴 수 없다.
   사이트의 사실 · 숫자를 바꿨다면 두 문서도 같은 커밋에서 고치고(`npm run qa:platforms` 의 A · B · C 가 0), 지문(D)은 그대로 둔 채
   HANDOFF "다음 할 일"에 "붙여넣기 페이지 다시 올릴 것(SKILL 13절 3–5번)"을 적는다. 출시 검수는 D 를 경고로만 센다.
+  페이지 템플릿 · 만드는 스크립트(`paste_page_template.html` · `build_paste_pages.mjs` · `platform_docs.mjs`)를 고쳐 결과가 달라져도 지문이 바뀐다 — 같은 식으로 남긴다.
+  `--stamp` 는 올린 페이지를 받아 넘겨야만 지문을 고친다. 지문 줄을 손으로 고치지 않는다.
 - 포트폴리오 PDF(덱) 생성기는 이 저장소에 없다. Drive `코덱스/portfolio-deck-v2` 원본과 SKILL 7절 순서로 굽는다.
   덱 PDF 는 사이트 · 이 공개 저장소에 싣지 않는다(2026-10-31 주인 — 헤드헌터에게만 Drive 로 공유). `public/` 에 넣지 않는다.
 

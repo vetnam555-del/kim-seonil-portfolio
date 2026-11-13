@@ -16,27 +16,21 @@
  *
  * 올리는 순서(SKILL 13절): check --fix-counts → 이 스크립트 → Artifact 로 두 주소에 다시 올리기 →
  * 올린 것을 다시 받아 check --pages <받은 두 파일> --stamp(같을 때만 지문을 고친다) → 커밋.
+ *
+ * 지문(pageFingerprint)은 메모 없이 만든 두 페이지 전체의 해시다 — 문서 · 템플릿 · 만드는 규칙 가운데 무엇이 바뀌어도
+ * 달라진다. 올린 페이지 확인(comparePublished)은 그 페이지에 든 메모로 지금 다시 만든 것과 글자 하나까지 같은지를 본다.
+ * 검사(check_platform_copy.mjs)와 시험(test_platform_copy.mjs)이 이 파일의 함수를 가져다 쓴다.
  */
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { DOCS, copyCells, count, fingerprintOf, parseDoc } from "./platform_docs.mjs";
+import { DOCS, copyCells, count, parseDoc, squash } from "./platform_docs.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const args = process.argv.slice(2);
-/** 깃발 뒤에 이어지는 값들(다음 깃발 전까지) */
-const after = (flag) => {
-  const i = args.indexOf(flag);
-  if (i < 0) return null;
-  const rest = args.slice(i + 1);
-  const end = rest.findIndex((a) => a.startsWith("--"));
-  return end < 0 ? rest : rest.slice(0, end);
-};
-const OUT = resolve((after("--out") || [])[0] || join(tmpdir(), "ksi-paste-pages"));
 
-const PAGES = [
+export const PAGES = [
   {
     id: "jobs",
     doc: "JOB_PLATFORMS.md",
@@ -78,7 +72,29 @@ const idOf = (prefix, ...parts) => `${prefix}-${createHash("sha1").update(parts.
 const prose = (s) =>
   E(s.replace(/`/g, "")).replace(/https?:\/\/[^\s<)]+[^\s<).,]/g, (u) => `<a href="${u}" target="_blank" rel="noopener">${u}</a>`).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
 
-function renderPage(page, doc, fingerprint, notes) {
+let templateText = null;
+function template() {
+  if (templateText == null) {
+    templateText = readFileSync(join(HERE, "paste_page_template.html"), "utf8");
+    /* 탭은 hidden 속성으로 접는다. .panel 의 display 가 그 속성을 이기므로 이 규칙이 빠지면 모든 탭이 한꺼번에 보인다(2026.11.13 Codex 지적) */
+    if (!/\.panel\[hidden\]\s*\{\s*display:\s*none/.test(templateText)) {
+      throw new Error("paste_page_template.html: `.panel[hidden] { display: none; }` 규칙이 없다 — 탭을 바꿔도 다른 탭이 숨지 않는다.");
+    }
+  }
+  return templateText;
+}
+
+/** 주인만 보는 메모의 모양 — 어긋나면 만들다 엉뚱한 곳에서 죽지 않게 여기서 알린다 */
+export function validateNotes(notes, where) {
+  if (!Array.isArray(notes)) throw new Error(`${where}: 주인 메모는 배열이어야 한다.`);
+  notes.forEach((m, i) => {
+    const ok = m && typeof m === "object" && ["tab", "title", "body"].every((k) => typeof m[k] === "string" && m[k]) && ["check", "aside"].includes(m.kind);
+    if (!ok) throw new Error(`${where}: 주인 메모 ${i + 1}번의 모양이 다르다 — { tab, kind: "check" | "aside", title, body } 가 다 있어야 한다.`);
+  });
+  return notes;
+}
+
+export function renderPage(page, doc, fingerprint, notes) {
   const used = new Set();
   const usedIds = new Set();
   const uid = (prefix, ...parts) => {
@@ -199,48 +215,166 @@ function renderPage(page, doc, fingerprint, notes) {
     TABS_JSON: JSON.stringify(tabs.map((t) => t.id)),
     PRIVATE_JSON: JSON.stringify(notes).replace(/</g, "\\u003c"),
   };
-  const template = readFileSync(join(HERE, "paste_page_template.html"), "utf8");
-  /* 탭은 hidden 속성으로 접는다. .panel 의 display 가 그 속성을 이기므로 이 규칙이 빠지면 모든 탭이 한꺼번에 보인다(2026.11.13 Codex 지적) */
-  if (!/\.panel\[hidden\]\s*\{\s*display:\s*none/.test(template)) throw new Error("paste_page_template.html: `.panel[hidden] { display: none; }` 규칙이 없다 — 탭을 바꿔도 다른 탭이 숨지 않는다.");
-  return template.replace(/\{\{([A-Z_0-9]+)\}\}/g, (all, k) => (k in fill ? fill[k] : all));
+  const html = template().replace(/\{\{([A-Z_0-9]+)\}\}/g, (all, k) => (k in fill ? fill[k] : all));
+  const left = html.match(/\{\{[A-Z_0-9]+\}\}/);
+  if (left) throw new Error(`${page.file}: 채우지 못한 자리 ${left[0]}`);
+  return html;
+}
+
+/**
+ * 지문 — 메모 없이 만든 두 페이지 전체의 해시(지문 자리는 비워 두고 센다).
+ * 문서의 페이지 부분 · 템플릿 · 만드는 규칙 가운데 무엇이 바뀌어도 달라지고, 결과가 같은 손질(주석 · 정리)에는 그대로다.
+ */
+export function pageFingerprint(docs) {
+  const h = createHash("sha256");
+  for (const page of PAGES) {
+    const doc = docs.find((d) => d.name === page.doc);
+    if (!doc) throw new Error(`${page.doc}: 이 페이지의 문서가 없다.`);
+    h.update(`${page.file}\n${renderPage(page, doc, "", [])}\n\u0000\n`);
+  }
+  return h.digest("hex").slice(0, 12);
 }
 
 /* ── 주인만 보는 메모 ──────────────────────────────────── */
-function notesFromPage(file) {
-  const html = readFileSync(file, "utf8");
+export function notesFromHtml(html, where) {
   const m = html.match(/<script type="application\/json" id="private-notes">([\s\S]*?)<\/script>/);
-  if (!m) throw new Error(`${file}: 주인 메모 칸(private-notes)이 없다 — build_paste_pages.mjs 로 만든 페이지가 아니다. 메모를 --private 로 넘긴다.`);
-  return JSON.parse(m[1]);
-}
-let notesBy = null;
-const carry = after("--carry");
-const priv = after("--private");
-if (carry && carry.length) {
-  if (carry.length !== PAGES.length) throw new Error(`--carry 에는 앞 판 페이지 ${PAGES.length}장(구직 · 링크드인 순서)을 넘긴다.`);
-  notesBy = Object.fromEntries(PAGES.map((p, i) => [p.id, notesFromPage(carry[i])]));
-} else if (priv && priv.length) {
-  notesBy = JSON.parse(readFileSync(priv[0], "utf8"));
-} else if (args.includes("--no-private")) {
-  notesBy = {};
-} else {
-  console.error("주인만 보는 메모를 어디서 가져올지 정한다: --carry <앞 판 두 장> · --private <json> · --no-private(메모 없이).");
-  process.exit(2);
+  if (!m) throw new Error(`${where}: 주인 메모 칸(private-notes)이 없다 — build_paste_pages.mjs 로 만든 페이지가 아니다.`);
+  let notes;
+  try {
+    notes = JSON.parse(m[1]);
+  } catch (e) {
+    throw new Error(`${where}: 주인 메모 칸을 읽지 못했다 — ${e.message}`);
+  }
+  return validateNotes(notes, where);
 }
 
-const docs = DOCS.map(parseDoc);
-const fingerprint = fingerprintOf(docs);
-mkdirSync(OUT, { recursive: true });
-if (OUT.startsWith(resolve(HERE, "..", ".."))) console.warn("주의: 결과물에는 주인만 보는 메모가 들어 있다. 저장소 안에 두었다면 커밋하지 않는다.");
-for (const page of PAGES) {
-  const doc = docs.find((d) => d.name === page.doc);
-  const notes = notesBy[page.id] || [];
-  const html = renderPage(page, doc, fingerprint, notes);
-  const left = html.match(/\{\{[A-Z_0-9]+\}\}/);
-  if (left) throw new Error(`${page.file}: 채우지 못한 자리 ${left[0]}`);
-  const file = join(OUT, page.file);
-  writeFileSync(file, html);
-  const fields = (html.match(/data-paste/g) || []).length;
-  console.log(`${file}  — 탭 ${doc.pageSections.length} · 복사하는 칸 ${fields} · 주인 메모 ${notes.length} · ${Math.round(Buffer.byteLength(html) / 1024)}KB`);
+/* ── 올린 페이지가 지금 만든 것과 같은가 ───────────────── */
+const panelsOf = (html) =>
+  [...html.matchAll(/<section class="panel" id="p-([^"]+)"[^>]*>([\s\S]*?)<\/section>/g)].map((m) => ({
+    id: m[1],
+    title: squash((m[2].match(/<h2[^>]*>([\s\S]*?)<\/h2>/) || ["", ""])[1].replace(/<[^>]+>/g, "")),
+    fields: [...m[2].matchAll(/<(div|span|button)\b[^>]*\bdata-paste\b[^>]*>([\s\S]*?)<\/\1>/g)].map((f) => squash(f[2].replace(/<[^>]+>/g, ""))).filter(Boolean),
+  }));
+const short = (t) => (t.length > 70 ? `${t.slice(0, 70)}…` : t);
+
+/**
+ * 올린 페이지(Artifact read 로 받은 HTML)를 지금 문서 · 템플릿으로 다시 만든 것과 견준다. 다른 점을 글로 돌려준다(같으면 빈 배열).
+ * 기준은 '받은 HTML 안에 지금 만든 페이지가 글자 하나까지 그대로 들어 있는가'다 — 올리는 쪽이 앞뒤에 문서 껍데기를 씌우므로 포함으로 본다.
+ * 그래서 빠진 칸 · 남는 칸뿐 아니라 다른 탭으로 옮겨진 칸, 바뀐 이름표 · 안내 글, 옛 템플릿도 걸린다.
+ * 주인 메모는 받은 페이지에 든 것을 그대로 써서 만든다(메모는 저장소에 없다).
+ */
+export function comparePublished(html, page, doc, fingerprint, where = page.file) {
+  let notes;
+  try {
+    notes = notesFromHtml(html, where);
+  } catch (e) {
+    return [e.message];
+  }
+  let fresh;
+  try {
+    fresh = renderPage(page, doc, fingerprint, notes);
+  } catch (e) {
+    return [`${where}: 그 페이지의 메모로 다시 만들지 못했다 — ${e.message}`];
+  }
+  if (html.includes(fresh)) return [];
+
+  const out = [];
+  const stamp = (html.match(/data-fingerprint="([0-9a-f]*)"/) || [])[1];
+  if (stamp == null) out.push("지문이 없다(build_paste_pages.mjs 로 만든 페이지가 아니다)");
+  else if (stamp !== fingerprint) out.push(`페이지 지문 ${stamp || "(빈 값)"} · 지금 ${fingerprint} — 옛 문서나 옛 템플릿으로 만든 페이지다`);
+
+  const got = panelsOf(html);
+  const want = panelsOf(fresh);
+  const gotIds = got.map((x) => x.id).join(" · ");
+  const wantIds = want.map((x) => x.id).join(" · ");
+  if (gotIds !== wantIds) out.push(`탭이 다르다 — 올린 페이지: ${gotIds || "(없음)"} / 지금 문서: ${wantIds}`);
+  for (const w of want) {
+    const g = got.find((x) => x.id === w.id);
+    if (!g) continue;
+    if (g.title !== w.title) out.push(`'${w.title}' 탭의 제목이 다르다 — 올린 페이지 '${g.title}'`);
+    if (g.fields.join("\u0001") === w.fields.join("\u0001")) continue;
+    const left = new Map();
+    for (const f of g.fields) left.set(f, (left.get(f) || 0) + 1);
+    let moved = true;
+    for (const f of w.fields) {
+      const n = left.get(f) || 0;
+      if (n > 0) left.set(f, n - 1);
+      else {
+        moved = false;
+        out.push(`'${w.title}' 탭 — 이 칸이 올린 페이지에 없다(또는 글이 다르다): ${short(f)}`);
+      }
+    }
+    for (const [f, n] of left) {
+      if (n > 0) {
+        moved = false;
+        out.push(`'${w.title}' 탭 — 문서의 이 탭에 없는 칸이 올린 페이지에 있다${n > 1 ? `(${n}번)` : ""}: ${short(f)}`);
+      }
+    }
+    if (moved) {
+      const i = w.fields.findIndex((f, k) => f !== g.fields[k]);
+      out.push(`'${w.title}' 탭 — 칸의 순서가 다르다. ${i + 1}번째 칸이 '${short(w.fields[i])}' 여야 하는데 '${short(g.fields[i])}' 다`);
+    }
+  }
+  if (!out.length || (out.length === 1 && /^페이지 지문/.test(out[0]))) {
+    /* 복사 칸은 같다 — 이름표 · 안내 글 · 템플릿 어딘가가 다르다. 처음 어긋나는 곳을 보여 준다 */
+    const start = html.indexOf(fresh.slice(0, 40));
+    const body = start >= 0 ? html.slice(start) : html;
+    let i = 0;
+    while (i < fresh.length && body[i] === fresh[i]) i += 1;
+    const cut = (t) => JSON.stringify(t.slice(Math.max(0, i - 30), i + 50));
+    out.push(`복사 칸의 글과 자리는 같지만 지금 만든 페이지와 다른 곳이 있다(이름표 · 안내 글 · 템플릿) — 지금 ${cut(fresh)} / 올린 페이지 ${cut(body)}`);
+  }
+  return out;
 }
-console.log(`문서 지문 ${fingerprint} — 두 주소에 다시 올린 뒤, 올린 것을 받아 check_platform_copy.mjs --pages <두 파일> --stamp.`);
-if (!existsSync(OUT)) process.exit(1);
+
+/* ── 직접 실행할 때만 — 페이지 두 장을 만든다 ──────────── */
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main();
+
+function main() {
+  const args = process.argv.slice(2);
+  /** 깃발 뒤에 이어지는 값들(다음 깃발 전까지) */
+  const after = (flag) => {
+    const i = args.indexOf(flag);
+    if (i < 0) return null;
+    const rest = args.slice(i + 1);
+    const end = rest.findIndex((a) => a.startsWith("--"));
+    return end < 0 ? rest : rest.slice(0, end);
+  };
+  const OUT = resolve((after("--out") || [])[0] || join(tmpdir(), "ksi-paste-pages"));
+  let notesBy = null;
+  const carry = after("--carry");
+  const priv = after("--private");
+  if (carry && carry.length) {
+    if (carry.length !== PAGES.length) throw new Error(`--carry 에는 앞 판 페이지 ${PAGES.length}장(구직 · 링크드인 순서)을 넘긴다.`);
+    notesBy = Object.fromEntries(PAGES.map((p, i) => [p.id, notesFromHtml(readFileSync(carry[i], "utf8"), carry[i])]));
+  } else if (priv && priv.length) {
+    notesBy = JSON.parse(readFileSync(priv[0], "utf8"));
+    for (const page of PAGES) validateNotes(notesBy[page.id] || [], `${priv[0]} 의 ${page.id}`);
+  } else if (args.includes("--no-private")) {
+    notesBy = {};
+  } else {
+    console.error("주인만 보는 메모를 어디서 가져올지 정한다: --carry <앞 판 두 장> · --private <json> · --no-private(메모 없이).");
+    process.exit(2);
+  }
+
+  const docs = DOCS.map(parseDoc);
+  const fingerprint = pageFingerprint(docs);
+  /* 결과물에는 주인만 보는 메모가 들어 있다 — 저장소 안에는 쓰지 않는다(실수로 커밋되면 공개된다) */
+  const repo = resolve(HERE, "..", "..");
+  const hasNotes = PAGES.some((page) => (notesBy[page.id] || []).length);
+  if (hasNotes && (OUT === repo || OUT.startsWith(repo + sep))) {
+    console.error(`--out 이 저장소 안이다(${OUT}). 결과물에 주인만 보는 메모가 들어가므로 저장소 밖 폴더를 준다.`);
+    process.exit(2);
+  }
+  mkdirSync(OUT, { recursive: true });
+  for (const page of PAGES) {
+    const doc = docs.find((d) => d.name === page.doc);
+    const notes = notesBy[page.id] || [];
+    const html = renderPage(page, doc, fingerprint, notes);
+    const file = join(OUT, page.file);
+    writeFileSync(file, html);
+    const fields = (html.match(/data-paste/g) || []).length;
+    console.log(`${file}  — 탭 ${doc.pageSections.length} · 복사하는 칸 ${fields} · 주인 메모 ${notes.length} · ${Math.round(Buffer.byteLength(html) / 1024)}KB`);
+  }
+  console.log(`지문 ${fingerprint} — 두 주소에 다시 올린 뒤, 올린 것을 받아 check_platform_copy.mjs --pages <두 파일> --stamp.`);
+}

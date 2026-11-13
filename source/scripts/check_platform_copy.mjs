@@ -19,19 +19,21 @@
  * '붙여 넣는 글'은 문서의 ```text 블록 · `백틱` 값 · 표다(platform_docs.mjs). 설명 문단은 보지 않는다.
  *
  * 실패(고쳐야 한다)
- *   A 숫자   붙여 넣는 글의 숫자(단위 포함)가 사이트 화면 글자에 없다. 사이트 전체에서 찾으므로, 틀린 숫자라도 다른 쪽에 같은
+ *   A 숫자   붙여 넣는 글의 숫자(단위 · 부호 포함)가 사이트 화면 글자에 없다. 사이트 전체에서 찾으므로, 틀린 숫자라도 다른 쪽에 같은
  *            숫자 · 단위가 있으면 통과한다(예: '40여 개') — 문장이 사이트와 달라진 것은 W2 가 알린다
  *   B 표기   경력 연수 · '전 HLL중앙' · 줄여 쓴 수상 이름 · 전화번호 · 포트폴리오 PDF 주소 · 구직 문구
  *   C 길이   칸 이름 옆에 적은 글자 수가 실제와 다르거나 한도를 넘는다
- *   D 지문   문서가 바뀌었는데 붙여넣기 페이지를 다시 올렸다는 표시(지문)가 옛것이다
- *   E 페이지 (--pages) 올린 페이지의 복사 칸이 그 문서의 복사 칸과 하나씩 · 개수까지 같지 않다
- *            (글 · 짧은 값 · 표의 이름 · 주소 · 설명 칸. 빠진 표 줄도 남는 칸도 실패). 페이지는 문서 순서대로 넘긴다
+ *   D 지문   문서 머리에 적힌 지문이 지금 것과 다르다 — 문서 · 템플릿 · 만드는 규칙이 바뀌었는데 페이지를 다시 올리지 않았다.
+ *            지문은 메모 없이 만든 두 페이지 전체의 해시다(build_paste_pages.mjs pageFingerprint). --release 에서는 경고
+ *   E 페이지 (--pages) 올린 페이지가, 그 페이지의 메모로 지금 다시 만든 것과 글자 하나까지 같지 않다
+ *            (빠진 칸 · 남는 칸 · 다른 탭으로 옮겨진 칸 · 바뀐 이름표 · 옛 템플릿). 페이지는 문서 순서대로 넘긴다
  * 경고(읽고 판단한다)
  *   W1 같은 줄이 두 곳에서 조금 다르다   W2 사이트 문장과 거의 같지만 다르다   W3 상투 표현
  */
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
-import { COUNT_RE, DOCS, ROOT, SOURCE, STAMP_RE, count, fingerprintOf, parseDoc } from "./platform_docs.mjs";
+import { PAGES, comparePublished, pageFingerprint } from "./build_paste_pages.mjs";
+import { COUNT_RE, DOCS, ROOT, SOURCE, STAMP_RE, count, noUrls, numberTokens, parseDoc, plain, squash } from "./platform_docs.mjs";
 
 const AWARD_FULL = "대한민국 디지털 광고 대상 통합 퍼포먼스 부문 우수상";
 /* 문서에 글자 수를 적지 않았어도 지켜야 하는 한도 — 사람인 고객센터 '이력서 제목은 최대 100자' */
@@ -41,24 +43,6 @@ const args = process.argv.slice(2);
 const flag = (name) => args.includes(name);
 const pagesAt = args.indexOf("--pages");
 const pageFiles = pagesAt >= 0 ? args.slice(pagesAt + 1).filter((a) => !a.startsWith("--")) : [];
-
-/* ── 글자 다듬기 ───────────────────────────────────────── */
-const plain = (s) =>
-  s
-    .replace(/[   ]/g, " ")
-    .replace(/[⁠​﻿]/g, "")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#x27;|&#39;|&apos;/g, "'")
-    .replace(/&lsquo;|&rsquo;/g, "'")
-    .replace(/&ldquo;|&rdquo;/g, '"')
-    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
-    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
-    .replace(/&amp;/g, "&");
-const squash = (s) => plain(s).replace(/\s+/g, " ").trim();
-const noUrls = (s) => s.replace(/https?:\/\/\S+/g, " ");
 
 /* ── 사이트 화면 글자 (루트 빌드 결과) ─────────────────── */
 function htmlFiles(dir, acc = []) {
@@ -93,25 +77,22 @@ if (!site.ko.includes("김선일")) {
   process.exit(2);
 }
 
-/* ── 숫자 토큰 — 숫자와 바로 뒤 단위를 한 덩어리로 본다 ── */
-const UNIT = "%p|%|pp|배|억|만|천|개|종|명|건|편|일|시간|분|초|년|월|곳|장|회|차|축|주|줄|단계|hours?|minutes?|months?|days?|channels?|brands?|industries|B\\+|M\\+|K\\+|x";
-/* '30여 개' 처럼 숫자와 단위 사이에 '여'가 끼면 단위까지 한 덩어리로 읽는다(30개) — 안 그러면 단위 없는 두 자리 숫자로 버려져
-   문서의 '30여 개'가 '40여 개'로 바뀌어도 걸리지 않는다(2026.11.13 Codex 지적). 뒤에 단위가 올 때만 '여'로 본다('2025 여름'은 아니다) */
-const NUM_RE = new RegExp(`(\\d[\\d,]*(?:\\.\\d+)?)(\\+)?(?:\\s?여(?=\\s?(?:${UNIT})))?\\s?(${UNIT})?`, "gi");
-function numberTokens(text) {
-  const out = [];
-  for (const m of noUrls(plain(text)).matchAll(NUM_RE)) {
-    const digits = m[1].replace(/,/g, "");
-    const unit = (m[3] || "").toLowerCase().replace(/s$/, "");
-    /* 단위 없는 한두 자리 숫자(순번 · 날짜의 일)는 어디에나 있어 뜻이 없다 */
-    if (!unit && digits.replace(".", "").length < 3) continue;
-    out.push({ token: digits + unit, shown: m[0].trim() });
+/* ── 사이트의 숫자 — 숫자와 단위, 그리고 부호(platform_docs.mjs numberTokens) ── */
+function tokenSets(text) {
+  const sets = { any: new Set(), neg: new Set(), nonneg: new Set() };
+  for (const t of numberTokens(text)) {
+    sets.any.add(t.token);
+    (t.sign === "-" ? sets.neg : sets.nonneg).add(t.token);
   }
-  return out;
+  return sets;
 }
-const siteTokens = { ko: new Set(numberTokens(site.ko).map((t) => t.token)), en: new Set(numberTokens(site.en).map((t) => t.token)) };
-/* 영문판의 숫자는 한국어판에도 있어야 하므로 영문 글은 두 쪽을 다 본다 */
-const hasToken = (lang, token) => siteTokens[lang].has(token) || (lang === "en" && siteTokens.ko.has(token));
+const siteTokens = { ko: tokenSets(site.ko), en: tokenSets(site.en) };
+/* 부호를 적은 숫자는 사이트에도 같은 쪽 부호로 있어야 한다: '−N' 은 '−N' 으로, '+N' 은 '+N' 이나 부호 없는 N 으로.
+   부호 없이 적은 숫자는 어느 쪽으로 있든 된다('14.1% 줄였습니다'처럼 방향을 글로 쓸 수 있다).
+   영문판의 숫자는 한국어판에도 있어야 하므로 영문 글은 두 쪽을 다 본다 */
+const pick = (sets, t) => (t.sign === "-" ? sets.neg : t.sign === "+" ? sets.nonneg : sets.any).has(t.token);
+const hasToken = (lang, t) => pick(siteTokens[lang], t) || (lang === "en" && pick(siteTokens.ko, t));
+const hasOtherSign = (lang, t) => siteTokens[lang].any.has(t.token) || (lang === "en" && siteTokens.ko.any.has(t.token));
 
 /* ── 문서 ──────────────────────────────────────────────── */
 let docs = DOCS.map(parseDoc);
@@ -149,10 +130,11 @@ for (const b of blocks) {
   if (isPrompt(b)) continue;
   const lang = langOf(b);
   const seen = new Set();
-  for (const { token, shown } of numberTokens(b.text)) {
-    if (seen.has(token) || hasToken(lang, token)) continue;
-    seen.add(token);
-    fails.push(`A 숫자  ${where(b)} — '${shown}' 이(가) 사이트 화면 글자에 없다`);
+  for (const t of numberTokens(b.text)) {
+    const key = t.sign + t.token;
+    if (seen.has(key) || hasToken(lang, t)) continue;
+    seen.add(key);
+    fails.push(`A 숫자  ${where(b)} — '${t.shown}' 이(가) 사이트 화면 글자에 없다${hasOtherSign(lang, t) ? " — 사이트에는 부호가 반대인 값만 있다" : ""}`);
   }
 }
 
@@ -271,26 +253,27 @@ for (const b of pasteBlocks) {
 }
 
 /* ── D 지문 — 문서가 바뀌면 붙여넣기 페이지도 다시 올린다 ─ */
-const fingerprint = fingerprintOf(docs);
+const fingerprint = pageFingerprint(docs);
 /* --stamp 는 지문을 지금 문서로 고친다. 올린 두 페이지를 --pages 로 같이 넘겨 문서와 같다고 확인됐을 때만, 그리고 다른 실패가 없을 때만
    고친다(맨 아래) — 확인 없이 지문만 고치면 낡은 페이지가 최신으로 보인다. */
 const stamping = flag("--stamp");
 {
-  /* 출시 검수에서는 경고로만 — 페이지를 다시 올리는 일은 Claude 세션만 할 수 있다 */
+  /* 출시 검수에서는 지문 문제를 모두 경고로만 남긴다 — 페이지를 다시 올리고 지문을 고치는 일은 Claude 세션만 할 수 있고,
+     그것 때문에 사이트 출시가 막히면 안 된다(지문 줄이 빠진 것도 같다) */
   const stale = flag("--release") ? warns : fails;
   for (const d of docs) {
     const m = d.text.match(STAMP_RE);
-    if (!m) fails.push(`D 지문  ${d.name} — 지문 줄이 없다. 머리말에 '<!-- 붙여넣기 페이지 지문: 없음 -->' 을 넣는다`);
+    if (!m) stale.push(`D 지문  ${d.name} — 지문 줄이 없다. 머리말에 '<!-- 붙여넣기 페이지 지문: 없음 -->' 을 넣고 --pages <올린 두 페이지> --stamp`);
     else if (m[1] !== fingerprint && !stamping) {
-      stale.push(`D 지문  ${d.name} — 문서가 바뀌었다(적힌 지문 ${m[1]} · 지금 ${fingerprint}). build_paste_pages.mjs 로 페이지를 만들어 다시 올리고 --pages <올린 두 페이지> --stamp`);
+      stale.push(`D 지문  ${d.name} — 문서 · 템플릿 · 만드는 규칙 가운데 바뀐 것이 있다(적힌 지문 ${m[1]} · 지금 ${fingerprint}). build_paste_pages.mjs 로 페이지를 만들어 다시 올리고 --pages <올린 두 페이지> --stamp`);
     }
   }
   if (stamping && pagesAt < 0) fails.push("D 지문  --stamp 는 --pages <올린 두 페이지> 와 같이 쓴다 — 올린 페이지가 지금 문서와 같은지 확인한 뒤에만 지문을 고친다");
 }
 
-/* ── E 올린 붙여넣기 페이지가 문서와 같은가 ─────────────── */
-/* 페이지마다 그 문서의 복사 칸(글 · 짧은 값 · 표의 이름 · 주소 · 설명 칸)을 하나씩, 개수까지 맞춘다.
-   빠진 칸도 남는 칸도 실패다 — 표 한 줄이 통째로 빠져도, 같은 값이 두 번 있어야 하는데 한 번만 있어도 잡는다. */
+/* ── E 올린 붙여넣기 페이지가 지금 만든 것과 같은가 ────── */
+/* 받은 페이지에 든 주인 메모로 지금 문서 · 템플릿에서 다시 만들어, 그 결과가 받은 HTML 안에 글자 하나까지 그대로 있는지 본다
+   (build_paste_pages.mjs comparePublished). 빠진 칸 · 남는 칸 · 다른 탭으로 옮겨진 칸 · 바뀐 이름표 · 옛 템플릿이 모두 걸린다. */
 if (pagesAt >= 0 && pageFiles.length !== docs.length) {
   /* 파일을 하나도 안 넘긴 것도 여기서 막는다 — 확인한 것처럼 조용히 통과하면 안 된다 */
   fails.push(`E 페이지  --pages 에는 올린 페이지 ${docs.length}장을 문서 순서(${DOCS.join(" → ")})대로 넘긴다 — ${pageFiles.length}장을 받았다`);
@@ -302,24 +285,10 @@ if (pagesAt >= 0 && pageFiles.length !== docs.length) {
       fails.push(`E 페이지  ${file} — 파일이 없다`);
       return;
     }
-    const html = readFileSync(file, "utf8");
-    const stamp = html.match(/data-fingerprint="([0-9a-f]{12})"/);
-    if (!stamp) fails.push(`E 페이지  ${name} — 지문이 없다(build_paste_pages.mjs 로 만든 페이지가 아니다)`);
-    else if (stamp[1] !== fingerprint) fails.push(`E 페이지  ${name} — 페이지 지문 ${stamp[1]} · 문서 ${fingerprint}. 페이지가 옛 문서로 만들어졌다`);
-    const fields = [...html.matchAll(/<(div|span|button)\b[^>]*\bdata-paste\b[^>]*>([\s\S]*?)<\/\1>/g)].map((m) => squash(m[2].replace(/<[^>]+>/g, ""))).filter(Boolean);
-    const expected = d.pasteFields.filter((f) => squash(f.text));
-    console.log(`페이지 ${name}: 복사하는 칸 ${fields.length}개 · 문서 ${d.name} 는 ${expected.length}개`);
-    const left = new Map();
-    for (const f of fields) left.set(f, (left.get(f) || 0) + 1);
-    for (const f of expected) {
-      const key = squash(f.text);
-      const n = left.get(key) || 0;
-      if (n > 0) left.set(key, n - 1);
-      else fails.push(`E 페이지  ${where(f)} — 이 칸이 올린 페이지(${name})에 없다(또는 글이 다르다)`);
-    }
-    for (const [t, n] of left) {
-      if (n > 0) fails.push(`E 페이지  ${name} — 문서(${d.name})에 없는 칸이 페이지에 있다${n > 1 ? `(${n}번)` : ""}: ${t.slice(0, 90)}${t.length > 90 ? "…" : ""}`);
-    }
+    const page = PAGES.find((x) => x.doc === d.name);
+    const diffs = comparePublished(readFileSync(file, "utf8"), page, d, fingerprint, name);
+    console.log(`페이지 ${name} ↔ ${d.name}: ${diffs.length ? `다르다(${diffs.length}곳)` : `같다 — 복사하는 칸 ${d.pasteFields.filter((f) => squash(f.text)).length}개`}`);
+    for (const x of diffs) fails.push(`E 페이지  ${name}(${d.name}) — ${x}`);
   });
 }
 
@@ -338,5 +307,5 @@ if (fails.length) {
 console.log("\n실패 0건");
 if (stamping) {
   for (const d of docs) writeFileSync(d.file, readFileSync(d.file, "utf8").replace(STAMP_RE, `<!-- 붙여넣기 페이지 지문: ${fingerprint} -->`));
-  console.log(`올린 두 페이지가 지금 문서와 같다 — 문서의 지문을 ${fingerprint} 로 고쳤다.`);
+  console.log(`올린 두 페이지가 지금 만든 것과 같다 — 문서의 지문을 ${fingerprint} 로 고쳤다.`);
 }
