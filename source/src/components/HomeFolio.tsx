@@ -160,27 +160,36 @@ function CaseCard({ p, no, size, lang }: { p: Project; no: number; size: "lg" | 
   const meta = (lang === "en" ? caseCardsEn : CARD)[p.slug];
   return (
     <article id={`case-${p.slug}`} aria-labelledby={`case-title-${p.slug}`} className={`folio-case folio-case-${size}`} data-enter>
+      {/* 표지 (2026.11.14 O-21) — 사례 색 바탕 · 브랜드 이름 · 소재 낱장 세 장. 전에는 모음 사진을 통째로 줄여 넣어
+          어느 브랜드의 무슨 소재인지 사진 아래 글줄을 읽어야 알았다. 표지 링크는 제목 링크와 겹쳐 보조 기술에는 숨긴다 —
+          브랜드 이름은 아래 글줄의 것을 읽는다(화면에는 표지의 것만 보인다). */}
       <Link
         href={`${ui.casePrefix}${p.slug}/`}
-        className={`folio-case-media${meta.contain ? " is-contain" : ""}`}
+        className={`folio-case-media${meta.cover ? " folio-cover" : meta.contain ? " is-contain" : ""}`}
         style={{ "--tint": meta.tint } as CSSProperties}
         tabIndex={-1}
         aria-hidden="true"
       >
-        <img
-          src={`${BASE}/evidence/${meta.image}-960.webp`}
-          alt=""
-          width={960}
-          height={640}
-          /* 첫 두 장도 lazy (2026.10.24 B-04) — 대표 사례는 첫 화면 · 경력 · 일하는 순서 아래라 어느 폭에서도 첫 화면 밖이다.
-             eager 였을 때 React 가 두 장(약 100KB)을 preload 로 올려 첫 화면 글꼴·스크립트와 대역폭을 다퉜다 */
-          loading="lazy"
-        />
+        {meta.cover ? (
+          <>
+            <span className="folio-cover-name">{p.brand}</span>
+            <span className={`folio-cover-stack is-${meta.cover.kind}`}>
+              {meta.cover.sizes.map(([w, h], i) => (
+                <i key={i}>
+                  {/* lazy — 대표 사례는 어느 폭에서도 첫 화면 밖이다(2026.10.24 B-04) */}
+                  <img src={`${BASE}/evidence/cover-${p.slug}-${i + 1}.webp`} alt="" width={w} height={h} loading="lazy" />
+                </i>
+              ))}
+            </span>
+          </>
+        ) : (
+          <img src={`${BASE}/evidence/${meta.image}-960.webp`} alt="" width={960} height={640} loading="lazy" />
+        )}
       </Link>
       <p className="folio-case-tags">
         <span className="folio-case-no">{String(no).padStart(2, "0")}</span>
         <span className="folio-tag">{meta.capability}</span>
-        <span className="folio-case-brand">{p.brand}</span>
+        <span className={`folio-case-brand${meta.cover ? " sr-only" : ""}`}>{p.brand}</span>
         {/* 운영 기간(2026.10.24 레퍼런스 비교) — 카드만 보고도 언제 일인지 안다. "· 성과 산출 …" 같은 단서는 상세에 남긴다 */}
         <span className="folio-case-period">{p.period.split("\u00a0·")[0].trim()}</span>
       </p>

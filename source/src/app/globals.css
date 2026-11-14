@@ -2510,3 +2510,57 @@ html[data-intro="reveal"] .folio-proofs { animation: hero-rise-now .7s cubic-bez
 @media (max-width: 479px) {
   [lang="en"] .folio-hero-title .folio-hero-sub { font-size: clamp(17px, 4.9vw, 19px); }
 }
+
+/* ── 사례 표지 · 힘 빼기 (2026.11.14 O-21) ─────────────────────────────────────
+   주인 "디자인이 뭔가 아쉽다" → 시안 다섯 번 끝에 정한 것: 지금 사이트는 두고 (1) 사례 표지 (2) 겉의 세기만 조금 낮춘다.
+   - 표지: 사례 색 바탕(--tint) 위에 브랜드 이름과 소재 낱장 세 장. 낱장은 제 비율 그대로(정사각 · 4:5 가 섞인다) 한 계단씩 올라가며 겹친다.
+     가로로 긴 배너(뉴발란스 비즈보드)는 세 줄을 오른쪽 벽에 붙여 계단으로. 낱장은 public/evidence/cover-<slug>-<n>.webp.
+   - 힘 빼기: 머리줄의 네모 칸을 둥글게 · 고정폭 글자를 본문 글자로, 일하는 순서 · 자동화 구간에 옅은 종이색 띠, 사례 제목 · 단계 주장을 700 으로.
+   - 바꾸지 않은 것: 폭 넓은 영문 제목과 숫자(주인 11-14 "예전 버전이 더 좋다" — 보통 폭으로 바꾼 시안은 촌스러웠다), 강조색 빨강. */
+.folio-case-media.folio-cover { position: relative; padding: 0; border-radius: 22px; isolation: isolate; }
+.folio-cover-name { position: absolute; left: 28px; top: 26px; z-index: 4; max-width: 44%; font-size: clamp(24px, 2.5vw, 36px); line-height: 1.12; font-weight: 900; letter-spacing: -.035em; color: #0f1216; word-break: keep-all; }
+.folio-case-sm .folio-cover-name { left: 22px; top: 20px; max-width: calc(100% - 44px); font-size: clamp(21px, 1.75vw, 25px); }
+.folio-cover-stack { position: absolute; right: 30px; bottom: 0; width: 68%; height: 100%; }
+.folio-cover-stack i { position: absolute; display: block; width: 44%; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 18px 34px -14px rgba(15,18,22,.4), 0 0 0 1px rgba(15,18,22,.06); transition: transform .5s cubic-bezier(.22,1,.36,1); }
+.folio-case-media.folio-cover img { display: block; width: 100%; height: auto; border-radius: 0; box-shadow: none; object-fit: fill; transition: none; }
+.folio-case:hover .folio-case-media.folio-cover img { transform: none; }
+.folio-cover-stack i:nth-child(1) { left: 0; bottom: 8%; z-index: 1; }
+.folio-cover-stack i:nth-child(2) { left: 28%; bottom: 17%; z-index: 2; }
+.folio-cover-stack i:nth-child(3) { left: 56%; bottom: 26%; z-index: 3; }
+.folio-cover-stack.is-tall i { width: 36%; }
+.folio-cover-stack.is-tall i:nth-child(1) { left: 4%; }
+.folio-cover-stack.is-tall i:nth-child(2) { left: 34%; }
+.folio-cover-stack.is-tall i:nth-child(3) { left: 64%; }
+.folio-case:hover .folio-cover-stack i:nth-child(1) { transform: translateY(-4px); }
+.folio-case:hover .folio-cover-stack i:nth-child(2) { transform: translateY(-8px); }
+.folio-case:hover .folio-cover-stack i:nth-child(3) { transform: translateY(-12px); }
+.folio-case-sm .folio-cover-stack { left: 22px; right: 22px; width: auto; }
+.folio-case-sm .folio-cover-stack i { width: 39%; }
+.folio-case-sm .folio-cover-stack.is-tall i { width: 31%; }
+.folio-case-sm .folio-cover-stack i:nth-child(1) { left: 0; bottom: 7%; }
+.folio-case-sm .folio-cover-stack i:nth-child(2) { left: 30.5%; bottom: 13%; }
+.folio-case-sm .folio-cover-stack i:nth-child(3) { left: 61%; bottom: 19%; }
+.folio-case-sm .folio-cover-stack.is-tall i:nth-child(1) { left: 2%; }
+.folio-case-sm .folio-cover-stack.is-tall i:nth-child(2) { left: 34.5%; }
+.folio-case-sm .folio-cover-stack.is-tall i:nth-child(3) { left: 67%; }
+.folio-cover-stack.is-wide { right: 0; bottom: 26px; width: 66%; height: auto; }
+.folio-cover-stack.is-wide i { position: static; width: auto; margin-top: 10px; border-radius: 10px 0 0 10px; }
+.folio-cover-stack.is-wide i:nth-child(1) { margin-left: 24%; }
+.folio-cover-stack.is-wide i:nth-child(2) { margin-left: 12%; }
+.folio-cover-stack.is-wide i:nth-child(3) { margin-left: 0; }
+.folio-case:hover .folio-cover-stack.is-wide i:nth-child(n) { transform: translateX(-8px); }
+@media (max-width: 767px) {
+  .folio-cover-name { left: 20px; top: 18px; font-size: 24px; }
+  .folio-case-sm .folio-cover-name { left: 20px; top: 18px; font-size: 23px; }
+  .folio-cover-stack { right: 16px; width: 66%; }
+  .folio-cover-stack.is-wide { width: 62%; bottom: 18px; }   /* 영문 이름(New Balance)이 길어 첫 줄 배너와 겹치지 않게 */
+  .folio-cover-stack.is-wide i { margin-top: 7px; }
+  .folio-case-sm .folio-cover-stack { left: 18px; right: 18px; }
+}
+@media (prefers-reduced-motion: reduce) { .folio-cover-stack i { transition: none; } .folio-case:hover .folio-cover-stack i:nth-child(n) { transform: none; } }
+/* 힘 빼기 */
+.site-header-light .border.min-h-\[44px\] { border-radius: 999px; }
+.site-header-light .font-mono { font-family: var(--font-sans); letter-spacing: 0; }
+.folio-section#automation, .loop { background: #f8f6f1; }
+.loop { border-top: 0; }
+.folio-case-title, .loop-panel-line { font-weight: 700; }

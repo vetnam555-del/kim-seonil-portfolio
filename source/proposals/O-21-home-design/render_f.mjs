@@ -11,11 +11,9 @@ mkdirSync(outDir, { recursive: true });
 const soft = `
 /* 1) 폭 넓고 굵은 영문 → 보통 폭 · 한 단계 가늘게 */
 .folio-hero-title .folio-hero-display{font-stretch:100%;font-weight:800;letter-spacing:-.035em;line-height:1.04}
-.folio-proofs .folio-proof-value,.loop-metric-value,.loop-stages b,.loop-panel-stage span,.folio-capindex-stage,.figure,.figure-live{font-stretch:100%}
-.folio-proofs .folio-proof-value{font-weight:700;letter-spacing:-.03em}
-.loop-metric-value{font-weight:700;letter-spacing:-.035em}
+/* 숫자(결과 칸 · 단계별 결과 · 사례 결과)는 지금 그대로 둔다 — 주인 11-14: 보통 폭으로 바꾼 것이 촌스럽다. 폭 넓은 숫자가 이 사이트의 얼굴이다 */
+.loop-stages b,.loop-panel-stage span,.folio-capindex-stage{font-stretch:100%}
 .loop-stages b{font-weight:700;font-size:34px;letter-spacing:-.03em}
-.folio-case-metric{font-weight:700}
 /* 2) 머리줄: 네모 칸 · 고정폭 글자 → 둥근 칸 · 본문 글자 */
 .site-header .font-mono{font-family:var(--font-sans);letter-spacing:0}
 .site-header a.border{border-radius:999px}
@@ -30,7 +28,9 @@ const soft = `
 const teal = `:root{--color-signal:#1a6f6b;--color-signal-ink:#4fd1cd;--color-accent:#1a6f6b;--color-accent-hover:#145652;--color-up:#1a6f6b}.folio-hero-photo::before{background:radial-gradient(closest-side,rgba(26,111,107,.3),rgba(79,209,205,.12) 58%,transparent 74%)}`;
 const base = readFileSync(join(siteDir, "mock-e.html"), "utf8");
 writeFileSync(join(siteDir, "mock-f1.html"), base.replace("</head>", `<style id="f-css">${soft}</style></head>`));
-writeFileSync(join(siteDir, "mock-f2.html"), base.replace("</head>", `<style id="f-css">${soft}${teal}</style></head>`));
+const keepTitle = `.folio-hero-title .folio-hero-display{font-stretch:125%;letter-spacing:-.02em;line-height:1.02}.loop-stages b,.loop-panel-stage span,.folio-capindex-stage{font-stretch:125%}.loop-stages b{font-weight:800;font-size:40px;letter-spacing:-.02em}`;
+writeFileSync(join(siteDir, "mock-f2.html"), base.replace("</head>", `<style id="f-css">${soft}${keepTitle}</style></head>`));   // f2 = 영문 제목도 지금 그대로(견줌)
+void teal;
 const browser = await chromium.launch();
 for (const [v, w, h, s] of [["now", 1440, 900, 1], ["f1", 1440, 900, 1], ["f2", 1440, 900, 1], ["now", 390, 844, 2], ["f1", 390, 844, 2], ["f2", 390, 844, 2]]) {
   const ctx = await browser.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: s, isMobile: w < 600, hasTouch: w < 600 });
