@@ -63,6 +63,8 @@ def fit(tile, kind, shift=0.5):
 for slug, (name, picks, kind) in PICK.items():
     im = Image.open(os.path.join(src, name + ".webp")).convert("RGB"); cs = cells(im); line = []
     for n, k in enumerate(picks, 1):
-        t = fit(peel(im.crop(cs[k - 1])), kind, 0.3 if (slug, n) == ("dyson", 2) else 0.5); f = os.path.join(out, f"cover-{slug}-{n}.webp"); t.save(f, quality=84, method=6)
+        t0 = peel(im.crop(cs[k - 1]))
+        if (slug, n) == ("dyson", 2): t0 = t0.crop((160, 4, 352, 260))   # 가로 영상 캡처 — 양옆의 어두운 여백 · 재생 표시 · 아래 진행 막대를 뺀 가운데(3:4)
+        t = fit(t0, kind); f = os.path.join(out, f"cover-{slug}-{n}.webp"); t.save(f, quality=84, method=6)
         line.append(f"[{t.size[0]}, {t.size[1]}]")
     print(f'{slug}: {{ kind: "{kind}", sizes: [{", ".join(line)}] }}')
