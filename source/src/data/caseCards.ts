@@ -30,6 +30,13 @@ export type CaseCard = {
    * 레퍼런스(dainahys)처럼 결과물을 한 장의 타일로 보이게 한다. 소재에 쓰인 색에서 채도를 뺀 값이다.
    */
   tint: string;
+  /**
+   * 홈 카드의 표지에 얹는 소재 낱장 세 장 (2026.11.14 O-21). 모음 사진(image)을 통째로 줄여 넣으면 한 장 한 장이 안 보여,
+   * 같은 사진에서 세 장을 잘라(`public/evidence/cover-<slug>-<n>.webp`) 한 계단씩 올라가게 겹친다.
+   * kind: sq = 정사각·4:5 소재 · wide = 가로로 긴 배너(세 줄을 계단으로) · tall = 세로 영상 캡처. sizes 는 파일의 실제 크기(가로, 세로).
+   * 사례 상세의 첫 화면은 전처럼 모음 사진을 쓴다.
+   */
+  cover?: { kind: "sq" | "wide" | "tall"; sizes: [number, number][] };
   basis: string;
   scope: string;
   /** 카드에 붙는 외부 인정 한 줄 (2026.09.25) — verification 에 있는 사실만 */
@@ -43,6 +50,7 @@ export const caseCards: Record<string, CaseCard> = {
     image: "jestina-creatives",
     alt: "제이에스티나 집행 소재 6종",
     tint: "#f3e7e2",
+    cover: { kind: "sq", sizes: [[440, 440], [440, 441], [440, 440]] },
     basis: "2025년 5월 → 7월\u00a0· 동일 마감보고 기준",
     scope: "전략·측정 75%\u00a0· 일 단위 집행은 팀 분담",
   },
@@ -54,6 +62,7 @@ export const caseCards: Record<string, CaseCard> = {
     image: "newbalance-bizboard-set",
     alt: "뉴발란스 카카오 비즈보드 집행 소재 8종",
     tint: "#e9ebef",
+    cover: { kind: "wide", sizes: [[800, 201], [800, 201], [800, 201]] },
     contain: true,
     basis: "내부 일평균 실측\u00a0· 자동화 도입 전후",
     scope: "계정 운영 40%\u00a0· 자동화 설계·구축 100%",
@@ -63,6 +72,7 @@ export const caseCards: Record<string, CaseCard> = {
     image: "daekyo-flamu-set",
     alt: "대교 플래뮤 창업설명회·창업 지원금 소재",
     tint: "#f6eed9",
+    cover: { kind: "sq", sizes: [[440, 549], [440, 441], [440, 549]] },
     label: "같은 표본으로 재산출한 CVR",
     basis: "약 9천 원만 쓴 소재를 빼고 재계산",
     scope: "측정 QA 설계 100%",
@@ -72,6 +82,7 @@ export const caseCards: Record<string, CaseCard> = {
     image: "gangwon-creative-set",
     alt: "강원심층수 천년동안 집행 소재 6종",
     tint: "#e2ecf5",
+    cover: { kind: "sq", sizes: [[440, 439], [440, 550], [440, 439]] },
     /* 스마트스토어센터 판매 리포트 (2026.09.25) — 광고 ROAS 201% → 238% 는 사례 본문 결과에 그대로 있다 */
     metric: { label: "스토어 판매금액", after: "+397.3%" },
     basis: "2026년 7월 vs 전년 같은 기간\u00a0· 공동구매 포함\u00a0· 전년은 담당 이전",
@@ -82,6 +93,7 @@ export const caseCards: Record<string, CaseCard> = {
     image: "dyson-youtube-placements",
     alt: "다이슨 유튜브 구독 캠페인 지면 예시",
     tint: "#eceef1",
+    cover: { kind: "tall", sizes: [[420, 560], [420, 560], [420, 560]] },
     metric: { label: "동영상 광고 CTR", before: "2.16%", after: "3.14%" },
     basis: "2024년 2월 → 3월\u00a0· Google Ads 리포트 기준",
     scope: "KPI 재정의·테스트 설계 공동 기획\u00a0· 40%",
