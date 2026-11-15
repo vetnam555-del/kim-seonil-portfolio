@@ -1,6 +1,7 @@
 # 사례 표지에 쓸 소재 낱장을 우리 증빙 이미지(소재 모음 사진)에서 잘라 public/evidence/cover-<사례>-<n>.webp 로 쓴다.
 # 칸을 찾고(바탕과 다른 덩어리) → 고른 칸만 → 흰 여백과 얇은 테두리 줄을 벗겨 낸다. 그림을 새로 만들지 않는다.
-# Usage: python3 tiles_e.py <evidence dir(원본)> <out dir>        예: python3 proposals/O-21-home-design/tiles_e.py public/evidence public/evidence
+# Usage: python3 scripts/cut_cover_tiles.py <evidence dir(원본)> <out dir>        예: python3 scripts/cut_cover_tiles.py public/evidence public/evidence
+# (2026-11-15 proposals/O-21-home-design/tiles_e.py 에서 옮겼다 — 시안 스크립트는 지우고 실제 자산을 만드는 이것만 남긴다)
 import sys, os
 from PIL import Image
 import numpy as np

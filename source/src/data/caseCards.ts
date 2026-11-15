@@ -34,7 +34,7 @@ export type CaseCard = {
    * 홈 카드의 표지에 얹는 소재 낱장 세 장 (2026.11.14 O-21). 모음 사진(image)을 통째로 줄여 넣으면 한 장 한 장이 안 보여,
    * 같은 사진에서 세 장을 잘라(`public/evidence/cover-<slug>-<n>.webp`) 한 계단씩 올라가게 겹친다.
    * kind: sq = 정사각·4:5 소재 · wide = 가로로 긴 배너(세 줄을 계단으로) · tall = 세로 영상 캡처. sizes 는 파일의 실제 크기(가로, 세로).
-   * 사례 상세의 첫 화면은 전처럼 모음 사진을 쓴다.
+   * 사례 상세의 첫 화면도 같은 표지를 쓴다(2026.11.15 주인 "맞춰줘"). 표지를 누르면 모음 사진(image) 원본이 열린다.
    */
   cover?: { kind: "sq" | "wide" | "tall"; sizes: [number, number][] };
   basis: string;
