@@ -266,27 +266,35 @@ export default function HomeFolio({ lang = "ko" }: { lang?: Lang }) {
             </ul>
             {/*
               결과 세 칸 — 제목 바로 아래로 올렸다(2026.11.11 첫 화면 개편). 전에는 버튼 아래라 390px 첫 화면에 숫자가 하나도 없었다.
-              값 · 작은 막대(회색 기준 · 빨강 결과, 0부터 같은 척도) · 이름 · 기준 순서이고 칸을 누르면 그 사례로 간다.
+              값 · 가는 선 위의 점 둘 · 이름 · 기준 순서이고 칸을 누르면 그 사례로 간다.
+              선(2026.11.15 주인 "막대와 연도 칩이 촌스럽고 줄이 안 맞는다"): 세 칸이 같은 자리 · 같은 굵기의 선 하나를 쓴다.
+              빈 점 = 전, 빨간 점 = 후(0부터 같은 척도 · 회색 선이 전까지, 빨간 선이 늘어난 만큼). 수상 칸은 빨간 점 둘을 이은 선(두 해).
+              전에는 앞 두 칸이 두 줄 막대, 셋째 칸이 연도 칩이라 높이 · 폭이 달랐다. 연도는 바로 아래 기준 줄에 그대로 있다.
             */}
             <ul className="folio-proof folio-proofs" aria-label={ui.proofAria} style={{ "--l": display.length + 2 } as CSSProperties}>
               {proof.map((f, i) => (
                 <li key={f.label}>
                   <a href={f.href}>
-                    {/* 값 쪽 · 설명 쪽을 따로 묶는다 — 좁은 화면에서 설명이 두 줄이 돼도 값 아래 막대 · 연도가 밀려 내려가지 않는다 */}
+                    {/* 값 쪽 · 설명 쪽을 따로 묶는다 — 좁은 화면에서 설명이 두 줄이 돼도 값 아래 선이 밀려 내려가지 않는다 */}
                     <span className="folio-proof-main">
                       <span className="folio-proof-value">
                         {"before" in f && f.before ? <span className="folio-proof-before">{f.before} </span> : null}
                         <CountUpValue value={f.after} delay={150 + i * 100} duration={1300} />
                       </span>
                       {"bars" in f && f.bars ? (
-                        <span className="folio-proof-bars" aria-hidden="true">
-                          <i style={{ "--w": `${Math.round((f.bars[0] / f.bars[1]) * 1000) / 10}%` } as CSSProperties} />
+                        <span
+                          className="folio-proof-scale"
+                          aria-hidden="true"
+                          style={{ "--w": `${Math.round((f.bars[0] / f.bars[1]) * 1000) / 10}%` } as CSSProperties}
+                        >
+                          <i />
                           <i />
                         </span>
                       ) : null}
                       {"marks" in f && f.marks ? (
-                        <span className="folio-proof-marks" aria-hidden="true">
-                          {f.marks.map((m) => <i key={m}>{m}</i>)}
+                        <span className="folio-proof-scale is-pair" aria-hidden="true">
+                          <i />
+                          <i />
                         </span>
                       ) : null}
                     </span>
