@@ -10,6 +10,7 @@ import { EDITION, edition, portfolioPdfPublic } from "@/data/edition";
 import { hero } from "@/data/site";
 import { caseLedes } from "@/data/caseLedes";
 import { caseCards } from "@/data/caseCards";
+import { caseNextLine, caseNextLineEn } from "@/data/caseNext";
 import { deckPages } from "@/data/deckPages";
 import { caseCardsEn } from "@/data/en/caseCards.en";
 import { caseLedesEn } from "@/data/en/caseLedes.en";
@@ -140,7 +141,7 @@ function EvidenceFigure({ evidence, eager = false, t }: { evidence: Evidence; ea
          * 어느 이미지의 항목인지 alt 를 붙여 이름을 갈라 준다.
          */
         <ul
-          className="mt-3 flex flex-col gap-1.5 rounded-card border border-line bg-white px-4 py-3"
+          className="mt-3 flex flex-col gap-1.5 rounded-card bg-sand px-4 py-3"
           aria-label={`${t.calloutsAria} — ${evidence.alt ?? evidence.caption}`}
         >
           {evidence.callouts.map((callout) => (
@@ -177,8 +178,8 @@ function Block({
         className="grid scroll-mt-[136px] grid-cols-1 gap-4 border-t border-line py-9 md:grid-cols-[160px_1fr] md:gap-10 md:py-11"
       >
         <div>
-          <p className="font-mono text-mono font-bold tracking-[0.08em] text-ink-3">{no}</p>
-          <h2 className="mt-1.5 text-[1.375rem] leading-[1.28] font-black tracking-[-0.015em] md:text-[1.625rem]">
+          <p className="tnum text-[0.8125rem] font-bold tracking-[0.02em] text-accent">{no}</p>
+          <h2 className="mt-1.5 text-[1.375rem] leading-[1.28] font-bold tracking-[-0.015em] md:text-[1.625rem]">
             {label}
           </h2>
         </div>
@@ -271,7 +272,7 @@ function RoleDetails({ project, detail, t }: { project: Project; detail: Project
     <>
       <p className="text-body text-ink-2">{detail.contribution}</p>
       {detail.roleBreakdown ? (
-        <div className="mt-7 grid grid-cols-1 gap-px overflow-hidden rounded-card border border-line bg-line md:grid-cols-3">
+        <div className="mt-7 grid grid-cols-1 gap-2 md:grid-cols-3">
           {[
             { k: t.roleDirect, v: detail.roleBreakdown.direct, accent: true },
             { k: t.roleShared, v: detail.roleBreakdown.shared },
@@ -283,7 +284,7 @@ function RoleDetails({ project, detail, t }: { project: Project; detail: Project
             */
             .filter((column) => column.v.length > 0)
             .map((column) => (
-            <div key={column.k} className="h-full bg-white p-5">
+            <div key={column.k} className="h-full rounded-card bg-sand p-5">
               <p className={`text-caption font-semibold ${column.accent ? "text-accent" : "text-ink-3"}`}>
                 {column.k}
               </p>
@@ -378,7 +379,7 @@ function EvidenceDetails({
       {detail.evidenceLinks?.length ? (
         <ul className={`${evidence.length ? "mt-8" : ""} flex flex-col gap-3`}>
           {detail.evidenceLinks.map((item) => (
-            <li key={item.href} className="rounded-card border border-line bg-bg-alt p-5">
+            <li key={item.href} className="rounded-card bg-sand p-5">
               <a
                 href={item.href}
                 target="_blank"
@@ -758,9 +759,9 @@ function ResultChain({ project, detail, t }: { project: Project; detail: Project
   return (
     <div className="mb-8">
       <p className="mb-3 text-caption font-semibold text-ink-3">{t.chainTitle}</p>
-      <ol className="grid grid-cols-1 gap-px overflow-hidden rounded-card border border-line bg-line lg:grid-cols-3">
+      <ol className="grid grid-cols-1 gap-2 lg:grid-cols-3">
         {kpi.stages.map((stage, index) => (
-          <li key={stage.stage} className="relative bg-white p-5">
+          <li key={stage.stage} className="relative rounded-card bg-sand p-5">
             <p className="text-caption font-bold text-accent">
               <span className="tnum">{String(index + 1).padStart(2, "0")}</span> {stage.stage}
             </p>
@@ -843,7 +844,7 @@ function ResultsDetails({
   const gridDeltas = project.slug === "jestina" ? [] : deltas;
 
   return (
-    <div className="rounded-card border border-line p-6 sm:p-8">
+    <div className="case-results rounded-[20px] bg-sand p-6 sm:p-8">
       <Bars metric={project.keyMetric} note={project.keyMetric.note} labels={t.barsLabels[project.slug]} lang={lang} />
       {gridLevels.length > 0 ? <div
         className={`grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 ${
@@ -883,7 +884,7 @@ function ResultsDetails({
               <MetricDelta key={metric.label} metric={metric} />
             ))}
           </div>
-          <div className="mt-8 rounded-card border border-line bg-bg-alt p-6">
+          <div className="mt-8 rounded-card bg-white p-6">
             <p className="text-small font-semibold">{t.jestinaBasisTitle}</p>
             <ul className="mt-3 flex flex-col gap-2">
             <li className="relative pl-4 text-caption text-ink-2 sm:text-small">
@@ -904,7 +905,7 @@ function ResultsDetails({
       ) : null}
 
       {project.slug === "daekyo" ? (
-        <p className="mt-8 rounded-card border border-line bg-bg-alt px-5 py-4 text-caption text-ink-2 sm:text-small">
+        <p className="mt-8 rounded-card bg-white px-5 py-4 text-caption text-ink-2 sm:text-small">
           {t.daekyoNote}
         </p>
       ) : null}
@@ -939,6 +940,8 @@ export function CaseView({ slug, lang = "ko" }: { slug: string; lang?: Lang }) {
   const d = p.detail;
   const ledes = (lang === "en" ? caseLedesEn : caseLedes)[p.slug] ?? {};
   const next = lang === "en" ? getNextProjectEn(p) : getNextProject(p);
+  /* 다음 사례가 어떤 상황에서 시작했는지 한 줄 (B-08 · caseNext.ts) */
+  const nextLine = (lang === "en" ? caseNextLineEn : caseNextLine)[next.slug];
   const deckRange = EDITION === "general" ? deckPages[p.slug] : undefined;
   /* 한국어 라벨 목록을 같은 자리의 영문 라벨로 바꾼다 — 두 언어가 늘 같은 수치를 고르게 한다 */
   const toLang = (label: string) => {
@@ -1002,7 +1005,7 @@ export function CaseView({ slug, lang = "ko" }: { slug: string; lang?: Lang }) {
   const noOf = (id: string) => caseFlow.find((item) => item.id === id)?.no ?? "";
 
   return (
-    <article className="pt-[112px] sm:pt-[144px]">
+    <article className="case-page pt-[112px] sm:pt-[144px]">
       <Container>
         <Reveal>
           {/* 단독 내비게이션 컨트롤이므로 모바일 터치 타깃 44px을 확보한다.
@@ -1359,12 +1362,13 @@ export function CaseView({ slug, lang = "ko" }: { slug: string; lang?: Lang }) {
               >
                 {next.brand}{t.labelSep}{next.headline} →
               </Link>
+              {nextLine ? <p className="mt-3 max-w-[38rem] text-small leading-[1.7] text-on-ink-2">{nextLine}</p> : null}
             </div>
             <div className="flex flex-wrap gap-3">
-              <CTAButton href={t.homeHref} variant="ghost" onDark>
+              <CTAButton href={t.homeHref} variant="ghost" onDark className="case-btn">
                 {t.toc}
               </CTAButton>
-              <CTAButton href={t.resumeHref} onDark>
+              <CTAButton href={t.resumeHref} onDark className="case-btn">
                 {t.resume}
               </CTAButton>
             </div>

@@ -201,5 +201,13 @@ RESUME.parent.mkdir(parents=True, exist_ok=True)
 SimpleDocTemplate(str(RESUME), pagesize=A4, leftMargin=44, rightMargin=44, topMargin=39, bottomMargin=44,
                   title='김선일 | 이력서 및 경력기술서', author='김선일', lang='ko-KR', subject=f'퍼포먼스 마케팅 경력과 프로젝트 | {DATE} 검수',
                   creator='ReportLab').build(story, onFirstPage=footer, onLaterPages=footer)
+# 접근성 태그(구조 트리)를 붙인다 — ReportLab 은 태그 PDF 를 만들지 못한다(2026.11.15 B-05 · scripts/tag_resume_pdf.py).
+# 그림 · 글은 바꾸지 않고 끝에 쪽마다 같은지 확인한다.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from tag_resume_pdf import main as tag_pdf  # noqa: E402
+untagged = RESUME.with_suffix('.untagged.pdf')
+RESUME.replace(untagged)
+tag_pdf(str(untagged), str(RESUME))
+untagged.unlink()
 with pymupdf.open(RESUME) as checked:
     print(json.dumps({'resume_pages': len(checked), 'output': str(RESUME)}, ensure_ascii=False))
