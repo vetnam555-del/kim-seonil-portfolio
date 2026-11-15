@@ -2,9 +2,10 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import AutomationArchitecture from "@/components/AutomationArchitecture";
+import { CaseCoverStack } from "@/components/CaseCover";
 import { Bars, canChart } from "@/components/Bars";
 import { Reveal } from "@/components/motion";
-import { CTAButton, Container, Eyebrow, isIndexDelta, MetricDelta, Tag } from "@/components/ui";
+import { CTAButton, Container, Eyebrow, isIndexDelta, MetricDelta } from "@/components/ui";
 import { EDITION, edition, portfolioPdfPublic } from "@/data/edition";
 import { hero } from "@/data/site";
 import { caseLedes } from "@/data/caseLedes";
@@ -954,6 +955,8 @@ export function CaseView({ slug, lang = "ko" }: { slug: string; lang?: Lang }) {
    * 제목만 있고 숫자는 문단 속 글자, 큰 수치와 소재는 첫 화면 밖이었다. 새 숫자는 없다.
    */
   const card = EDITION === "general" ? (lang === "en" ? caseCardsEn : caseCards)[p.slug] : undefined;
+  /* 표지는 홈 카드와 같은 모양으로 — 홈에서 앞 두 사례는 큰 카드, 나머지는 작은 카드(이름이 위를 가로지른다)다(HomeFolio LEAD/REST) */
+  const coverSm = edition.spreadOrder.filter((slug) => caseCards[slug]).indexOf(p.slug) >= 2;
   const heroMetric = card
     ? card.metric ?? { label: card.label ?? p.keyMetric.label, before: p.keyMetric.before, after: p.keyMetric.after }
     : undefined;
@@ -1024,8 +1027,9 @@ export function CaseView({ slug, lang = "ko" }: { slug: string; lang?: Lang }) {
         <Reveal delay={0.05}>
           <div className="mt-7">
             <div className="flex flex-wrap gap-2">
+              {/* 홈 카드의 둥근 칸과 같은 모양 (2026.11.15 O-21) — 고정폭 대문자 네모였다 */}
               {p.categories.map((c) => (
-                <Tag key={c}>{c}</Tag>
+                <span key={c} className="case-tag">{c}</span>
               ))}
             </div>
             <p className="mt-5 font-mono text-mono font-bold text-ink-3">{p.brand}</p>
@@ -1056,15 +1060,24 @@ export function CaseView({ slug, lang = "ko" }: { slug: string; lang?: Lang }) {
                     {p.scale ? <div><dt>{p.scaleLabel ?? t.scale}</dt><dd>{p.scale}</dd></div> : null}
                   </dl>
                 </div>
+                {/*
+                  표지 (2026.11.15 O-21 · 주인 "맞춰줘") — 홈 카드와 같은 그림(사례 색 바탕 · 브랜드 이름 · 소재 낱장 세 장)으로 연다.
+                  전에는 홈은 낱장 표지, 상세는 모음 사진이라 눌러 들어오면 다른 그림이 먼저 보였다.
+                  누르면 전처럼 모음 사진 원본이 새 탭에 열린다 — 낱장 세 장 밖의 소재까지 거기서 본다.
+                */}
                 <a
-                  className={`case-hero-media${card.contain ? " is-contain" : ""}`}
+                  className={`case-hero-media${card.cover ? ` folio-cover${coverSm ? " is-sm" : ""}` : card.contain ? " is-contain" : ""}`}
                   style={{ "--tint": card.tint } as CSSProperties}
                   href={`${basePath}/evidence/${card.image}.webp`}
                   target="_blank"
                   rel="noopener"
                   aria-label={`${card.alt} — ${t.openFull} ${t.newTab}`}
                 >
-                  <img src={`${basePath}/evidence/${card.image}-960.webp`} alt={card.alt} width={960} height={640} loading="eager" />
+                  {card.cover ? (
+                    <CaseCoverStack slug={p.slug} brand={p.brand} cover={card.cover} eager />
+                  ) : (
+                    <img src={`${basePath}/evidence/${card.image}-960.webp`} alt={card.alt} width={960} height={640} loading="eager" />
+                  )}
                 </a>
               </div>
             ) : null}

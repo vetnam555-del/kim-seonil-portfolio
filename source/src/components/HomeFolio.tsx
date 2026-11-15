@@ -1,6 +1,7 @@
 import { Fragment, type CSSProperties } from "react";
 import Link from "next/link";
 import AutomationDemo from "@/components/AutomationDemo";
+import { CaseCoverStack } from "@/components/CaseCover";
 import CountUpValue from "@/components/CountUpValue";
 import EmailCopyButton from "@/components/EmailCopyButton";
 import IntroSplash from "@/components/IntroSplash";
@@ -171,17 +172,7 @@ function CaseCard({ p, no, size, lang }: { p: Project; no: number; size: "lg" | 
         aria-hidden="true"
       >
         {meta.cover ? (
-          <>
-            <span className="folio-cover-name">{p.brand}</span>
-            <span className={`folio-cover-stack is-${meta.cover.kind}`}>
-              {meta.cover.sizes.map(([w, h], i) => (
-                <i key={i}>
-                  {/* lazy — 대표 사례는 어느 폭에서도 첫 화면 밖이다(2026.10.24 B-04) */}
-                  <img src={`${BASE}/evidence/cover-${p.slug}-${i + 1}.webp`} alt="" width={w} height={h} loading="lazy" />
-                </i>
-              ))}
-            </span>
-          </>
+          <CaseCoverStack slug={p.slug} brand={p.brand} cover={meta.cover} />
         ) : (
           <img src={`${BASE}/evidence/${meta.image}-960.webp`} alt="" width={960} height={640} loading="lazy" />
         )}
