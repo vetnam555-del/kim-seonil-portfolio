@@ -116,6 +116,8 @@
 - 사람인 · 잡코리아의 경력기술서는 프로젝트 단위(배경 · 역할 · 기여 · 성과)로 쓴다(2026-11-13). 회사별 담당업무는 경력 칸에 있다. 사례 문장은 `projects.ts` 에 있는 것만 쓴다.
 - 웹 글꼴이 붙기 전의 폭은 `globals.css` 의 대체 글꼴(`Pretendard Fallback …`)이 맞춘다(2026-11-13 B-18). Pretendard 파일이나 굵기 구성을 바꾸면 `scripts/measure_font_fallback.cjs ratio` 로 다시 재서 값을 고친다.
 
+- **지식 허브 `vetnam555-del/makefair` 의 `portfolio/`** 는 이 저장소 원본에서 만든다(2026-11-16 주인 "여기다가도 내 포트폴리오 정보를 저장해줘"). 사이트 문구 · 숫자를 바꿔 main 에 합친 뒤 `node scripts/export_knowledge.mjs <makefair>/portfolio` 로 다시 만들어 그 저장소에 올린다. 공개 정보만 — 포트폴리오 PDF · 지원처별 판 문구 · 주인 메모는 옮기지 않는다.
+
 ## 완료 기록
 
 | 날짜 | 내용 | 커밋 |

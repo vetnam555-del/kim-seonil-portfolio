@@ -6,7 +6,7 @@
 | 항목 | 값 |
 |---|---|
 | 담당 | claude |
-| 상태 | 2026-11-16 방문 계측(O-13) 준비 — 주인 Drive 에 시트 · 코드 문서를 만들었고, 웹 앱 주소를 받으면 `src/lib/insight.ts` 의 GENERAL_INSIGHT_URL 에 넣고 빌드한다(`validate_export` 가 Apps Script 주소인지 · 스크립트가 실렸는지 본다). 받은 뒤 할 일: 시험 비콘을 보내 시트에 줄이 생기는지 확인 → 배포 → 프로필 문서 링크에 `?r=` 코드(링크드인 jfu7 · 리멤버 556y · 사람인 uguc · 잡코리아 gr6h · 원티드 7r83) → 붙여넣기 페이지 다시 올리기(SKILL 13절). 그 앞: PR #36 main de8c055 |
+| 상태 | 2026-11-16 방문 계측(O-13) 준비 — 주인 Drive 에 시트 · 코드 문서를 만들었고, 웹 앱 주소를 받으면 `src/lib/insight.ts` 의 GENERAL_INSIGHT_URL 에 넣고 빌드한다(`validate_export` 가 Apps Script 주소인지 · 스크립트가 실렸는지 본다). 받은 뒤 할 일: 시험 비콘을 보내 시트에 줄이 생기는지 확인 → 배포 → 프로필 문서 링크에 `?r=` 코드(링크드인 jfu7 · 리멤버 556y · 사람인 uguc · 잡코리아 gr6h · 원티드 7r83) → 붙여넣기 페이지 다시 올리기(SKILL 13절). 그 앞: PR #36 main de8c055 · 2026-11-16 지식 허브 makefair 에 `portfolio/`(공개 정보 전부 · 21개 파일)를 넣었다(makefair PR #2 → main 4f6d03f) — 사이트를 바꾸면 `scripts/export_knowledge.mjs` 로 다시 만든다 |
 | 작업 브랜치 | `claude/stoic-bohr-gze1d1` |
 | 열린 PR | 이 기록만 담은 초안 PR(다음 작업과 같이 합친다). #35 는 8e540b8, #36 은 de8c055 로 합쳤다. 작업 브랜치는 강제 push 를 쓸 수 없어 main 을 병합해 맞춘다 — 다음 PR 도 스쿼시로 합친다 |
 | 마지막 갱신 | 2026-11-15 · Claude |
