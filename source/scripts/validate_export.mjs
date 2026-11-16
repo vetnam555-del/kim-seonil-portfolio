@@ -121,6 +121,26 @@ const deckPdf =
     : "kim-seonil-performance-marketing-portfolio.pdf";
 
 /* 일반판은 경력 연수를 쓰지 않는다(2026-11-01 주인 "사이트랑 이력서에도 경력 4년은 빼줘"). 수상의 '2년 연속 · 2 years running'은 연수가 아니다 */
+/*
+ * 방문 계측(2026.11.16) — 일반판에 계측 스크립트가 실렸다면 수집 주소는 Apps Script 웹앱이어야 한다.
+ * 로컬 수집기(127.0.0.1 등)로 시험한 산출물이 그대로 배포되면 방문이 아무 데도 쌓이지 않는다.
+ * 저장소의 GENERAL_INSIGHT_URL 이 채워져 있는데 스크립트가 빠졌으면 그것도 막는다(조용히 꺼지는 것).
+ */
+if (edition === "general") {
+  const insightSrc = readFileSync(join(dirname(fileURLToPath(import.meta.url)), "../src/lib/insight.ts"), "utf8");
+  const committed = (insightSrc.match(/GENERAL_INSIGHT_URL = "([^"]*)"/) || [])[1] ?? "";
+  const pages = htmlFiles.map((f) => [relative(root, f), readFileSync(f, "utf8")]);
+  const tagged = pages.filter(([, h]) => h.includes('id="insight"'));
+  const APPS_SCRIPT = /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/;
+  if (committed && !APPS_SCRIPT.test(committed)) failures.push(`GENERAL_INSIGHT_URL 이 Apps Script 웹앱 주소가 아닙니다: ${committed}`);
+  if (committed && tagged.length === 0) failures.push("GENERAL_INSIGHT_URL 이 있는데 계측 스크립트가 어느 쪽에도 실리지 않았습니다");
+  for (const [rel, h] of tagged) {
+    const m = h.match(/var U=("[^"]*")/);
+    const url = m ? JSON.parse(m[1]) : "";
+    if (!APPS_SCRIPT.test(url)) { failures.push(`계측 주소가 Apps Script 웹앱이 아닙니다(${rel}): ${url || "(없음)"}`); break; }
+  }
+}
+
 if (edition === "general") {
   const yearsPatterns = [/경력\s*(?:<!--\s*-->)?\s*\d+\s*년/, /\d+\s*년\s*동안/, /\b(?:four|\d+)\s+years?\s+(?:at|in|of)\b/i, /\bover\s+(?:four|\d+)\s+years\b/i, /\d+\s*yrs\b/];
   for (const re of yearsPatterns) {

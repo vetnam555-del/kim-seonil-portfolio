@@ -18,7 +18,15 @@
  * 끄는 방법: 환경변수 NEXT_PUBLIC_INSIGHT_URL 을 비우면 이 스크립트가 아예
  * 나가지 않는다. 붙이기 전 배포본과 산출물이 같아야 하므로 기본값은 '없음' 이다.
  */
-export const INSIGHT_URL = process.env.NEXT_PUBLIC_INSIGHT_URL ?? "";
+/**
+ * 일반판 수집기 주소 — 주인이 배포한 Apps Script 웹앱(insight/README.md 2단계 · https://script.google.com/macros/s/…/exec).
+ * 저장소에 둔다(2026.11.16): 환경변수로만 켜면 그 빌드 한 번에만 붙고, 다음 사람이 평소대로 빌드하는 순간 조용히 꺼진다.
+ * 비어 있으면 꺼진다. 환경변수 NEXT_PUBLIC_INSIGHT_URL 이 있으면 그것이 먼저다(로컬 수집기로 시험할 때) —
+ * 그런 산출물은 validate_export 가 일반판에서 막는다(Apps Script 주소가 아니면 배포하지 않는다).
+ */
+export const GENERAL_INSIGHT_URL = "";
+export const INSIGHT_URL =
+  process.env.NEXT_PUBLIC_INSIGHT_URL ?? (process.env.NEXT_PUBLIC_EDITION === "general" ? GENERAL_INSIGHT_URL : "");
 
 /** 스크롤 깊이·체류 시간을 어느 지점에서 기록할지. 촘촘히 잡을 이유가 없다. */
 const DEPTHS = [25, 50, 75, 100];

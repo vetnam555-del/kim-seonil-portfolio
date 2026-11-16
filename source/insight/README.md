@@ -100,12 +100,10 @@
 
 ### 3. 사이트에 켜기
 
-빌드할 때 환경변수를 준다. PowerShell 기준:
-
-```powershell
-$env:NEXT_PUBLIC_INSIGHT_URL = "https://script.google.com/macros/s/여기에붙여넣기/exec"
-npm run build:general
-```
+웹앱 주소를 `src/lib/insight.ts` 의 `GENERAL_INSIGHT_URL` 에 넣고 평소대로 `npm run publish:general` 한다(2026-11-16 부터).
+환경변수로만 켜던 방식은 그 빌드 한 번에만 붙어, 다음에 누가 평소대로 빌드하면 조용히 꺼졌다 — 그래서 저장소에 둔다.
+`validate_export` 가 막는 것: 주소가 Apps Script 웹앱(`https://script.google.com/macros/s/…/exec`)이 아닌 산출물 ·
+주소를 넣었는데 스크립트가 빠진 산출물.
 
 붙었는지 확인:
 
@@ -113,9 +111,13 @@ npm run build:general
 grep -c 'id="insight"' out/index.html    # 1 이면 켜짐
 ```
 
-그다음 평소대로 `out/` 을 `portfolio-github-sync` 로 복사하고 commit·push 한다.
+로컬 수집기로 시험할 때만 `NEXT_PUBLIC_INSIGHT_URL=http://127.0.0.1:… npm run build:general` — 이 산출물은 검증에서 걸리므로 배포되지 않는다.
 
-> **끄려면** 환경변수 없이 다시 빌드하면 된다. 스크립트가 아예 안 나간다.
+> **끄려면** `GENERAL_INSIGHT_URL` 을 비우고 다시 빌드한다. 스크립트가 아예 안 나간다.
+
+**2026-11-16 준비해 둔 것**: 주인 Drive 의 `포트폴리오 방문 계측` 폴더에 스프레드시트(수신처 시트에 프로필 다섯 곳 코드 · 붙이는 법 시트)와
+`방문 계측 — Apps Script 에 붙여넣을 코드` 문서(`Code.gs` + `summary.gs` 를 한 파일로 — 이름이 겹치지 않아 한 번에 붙여도 된다).
+프로필 코드: 링크드인 `jfu7` · 리멤버 `556y` · 사람인 `uguc` · 잡코리아 `gr6h` · 원티드 `7r83`.
 
 ### 4. 요약 보기
 
