@@ -7,7 +7,7 @@
 문장과 숫자는 모두 사이트 · 이력서 원문(`src/data/`)에서 가져왔다. 사실이 바뀌면 사이트와 같이 고친다(SKILL 1절).
 칸마다 복사 버튼이 달린 붙여넣기 페이지(주인 계정에서만 열림): https://claude.ai/artifact/Bjv7HbNXoMJeqxNH39xH3U
 
-<!-- 붙여넣기 페이지 지문: f215aec7f527 -->
+<!-- 붙여넣기 페이지 지문: 5608a471af22 -->
 
 **이 문서가 곧 붙여넣기 페이지다.** `node scripts/build_paste_pages.mjs` 가 이 문서를 읽어 페이지를 만든다 — 페이지를 손으로 고치지 않는다.
 칸 이름은 ```` ```text ```` 블록 바로 위 줄, 칸 설명은 그 사이의 `> ` 줄, 짧은 값은 `백틱`, 표는 한 줄씩 복사된다. `## ` 제목마다 탭 하나이고
@@ -33,6 +33,10 @@
 - **전화번호 · 주소는 플랫폼 기본정보 칸에만 넣습니다** — 소개 · 자기소개서 · 첨부 파일에는 넣지 않습니다.
 - **이 문서에 없는 사실 · 숫자는 쓰지 않습니다** — 숫자는 표기 그대로(기준 · 괄호 포함) 옮깁니다.
 
+### 2026-11-16 에 바뀐 칸
+
+- **포트폴리오 주소** — 네 곳 모두 끝에 플랫폼별 코드(`?r=`)가 붙은 주소로 바꿨습니다. 사이트 방문 기록에서 어느 플랫폼을 보고 들어왔는지 나뉩니다. 리멤버 소개의 주소 줄 · 사람인 · 잡코리아 포트폴리오 주소 칸 · 원티드 링크 칸을 다시 넣습니다.
+
 ### 2026-11-13 에 바뀐 칸
 
 11월 3일 · 4일 판을 이미 넣었다면 아래 칸만 다시 넣으면 됩니다.
@@ -51,7 +55,9 @@
 
 이름 `김선일` · 영문 이름 `KIM SEONILL` · 이메일 `makefair@naver.com`
 
-포트폴리오 `https://vetnam555-del.github.io/kim-seonil-portfolio/` · 링크드인 `https://www.linkedin.com/in/%EC%84%A0%EC%9D%BC-%EA%B9%80-b28a1021b/` · 공개용 이력서 PDF `https://vetnam555-del.github.io/kim-seonil-portfolio/kim-seonil-resume-public.pdf`
+링크드인 `https://www.linkedin.com/in/%EC%84%A0%EC%9D%BC-%EA%B9%80-b28a1021b/` · 공개용 이력서 PDF `https://vetnam555-del.github.io/kim-seonil-portfolio/kim-seonil-resume-public.pdf`
+
+포트폴리오 — 플랫폼마다 끝의 코드가 다른 주소를 넣습니다(어느 곳을 보고 들어왔는지 방문 기록에 남습니다 · 2026-11-16): 리멤버 `https://vetnam555-del.github.io/kim-seonil-portfolio/?r=556y` · 사람인 `https://vetnam555-del.github.io/kim-seonil-portfolio/?r=uguc` · 잡코리아 `https://vetnam555-del.github.io/kim-seonil-portfolio/?r=gr6h` · 원티드 `https://vetnam555-del.github.io/kim-seonil-portfolio/?r=7r83`
 
 ### 경력 (최근 순)
 
@@ -177,7 +183,7 @@
 
 맡은 캠페인이 대한민국 디지털 광고 대상 통합 퍼포먼스 부문 우수상을 2년 연속 받았습니다(2024 독립문 · 2025 제이에스티나).
 
-포트폴리오 https://vetnam555-del.github.io/kim-seonil-portfolio/
+포트폴리오 https://vetnam555-del.github.io/kim-seonil-portfolio/?r=556y
 ```
 
 채용 서비스 소개 (아래 칸)
@@ -193,7 +199,7 @@
 · 뉴발란스 — 재고와 광고를 잇는 자동화를 직접 만들어 점검 시간 약 2시간 → 5분 이내 (내부 실측 · LG CNS MOP 우수사례)
 · 리멤버(현재) — 직장인 명함 데이터로 산업·직무·직급별 타겟을 잡아 B2B 리드 생성 캠페인 운영
 
-포트폴리오 https://vetnam555-del.github.io/kim-seonil-portfolio/
+포트폴리오 https://vetnam555-del.github.io/kim-seonil-portfolio/?r=556y
 ```
 
 경력 · 학력 · 스킬은 '공통' 탭의 값을 그대로 넣습니다.
@@ -304,7 +310,7 @@ HLL중앙에서는 뉴발란스 월 10억+ 규모 10개 채널을 팀으로 운�
 경제부터 트렌드까지 2030이 알아야 할 소식을 고르는 뉴스레터 EDIT H를 기획·발행합니다. https://vetnam555-del.github.io/edit-h-archive/
 ```
 
-포트폴리오 주소 `https://vetnam555-del.github.io/kim-seonil-portfolio/`
+포트폴리오 주소 — 사람인 `https://vetnam555-del.github.io/kim-seonil-portfolio/?r=uguc` · 잡코리아 `https://vetnam555-del.github.io/kim-seonil-portfolio/?r=gr6h`
 
 포트폴리오 PDF 파일은 첨부하지 않습니다. 자격증 · 수상 · 교육 · 희망 직무는 '공통' 탭에 있습니다.
 
@@ -426,7 +432,7 @@ KT알파쇼핑 · 상세
 
 ### 링크
 
-포트폴리오 `https://vetnam555-del.github.io/kim-seonil-portfolio/` · 링크드인 `https://www.linkedin.com/in/%EC%84%A0%EC%9D%BC-%EA%B9%80-b28a1021b/` · EDIT H `https://vetnam555-del.github.io/edit-h-archive/`
+포트폴리오 `https://vetnam555-del.github.io/kim-seonil-portfolio/?r=7r83` · 링크드인 `https://www.linkedin.com/in/%EC%84%A0%EC%9D%BC-%EA%B9%80-b28a1021b/` · EDIT H `https://vetnam555-del.github.io/edit-h-archive/`
 
 ## 5. 링크드인
 
@@ -460,6 +466,7 @@ Claude 데스크톱 앱에서 새 대화를 열고 브라우저 창에서 각 �
 
 지킬 것
 - 원문에 없는 사실 · 숫자를 만들지 마. 숫자는 표기 그대로(기준 · 괄호 포함) 옮겨.
+- 포트폴리오 주소는 원문에 적힌 플랫폼별 주소를 끝의 ?r= 코드까지 그대로 넣어(방문 기록이 어느 플랫폼에서 왔는지 이 코드로 나뉜다).
 - 직접 쓰는 칸에 경력 연수를 쓰지 마. 소개 줄에는 지금 직함만 써.
 - 수상은 '통합 퍼포먼스 부문 우수상'까지 써.
 - 포트폴리오 PDF는 올리지 마. 전화번호 · 주소는 기본정보 칸 밖에 쓰지 마.
