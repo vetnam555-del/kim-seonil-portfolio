@@ -24,7 +24,8 @@ const DOT = <span className="absolute left-0 top-[0.62em] h-1 w-1 rounded-full b
 export default function EdithReels() {
   return (
     <figure id="edith-reels" className="mt-9 scroll-mt-28 border-t border-line-2 pt-8">
-      <h4 className="text-[1.125rem] font-bold leading-[1.5] text-ink">AI 영상 릴스 '오늘 아침 5가지'</h4>
+      {/* h3 다 — 이 자리 바로 위 제목은 구간 제목(h2)이라 증빙 제목처럼 h4 로 두면 제목 단계를 건너뛴다(Lighthouse heading-order · 2026.11.17) */}
+      <h3 className="text-[1.125rem] font-bold leading-[1.5] text-ink">AI 영상 릴스 '오늘 아침 5가지'</h3>
       <p className="mt-2 text-small text-ink-2">
         담당 범위: 형식 기획{" "}· 제작 규칙{" "}· 검수 항목 / 영상·목소리는 AI 생성, 제작은 AI 루틴
       </p>

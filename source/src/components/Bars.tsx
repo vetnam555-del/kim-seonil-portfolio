@@ -76,9 +76,14 @@ export function Bars({
       )}. 세로축 최댓값 ${fmt(max, a.unit)}.${note ? ` ${note}` : ""}`;
 
   return (
-    <figure className="mb-2" role="img" aria-label={label} data-enter="bars">
+    <figure className="mb-2" data-enter="bars">
+      {/*
+        그림 역할(role="img")과 읽어 줄 문장은 막대 묶음에 둔다(2026.11.17). figure 에 두면 설명 줄(figcaption)이 있는 figure 에는
+        허용되지 않는 역할이라 접근성 검사에 걸렸다(aria-allowed-role). 읽히는 내용은 전과 같다 — 설명 줄의 내용이 이 문장에 다 들어 있어
+        설명 줄은 읽기에서 뺀다(두 번 읽히지 않게).
+      */}
       {/* 값 라벨이 막대 위로 올라가므로 위쪽 여백을 미리 확보한다 */}
-      <div className="pt-11" aria-hidden="true">
+      <div className="pt-11" role="img" aria-label={label}>
         <div className="relative h-[168px] pl-12 sm:h-[210px]">
           {ticks.map((t) => (
             <div
@@ -117,7 +122,7 @@ export function Bars({
           <span>{labelAfter}</span>
         </div>
       </div>
-      <figcaption className="mt-3 pl-12 text-caption text-ink-3">
+      <figcaption className="mt-3 pl-12 text-caption text-ink-3" aria-hidden="true">
         {metric.label}
         {note ? `\u00a0· ${note}` : ""}
         {en

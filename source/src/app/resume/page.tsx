@@ -541,7 +541,7 @@ export default function ResumePage() {
                 <li key={v.href} className="text-caption leading-[1.6] text-ink-2">
                   <span className="font-semibold text-ink">{v.title}</span>
                   <span className="mx-1.5 text-ink-3">·</span>
-                  <a href={v.href} target="_blank" rel="noopener" className="break-all text-accent">
+                  <a href={v.href} target="_blank" rel="noopener" className="break-all text-accent underline underline-offset-2">
                     {v.href.replace(/^https?:\/\/(www\.)?/, "")}
                   </a>
                 </li>

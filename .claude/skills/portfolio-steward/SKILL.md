@@ -72,6 +72,7 @@ npm run typecheck
 npm run qa:tone && npm run qa:en && npm run qa:final
 QA_BROWSER=$PWD/scripts/cloud_chromium.sh node scripts/qa_layout.mjs general
 QA_BROWSER=$PWD/scripts/cloud_chromium.sh node scripts/qa_wrap.mjs general
+CHROME_PATH=$PWD/scripts/cloud_chromium.sh node scripts/qa_a11y.mjs / /en/ /projects/<고친 사례>/   # 화면에 보이는 것을 바꿨을 때 — 아래 설명
 node scripts/qa_release.mjs    # STATIC_PASS_RUNTIME_PENDING 과 fingerprint 를 얻는다 (동작 시험 qa_interactions 34건 · 프로필 원문 검사 check_platform_copy 도 여기서 돈다 — 13절)
 ```
 
@@ -97,6 +98,12 @@ node scripts/qa_release.mjs --approve --runtime=artifacts/release/runtime/runtim
      옮긴다(`mkdir -p <스크래치>/publish-held && mv <경로> <스크래치>/publish-held/`). 배포물이 아닌 메모라면 커밋해도 된다.
   4. 1번 목록이 비면 `cd source && npm run publish:general` 로 다시 돈다. `git checkout HEAD -- .` 같은 일괄 복원과 `git clean` 은 쓰지 않는다.
 - 화면을 바꿨다면 375·390·1440px 캡처를 직접 본다. 가운뎃점이 줄 맨 앞에 오는 곳은 `qa_wrap` D 규칙이 잰다.
+- **화면에 보이는 요소(색 · 제목 · 이미지 · 영상 · 버튼)를 넣거나 바꿨으면 배포 전에 `qa_a11y` 를 돌린다**(2026-11-17). 빌드(`out/`)의 페이지에
+  Lighthouse 접근성 항목을 돌려 100 이 아닌 화면과 걸린 요소를 적는다(홈은 휴대폰 · 데스크톱, 나머지는 휴대폰 화면 · 화면당 약 20초).
+  고친 쪽의 경로만 주면 되고, 경로 없이 `npm run qa:a11y` 로 돌리면 모든 페이지를 본다(22화면 · 약 8분).
+  접근성 점수는 라이브 점검(`health:full`)만 쟀는데 그것은 배포 **뒤에** 돈다 — 홈 릴스 띠의 연회색 가운뎃점(대비 1.87:1)과 EDIT H 릴스 블록의
+  제목 단계(h2 → h4)가 정적 검수 · 배치 검수 · 출시 승인을 모두 지나 라이브에 나간 뒤에야 잡혔다(홈 100 → 97 · 사례 100 → 99).
+  꾸밈으로 숨긴 글자(`aria-hidden`)도 색 대비는 잰다. 구간 안에 새 제목을 넣을 때는 바로 위 제목이 몇 단계인지 본다.
 - 휴대폰에서만 접는 묶음은 `PhoneFold` 로 만든다(2026-11-12 R-09 — 소개 쪽 자동화 카드의 설명 · 창업·기획 기록의 자료와 본문).
   **설명만 접는다. 결과 숫자 · 경력 · 수상 · 역량은 접지 않는다**(BACKLOG '정해 둔 것'). 넓은 화면 · 인쇄 · 스크립트 꺼짐에서는 다 보여야 한다.
   `qa_layout` · `qa_wrap` 은 접힌 화면을 편 상태로 한 번 더 보고, 눌러서 열리는지는 출시 계약의 `fold` 항목이 잰다.

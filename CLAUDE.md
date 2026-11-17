@@ -33,6 +33,7 @@ Next.js 16 주의사항은 `source/AGENTS.md` 에 있다. 코드를 고치기 �
 3. `npm run typecheck` 와 `node scripts/qa_release.mjs` 로 정적 검수를 돌린다.
    - 외부 링크 확인(G16)은 403·429 를 경고로만 남긴다(사이트가 자동 요청을 막는 것). 다른 항목이 모두 통과하면 정상이다.
    - 출시 승인(RELEASE_PASS)은 `scripts/runtime_evidence.mjs` 로 브라우저 증거를 만든 뒤 `qa_release --approve` 로 받는다(매뉴얼 3절).
+   - 화면에 보이는 것(색 · 제목 · 이미지 · 영상 · 버튼)을 바꿨으면 배포 전에 접근성을 잰다: `CHROME_PATH=$PWD/scripts/cloud_chromium.sh node scripts/qa_a11y.mjs <고친 쪽 경로 …>`(매뉴얼 3절 · 2026-11-17).
 4. `source/` 변경과 루트 빌드 결과를 **같은 커밋**에 넣어 작업 브랜치에 push 하고, 자비스 검토 뒤 `main` 에 합친다.
    `main` 에 들어가면 Actions 가 루트 빌드 결과만 사이트에 올린다(원본·작업 메모·설정은 뺀다). 매뉴얼 6절.
    - 저장소 이름(`kim-seonil-portfolio`)은 바꾸지 않는다. Pages 주소가 이름을 따라 바뀌고 예전 주소는 넘겨주지 않는다 — 제출한 서류가 이 주소다(2026-10-15).
