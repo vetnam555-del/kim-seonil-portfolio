@@ -13,6 +13,11 @@
  *
  * 폭을 720 으로 잡은 이유: 본문 칼럼이 640 언저리라 880 으로 그리면 0.73 배로 줄어들어
  * 11px 글자가 8px 로 찍힌다. 6종을 3열로 두면 폭이 더 필요해서 2열로 내렸다.
+ *
+ * 본문 칼럼이 600px 에 못 미치면(휴대폰 · 옆 목차가 붙는 768~1023px 태블릿) 같은 내용을 세로로 다시 그린다(2026.11.17).
+ * 화면 폭이 아니라 칸 폭으로 가른다(컨테이너 쿼리) — 768px 에서는 칼럼이 488px 로 오히려 좁아진다.
+ * 그전에는 600px 짜리 그림을 칸 안에서 가로로 밀게 했는데, 밀 수 있다는 표시가 없어 03 · 04 단계와 6종의 오른쪽 열이 잘린 채로 읽혔다.
+ * 세로 판은 SVG 가 아니라 목록이다 — 글이 폭에 맞춰 스스로 줄을 바꾸고, 화면 낭독기는 순서 있는 목록으로 읽는다.
  */
 const W = 720;
 
@@ -40,7 +45,8 @@ const TXT = {
     schedulerNote: "정해진 주기로 실행",
     anomaly: "이상 감지",
     stopTitle: "광고 설정을 바꾸지 않고 멈춘 뒤 담당자에게 알립니다",
-    stopConditions: "기준 파일 부재\u00a0· 표본 0건\u00a0· 재고 미상 비율 초과\u00a0· 수집 실패율 초과",
+    /* 조건 하나는 한 줄에 둔다(휴대폰 세로 판에서 "수집 / 실패율 초과" 로 갈라졌다) — 줄은 가운뎃점 뒤에서만 바뀐다 */
+    stopConditions: "기준\u00a0파일\u00a0부재\u00a0· 표본\u00a00건\u00a0· 재고\u00a0미상\u00a0비율\u00a0초과\u00a0· 수집\u00a0실패율\u00a0초과",
     stopW: 465,
     systemsTitle: "이 구조로 돌아가는 시스템 6종",
     notes: ["구조만 옮긴 그림입니다.", "광고주 데이터와 계정 정보는 들어 있지 않습니다."],
@@ -81,22 +87,82 @@ const ROW_Y = 76;
 const x = (i: number) => i * (BOX_W + GAP);
 const CHECK_CX = x(1) + BOX_W / 2;
 
+/* 세로 판(좁은 화면)의 연결선 — 칸 왼쪽 21px 에 회색 선을 내리고 칸 끝에 화살촉을 단다. 선이 시작하는 높이(before:top-…)는 쓰는 곳에서 준다 */
+const RAIL =
+  "relative before:absolute before:bottom-[8px] before:left-[21px] before:w-[1.5px] before:bg-ink-3 before:content-[''] " +
+  "after:absolute after:bottom-[2px] after:left-[17.75px] after:border-x-[4px] after:border-t-[7px] after:border-x-transparent after:border-t-ink-3 after:content-['']";
+
 export default function AutomationArchitecture({ lang = "ko" }: { lang?: "ko" | "en" }) {
   const T = TXT[lang];
   const STEPS = T.steps;
   const SYSTEMS = T.systems;
   return (
-    <figure className="mt-9 border-t border-line-2 pt-8">
+    <figure className="@container mt-9 border-t border-line-2 pt-8">
       <figcaption className="text-caption font-semibold text-ink-3">
         {T.caption}
       </figcaption>
 
+      {/* 좁은 화면 — 위에서 아래로. 회색 선은 정상 경로, 붉은 선은 검수에서 갈라지는 정지 경로다 */}
+      <div className="mt-5 @[600px]:hidden">
+        <p className="text-[12px] font-bold tracking-[0.09em] text-ink-3">{T.oneRun}</p>
+        <div className={`${RAIL} mt-3 pb-[26px] before:top-[32px]`}>
+          <div className="flex items-center gap-[11px]">
+            <span className="inline-flex h-7 items-center rounded-full border border-line bg-bg-alt px-4 text-[13px] font-semibold text-ink">
+              {T.scheduler}
+            </span>
+            <span className="text-[12px] text-ink-3">{T.schedulerNote}</span>
+          </div>
+        </div>
+        <ol>
+          {STEPS.map((s, i) => {
+            const guard = s.no === "02";
+            const last = i === STEPS.length - 1;
+            return (
+              <li key={s.no} className={last ? undefined : `${RAIL} pb-[26px] before:top-[58px]`}>
+                <div className="flex items-center gap-3">
+                  <div
+                    className={`flex h-[54px] w-[150px] shrink-0 flex-col justify-center rounded-[10px] bg-bg px-[14px] ${
+                      guard ? "border-[1.6px] border-accent" : "border border-line"
+                    }`}
+                  >
+                    <span className="text-[11px] font-semibold leading-none tracking-[0.06em] text-ink-3">{s.no}</span>
+                    <span className="mt-[7px] text-[16px] font-bold leading-none text-ink">{s.label}</span>
+                  </div>
+                  <span className="text-[12px] leading-[1.5] text-ink-3">{s.note}</span>
+                </div>
+                {guard ? (
+                  <div className="relative mt-[4px] pl-[44px] pt-[30px]">
+                    <span aria-hidden="true" className="absolute left-[74px] top-0 h-[23px] w-[1.6px] bg-accent" />
+                    <span
+                      aria-hidden="true"
+                      className="absolute left-[70.8px] top-[21px] border-x-[4px] border-t-[7px] border-x-transparent border-t-accent"
+                    />
+                    <span className="absolute left-[86px] top-[3px] text-[12px] font-semibold text-accent">{T.anomaly}</span>
+                    <div className="rounded-[10px] border border-accent bg-accent-soft px-4 py-3">
+                      <p className="text-[14px] font-bold leading-[1.45] text-accent">{T.stopTitle}</p>
+                      <p className="mt-1.5 text-[12px] leading-[1.6] text-ink-2">{T.stopConditions}</p>
+                    </div>
+                  </div>
+                ) : null}
+              </li>
+            );
+          })}
+        </ol>
+        <p className="mt-8 border-t border-line-2 pt-5 text-[12px] font-bold tracking-[0.09em] text-ink-3">{T.systemsTitle}</p>
+        <ul className="mt-3 grid gap-2 @[480px]:grid-cols-2">
+          {SYSTEMS.map((name) => (
+            <li key={name} className="rounded-[8px] border border-line-2 bg-bg-alt px-[14px] py-[7px] text-[12px] leading-[1.5] text-ink-2">
+              {name}
+            </li>
+          ))}
+        </ul>
+      </div>
+
       {/*
-        좁은 화면에서는 그림을 더 줄이지 않고 칸 안에서 가로로 민다.
-        글자를 줄이면 360px 에서 읽을 수가 없다. 배치 검수는 스스로 스크롤하는
-        칸 안의 넘침은 세지 않는다(qa_layout).
+        칸이 600px 을 채우면 가로 그림(그보다 좁으면 11~12px 글자가 10px 아래로 내려간다).
+        컨테이너 쿼리를 모르는 옛 브라우저는 세로 판만 본다. min-w 와 가로 스크롤은 안전망으로 남긴다.
       */}
-      <div className="mt-5 overflow-x-auto">
+      <div className="mt-5 hidden overflow-x-auto @[600px]:block">
         <svg
           viewBox={`0 0 ${W} 462`}
           className="h-auto w-full min-w-[600px]"

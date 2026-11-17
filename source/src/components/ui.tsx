@@ -175,7 +175,7 @@ export function isIndexDelta(metric: Metric): boolean {
  * 포트폴리오에서 그건 실력 문제로 읽힌다. 그래서 초록은 증감값에만 쓰고
  * 수준값은 잉크로 둔다 — 개선은 화살표가 이미 말한다.
  */
-export function MetricDelta({ metric, size = "md" }: { metric: Metric; size?: "md" | "lg" }) {
+export function MetricDelta({ metric, size = "md", className }: { metric: Metric; size?: "md" | "lg"; className?: string }) {
   const valueCls =
     size === "lg"
       ? "text-[2rem] leading-[1.1] font-bold tracking-normal sm:text-[2.75rem]"
@@ -183,16 +183,21 @@ export function MetricDelta({ metric, size = "md" }: { metric: Metric; size?: "m
   const afterCls = isIndexDelta(metric) ? "text-up" : "text-ink";
 
   return (
-    <div>
+    <div className={className}>
       <p className="text-caption text-ink-3">{metric.label}</p>
       <p className={`mt-2 ${valueCls}`}>
         {metric.before && metric.before !== "기준" ? (
-          <>
+          /*
+           * 앞 값과 화살표는 한 줄에 묶는다 (2026.11.17 최종 검토). 큰 수치(lg)가 좁은 칸에 들어가면
+           * "약 2시간 / → / 5분 이내" 처럼 화살표만 한 줄에 남았다(뉴발란스 결과 · 768–1440px).
+           * 꺾이더라도 "약 2시간 →" 다음 줄에 뒤 값이 오게 한다.
+           */
+          <span className="whitespace-nowrap">
             <span className="tnum text-ink-3">{metric.before}</span>
             <span className="mx-2 text-ink-3" aria-hidden="true">
               →
             </span>
-          </>
+          </span>
         ) : null}
         <span className={`tnum ${afterCls}`}>
           <CountUpValue value={metric.after} />

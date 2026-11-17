@@ -8,6 +8,9 @@
  *
  * 옮기지 않는 것: 지원처별 판(사내 · 지원처 전용 문구 — site.ts 의 ably · hll · shinsegae … 값), 포트폴리오 PDF(헤드헌터에게만),
  * 붙여넣기 페이지의 주인 메모, 작업 기록(BACKLOG · HANDOFF). 전화번호 · 주소 · 생년월일은 원본에도 없다.
+ * 채용 플랫폼 · 링크드인 프로필 원문(JOB_PLATFORMS.md · LINKEDIN.md)도 옮기지 않는다(2026-11-17 최종 검토) — 플랫폼별 진행 상태 · 구직 설정 같은
+ * 작업 메모가 들어 있고, 이 저장소에서도 사이트로는 내보내지 않는 자료다(health 가 source/ 가 사이트에서 열리면 결함으로 본다).
+ * 허브 저장소가 웹사이트로 열리면 검색에 걸리는 쪽이 된다. 처음 판(11-16)은 profiles/ 로 옮겼다가 뺐다.
  */
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -83,7 +86,7 @@ const write = (rel, body) => {
 
 function framework(f, lang) {
   const L = [];
-  L.push(`#### ${t(f.title)}`);
+  L.push(`### ${t(f.title)}`);
   if (f.description) L.push(t(f.description));
   if (f.collapsed) L.push(lang === "en" ? "_(Plan written before execution — folded on the site)_" : "_(실행 전 기획안 — 사이트에서는 접혀 있다)_");
   if (f.variant === "table" && f.columns && f.rows) L.push(table([f.rowHeader ?? (lang === "en" ? "Item" : "구분"), ...f.columns], f.rows.map((r) => [r.label, ...r.cells])));
@@ -123,20 +126,32 @@ function caseDoc(p, lang, ledes) {
     if (p.cardDecision) L.push(`- **${en ? "What I did" : "한 일"}** — ${t(p.cardDecision)}`);
     if (p.decisionResult) L.push(`- **${en ? "Result" : "성과"}** — ${t(p.decisionResult.result)}\n- **${en ? "Scope of reading" : "해석 범위"}** — ${t(p.decisionResult.boundary)}`);
   }
-  if (p.decisions?.length) L.push(`### ${en ? "Decision log" : "판단 기록"}\n\n${table(en ? ["Decision", "Basis", "Rejected option"] : ["결정", "근거", "택하지 않은 안"], p.decisions.map((x) => [x.decision, x.basis, x.rejected]))}`);
   const block = (title, lede, body) => { if (body) L.push(`## ${title}${lede ? `\n\n_${t(lede)}_` : ""}\n\n${body}`); };
+  /*
+   * 도식 · 표는 사이트와 같은 자리에 둔다(CaseView.tsx) — placement 가 있으면 그 단, KPI 표는 KPI 설계, 나머지는 실행(접힌 기획안은 끝).
+   * 처음 판은 전부 결과 아래에 늘어놓아 'KPI 재정의' 같은 판단 단계의 표가 결과처럼 읽혔다(2026-11-17 최종 검토).
+   */
+  const fw = d.frameworks ?? [];
+  const showKpi = Boolean(d.kpi);
+  const join2 = (...parts) => parts.flat().filter(Boolean).join("\n\n");
+  const placed = (pl) => fw.filter((f) => f.placement === pl).map((f) => framework(f, lang));
+  const kpiTables = fw.filter((f) => f.kpi && !f.collapsed);
+  const execFw = fw.filter((f) => !(showKpi && f.kpi) && !f.placement);
+  const decisionLog = p.decisions?.length ? `### ${en ? "Decision log" : "판단 기록"}\n\n${table(en ? ["Decision", "Basis", "Rejected option"] : ["결정", "근거", "택하지 않은 안"], p.decisions.map((x) => [x.decision, x.basis, x.rejected]))}` : "";
   block(en ? "Problem" : "문제 정의", ledes.problem, [d.overview, d.challenge].filter(Boolean).map(t).join("\n\n"));
-  block(en ? "What the data showed" : "데이터에서 확인한 것", ledes.analysis, d.dataAnalysis ? t(d.dataAnalysis) : "");
-  block(en ? "Core decision" : "핵심 판단", ledes.strategy, d.strategy ? t(d.strategy) : "");
-  if (d.kpi) {
-    const withCheck = d.kpi.stages.some((s) => s.check);
-    const rows = d.kpi.stages.map((s) => withCheck ? [s.stage, s.check ?? "", s.labels.join(" · ")] : [s.stage, s.labels.join(" · ")]);
-    const head = withCheck ? (en ? ["Stage", "Check", "Metrics"] : ["단계", "확인", "지표"]) : (en ? ["Stage", "Metrics"] : ["단계", "지표"]);
-    block(en ? "KPI design" : "KPI 설계", "", [d.kpi.title ? `**${t(d.kpi.title)}**` : "", d.kpi.description ? t(d.kpi.description) : "", table(head, rows), d.kpi.note ? `> ${t(d.kpi.note)}` : ""].filter(Boolean).join("\n\n"));
+  block(en ? "What the data showed" : "데이터에서 확인한 것", ledes.analysis, join2(d.dataAnalysis ? t(d.dataAnalysis) : "", placed("analysis")));
+  block(en ? "Core decision" : "핵심 판단", ledes.strategy, join2(d.strategy ? t(d.strategy) : "", decisionLog, placed("strategy")));
+  if (showKpi) {
+    const body = kpiTables.length
+      ? join2(kpiTables.map((f) => framework(f, lang)))
+      : join2(d.kpi.title ? `**${t(d.kpi.title)}**` : "", d.kpi.description ? t(d.kpi.description) : "", table(en ? ["Stage", "What to check", "Metrics"] : ["단계", "확인할 것", "지표"], d.kpi.stages.map((x) => [x.stage, x.check ?? "", x.labels.join(" · ")])));
+    block(en ? "KPI design" : "KPI 설계", "", body);
   }
-  block(en ? "Execution" : "실행", "", bullets(d.execution));
-  block(en ? "Results" : "결과", ledes.results, table(en ? ["Metric", "Value", "Basis"] : ["지표", "값", "기준"], d.results.map((m) => [m.label, metric(m), m.note ?? ""])));
-  for (const f of d.frameworks ?? []) L.push(framework(f, lang));
+  block(en ? "Execution" : "실행", "", join2(bullets(d.execution), execFw.filter((f) => !f.collapsed).map((f) => framework(f, lang)), execFw.filter((f) => f.collapsed).map((f) => framework(f, lang))));
+  const chain = showKpi
+    ? join2(`**${en ? "Read stage by stage" : "단계별로 이어 읽기"}**`, table(en ? ["Stage", "Metric", "Value"] : ["단계", "지표", "값"], d.kpi.stages.flatMap((x) => x.labels.map((label) => { const m = d.results.find((r) => r.label === label); return [x.stage, label, m ? metric(m) : ""]; }))), d.kpi.note ? `> ${t(d.kpi.note)}` : "")
+    : "";
+  block(en ? "Results" : "결과", ledes.results, join2(chain, table(en ? ["Metric", "Value", "Basis"] : ["지표", "값", "기준"], d.results.map((m) => [m.label, metric(m), m.note ?? ""])), placed("results")));
   if (d.contribution || d.roleBreakdown) {
     const rb = d.roleBreakdown;
     block(en ? "My role" : "나의 역할", "", [d.contribution ? t(d.contribution) : "", rb ? [[en ? "Did myself" : "직접 수행", rb.direct], [en ? "Did with others" : "함께 수행", rb.shared], [en ? "Did not do" : "하지 않은 것", rb.notDone]].filter(([, v]) => v?.length).map(([k, v]) => `**${k}**\n${bullets(v)}`).join("\n\n") : ""].filter(Boolean).join("\n\n"));
@@ -154,6 +169,9 @@ function caseDoc(p, lang, ledes) {
   return L.join("\n\n");
 }
 
+/* 이 스크립트가 만드는 폴더 · 파일만 지우고 다시 쓴다 — 더는 만들지 않는 문서(예: profiles/)가 남지 않게 */
+for (const stale of ["cases", "en", "profiles", "profile.md", "automation.md", "README.md"]) rmSync(join(out, stale), { recursive: true, force: true });
+
 /* ── 사례 ── */
 const order = ["jestina", "newbalance", "daekyo", "gangwon", "dyson", "automation", "edith", "hanssem", "ktalpha"];
 const ko = order.map((s) => projects.find((p) => p.slug === s)).filter(Boolean);
@@ -170,7 +188,7 @@ P.push(`## 한 줄 소개\n\n**${gc.display.join(" ")}** — ${gc.statement.join
 P.push(`## 첫 화면의 결과 세 칸\n\n${table(["지표", "값", "기준"], gc.proof.map((x) => [x.label, `${x.before ? `${t(x.before)} ` : ""}${t(x.after)}`, x.basis]))}`);
 P.push(`## 소개\n\n${t(gp.intro)}\n\n**${t(gp.interestLabel)}**: ${gp.interests.join(" · ")}`);
 P.push(`## 경력 이야기\n\n${S.careerNarrative.map(t).join("\n\n")}`);
-P.push(`## 경력 요약\n\n${t(S.careerSummary.intro)}\n\n${S.careerSummary.columns.map((c) => `**${t(c.title)}**\n${bullets(c.items)}`).join("\n\n")}${S.careerSummary.highlights?.length ? `\n\n${table(["축", "내용"], S.careerSummary.highlights.map((h) => [h.axis, [h.value, h.label, h.note, h.desc].filter(Boolean).join(" · ")]))}` : ""}`);
+P.push(`## 경력 요약\n\n${t(S.careerSummary.intro)}\n\n${S.careerSummary.columns.map((c) => `**${t(c.title)}**\n${bullets(c.items)}`).join("\n\n")}${S.careerSummary.highlights?.length ? `\n\n${table(["축", "내용"], S.careerSummary.highlights.map((h) => [h.axis, h.body]))}` : ""}`);
 P.push(`## 경력\n\n${S.career.map((c) => [`### ${t(c.company)}${c.group ? ` (${t(c.group)})` : ""} · ${t(c.title)} · ${t(c.period)}`, t(c.summary), bullets(c.work), c.clients ? `담당: ${t(c.clients)}` : "", c.highlight ? `**${t(c.highlight)}**` : ""].filter(Boolean).join("\n\n")).join("\n\n")}`);
 P.push(`## 학력\n\n${table(["기간", "학교", "전공"], S.education.map((e) => [e.period, e.school, e.major]))}\n\n${t(S.educationCaption)}`);
 P.push(`## 수상\n\n${table(["연도", "이름", "내용"], S.awards.map((a) => [a.year, a.name, a.detail]))}\n\n### 그 밖의 수상 · 선정\n\n${table(["연도", "내용"], S.awardsArchive.map((a) => [a.year, a.items]))}`);
@@ -198,9 +216,6 @@ E.push(`## Skills\n\n${table(["Level", "Meaning"], R.skillLevelsEn.map((l) => [l
 E.push(`## Public work\n\n${R.publicWorkEn.map((w) => `### ${t(w.title)}\n\n${t(w.desc)}\n\n${bullets(w.facts)}\n\n${w.href}`).join("\n\n")}`);
 write("en/profile.md", E.join("\n\n"));
 
-/* 채용 플랫폼 · 링크드인 원문(공개 저장소에 있는 문서 그대로 — 주인 메모는 이 문서에 없다) */
-for (const f of ["JOB_PLATFORMS.md", "LINKEDIN.md"]) write(`profiles/${f}`, readFileSync(join(source, f), "utf8"));
-
 /* 안내 */
 /* 대표 수치는 홈 카드 · 사례 첫 화면과 같은 값(caseCards)이 있으면 그것을 쓴다 */
 const headMetric = (p) => { const c = caseCards[p.slug]; const m = c?.metric ?? (c ? { ...p.keyMetric, label: c.label ?? p.keyMetric.label } : p.keyMetric); return `${cell(m.label)}: ${cell(metric(m))}`; };
@@ -208,11 +223,11 @@ const caseRow = (p, i) => `| ${String(i + 1).padStart(2, "0")} | [${t(p.brand)}]
 write("README.md", [
   `# ${site.name} · ${site.role} — 포트폴리오 지식 문서`,
   `퍼포먼스 마케터 김선일의 포트폴리오에 공개된 내용을 한곳에 모은 문서다. 원본은 포트폴리오 사이트(${site.url})이고, 이 폴더는 그 사이트의 원본 데이터에서 그대로 뽑아 만든다 — 문장과 숫자가 사이트 · 공개용 이력서와 같다.`,
-  `| 문서 | 내용 |\n|---|---|\n| [profile.md](profile.md) | 소개 · 경력 · 학력 · 수상 · 자격증 · 교육 · 보유 역량 · 외부 확인 자료 · 공개 작업물 |\n| [automation.md](automation.md) | 자동화 6종 — 문제 · 자동화 · 효과 · 도구 |\n| [cases/](cases/) | 사례 ${ko.length}건 전문 — 문제 · 데이터 · 판단 · KPI · 실행 · 결과 · 역할 · 실패와 배운 것 · 증빙 · 근거 |\n| [en/](en/) | 영문 프로필과 영문 사례 ${projectsEn.length}건 |\n| [profiles/](profiles/) | 링크드인 · 리멤버 · 사람인 · 잡코리아 · 원티드에 넣는 프로필 원문 |`,
+  `| 문서 | 내용 |\n|---|---|\n| [profile.md](profile.md) | 소개 · 경력 · 학력 · 수상 · 자격증 · 교육 · 보유 역량 · 외부 확인 자료 · 공개 작업물 |\n| [automation.md](automation.md) | 자동화 6종 — 문제 · 자동화 · 효과 · 도구 |\n| [cases/](cases/) | 사례 ${ko.length}건 전문 — 문제 · 데이터 · 판단 · KPI · 실행 · 결과 · 역할 · 실패와 배운 것 · 증빙 · 근거 |\n| [en/](en/) | 영문 프로필과 영문 사례 ${projectsEn.length}건 |`,
   `## 사례\n\n| # | 사례 | 대표 수치 | 기간 | 기여 |\n|---|---|---|---|---|\n${ko.map(caseRow).join("\n")}`,
   `## 링크\n\n- 포트폴리오: ${site.url}\n- 영문: ${SITE}/en/\n- 공개용 이력서 PDF: ${SITE}${site.resumePdfPath}\n- 링크드인: ${site.linkedin}\n- 이메일: ${site.emailPrimary}`,
   `## 표기 원칙\n\n- 숫자는 기준(기간 · 집계 출처)과 함께 쓴다. 기준이 다른 값은 한 문장에 합치지 않는다.\n- 기여도는 사례마다 적은 업무 범위 기준이다(100% 단독 · 35–75% 팀 안에서 전략 · 분석 주도 · 20% 담당 매체 · 분석).\n- 수상은 '대한민국 디지털 광고 대상 통합 퍼포먼스 부문 우수상'까지 쓴다(2024 · 2025, 2년 연속).\n- 직접 쓰는 소개 문장에는 경력 연수를 쓰지 않는다. 소개 줄에는 지금 직함만 쓴다.\n- 광고주 원천 데이터 · 절대 금액 · 사내 자료는 싣지 않는다. 원본 리포트는 면접에서 직접 보여 준다.`,
-  `## 여기 없는 것\n\n- 포트폴리오 PDF(29쪽) — 헤드헌터에게만 따로 공유한다.\n- 전화번호 · 주소 · 생년월일 — 공개 자료에 싣지 않는다.\n- 지원처마다 따로 쓴 문구와 지원 기록.`,
+  `## 여기 없는 것\n\n- 포트폴리오 PDF(29쪽) — 공개 자료에 싣지 않는다. 사이트의 요청 버튼으로 메일을 받으면 따로 보낸다.\n- 전화번호 · 주소 · 생년월일 — 공개 자료에 싣지 않는다.\n- 지원처마다 따로 쓴 문구와 지원 기록.\n- 링크드인 · 채용 플랫폼에 넣는 프로필 원문과 그 작업 메모 — 포트폴리오 저장소의 \`source/\` 에만 둔다(사이트로 내보내지 않는 자료다).`,
   `## 다시 만들기\n\n원본은 \`vetnam555-del/kim-seonil-portfolio\` 의 \`source/src/data\` 다. 사이트를 고친 뒤 그 저장소에서:\n\n\`\`\`bash\ncd source\nnode scripts/export_knowledge.mjs <이 폴더 경로>\n\`\`\`\n\n이 폴더의 파일은 손으로 고치지 않는다 — 다음에 다시 만들 때 덮어써진다.\n\n마지막으로 만든 날: ${new Date().toISOString().slice(0, 10)}`,
 ].join("\n\n"));
 
