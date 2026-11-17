@@ -17,6 +17,9 @@ import { edithReels } from "@/data/reels";
  * 영문 사례 쪽은 없다(EDIT H 는 국문 상세만 있다).
  */
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+/* 콜아웃 목록은 CaseView 의 증빙 콜아웃과 같은 모양이다 */
+const ITEM = "relative pl-4 text-caption text-ink-2 sm:text-small";
+const DOT = <span className="absolute left-0 top-[0.62em] h-1 w-1 rounded-full bg-accent" />;
 
 export default function EdithReels() {
   return (
@@ -50,15 +53,20 @@ export default function EdithReels() {
       <figcaption className="mt-4 max-w-[46rem] text-small leading-[1.75] text-ink-2">
         <p>
           11월에 그날의 메인 5가지를 20초 영상 한 편으로 묶는 릴스를 시작했습니다. 캐릭터 H가 소식을 몸으로 보여 주고, 첫 장면에는 그날의
-          핵심 숫자 하나와 보는 사람에게 닿는 질문 하나를 둡니다. 영상과 목소리는 AI로 만들었고 게시물에도 그렇게 적습니다. 올리기 전 검수가
-          화면의 숫자를 그날 원고와 대조하고 받아쓰기로 발음과 자막 싱크를 확인하며, 하나라도 걸리면 올리지 않습니다.
+          핵심 숫자 하나와 보는 사람에게 닿는 질문 하나를 둡니다. 올리기 전 검수가 화면의 숫자를 그날 원고와 대조하고 받아쓰기로 발음과
+          자막 싱크를 확인하며, 하나라도 걸리면 올리지 않습니다.
         </p>
-        <ul className="mt-3 list-disc space-y-1 pl-5 marker:text-accent">
-          <li>위 세 편은 2026.11.13{" "}· 11.16{" "}· 11.17호 — 누르면 소리와 함께 재생</li>
-          <li>장면마다 출처를 적고 숫자는 기사 두 곳에서 확인한 값만 사용</li>
-          <li>실제 인물과 회사 로고는 넣지 않음</li>
-        </ul>
       </figcaption>
+      {/* 항목은 캡션에 잇지 않고 다른 증빙처럼 콜아웃 목록으로 뺀다(qa_tone T13 — 캡션 300자) */}
+      <ul
+        className="mt-3 flex max-w-[46rem] flex-col gap-1.5 rounded-card bg-sand px-4 py-3"
+        aria-label="영상에서 확인할 항목 — EDIT H AI 영상 릴스"
+      >
+        <li className={ITEM}>{DOT}위 세 편은 2026.11.13{" "}· 11.16{" "}· 11.17호 — 누르면 소리와 함께 재생</li>
+        <li className={ITEM}>{DOT}게시물에도 AI로 만든 영상임을 표기</li>
+        <li className={ITEM}>{DOT}장면마다 출처를 적고 숫자는 기사 두 곳에서 확인한 값만 사용</li>
+        <li className={ITEM}>{DOT}실제 인물과 회사 로고는 넣지 않음</li>
+      </ul>
     </figure>
   );
 }
