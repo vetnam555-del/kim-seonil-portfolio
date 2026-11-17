@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
+import { Fragment } from "react";
 import { CTAButton } from "@/components/ui";
 import { OG_VERSION, robotsFor } from "@/data/edition";
 import { langAlternates } from "@/data/en/alternates";
@@ -148,6 +149,19 @@ export default function ResumePage() {
             휴대폰(390px)에서 사진 옆 칸은 238px 라 주소가 'kim-' 에서 끊기고 소개가 여섯 줄로 접혔다.
             넓은 화면 · 인쇄에서는 이름 칸이 사진(104px)보다 높아 자리가 그대로다.
           */}
+          {/*
+            한 줄 소개 (2026.11.18) — 이력서 PDF 와 같은 문장, 같은 자리(직함 바로 아래 · 연락처 위)다.
+            전에는 연락처 아래에 세 줄짜리 소개가 있었고 바로 아래 자기소개 첫 문단과 같은 말이었다(site.ts careerSummary 주석).
+            토막마다 한 덩어리 — 좁은 화면에서 '가설을 / 세우고'로 갈리지 않고 토막 사이에서만 줄이 바뀐다.
+          */}
+          <p className="mt-3 text-small font-semibold text-ink sm:text-body">
+            {careerSummary.introParts.map((part, i) => (
+              <Fragment key={part}>
+                {i ? " " : null}
+                <span className={careerSummary.introParts.length > 1 ? "inline-block" : undefined}>{part}</span>
+              </Fragment>
+            ))}
+          </p>
           <p className="mt-2 text-caption text-ink-3">
             {site.email} ·{" "}
             <a href={site.linkedin} target="_blank" rel="noopener" className="text-accent">
@@ -159,10 +173,7 @@ export default function ResumePage() {
               {site.url.replace("https://", "")}
             </a>
           </p>
-          <p className="mt-3 max-w-[38rem] text-caption font-normal text-ink-2 sm:text-small">
-            {careerSummary.intro}
-          </p>
-          <p className="no-print mt-4 text-caption text-ink-3">
+          <p className="no-print mt-1 text-caption text-ink-3">
             상세 연락처와 경력 증빙은{" "}
             <a href={site.resumeMailto} className="font-normal text-accent underline underline-offset-2">
               메일로 요청
@@ -191,7 +202,18 @@ export default function ResumePage() {
         <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-3">
           {careerSummary.columns.map((c) => (
             <div key={c.title}>
-              <h3 className="text-small font-bold">{c.title}</h3>
+              {/* 일반판은 표지의 세 단계 — 영문 단계 이름은 영어로 읽히게 표시한다 (site.ts careerSummary) */}
+              <h3 className="text-small font-bold">
+                {c.stage ? (
+                  <>
+                    <span lang="en">{c.stage}</span>
+                    {"\u00a0· "}
+                    {c.role}
+                  </>
+                ) : (
+                  c.title
+                )}
+              </h3>
               <ul className="mt-2 flex flex-col gap-1">
                 {c.items.map((it) => (
                   <li key={it} className="relative pl-3 text-caption text-ink-2">
