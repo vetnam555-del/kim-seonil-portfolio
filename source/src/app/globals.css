@@ -1981,12 +1981,18 @@ html:has(.evidence-inline:target) {
 .folio-proof .folio-proof-basis { margin-top: 2px; font-size: 12.5px; line-height: 1.45; color: #646d76; }
 .folio-career { margin-top: 64px; padding-top: 28px; border-top: 1px solid #e5e7ea; }
 .folio-career ol { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 32px 48px; margin-top: 16px; }
-.folio-career li { display: flex; flex-direction: column; gap: 6px; }
+.folio-career ol > li { display: flex; flex-direction: column; gap: 6px; }
 /* 회사 로고 — 흑백 한 가지 색, 회사명보다 한 단계 흐리게(2026.10.15 A안). 높이만 맞추고 너비는 비율대로 */
 .folio-career-logo { display: block; align-self: flex-start; height: 18px; width: auto; opacity: .82; margin-bottom: 4px; }
 .folio-career-period { font-size: 12px; font-weight: 700; letter-spacing: .04em; color: #646d76; font-variant-numeric: tabular-nums; }
-.folio-career li strong { font-size: 18px; font-weight: 700; color: #0f1216; }
-.folio-career li strong + span { font-size: 15px; line-height: 1.7; color: #4a525b; }
+.folio-career ol > li strong { font-size: 18px; font-weight: 700; color: #0f1216; }
+.folio-career ol > li strong + span { font-size: 15px; line-height: 1.7; color: #4a525b; }
+/* 경력 칸의 항목 줄 (2026.11.17 주인 "~했습니다 ~했습니다 · 교과서적") — 브랜드마다 한 문장씩 쌓던 것을 짧은 항목으로.
+   위 규칙들을 ol > li 로 좁힌 것도 이 목록 때문이다(안쪽 li 가 연표 칸의 모양을 물려받지 않게). 점은 글자가 아니라 그림이다 — 색 대비 검사 대상이 아니다 */
+.folio-career-points { display: flex; flex-direction: column; gap: 7px; margin-top: 8px; }
+.folio-career-points li { position: relative; padding-left: 14px; font-size: 14.5px; line-height: 1.6; color: #4a525b; }
+.folio-career-points li::before { content: ""; position: absolute; left: 1px; top: .74em; width: 4px; height: 4px; border-radius: 50%; background: #b0b6bd; }
+.folio-career-points b { font-weight: 700; color: #0f1216; }
 .folio-brands { margin-top: 24px; font-size: 14.5px; line-height: 1.7; color: #4a525b; }
 .folio-brands > span { margin-right: 12px; font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--color-signal); }
 /* 다뤄 본 매체·도구(2026.10.24) — 운영 브랜드 줄과 같은 꼴로 세 줄. 라벨 뒤에 글자가 이어지고 넘치면 아래로 흐른다 */
@@ -2355,12 +2361,12 @@ html[data-intro="reveal"] .folio-proofs { animation: hero-rise-now .7s cubic-bez
 /* 경력 — 세 칸 연표 */
 @media (min-width: 1024px) {
   .folio-career ol { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0; margin-top: 26px; }
-  .folio-career li { position: relative; padding: 26px 36px 0 0; border-top: 2px solid #e5e7ea; }
-  .folio-career li:last-child { padding-right: 0; }
-  .folio-career li::before { content: ""; position: absolute; top: -6px; left: 0; width: 10px; height: 10px; border-radius: 50%; background: #c5cad0; box-shadow: 0 0 0 4px #fff; }
-  .folio-career li:first-child { border-top-color: #0f1216; }
-  .folio-career li:first-child::before { background: var(--color-signal); }
-  .folio-career li strong { font-size: 17px; }
+  .folio-career ol > li { position: relative; padding: 26px 36px 0 0; border-top: 2px solid #e5e7ea; }
+  .folio-career ol > li:last-child { padding-right: 0; }
+  .folio-career ol > li::before { content: ""; position: absolute; top: -6px; left: 0; width: 10px; height: 10px; border-radius: 50%; background: #c5cad0; box-shadow: 0 0 0 4px #fff; }
+  .folio-career ol > li:first-child { border-top-color: #0f1216; }
+  .folio-career ol > li:first-child::before { background: var(--color-signal); }
+  .folio-career ol > li strong { font-size: 17px; }
   .folio-brands { margin-top: 36px; }
 }
 @media (max-width: 1023px) {
@@ -2374,11 +2380,11 @@ html[data-intro="reveal"] .folio-proofs { animation: hero-rise-now .7s cubic-bez
   .folio-hero .folio-hero-note { margin-top: 18px; font-size: 16px; line-height: 1.65; }
   .folio-hero .folio-hero-actions { margin-top: 20px; }
   .folio-career ol { margin-top: 18px; gap: 0; }
-  .folio-career li { position: relative; padding: 0 0 26px 22px; border-left: 2px solid #e5e7ea; }
-  .folio-career li:last-child { padding-bottom: 0; }
-  .folio-career li::before { content: ""; position: absolute; top: 2px; left: -6px; width: 10px; height: 10px; border-radius: 50%; background: #c5cad0; box-shadow: 0 0 0 4px #fff; }
-  .folio-career li:first-child { border-left-color: #0f1216; }
-  .folio-career li:first-child::before { background: var(--color-signal); }
+  .folio-career ol > li { position: relative; padding: 0 0 26px 22px; border-left: 2px solid #e5e7ea; }
+  .folio-career ol > li:last-child { padding-bottom: 0; }
+  .folio-career ol > li::before { content: ""; position: absolute; top: 2px; left: -6px; width: 10px; height: 10px; border-radius: 50%; background: #c5cad0; box-shadow: 0 0 0 4px #fff; }
+  .folio-career ol > li:first-child { border-left-color: #0f1216; }
+  .folio-career ol > li:first-child::before { background: var(--color-signal); }
 }
 @media (max-width: 767px) {
   /* 사진 · 이름 한 줄. .folio-hero-copy 를 풀어(display: contents) 그 자식들을 같은 격자에 놓는다 */

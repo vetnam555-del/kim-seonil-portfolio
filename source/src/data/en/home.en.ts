@@ -6,6 +6,8 @@
  * 영문으로 옮기지 않은 화면(/about/ · 영문판이 없는 사례 · PDF)은 링크 옆에 "(Korean)"을 붙여 알린다.
  */
 
+import type { CareerPoint } from "@/data/site";
+
 export { NAME_EN_DISPLAY, ROLE_EN } from "./meta";
 /* 2026.10.15 리멤버앤컴퍼니 합류 — site.org 와 같은 내용(지금 직함만 · 2026-11-01 'Ex-HLL JoongAng' 뺌) */
 export const ORG_EN = "Ad Operations Manager at Remember";
@@ -99,19 +101,36 @@ export const coverEn = {
       period: "2026.10 – Present",
       where: "Remember & Company\u00a0· Ad Operations Manager",
       logo: "remember",
-      text: "I plan and run B2B lead-generation campaigns on Google, Meta and other ad networks, targeted by industry, job, seniority and company size with Remember's business-card data on professionals. I also analyze results to improve targeting, creatives, landing pages and campaign structure, and propose next steps to advertisers in performance reviews.",
+      /* 2026.11.17 한국어 화면과 같이 '한 문장 + 짧은 항목 줄'로 (site.ts generalCover.career 주석). 사실은 그대로다 */
+      text: "I plan and run B2B lead-generation campaigns built on Remember's business-card data on professionals.",
+      points: [
+        { text: "Targeting by industry, job, seniority and company size on Google, Meta and other ad networks" },
+        { text: "Results analysis to improve targeting, creatives, landing pages and campaign structure" },
+        { text: "Performance reviews and next-step proposals for advertisers" },
+      ] as readonly CareerPoint[],
     },
     {
       period: "2025.11 – 2026.09",
       where: "HLL JoongAng\u00a0· Manager, Performance Strategy",
       logo: "hll",
-      text: "On top of media buying, I took on measurement standards and operations automation. I ran New Balance's KRW 1B+/month, 10-channel account as part of a team (account operations 40%) and built six inventory, reporting and settlement automations on my own. For Gangwon Deep Sea Water I opened Instagram group-buys as a sales channel. For Daekyo EduCamp I re-measured on the same sample and corrected a 'performance dropped' verdict.",
+      text: "On top of media buying, I took on measurement standards and operations automation.",
+      points: [
+        { lead: "New Balance", text: "KRW 1B+/month, 10-channel account run as part of a team (account\u00a0operations\u00a040%)" },
+        { lead: "Automation", text: "six inventory, reporting and settlement tools built on my own" },
+        { lead: "Gangwon Deep Sea Water", text: "Instagram group-buys opened as a sales channel" },
+        { lead: "Daekyo EduCamp", text: "a 'performance dropped' verdict corrected by re-measuring on the same sample" },
+      ] as readonly CareerPoint[],
     },
     {
       period: "2022.09 – 2025.10",
       where: "PlayD\u00a0· PM, Data Marketing Division",
       logo: "playd",
-      text: "As a PM for large advertisers, I ran search, display and social ads for 30+ brands. For J.ESTINA I pulled display ads scattered across agencies into one place and rebuilt the budget by customer stage. For KT alpha Shopping I replaced a single blended ROAS with three role-based KPIs. The Dongnimmun (2024) and J.ESTINA (2025) campaigns won Excellence Awards at the Korea Digital Advertising Awards.",
+      text: "As a PM for large advertisers, I ran search, display and social ads for 30+ brands.",
+      points: [
+        { lead: "J.ESTINA", text: "display ads scattered across agencies pulled into one place, budget rebuilt by customer stage" },
+        { lead: "KT alpha Shopping", text: "a single blended ROAS replaced with three role-based KPIs" },
+        { lead: "Korea Digital Advertising Awards, Excellence", text: "Dongnimmun campaign (2024), J.ESTINA campaign (2025)" },
+      ] as readonly CareerPoint[],
     },
   ],
   brandsLabel: "Brands",
