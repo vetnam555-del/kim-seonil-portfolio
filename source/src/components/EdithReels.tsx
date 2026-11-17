@@ -8,7 +8,8 @@ import { edithReels } from "@/data/reels";
  * (preload="none" 이라 누르기 전에는 영상을 받지 않는다). 세로 9:16 세 편을 한 줄에 둔다.
  * 칸이 480px 보다 좁으면(휴대폰) 옆으로 넘기는 줄로 바꾼다 — 두 칸 + 한 칸으로 접으면 셋째 편이 혼자 남고 칸도 작아
  * 영상 속 자막이 안 읽혔다. 한 편은 크게(칸의 60%), 다음 편은 걸쳐 보여 넘길 수 있음을 알린다. 화면 폭이 아니라 칸 폭으로 나눈다
- * (본문 칸은 768 – 1023px 화면에서 488 – 540px 로 줄어든다).
+ * (본문 칸은 768 – 1023px 화면에서 488 – 540px 로 줄어든다). 줄을 화면 끝까지 빼지는 않는다 — 본문 칸이 그리기를 가두고 있어
+ * (content-visibility) 칸 밖은 어차피 잘리고, 그것을 지원하지 않는 브라우저에서만 다르게 보이게 된다.
  * 발행 주기는 적지 않는다 — 11.13 – 11.17 은 평일마다였고 11.18 부터는 주 1회(월요일)로 바뀌어, "매일"로 읽히는 말은 틀린다.
  * 설명은 공개 아카이브의 문서에 있는 것만 적는다: automation/RUNBOOK_REEL.md(20초 + 끝 화면 · 첫 장면 '숫자 + 나 질문' ·
  * 영상 · 목소리 AI 생성)와 automation/pilots/ai_reel/qa.py(숫자 대조 · 받아쓰기 발음 · 자막 싱크 · 검은 화면 — 하나라도 걸리면 올리지 않는다 ·
@@ -25,7 +26,7 @@ export default function EdithReels() {
         담당 범위: 형식 기획{" "}· 제작 규칙{" "}· 검수 항목 / 영상·목소리는 AI 생성, 제작은 AI 루틴
       </p>
       <div className="@container">
-        <ul className="no-scrollbar -mx-5 mt-5 flex snap-x snap-mandatory scroll-px-5 gap-3 overflow-x-auto px-5 @[480px]:mx-0 @[480px]:grid @[480px]:max-w-[40rem] @[480px]:grid-cols-3 @[480px]:gap-4 @[480px]:overflow-visible @[480px]:px-0">
+        <ul className="no-scrollbar mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto @[480px]:grid @[480px]:max-w-[40rem] @[480px]:grid-cols-3 @[480px]:gap-4 @[480px]:overflow-visible">
           {edithReels.map((reel) => (
             <li key={reel.id} className="w-[60%] max-w-[240px] shrink-0 snap-start @[480px]:w-auto @[480px]:max-w-none">
               <video

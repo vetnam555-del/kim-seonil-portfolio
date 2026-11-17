@@ -8,9 +8,12 @@ import { edithReels } from "@/data/reels";
  * 홈의 EDIT H 릴스 띠 (2026.11.17 주인 "메인에다가도 릴스영상 몇 개 깔아두면").
  *
  * 세 편을 소리 없이 되풀이한다. 지면을 무겁게 하지 않으려고 정한 것:
- *  · 처음에는 표지(webp)만 받는다. 영상은 preload="none" 이고, 띠가 화면에 40% 넘게 들어온 칸만 재생한다(그때 받는다).
- *    화면 밖으로 나가면 멈춘다. 휴대폰은 두 칸만 보이고 숨긴 셋째 칸은 받지 않는다.
+ *  · 지면을 열 때는 아무것도 받지 않는다. 표지는 video 의 poster 가 아니라 그 밑에 깐 img(loading="lazy")다 — poster 는
+ *    화면에서 얼마나 먼지와 상관없이 지면이 열리자마자 받는다(세 장 약 50KB). 영상은 preload="none" 이고, 화면에 40% 넘게
+ *    들어온 칸만 재생한다(그때 받는다). 화면 밖으로 나가면 멈춘다. 휴대폰은 두 칸만 보이고 숨긴 셋째 칸은 표지도 영상도 받지 않는다.
  *  · 동작 줄이기 설정(prefers-reduced-motion)이나 데이터 절약 모드에서는 스스로 재생하지 않는다 — 버튼을 누르면 재생한다.
+ *  · 기기가 자동 재생을 막으면(아이폰 저전력 모드 등 — play() 가 NotAllowedError 로 거절된다) 버튼을 '영상 재생'으로 돌려놓는다.
+ *    그대로 두면 아무것도 움직이지 않는데 버튼은 '영상 멈추기'라고 적혀 있게 된다. 버튼을 누르면 그 동작 안에서 바로 재생을 건다.
  *  · 5초 넘게 스스로 움직이는 것은 멈출 수 있어야 한다(WCAG 2.2.2) — 띠 아래 '영상 멈추기' 버튼.
  *  · 칸을 누르면 EDIT H 사례의 릴스 자리로 간다. 거기서는 소리와 함께 끝까지 볼 수 있다.
  * 영상 안의 글자(제목 · 출처)는 그림이라 읽어 주지 않으므로 링크 이름에 호와 제목을 적는다.
@@ -56,7 +59,10 @@ export default function ReelLoops({ lang = "ko", href }: { lang?: "ko" | "en"; h
           const v = entry.target as HTMLVideoElement;
           if (entry.intersectionRatio >= 0.4) {
             v.muted = true;
-            void v.play().catch(() => {});
+            /* pause() 가 끼어들어 끊긴 것(AbortError)은 정상이다 — 자동 재생이 막힌 경우만 상태를 되돌린다 */
+            void v.play().catch((err: unknown) => {
+              if ((err as { name?: string } | null)?.name === "NotAllowedError") setOn(false);
+            });
           } else {
             v.pause();
           }
@@ -71,6 +77,19 @@ export default function ReelLoops({ lang = "ko", href }: { lang?: "ko" | "en"; h
     };
   }, [on]);
 
+  const toggle = () => {
+    const next = !on;
+    setOn(next);
+    if (!next || !root.current) return;
+    for (const v of Array.from(root.current.querySelectorAll("video"))) {
+      const r = v.getBoundingClientRect();
+      if (r.width > 0 && r.bottom > 0 && r.top < window.innerHeight) {
+        v.muted = true;
+        void v.play().catch(() => {});
+      }
+    }
+  };
+
   return (
     <div ref={root}>
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
@@ -80,11 +99,19 @@ export default function ReelLoops({ lang = "ko", href }: { lang?: "ko" | "en"; h
               href={href}
               prefetch={false}
               aria-label={t.label(reel.date, lang === "en" ? reel.titleEn : reel.title)}
-              className="block overflow-hidden rounded-[18px] bg-[#e9e4da] outline-offset-4 transition-transform duration-300 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+              className="relative block overflow-hidden rounded-[18px] bg-[#e9e4da] outline-offset-4 transition-transform duration-300 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
             >
+              <img
+                src={`${BASE}/evidence/edith-reel-${reel.id}-poster-360.webp`}
+                alt=""
+                width={360}
+                height={640}
+                loading="lazy"
+                decoding="async"
+                className="block aspect-[9/16] h-auto w-full object-cover"
+              />
               <video
                 src={`${BASE}/evidence/edith-reel-${reel.id}-loop.mp4`}
-                poster={`${BASE}/evidence/edith-reel-${reel.id}-poster-360.webp`}
                 width={360}
                 height={640}
                 muted
@@ -95,7 +122,7 @@ export default function ReelLoops({ lang = "ko", href }: { lang?: "ko" | "en"; h
                 disableRemotePlayback
                 aria-hidden="true"
                 tabIndex={-1}
-                className="block aspect-[9/16] h-auto w-full object-cover"
+                className="absolute inset-0 h-full w-full object-cover [&::-webkit-media-controls-start-playback-button]:hidden"
               />
             </Link>
             <p className="tnum mt-2.5 text-[13px] font-semibold tracking-[0.01em] text-[#5f6870]">
@@ -109,7 +136,7 @@ export default function ReelLoops({ lang = "ko", href }: { lang?: "ko" | "en"; h
       <p className="mt-1 min-h-[44px]">
         <button
           type="button"
-          onClick={() => setOn((v) => !v)}
+          onClick={toggle}
           className={`inline-flex min-h-[44px] items-center gap-2 text-[14px] font-semibold text-[#3d444c] underline decoration-[#d5d9dd] underline-offset-4 hover:decoration-[#0f1216] ${on === null ? "invisible" : ""}`}
         >
           <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false" fill="currentColor">
