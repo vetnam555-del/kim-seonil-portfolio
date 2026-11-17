@@ -3,6 +3,7 @@
  * 새 사실·수치를 더하지 않는다. 기관·대회 이름은 공식 영문명을 확인하지 못한 것이 많아 뜻을 옮겨 적는다.
  */
 import { careerMonths } from "@/data/site";
+import { coverEn } from "./home.en";
 
 export function careerLengthEn(now: Date = new Date()): string {
   const months = careerMonths(now);
@@ -18,14 +19,15 @@ export const narrativeEn = [
   "I studied business and then industrial design, and surveying 300 car owners while preparing a startup taught me that answers lie in customer data more than in a good idea. To learn how to get the word out, I chose an ad agency, where you work on marketing across the widest range of industries. When a campaign ends, I leave reports, check procedures and handover documents so the next person can pick it up.",
 ] as const;
 
+/* 2026.11.18 the résumé headline and the three capability columns now say what the home cover says (see site.ts careerSummary).
+   The headline is the cover statement, as in the résumé PDF; the columns are the FIND · TEST · IMPROVE stages and their points
+   from coverEn.loop. The English pages are built for the general edition only, so there is no edition branch here.
+   Before: "A performance marketer who has run search, display and video ads for 30+ brands. I find where budget leaks…" and
+   columns "Insight · Brief / Content · Channels / Performance · Systems". */
 export const summaryEn = {
-  intro:
-    "A performance marketer who has run search, display and video ads for 30+ brands. I find where budget leaks and move it to what performs, and automate the checks, reports and settlement people used to repeat, so the team has time for decisions.",
-  columns: [
-    { title: "Insight\u00a0· Brief", items: ["Market, search and performance signal analysis", "Structuring client problems and bottlenecks", "Defining content purpose and KPIs"] },
-    { title: "Content\u00a0· Channels", items: ["Content–subscription–commerce journeys", "Role and budget design across 10 channels", "30+ brands managed"] },
-    { title: "Performance\u00a0· Systems", items: ["Measurement with GA4\u00a0· GTM\u00a0· media data", "Funnel performance and attribution-path analysis", "Planned and ran 6 automations"] },
-  ],
+  introParts: coverEn.statement,
+  intro: coverEn.statement.join(" "),
+  columns: coverEn.loop.map((l) => ({ title: `${l.stage} ${l.role}`, stage: l.stage, role: l.role, items: l.points })),
   highlights: [
     {
       axis: "Scale\u00a0· Systems",
@@ -280,8 +282,9 @@ export const educationEn = [
   { period: "2014.03 – 2017.02", school: "Soongsil University", major: "" },
 ] as const;
 
+/* 2026.11.18 one sentence shorter, as in Korean: the first sentence repeated the two rows above it */
 export const educationCaptionEn =
-  "I studied business first, then industrial design. Judging by the numbers and reading creative were things I learned separately; media operations was the work that needed both together.";
+  "I learned to judge by the numbers in business and to read creative in industrial design; media operations was the work that needed both together.";
 
 export const certificationsEn = [
   { name: "GAIQ (Google Analytics), previously certified", when: "" },

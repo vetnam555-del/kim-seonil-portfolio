@@ -28,7 +28,8 @@ const SITE = "https://vetnam555-del.github.io/kim-seonil-portfolio";
 
 /* ── 원본 불러오기: TS 를 그대로 옮겨 읽는다(export_resume_data.mjs 와 같은 방식) ── */
 const tmp = mkdtempSync(join(tmpdir(), "knowledge-"));
-const FILES = ["edition", "site", "projects", "caseLedes", "caseCards", "en/meta", "en/resume.en", "en/caseLedes.en"];
+/* en/home.en — 2026.11.18 영문 이력서 머리 한 줄 · 세 칸이 표지 문장(coverEn)을 읽는다 */
+const FILES = ["edition", "site", "projects", "caseLedes", "caseCards", "en/meta", "en/home.en", "en/resume.en", "en/caseLedes.en"];
 function rewrite(js, from) {
   return js.replace(/from\s+"(@\/data\/|\.\.?\/)([^"]+)"/g, (m, pre, rest) => {
     const target = pre === "@/data/" ? rest : join(dirname(from), pre + rest).replace(/\\/g, "/");

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
+import { Fragment } from "react";
 import { CTAButton } from "@/components/ui";
 import { OG_VERSION, robotsFor } from "@/data/edition";
 import { langAlternates } from "@/data/en/alternates";
@@ -130,6 +131,15 @@ export default function ResumePageEn() {
             />
           </div>
           {/* 연락처 · 한 줄 소개는 표제부 전체 폭에 둔다 (2026.11.12) — 한국어판 resume/page.tsx 와 같은 이유 */}
+          {/* One-line statement (2026.11.18): the cover sentence, right under the title line as in the résumé PDF. Each part stays in one piece. */}
+          <p className="mt-3 text-small font-semibold text-ink sm:text-body">
+            {summaryEn.introParts.map((part, i) => (
+              <Fragment key={part}>
+                {i ? " " : null}
+                <span className="inline-block">{part}</span>
+              </Fragment>
+            ))}
+          </p>
           <p className="mt-2 text-caption text-ink-3">
             {site.email} ·{" "}
             <a href={site.linkedin} target="_blank" rel="noopener" className="text-accent">
@@ -141,8 +151,7 @@ export default function ResumePageEn() {
               {`${site.url.replace("https://", "")}en/`}
             </Link>
           </p>
-          <p className="mt-3 max-w-[38rem] text-caption font-normal text-ink-2 sm:text-small">{summaryEn.intro}</p>
-          <p className="no-print mt-4 text-caption text-ink-3">
+          <p className="no-print mt-1 text-caption text-ink-3">
             Detailed contact information and supporting documents are available{" "}
             <a href={mailto} className="font-normal text-accent underline underline-offset-2">
               on request by email
@@ -164,6 +173,7 @@ export default function ResumePageEn() {
         <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-3">
           {summaryEn.columns.map((c) => (
             <div key={c.title}>
+              {/* The cover's three stages: FIND the problem · TEST the hypothesis · IMPROVE the structure */}
               <h3 className="text-small font-bold">{c.title}</h3>
               <ul className="mt-2 flex flex-col gap-1">
                 {c.items.map((it) => (
