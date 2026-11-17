@@ -105,7 +105,7 @@ export const coverEn = {
       text: "I plan and run B2B lead-generation campaigns built on Remember's business-card data on professionals.",
       points: [
         { text: "Targeting by industry, job, seniority and company size on Google, Meta and other ad networks" },
-        { text: "Better targeting, creatives, landing pages and campaign structure from analysis of the results" },
+        { text: "Results analysis to improve targeting, creatives, landing pages and campaign structure" },
         { text: "Performance reviews and next-step proposals for advertisers" },
       ] as readonly CareerPoint[],
     },
@@ -115,7 +115,7 @@ export const coverEn = {
       logo: "hll",
       text: "On top of media buying, I took on measurement standards and operations automation.",
       points: [
-        { lead: "New Balance", text: "KRW 1B+/month, 10-channel account run as part of a team (account operations 40%)" },
+        { lead: "New Balance", text: "KRW 1B+/month, 10-channel account run as part of a team (account\u00a0operations\u00a040%)" },
         { lead: "Automation", text: "six inventory, reporting and settlement tools built on my own" },
         { lead: "Gangwon Deep Sea Water", text: "Instagram group-buys opened as a sales channel" },
         { lead: "Daekyo EduCamp", text: "a 'performance dropped' verdict corrected by re-measuring on the same sample" },
@@ -129,7 +129,7 @@ export const coverEn = {
       points: [
         { lead: "J.ESTINA", text: "display ads scattered across agencies pulled into one place, budget rebuilt by customer stage" },
         { lead: "KT alpha Shopping", text: "a single blended ROAS replaced with three role-based KPIs" },
-        { lead: "Awards", text: "Excellence Awards at the Korea Digital Advertising Awards for the Dongnimmun (2024) and J.ESTINA (2025) campaigns" },
+        { lead: "Awards", text: "Korea Digital Advertising Awards, Excellence, for the Dongnimmun (2024) and J.ESTINA (2025) campaigns" },
       ] as readonly CareerPoint[],
     },
   ],
