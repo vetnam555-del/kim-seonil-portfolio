@@ -129,7 +129,7 @@ export const coverEn = {
       points: [
         { lead: "J.ESTINA", text: "display ads scattered across agencies pulled into one place, budget rebuilt by customer stage" },
         { lead: "KT alpha Shopping", text: "a single blended ROAS replaced with three role-based KPIs" },
-        { lead: "Awards", text: "Korea Digital Advertising Awards, Excellence, for the Dongnimmun (2024) and J.ESTINA (2025) campaigns" },
+        { lead: "Korea Digital Advertising Awards, Excellence", text: "Dongnimmun campaign (2024), J.ESTINA campaign (2025)" },
       ] as readonly CareerPoint[],
     },
   ],
