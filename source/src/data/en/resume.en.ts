@@ -11,10 +11,10 @@ export function careerLengthEn(now: Date = new Date()): string {
   return m ? `${y} yrs ${m} mos` : `${y} yrs`;
 }
 
+/* 2026.11.18 two paragraphs, as in the Korean résumé: how I work, then where I started. The two company-by-company paragraphs were dropped —
+   the same facts are listed right below (summary highlights, experience, selected projects). */
 export const narrativeEn = [
   "At PlayD and HLL JoongAng, I've run ads for 30+ brands, including New Balance, Dyson and J.ESTINA. When performance stalls, I check the comparison baseline first to find the cause, set a hypothesis and test it, then rebuild budget allocation and operations around verified results. I automate repetitive checks to free up time for decisions.",
-  "At PlayD I ran search (SA), display (DA) and social campaigns for 30+ brands. For J.ESTINA I split a search-heavy budget by customer stage, and in the same closing report GA4 ROAS rose from 352% in May 2025 to 583% in July. That campaign won an Excellence Award at the Korea Digital Advertising Awards that year. For Dyson I took on co-planning and media-mix analysis, and moved budget from weaker display ads into video.",
-  "At HLL JoongAng I ran New Balance's 10 channels at KRW 1B+ a month as part of a team. I connected the inventory checks people did site by site to ad operations, cutting internal check time from about 2 hours to under 5 minutes, and made the system stop without changing ad settings when data looks wrong. This work was featured as an LG CNS MOP best practice. At Daekyo EduCamp I re-measured a 'performance dropped' report on the same sample and found CVR had actually risen from 0.66% to 2.24%.",
   "I studied business and then industrial design, and surveying 300 car owners while preparing a startup taught me that answers lie in customer data more than in a good idea. To learn how to get the word out, I chose an ad agency, where you work on marketing across the widest range of industries. When a campaign ends, I leave reports, check procedures and handover documents so the next person can pick it up.",
 ] as const;
 
