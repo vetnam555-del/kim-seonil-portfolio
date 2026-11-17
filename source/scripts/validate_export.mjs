@@ -121,6 +121,26 @@ const deckPdf =
     : "kim-seonil-performance-marketing-portfolio.pdf";
 
 /* 일반판은 경력 연수를 쓰지 않는다(2026-11-01 주인 "사이트랑 이력서에도 경력 4년은 빼줘"). 수상의 '2년 연속 · 2 years running'은 연수가 아니다 */
+/*
+ * 방문 계측(2026.11.16) — 일반판에 계측 스크립트가 실렸다면 수집 주소는 Apps Script 웹앱이어야 한다.
+ * 로컬 수집기(127.0.0.1 등)로 시험한 산출물이 그대로 배포되면 방문이 아무 데도 쌓이지 않는다.
+ * 저장소의 GENERAL_INSIGHT_URL 이 채워져 있는데 스크립트가 빠졌으면 그것도 막는다(조용히 꺼지는 것).
+ */
+if (edition === "general") {
+  const insightSrc = readFileSync(join(dirname(fileURLToPath(import.meta.url)), "../src/lib/insight.ts"), "utf8");
+  const committed = (insightSrc.match(/GENERAL_INSIGHT_URL = "([^"]*)"/) || [])[1] ?? "";
+  const pages = htmlFiles.map((f) => [relative(root, f), readFileSync(f, "utf8")]);
+  const tagged = pages.filter(([, h]) => h.includes('id="insight"'));
+  const APPS_SCRIPT = /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/;
+  if (committed && !APPS_SCRIPT.test(committed)) failures.push(`GENERAL_INSIGHT_URL 이 Apps Script 웹앱 주소가 아닙니다: ${committed}`);
+  if (committed && tagged.length === 0) failures.push("GENERAL_INSIGHT_URL 이 있는데 계측 스크립트가 어느 쪽에도 실리지 않았습니다");
+  for (const [rel, h] of tagged) {
+    const m = h.match(/var U=("[^"]*")/);
+    const url = m ? JSON.parse(m[1]) : "";
+    if (!APPS_SCRIPT.test(url)) { failures.push(`계측 주소가 Apps Script 웹앱이 아닙니다(${rel}): ${url || "(없음)"}`); break; }
+  }
+}
+
 if (edition === "general") {
   const yearsPatterns = [/경력\s*(?:<!--\s*-->)?\s*\d+\s*년/, /\d+\s*년\s*동안/, /\b(?:four|\d+)\s+years?\s+(?:at|in|of)\b/i, /\bover\s+(?:four|\d+)\s+years\b/i, /\d+\s*yrs\b/];
   for (const re of yearsPatterns) {
@@ -568,15 +588,16 @@ for (const file of ["portfolio-polish.js", "portfolio-polish.css", "motion.js", 
  */
 /* 2026.10.16 최근 형식 갱신 — 114편 · VOL.114 · 2026.10.15 */
 /* 2026.11.07 다시 갱신 — 136편 · VOL.136 · 2026.11.06 (edit-h-archive da2f426) */
-const EDITH_PUBLIC = "공개 문서 136편";
+/* 2026.11.17 다시 갱신 — 146편 · VOL.146 · 2026.11.17 (edit-h-archive 21648c5). '44일 연속 발행'은 11.11 하루가 비어 옛 표시가 됐다 */
+const EDITH_PUBLIC = "공개 문서 146편";
 if (!allHtml.includes(EDITH_PUBLIC)) {
   failures.push(`EDIT H ${EDITH_PUBLIC} 문구 없음`);
 }
 const edithHtml = flat(readFileSync(join(root, "projects", "edith", "index.html"), "utf8"));
-for (const expected of ["136편", "2026.11.06", "VOL.136"]) {
+for (const expected of ["146편", "2026.11.17", "VOL.146"]) {
   if (!edithHtml.includes(expected)) failures.push(`EDIT H 최신 공개 기준 누락: ${expected}`);
 }
-for (const stale of ["공개 아카이브 69호", "제작·발행 70호", "VOL.001–070", "공개 아카이브 75호", "VOL.033 게시 대기", "공개 문서 89편", "VOL.089", "공개 문서 114편", "VOL.114", "22일 연속 발행"]) {
+for (const stale of ["공개 아카이브 69호", "제작·발행 70호", "VOL.001–070", "공개 아카이브 75호", "VOL.033 게시 대기", "공개 문서 89편", "VOL.089", "공개 문서 114편", "VOL.114", "22일 연속 발행", "공개 문서 136편", "44일 연속 발행", "44일 동안 하루도"]) {
   if (allHtml.includes(stale)) failures.push(`EDIT H 옛 호수 잔존: ${stale}`);
 }
 

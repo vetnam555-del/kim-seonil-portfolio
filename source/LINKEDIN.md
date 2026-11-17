@@ -7,7 +7,7 @@
 문장과 숫자는 모두 사이트 · 이력서 원문(`src/data/`)에서 가져왔다. 사실이 바뀌면 사이트와 같이 고친다(SKILL 1절).
 칸마다 복사 버튼이 달린 붙여넣기 페이지(주인 계정에서만 열림): https://claude.ai/artifact/15ZKb6YBZpitr43a13WZsm
 
-<!-- 붙여넣기 페이지 지문: f215aec7f527 -->
+<!-- 붙여넣기 페이지 지문: 5608a471af22 -->
 
 **이 문서가 곧 붙여넣기 페이지다.** 쓰는 법은 `JOB_PLATFORMS.md` 머리말과 같다 — 칸 이름은 ```` ```text ```` 블록 바로 위 줄, 칸 설명은 `> ` 줄,
 짧은 값은 `백틱`, 표는 칸마다 복사, `<!-- 페이지 끝 -->` 아래는 페이지에 싣지 않는다. 칸 이름 끝의 `(글자 수 / 한도)`는
@@ -29,6 +29,10 @@
 - **프로필 주소(URL) · 이름 · 사진은 바꾸지 않습니다** — 이력서와 사이트에 지금 주소가 실려 있습니다. 전화번호 · 주소는 넣지 않습니다.
 - **이 문서에 없는 사실 · 숫자는 쓰지 않습니다** — 숫자는 표기 그대로(기준 · 괄호 포함) 옮깁니다.
 
+### 2026-11-16 에 바뀐 칸
+
+- **사이트 주소 전부** — 연락처 정보의 웹사이트 · 소개의 포트폴리오 줄 · 프로젝트 URL · Featured 링크 · 영문 소개의 주소 끝에 `?r=jfu7` 을 붙였습니다. 사이트 방문 기록에서 링크드인을 보고 들어온 방문이 따로 잡힙니다.
+
 ### 2026-11-13 에 바뀐 칸
 
 v3(10월 31일)를 이미 넣었다면 아래 칸만 다시 넣으면 됩니다.
@@ -49,7 +53,7 @@ v3(10월 31일)를 이미 넣었다면 아래 칸만 다시 넣으면 됩니다.
 퍼포먼스 마케터 | 리멤버 광고운영팀 | 검색·DA·SNS · 30여 개 브랜드 | 통합 퍼포먼스 부문 우수상 2년 연속(대한민국 디지털 광고 대상)
 ```
 
-연락처 정보 — 이메일 `makefair@naver.com` · 웹사이트(유형: 포트폴리오) `https://vetnam555-del.github.io/kim-seonil-portfolio/`
+연락처 정보 — 이메일 `makefair@naver.com` · 웹사이트(유형: 포트폴리오) `https://vetnam555-del.github.io/kim-seonil-portfolio/?r=jfu7`
 
 - 위치는 시 · 도까지만(실제 지역으로) 둡니다.
 - 배경 사진은 banner-a.png 또는 banner-b.png 중 하나로 바꿉니다. 소개 줄 쉼표와 '4년'을 뺀 판입니다.
@@ -58,7 +62,7 @@ v3(10월 31일)를 이미 넣었다면 아래 칸만 다시 넣으면 됩니다.
 
 소개 칸 연필 → 본문을 통째로 바꾼 뒤 아래 '주요 기술' 5개를 고릅니다.
 
-소개 본문 (913 / 2,600)
+소개 본문 (920 / 2,600)
 
 ```text
 9개 업종 30여 개 브랜드의 검색·DA·SNS 광고를 운영했고, 지금은 리멤버에서 B2B 리드 생성 캠페인을 맡고 있습니다.
@@ -75,7 +79,7 @@ v3(10월 31일)를 이미 넣었다면 아래 칸만 다시 넣으면 됩니다.
 ▸ 그 밖
 경영학과 산업디자인을 전공했습니다. 아이디어를 보여 주려고 디자인을, 제품을 알리려고 광고를 택했습니다. 경제부터 트렌드까지 2030이 알아야 할 소식을 고르는 뉴스레터 EDIT H를 기획·발행합니다.
 
-포트폴리오 https://vetnam555-del.github.io/kim-seonil-portfolio/
+포트폴리오 https://vetnam555-del.github.io/kim-seonil-portfolio/?r=jfu7
 메일 makefair@naver.com
 ```
 
@@ -158,16 +162,16 @@ HLL중앙 · 설명 (414 / 2,000)
 
 이름 `뉴발란스 재고 연동 광고 자동화 — LG CNS MOP 우수사례` · 기간 `2025.11 – 2026.09` · 관련 경력 `HLL중앙` · URL `https://blog.mop.co.kr/hll`
 
-뉴발란스 · 설명 (253 / 2,000)
+뉴발란스 · 설명 (260 / 2,000)
 
 ```text
 재고 점검을 광고 운영과 연결해 내부 점검 시간을 약 2시간에서 5분 이내로 줄였습니다(내부 실측). 데이터가 이상하면 광고 설정을 바꾸지 않고 멈추게 했습니다. 쇼핑검색 입찰 최적화와 재고에 따른 소재 ON/OFF 자동화 사례가 LG CNS MOP 우수사례로 게재됐고, 운영과 자동화 적용은 단독으로 수행했습니다.
-사례 https://vetnam555-del.github.io/kim-seonil-portfolio/projects/newbalance/
+사례 https://vetnam555-del.github.io/kim-seonil-portfolio/projects/newbalance/?r=jfu7
 ```
 
 ### 프로젝트 2 · 제이에스티나
 
-이름 `제이에스티나 IMC 재설계 — 2025 대한민국 디지털 광고 대상 통합 퍼포먼스 부문 우수상` · 기간 `2024.05 – 2025.10` · 관련 경력 `플레이디` · URL `https://vetnam555-del.github.io/kim-seonil-portfolio/projects/jestina/`
+이름 `제이에스티나 IMC 재설계 — 2025 대한민국 디지털 광고 대상 통합 퍼포먼스 부문 우수상` · 기간 `2024.05 – 2025.10` · 관련 경력 `플레이디` · URL `https://vetnam555-del.github.io/kim-seonil-portfolio/projects/jestina/?r=jfu7`
 
 제이에스티나 · 설명 (111 / 2,000)
 
@@ -177,7 +181,7 @@ HLL중앙 · 설명 (414 / 2,000)
 
 ### 프로젝트 3 · 대교에듀캠프
 
-이름 `대교에듀캠프 비교 표본 재검증 · 상담 폼 개선` · 기간 `2025.11 – 2026.09` · 관련 경력 `HLL중앙` · URL `https://vetnam555-del.github.io/kim-seonil-portfolio/projects/daekyo/`
+이름 `대교에듀캠프 비교 표본 재검증 · 상담 폼 개선` · 기간 `2025.11 – 2026.09` · 관련 경력 `HLL중앙` · URL `https://vetnam555-del.github.io/kim-seonil-portfolio/projects/daekyo/?r=jfu7`
 
 대교에듀캠프 · 설명 (215 / 2,000)
 
@@ -187,7 +191,7 @@ HLL중앙 · 설명 (414 / 2,000)
 
 ### 프로젝트 4 · 강원심층수
 
-이름 `강원심층수 천년동안 판매 경로 확장` · 기간 `2025.11 – 2026.09` · 관련 경력 `HLL중앙` · URL `https://vetnam555-del.github.io/kim-seonil-portfolio/projects/gangwon/`
+이름 `강원심층수 천년동안 판매 경로 확장` · 기간 `2025.11 – 2026.09` · 관련 경력 `HLL중앙` · URL `https://vetnam555-del.github.io/kim-seonil-portfolio/projects/gangwon/?r=jfu7`
 
 강원심층수 · 설명 (177 / 2,000)
 
@@ -201,7 +205,7 @@ HLL중앙 · 설명 (414 / 2,000)
 
 | 제목 | 링크 | 설명 |
 |---|---|---|
-| 김선일 퍼포먼스 마케팅 포트폴리오 | https://vetnam555-del.github.io/kim-seonil-portfolio/ | 대표 사례 5개 — 문제 · 판단 · 실행 · 결과 · 배운 것과 증빙 |
+| 김선일 퍼포먼스 마케팅 포트폴리오 | https://vetnam555-del.github.io/kim-seonil-portfolio/?r=jfu7 | 대표 사례 5개 — 문제 · 판단 · 실행 · 결과 · 배운 것과 증빙 |
 | LG CNS MOP 우수사례 | https://blog.mop.co.kr/hll | 쇼핑검색 입찰 최적화와 재고에 따른 소재 ON/OFF 자동화 · 단독 수행 |
 | EDIT H | https://vetnam555-del.github.io/edit-h-archive/ | 2030 경제·트렌드 뉴스레터 · 기획·발행 |
 
@@ -255,7 +259,7 @@ Headline (198 / 220)
 Performance Marketer | Ad Operations Manager at Remember | Search, display & social ads for 30+ brands | Excellence Award, Integrated Performance, Korea Digital Advertising Awards, two years running
 ```
 
-About (1,077 / 2,600)
+About (1,084 / 2,600)
 
 ```text
 I've run search, display and social ads for 30+ brands across 9 industries, and I now run B2B lead-generation campaigns at Remember. When performance stalls, I check the comparison baseline before changing the creative.
@@ -264,7 +268,7 @@ At PlayD I split J.ESTINA's search-heavy budget by customer stage. In the same c
 
 At HLL JoongAng I ran New Balance's 10 channels at KRW 1B+ a month as part of a team. I connected the inventory checks people did site by site to ad operations, cutting internal check time from about 2 hours to under 5 minutes, and made the system stop without changing ad settings when data looks wrong. This work was featured as an LG CNS MOP best practice. I also ran Gangwon Deep Sea Water on my own and added Instagram group-buys as a sales channel; July 2026 store sales were 397.3% higher than the same period last year (incl. group-buys).
 
-Portfolio https://vetnam555-del.github.io/kim-seonil-portfolio/en/
+Portfolio https://vetnam555-del.github.io/kim-seonil-portfolio/en/?r=jfu7
 ```
 
 ## 11. 마지막 점검

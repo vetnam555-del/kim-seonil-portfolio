@@ -481,15 +481,17 @@ function FrameworkBlock({
           ) : null}
 
           {framework.variant === "table" && framework.columns && framework.rows ? (
-            <div className="mt-5">
-              <p className="mb-2 text-caption text-ink-3 sm:hidden">
+            <div className="@container mt-5">
+              <p className="mb-2 text-caption text-ink-3 @[620px]:hidden">
                 {t.tableScrollHint}
               </p>
               {/*
-                이 표는 min-width 620px 이라 좁은 화면에서 가로로 스크롤된다.
+                이 표는 min-width 620px 이라 칸이 그보다 좁으면 가로로 스크롤된다.
                 스크롤되는 영역은 키보드로도 스크롤할 수 있어야 하므로 tabIndex 를 주고,
                 탭이 멈추는 자리에 이름이 없으면 "그룹"으로만 읽히므로 role/aria-label 을 함께 준다.
-                안내 문구는 sm:hidden 이라 데스크톱에서는 보이지 않는다.
+                안내 문구는 표가 칸보다 넓을 때만 보인다(칸 폭 620px 미만 · 컨테이너 쿼리, 2026.11.17).
+                그전에는 화면 640px 미만에서만 보여, 옆 목차가 붙어 칸이 488px 로 좁아지는 768px 태블릿에서는
+                표가 잘린 채 안내 없이 나왔다.
               */}
               <div
                 className="no-scrollbar overflow-x-auto rounded-card border border-line"
@@ -856,6 +858,8 @@ function ResultsDetails({
             key={metric.label}
             metric={metric}
             size={!hasChart && index === 0 ? "lg" : "md"}
+            /* 전 → 후가 있는 큰 수치는 두 칸을 써서 한 줄에 읽힌다 — 한 칸(약 200px)에서는 세 줄로 꺾였다 */
+            className={!hasChart && index === 0 && metric.before && metric.before !== "기준" ? "sm:col-span-2" : undefined}
           />
         ))}
       </div> : null}

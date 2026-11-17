@@ -337,7 +337,7 @@ if (orphans.length) note(`케이스 미사용 증빙 ${orphans.length}건 (홈 �
     return htmlToText(body);
   };
   /* 컴포넌트가 붙이는 안내문은 요소마다 반복되는 것이 정상이다 (카피 중복이 아니다) */
-  const CHROME = [/모바일에서는 좌우로 밀어/, /집계 범위와 원자료 출처 보기/, /공개 자료는 실제 운영·집행 맥락/];
+  const CHROME = [/좌우로 밀어 확인할 수 있습니다/, /집계 범위와 원자료 출처 보기/, /공개 자료는 실제 운영·집행 맥락/];
   const counts = new Map();
   for (const [name, p] of pages) {
     if (!existsSync(p)) continue;

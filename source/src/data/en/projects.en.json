@@ -198,7 +198,7 @@
     "detail.results[3].after": "0 changes\u00a0· run stops",
     "detail.results[3].note": "If inventory collection looks wrong, it stops without changing ad settings and alerts the owner",
     "detail.results[4].label": "Keyword source check",
-    "detail.results[4].after": "18,396 rows\u00a0· 0 duplicates",
+    "detail.results[4].after": "18,396 rows\u00a0· 0\u00a0duplicates",
     "detail.results[4].note": "Based on the 23-column source file",
     "detail.results[5].label": "Expansion review scope",
     "detail.results[5].before": "639 candidates",
