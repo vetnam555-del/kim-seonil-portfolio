@@ -95,7 +95,7 @@ const UI = {
     autoAbout: "시스템별 효과와 검수 기준",
     /* EDIT H 릴스 띠(2026.11.17 주인 "메인에다가도 릴스영상 몇 개 깔아두면"). '직접 매일 발행'이라고 쓰지 않는다 — 매일 제작은 AI 루틴이 한다(정해 둔 것 2026-11-12) */
     edithTitle: "AI 루틴으로 매일 내는 뉴스레터 EDIT H",
-    edithLead: "경제부터 트렌드까지 2030이 알아야 할 소식을 매일 아침 뉴스레터와 카드뉴스로 냅니다. 11월부터는 그날의 다섯 가지를 20초 영상으로도 올립니다. 편집 기준과 검수 장치는 제가 만들고, 매일 제작은 그 기준을 따르는 AI 루틴이 합니다.",
+    edithLead: "경제부터 트렌드까지 2030이 알아야 할 소식을 매일 아침 뉴스레터와 카드뉴스로 냅니다. 11월에는 그날의 다섯 가지를 20초 영상으로 묶는 AI 릴스도 시작했습니다. 편집 기준과 검수 장치는 제가 만들고, 매일 제작은 그 기준을 따르는 AI 루틴이 합니다.",
     edithNote: "영상과 목소리는 AI로 만들었습니다. 숫자는 기사 두 곳에서 확인한 값만 씁니다.",
     edithCase: "EDIT H 사례 보기",
     edithReelsHref: "/projects/edith/#edith-reels",
@@ -138,7 +138,7 @@ const UI = {
     autoCaseHref: "/en/projects/automation/",
     autoAbout: "Effects and checks by system (Korean)",
     edithTitle: "EDIT H, a daily newsletter run by an AI routine",
-    edithLead: "Each morning EDIT H sends the news people in their 20s and 30s should know, from the economy to trends, as a newsletter and card news. Since November it also posts the day's five stories as a 20-second video. I set the editorial rules and the checks; an AI routine produces each issue under them.",
+    edithLead: "Each morning EDIT H sends the news people in their 20s and 30s should know, from the economy to trends, as a newsletter and card news. In November it added a 20-second AI video reel of the day's five stories. I set the editorial rules and the checks; an AI routine produces each issue under them.",
     edithNote: "The video and voice are AI-generated. A number is used only when two reports confirm it. The reels are in Korean.",
     edithCase: "EDIT H case study (Korean)",
     edithReelsHref: "/projects/edith/#edith-reels",
