@@ -1,6 +1,8 @@
 import { Fragment, type CSSProperties } from "react";
 import Link from "next/link";
 import AutomationDemo from "@/components/AutomationDemo";
+import ReelLoops from "@/components/ReelLoops";
+import { EDITH_ARCHIVE } from "@/data/reels";
 import { CaseCoverStack } from "@/components/CaseCover";
 import CountUpValue from "@/components/CountUpValue";
 import EmailCopyButton from "@/components/EmailCopyButton";
@@ -91,6 +93,13 @@ const UI = {
     autoCase: "자동화 사례 상세",
     autoCaseHref: "/projects/automation/",
     autoAbout: "시스템별 효과와 검수 기준",
+    /* EDIT H 릴스 띠(2026.11.17 주인 "메인에다가도 릴스영상 몇 개 깔아두면"). '직접 매일 발행'이라고 쓰지 않는다 — 매일 제작은 AI 루틴이 한다(정해 둔 것 2026-11-12) */
+    edithTitle: "AI 루틴으로 매일 내는 뉴스레터 EDIT H",
+    edithLead: "경제부터 트렌드까지 2030이 알아야 할 소식을 매일 아침 뉴스레터와 카드뉴스로 냅니다. 11월에는 그날의 다섯 가지를 20초 영상으로 묶는 AI 릴스도 시작했습니다. 편집 기준과 검수 장치는 제가 만들고, 매일 제작은 그 기준을 따르는 AI 루틴이 합니다.",
+    edithNote: "영상과 목소리는 AI로 만들었습니다. 숫자는 기사 두 곳에서 확인한 값만 씁니다.",
+    edithCase: "EDIT H 사례 보기",
+    edithReelsHref: "/projects/edith/#edith-reels",
+    edithArchive: "공개 아카이브",
     resumeWeb: "이력서 웹으로 보기",
     resumePdf: "이력서 PDF",
     portfolioPdf: "포트폴리오 PDF",
@@ -128,6 +137,12 @@ const UI = {
     autoCase: "Automation case study",
     autoCaseHref: "/en/projects/automation/",
     autoAbout: "Effects and checks by system (Korean)",
+    edithTitle: "EDIT H, a daily newsletter run by an AI routine",
+    edithLead: "Each morning EDIT H sends the news people in their 20s and 30s should know, from the economy to trends, as a newsletter and card news. In November it added a 20-second AI video reel of the day's five stories. I set the editorial rules and the checks; an AI routine produces each issue under them.",
+    edithNote: "The video and voice are AI-generated. A number is used only when two reports confirm it. The reels are in Korean.",
+    edithCase: "EDIT H case study (Korean)",
+    edithReelsHref: "/projects/edith/#edith-reels",
+    edithArchive: "Public archive",
     resumeWeb: "View résumé",
     resumePdf: "Résumé PDF (Korean)",
     portfolioPdf: "Portfolio PDF (Korean)",
@@ -459,6 +474,25 @@ export default function HomeFolio({ lang = "ko" }: { lang?: Lang }) {
             <Link href={ui.autoCaseHref} className="folio-link-strong">{ui.autoCase} <span aria-hidden="true">→</span></Link>
             <Link href="/about/#automation" className="folio-link-quiet">{ui.autoAbout} <span aria-hidden="true">→</span></Link>
           </p>
+        </div>
+      </section>
+
+      {/* ── EDIT H 릴스 띠 — 자동화(AI 도구로 구현) 다음에, 연락 앞에 둔다. 첫 화면 · 대표 사례 구간은 건드리지 않는다 ── */}
+      <section id="edith" className="folio-section" aria-labelledby="edith-title">
+        <div className="folio-wrap lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,600px)] lg:items-center lg:gap-14">
+          <div>
+            <p className="folio-kicker">Personal project</p>
+            <h2 id="edith-title" className="folio-h2">{ui.edithTitle}</h2>
+            <p className="folio-lead">{ui.edithLead}</p>
+            <p className="mt-4 max-w-[42rem] text-[14px] leading-[1.7] text-[#5f6870]">{ui.edithNote}</p>
+            <p className="folio-links">
+              <Link href="/projects/edith/" prefetch={false} className="folio-link-strong">{ui.edithCase} <span aria-hidden="true">→</span></Link>
+              <a href={EDITH_ARCHIVE} target="_blank" rel="noopener" className="folio-link-quiet">{ui.edithArchive} <span aria-hidden="true">↗</span><span className="sr-only">{ui.newTab}</span></a>
+            </p>
+          </div>
+          <div className="mt-9 lg:mt-0">
+            <ReelLoops lang={lang} href={ui.edithReelsHref} />
+          </div>
         </div>
       </section>
 
