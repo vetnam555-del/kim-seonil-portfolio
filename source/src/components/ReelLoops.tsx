@@ -125,10 +125,10 @@ export default function ReelLoops({ lang = "ko", href }: { lang?: "ko" | "en"; h
                 className="absolute inset-0 h-full w-full object-cover [&::-webkit-media-controls-start-playback-button]:hidden"
               />
             </Link>
+            {/* 가운뎃점을 연회색(#b9bec4 · 대비 1.87:1)으로 따로 칠했더니 라이브 Lighthouse 접근성이 100 → 97 로 떨어졌다(2026.11.17).
+                숨긴 글자(aria-hidden)도 색 대비는 잰다 — 점도 글자색 그대로 둔다 */}
             <p className="tnum mt-2.5 text-[13px] font-semibold tracking-[0.01em] text-[#5f6870]">
-              {reel.date}
-              <span className="mx-1.5 text-[#b9bec4]" aria-hidden="true">·</span>
-              VOL.{reel.vol}
+              {reel.date}{"\u00a0"}· VOL.{reel.vol}
             </p>
           </li>
         ))}
