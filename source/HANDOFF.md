@@ -6,9 +6,9 @@
 | 항목 | 값 |
 |---|---|
 | 담당 | claude |
-| 상태 | 2026-11-17 최종 검토(주인 "더이상 수정 및 개선할 부분은 없는지 최종검토해줘") — 찾은 결함 넷을 고치고 EDIT H 를 11.17 아카이브(146편 · VOL.146)로 올려 PR #38 에 실었다(RELEASE_PASS 4ac66a97). 남은 순서는 아래 11번. 그 전 상태: 2026-11-16 방문 계측(O-13) 준비 — 주인 Drive 에 시트 · 코드 문서를 만들었고, 웹 앱 주소를 받으면 `src/lib/insight.ts` 의 GENERAL_INSIGHT_URL 에 넣고 빌드한다(`validate_export` 가 Apps Script 주소인지 · 스크립트가 실렸는지 본다). 받은 뒤 할 일: 시험 비콘을 보내 시트에 줄이 생기는지 확인 → 배포 → 프로필 문서 링크에 `?r=` 코드(링크드인 jfu7 · 리멤버 556y · 사람인 uguc · 잡코리아 gr6h · 원티드 7r83) → 붙여넣기 페이지 다시 올리기(SKILL 13절). 그 앞: PR #36 main de8c055 · 2026-11-16 지식 허브 makefair 에 `portfolio/`(공개 정보 전부 · 21개 파일)를 넣었다(makefair PR #2 → main 4f6d03f) — 사이트를 바꾸면 `scripts/export_knowledge.mjs` 로 다시 만든다 |
+| 상태 | 2026-11-17 최종 검토 끝 — 찾은 결함 넷과 EDIT H 11.17 갱신(146편 · VOL.146)을 PR #38 로 `main` ecdd381 에 합쳤고 라이브 점검 결함 0. 지금 하던 일은 없다. 기다리는 것: 방문 계측(O-13)은 주인의 Apps Script 웹 앱 주소 — 받으면 `src/lib/insight.ts` 의 GENERAL_INSIGHT_URL 에 넣고 빌드 → 시험 방문 → 시트 확인 → 배포. 프로필 다섯 곳 넣기(O-20)는 주인 PC 의 데스크톱 앱에서 |
 | 작업 브랜치 | `claude/stoic-bohr-gze1d1` |
-| 열린 PR | #38(이번 일까지 실어 스쿼시로 합친다). #37 은 다른 세션이 2026-11-15 에 올린 EDIT H 144편 갱신 — 같은 내용이 11.17 수치로 #38 에 들어갔고 main 과 충돌 상태라, #38 을 합친 뒤 닫는다. #35 는 8e540b8, #36 은 de8c055 로 합쳤다. 작업 브랜치는 강제 push 를 쓸 수 없어 main 을 병합해 맞춘다 — 다음 PR 도 스쿼시로 합친다 |
+| 열린 PR | 이 기록만 담은 초안 PR(다음 작업과 같이 합친다). #38 은 ecdd381 로 합쳤고 #37 은 닫았다(내용이 #38 에 들어감). 작업 브랜치는 강제 push 를 쓸 수 없어 main 을 병합해 맞춘다 — 다음 PR 도 스쿼시로 합친다 |
 | 마지막 갱신 | 2026-11-17 · Claude |
 
 ## 지금 하던 일
@@ -105,8 +105,8 @@
      `projects.ts` edith(146편 · 최장 연속 48일 · 11.11 발행 없음 · 실패 한 단) · `site.ts`(이력서 한 줄 · 공개 작업물 카드 · v=20261117a) · `en/resume.en.ts` · `edition.ts` OG_VERSION 20261117a ·
      `render_og_cases.mjs` → `assets/og/general/og/edith.png` · `validate_export.mjs` · 이력서 PDF(2026.11.17 인쇄 · 5쪽 · 태그) · `proposals/O-10`.
    - 빌드 · 검수 끝: 보이는 글자 14쪽 · typecheck · tone · en · final · layout · wrap · platforms 0 · RELEASE_PASS 4ac66a97.
-   - 남은 순서: PR #38 본문 고치기 → 자비스 요청(새 머리 sha) → 준비 완료 → 스쿼시로 합치기 → `git fetch origin main` → `npm run health` →
-     makefair 허브 다시 내보내기(`node scripts/export_knowledge.mjs <makefair 클론>/portfolio` → 그 저장소에 PR) → PR #37 닫기 → 완료 기록 · 점검 기록.
+   - 끝: PR #38 → `main` ecdd381(스쿼시) · `npm run health:full` 결함 0 · 모바일 홈 98 · 모바일 사례 97 · 데스크톱 100 · makefair 허브 다시 내보냄(makefair PR #4 → feb7bca) ·
+     PR #37 닫음 · BACKLOG 완료 기록 · 점검 기록 2026-11-17.
    - 이번에 배운 것: 출시 승인 직전에 사용량 한도로 한 번 멈췄는데(11-17) 그때 원본 변경이 커밋되지 않은 채 작업 트리에만 있었다.
      **빌드 · 검수를 돌리기 전에 원본 변경부터 커밋해 push 한다** — 루트 빌드는 다시 만들 수 있지만 원본은 그렇지 않다.
 
