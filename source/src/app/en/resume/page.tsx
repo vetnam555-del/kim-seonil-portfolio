@@ -449,6 +449,8 @@ export default function ResumePageEn() {
           </dl>
         </div>
 
+        {/* 주소 링크에 밑줄을 둔다(2026.11.17) — 색만 다른 링크는 글줄 안에서 구분되지 않는다(Lighthouse link-in-text-block · 주변 글자와 대비 1.78:1).
+            이 쪽은 라이브 점검이 재지 않아 97점인 채로 있었다. 국문 쪽도 같은 모양이라 같이 고쳤다 */}
         <div className="print-avoid mt-10 border-t border-line pt-5">
           <p className="text-caption font-semibold text-ink">Public records (Korean sources)</p>
           <ul className="mt-2 flex flex-col gap-1.5">
@@ -456,7 +458,7 @@ export default function ResumePageEn() {
               <li key={v.href} className="text-caption leading-[1.6] text-ink-2">
                 <span className="font-semibold text-ink">{v.title}</span>
                 <span className="mx-1.5 text-ink-3">·</span>
-                <a href={v.href} target="_blank" rel="noopener" className="break-all text-accent">
+                <a href={v.href} target="_blank" rel="noopener" className="break-all text-accent underline underline-offset-2">
                   {v.href.replace(/^https?:\/\/(www\.)?/, "")}
                 </a>
               </li>

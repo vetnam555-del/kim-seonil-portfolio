@@ -27,6 +27,7 @@
     "qa:tone": "node scripts/qa_tone.mjs",
     "qa:layout": "node scripts/qa_layout.mjs",
     "qa:wrap": "node scripts/qa_wrap.mjs",
+    "qa:a11y": "node scripts/qa_a11y.mjs",
     "qa:all": "node scripts/qa_gate.mjs",
     "qa:release": "node scripts/qa_release.mjs",
     "qa:en": "node scripts/check_en.mjs",

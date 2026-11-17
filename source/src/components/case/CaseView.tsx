@@ -1079,7 +1079,9 @@ export function CaseView({ slug, lang = "ko" }: { slug: string; lang?: Lang }) {
                   href={`${basePath}/evidence/${card.image}.webp`}
                   target="_blank"
                   rel="noopener"
-                  aria-label={`${card.alt} — ${t.openFull} ${t.newTab}`}
+                  /* 표지에 글자로 보이는 브랜드 이름이 링크 이름에 그대로 들어 있어야 한다(WCAG 2.5.3 — 보이는 글자로 부르는 음성 입력 · 2026.11.17).
+                     그림 설명에 브랜드 이름이 다르게 적힌 사례(대교 · 강원심층수 영문)가 걸렸다 */
+                  aria-label={`${card.cover && !card.alt.includes(p.brand) ? `${p.brand} — ` : ""}${card.alt} — ${t.openFull} ${t.newTab}`}
                 >
                   {card.cover ? (
                     <CaseCoverStack slug={p.slug} brand={p.brand} cover={card.cover} eager />
