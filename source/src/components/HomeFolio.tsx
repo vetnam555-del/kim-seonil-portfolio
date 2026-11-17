@@ -356,6 +356,15 @@ export default function HomeFolio({ lang = "ko" }: { lang?: Lang }) {
                   <span className="folio-career-period">{c.period}</span>
                   <strong>{c.where}</strong>
                   <span><Sentences text={c.text} /></span>
+                  {/* 한 일은 문장으로 쌓지 않고 짧은 항목 줄로 둔다(2026.11.17 — site.ts generalCover.career 주석) */}
+                  <ul className="folio-career-points">
+                    {c.points.map((pt) => (
+                      <li key={pt.text}>
+                        {pt.lead ? <><b>{pt.lead}</b>{" "}</> : null}
+                        {pt.text}
+                      </li>
+                    ))}
+                  </ul>
                 </li>
               ))}
             </ol>
