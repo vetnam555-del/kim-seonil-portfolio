@@ -6,10 +6,10 @@
 | 항목 | 값 |
 |---|---|
 | 담당 | claude |
-| 상태 | 2026-11-16 방문 계측(O-13) 준비 — 주인 Drive 에 시트 · 코드 문서를 만들었고, 웹 앱 주소를 받으면 `src/lib/insight.ts` 의 GENERAL_INSIGHT_URL 에 넣고 빌드한다(`validate_export` 가 Apps Script 주소인지 · 스크립트가 실렸는지 본다). 받은 뒤 할 일: 시험 비콘을 보내 시트에 줄이 생기는지 확인 → 배포 → 프로필 문서 링크에 `?r=` 코드(링크드인 jfu7 · 리멤버 556y · 사람인 uguc · 잡코리아 gr6h · 원티드 7r83) → 붙여넣기 페이지 다시 올리기(SKILL 13절). 그 앞: PR #36 main de8c055 · 2026-11-16 지식 허브 makefair 에 `portfolio/`(공개 정보 전부 · 21개 파일)를 넣었다(makefair PR #2 → main 4f6d03f) — 사이트를 바꾸면 `scripts/export_knowledge.mjs` 로 다시 만든다 |
+| 상태 | 2026-11-17 최종 검토(주인 "더이상 수정 및 개선할 부분은 없는지 최종검토해줘") — 찾은 결함 넷을 고치고 EDIT H 를 11.17 아카이브(146편 · VOL.146)로 올려 PR #38 에 실었다(RELEASE_PASS 4ac66a97). 남은 순서는 아래 11번. 그 전 상태: 2026-11-16 방문 계측(O-13) 준비 — 주인 Drive 에 시트 · 코드 문서를 만들었고, 웹 앱 주소를 받으면 `src/lib/insight.ts` 의 GENERAL_INSIGHT_URL 에 넣고 빌드한다(`validate_export` 가 Apps Script 주소인지 · 스크립트가 실렸는지 본다). 받은 뒤 할 일: 시험 비콘을 보내 시트에 줄이 생기는지 확인 → 배포 → 프로필 문서 링크에 `?r=` 코드(링크드인 jfu7 · 리멤버 556y · 사람인 uguc · 잡코리아 gr6h · 원티드 7r83) → 붙여넣기 페이지 다시 올리기(SKILL 13절). 그 앞: PR #36 main de8c055 · 2026-11-16 지식 허브 makefair 에 `portfolio/`(공개 정보 전부 · 21개 파일)를 넣었다(makefair PR #2 → main 4f6d03f) — 사이트를 바꾸면 `scripts/export_knowledge.mjs` 로 다시 만든다 |
 | 작업 브랜치 | `claude/stoic-bohr-gze1d1` |
-| 열린 PR | 이 기록만 담은 초안 PR(다음 작업과 같이 합친다). #35 는 8e540b8, #36 은 de8c055 로 합쳤다. 작업 브랜치는 강제 push 를 쓸 수 없어 main 을 병합해 맞춘다 — 다음 PR 도 스쿼시로 합친다 |
-| 마지막 갱신 | 2026-11-15 · Claude |
+| 열린 PR | #38(이번 일까지 실어 스쿼시로 합친다). #37 은 다른 세션이 2026-11-15 에 올린 EDIT H 144편 갱신 — 같은 내용이 11.17 수치로 #38 에 들어갔고 main 과 충돌 상태라, #38 을 합친 뒤 닫는다. #35 는 8e540b8, #36 은 de8c055 로 합쳤다. 작업 브랜치는 강제 push 를 쓸 수 없어 main 을 병합해 맞춘다 — 다음 PR 도 스쿼시로 합친다 |
+| 마지막 갱신 | 2026-11-17 · Claude |
 
 ## 지금 하던 일
 
@@ -98,17 +98,29 @@
      D 로 정하면 범위도 물어야 한다 — 홈만 어둡게 할지, 소개 · 사례 쪽까지 한 번에 할지(문서의 '적용 범위' · Claude 의견은 한 번에, 이력서 쪽은 밝게).
    - 같이 적은 것: PR #32 를 합친 뒤의 라이브 점검 · 속도 비교(BACKLOG 완료 기록 · 점검 기록 2026-11-13).
 
+11. 최종 검토(주인 11-17 "더이상 수정 및 개선할 부분은 없는지 최종검토해줘") — 자세한 것은 BACKLOG 완료 기록 2026-11-17.
+   - 고친 것(커밋 a3b90ab): 결과 상자 큰 수치의 줄바꿈(`ui.tsx` MetricDelta · `CaseView.tsx`), 자동화 실행 구조 그림의 좁은 칸용 세로 판(`AutomationArchitecture.tsx` — 칸 폭 600px 기준 컨테이너 쿼리),
+     표 밀기 안내를 표가 칸보다 넓을 때만(`CaseView.tsx` · `caseLabels.ts` · `qa_final.mjs`), 영문 뉴발란스 "0 duplicates", `export_knowledge.mjs`(프로필 작업 문서는 내보내지 않는다).
+   - EDIT H 11.17 갱신(다음 커밋): 열린 PR #37(144편 · 11-15 · 다른 세션)이 합쳐지지 않고 충돌 상태인 것을 찾아, 아카이브를 다시 세어 오늘 수치로 넣었다 —
+     `projects.ts` edith(146편 · 최장 연속 48일 · 11.11 발행 없음 · 실패 한 단) · `site.ts`(이력서 한 줄 · 공개 작업물 카드 · v=20261117a) · `en/resume.en.ts` · `edition.ts` OG_VERSION 20261117a ·
+     `render_og_cases.mjs` → `assets/og/general/og/edith.png` · `validate_export.mjs` · 이력서 PDF(2026.11.17 인쇄 · 5쪽 · 태그) · `proposals/O-10`.
+   - 빌드 · 검수 끝: 보이는 글자 14쪽 · typecheck · tone · en · final · layout · wrap · platforms 0 · RELEASE_PASS 4ac66a97.
+   - 남은 순서: PR #38 본문 고치기 → 자비스 요청(새 머리 sha) → 준비 완료 → 스쿼시로 합치기 → `git fetch origin main` → `npm run health` →
+     makefair 허브 다시 내보내기(`node scripts/export_knowledge.mjs <makefair 클론>/portfolio` → 그 저장소에 PR) → PR #37 닫기 → 완료 기록 · 점검 기록.
+   - 이번에 배운 것: 출시 승인 직전에 사용량 한도로 한 번 멈췄는데(11-17) 그때 원본 변경이 커밋되지 않은 채 작업 트리에만 있었다.
+     **빌드 · 검수를 돌리기 전에 원본 변경부터 커밋해 push 한다** — 루트 빌드는 다시 만들 수 있지만 원본은 그렇지 않다.
+
 ## 다음 할 일
 
 1. O-21 남은 것 — 맺음말 한 줄은 주인의 문장을 받으면 `HomeFolio.tsx` 연락 구간에 넣는다. 다이슨 가운데 낱장은 더 선명한 원본을 받으면 `scripts/cut_cover_tiles.py` 의 PICK 을 고쳐 다시 자른다(표지는 홈 카드와 사례 상세가 같이 쓴다 — `CaseCover.tsx`).
 2. 주인이 다섯 곳에 원문을 넣었다고 알려 주면(O-20) `JOB_PLATFORMS.md` · `LINKEDIN.md` 머리의 '상태' 표를 고친다. 상태 표는 페이지에 실리지 않아 지문이 바뀌지 않는다.
 3. 사이트의 사실 · 숫자를 바꾸면 두 문서도 같이 고치고 붙여넣기 페이지를 다시 올린다(SKILL 13절). 첫 화면을 바꾸면 링크드인 영상도 다시 굽는다.
 4. O-15 — 주인이 공개 저장소 · 토큰 · 변수를 만들면 "Publish public site" 수동 실행 → 공개 저장소 파일 확인 → 주인 Pages · 비공개 전환 → `npm run health`.
-5. O-13 계측 — 주인이 웹앱 주소를 주면 `NEXT_PUBLIC_INSIGHT_URL` 로 빌드(로컬 주소로 만든 산출물은 배포하지 않는다).
+5. O-13 계측 — 주인이 웹 앱 주소를 주면 `src/lib/insight.ts` 의 GENERAL_INSIGHT_URL 에 넣고 빌드 → 시험 방문을 보내 시트에 줄이 생기는지 확인 → 배포(BACKLOG O-13 · `insight/README.md`). 프로필 다섯 곳의 링크에는 이미 수신처 코드(`?r=`)가 붙어 있다.
 6. O-14 검토 방식 · O-16 다른 공개 저장소 · O-12 다이슨 신규 칸 · O-18 5초 테스트 — 주인이 정한다.
    B-17(영문 홈 360×640 첫 버튼 48px 아래)은 영문 문구 손질과 같이 본다. B-19(실제 기기의 대체 글꼴 — iOS · Windows · 삼성 Android)는 그 기기가 있어야 잰다.
-7. B-09 코드 정리(주인이 골랐다 · 비공개 전환 뒤 P3) · B-05 이력서 PDF 태그.
-8. 덱 PDF(비공개 · Drive)에 EDIT H 숫자가 있으면 다음에 다시 구울 때 같은 기준으로 맞춘다(SKILL 7절).
+7. B-09 코드 정리(주인이 골랐다 · 비공개 전환 뒤 P3) · B-20 주간 점검이 열린 PR 을 보고하게(지시문은 주인 루틴이라 제안만) · R-11 테스트 기록 모음(P3) · B-15 EDIT H 뒤처짐 알림(기준 7편).
+8. 덱 PDF(비공개 · Drive)의 EDIT H 숫자는 다음에 다시 구울 때 그날 아카이브 기준으로 맞춘다(SKILL 7절). 사이트는 2026.11.17 VOL.146 · 146편 · 최장 연속 48일(09.24 – 11.10)이다.
 
 ## 이어받을 때 주의
 
