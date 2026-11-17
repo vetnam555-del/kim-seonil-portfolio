@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import AutomationArchitecture from "@/components/AutomationArchitecture";
+import EdithReels from "@/components/EdithReels";
 import { CaseCoverStack } from "@/components/CaseCover";
 import { Bars, canChart } from "@/components/Bars";
 import { Reveal } from "@/components/motion";
@@ -1279,6 +1280,8 @@ export function CaseView({ slug, lang = "ko" }: { slug: string; lang?: Lang }) {
                 {/* 자동화 케이스만 구조도를 붙인다. 증빙 두 장이 모두 결과 화면이라
                     "무엇을 만들었나"가 본문을 다 읽어야 나왔다. */}
                 {p.slug === "automation" ? <AutomationArchitecture lang={lang} /> : null}
+                {/* EDIT H 만 릴스 세 편을 붙인다(국문 상세만 있다) — 결과 칸의 "AI 영상 릴스도 게시" 한 줄로는 무엇을 올리는지 볼 수 없었다 */}
+                {p.slug === "edith" && lang === "ko" ? <EdithReels /> : null}
                 <ProjectFrameworks detail={d} skipKpi={showKpi} t={t} />
                 <EvidenceGallery evidence={placedEvidence("execution")} className="mt-8" t={t} />
               </Block>
