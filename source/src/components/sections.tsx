@@ -2175,7 +2175,9 @@ export function Credits() {
         </div>
 
         <p className="mt-10 font-mono text-[0.6875rem] text-white/50">
-          {edition.issueLabel} · 김선일 개인 포트폴리오&nbsp;· 광고주 비공개 데이터 미게재&nbsp;· {isGeneralLike ? "2026.09" : "2026.08"}
+          {/* 2026.11.18 일반판은 발행 월을 적지 않는다 — "2026.09"가 남아 있었는데 본문은 2026.10 입사와 11월 호까지 담고 있어 묵은 자료로 읽혔다.
+              손으로 고치는 날짜는 달마다 다시 묵는다. 다른 판은 낸 때의 표기 그대로 둔다 */}
+          {edition.issueLabel} · 김선일 개인 포트폴리오&nbsp;· 광고주 비공개 데이터 미게재{isGeneralLike ? null : <>&nbsp;· 2026.08</>}
         </p>
       </Container>
     </Section>

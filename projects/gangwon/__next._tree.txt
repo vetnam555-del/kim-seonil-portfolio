@@ -2,4 +2,4 @@
 :HL["/kim-seonil-portfolio/evidence/cover-gangwon-1.webp","image"]
 :HL["/kim-seonil-portfolio/evidence/cover-gangwon-2.webp","image"]
 :HL["/kim-seonil-portfolio/evidence/cover-gangwon-3.webp","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"projects","param":null,"prefetchHints":4160,"slots":{"children":{"name":"slug","param":{"type":"d","key":"gangwon","siblings":[]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"td9vItSnKkGp-Nca_x5jy"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"projects","param":null,"prefetchHints":4160,"slots":{"children":{"name":"slug","param":{"type":"d","key":"gangwon","siblings":[]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"qQHMDh9xE4bkxQpX1v_2p"}
