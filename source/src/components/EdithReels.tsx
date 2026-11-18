@@ -63,7 +63,7 @@ export default function EdithReels() {
         className="mt-3 flex max-w-[46rem] flex-col gap-1.5 rounded-card bg-sand px-4 py-3"
         aria-label="영상에서 확인할 항목 — EDIT H AI 영상 릴스"
       >
-        <li className={ITEM}>{DOT}위 세 편은 2026.11.13{" "}· 11.16{" "}· 11.17호 — 누르면 소리와 함께 재생</li>
+        <li className={ITEM}>{DOT}위 세 편은 2026.11.12{" "}· 11.13{" "}· 11.16호 — 누르면 소리와 함께 재생</li>
         <li className={ITEM}>{DOT}게시물에도 AI로 만든 영상임을 표기</li>
         <li className={ITEM}>{DOT}장면마다 출처를 적고 숫자는 기사 두 곳에서 확인한 값만 사용</li>
         <li className={ITEM}>{DOT}실제 인물과 회사 로고는 넣지 않음</li>
