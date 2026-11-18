@@ -6,6 +6,9 @@
  * (사례 쪽은 소리가 있는 전체 영상, 홈은 소리 없이 끝 화면 앞까지 되풀이하는 작은 영상, 표지는 0.8초 프레임).
  * title 은 영상 첫 장면의 자막 그대로다 — 새 문장을 만들지 않는다. 화면에는 날짜와 호수만 글자로 적고 제목은 영상 표지와 대체 글에 둔다.
  * 최신 호를 앞에 둔다. 영상 속 소식은 날짜가 지나면 낡으므로, 바꿀 때는 가장 최근 호 세 편으로 한다.
+ * 2026.11.18 11.17호(VOL.146)를 11.12호(VOL.141)로 바꿨다 — 주인 "입싱크가 제대로 안 맞는 영상이 있는데 오류니까 교체해 줘".
+ * 세 편 중 캐릭터가 말하는 입 모양으로 오래 움직이는 것은 11.17호뿐이었고(셋째 · 넷째 장면 약 7초) 목소리는 내레이션이라 입과 맞지 않는다.
+ * 11.14 · 11.15 호는 아카이브에 릴스가 없어 다음 최근 호인 11.12 를 실었다(말하는 장면 없음). 새로 고를 때도 입이 오래 움직이는 편은 뺀다.
  */
 export interface EdithReel {
   /** public/evidence/edith-reel-<id>… */
@@ -18,9 +21,9 @@ export interface EdithReel {
 }
 
 export const edithReels: EdithReel[] = [
-  { id: "1117", date: "2026.11.17", vol: 146, title: "3년 8개월 만에 두 번째, 내 카뱅 카드도 되나?", titleEn: "issue of 17 November 2026" },
   { id: "1116", date: "2026.11.16", vol: 145, title: "은행 문 9시30분에? 출근 전 은행 일은?", titleEn: "issue of 16 November 2026" },
   { id: "1113", date: "2026.11.13", vol: 142, title: "'사지 마' 했는데 11만 명 몰려 품절", titleEn: "issue of 13 November 2026" },
+  { id: "1112", date: "2026.11.12", vol: 141, title: "비만치료제 3개월치 여행 가는 나는?", titleEn: "issue of 12 November 2026" },
 ];
 
 export const EDITH_ARCHIVE = "https://vetnam555-del.github.io/edit-h-archive/";
