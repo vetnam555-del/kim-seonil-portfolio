@@ -64,7 +64,7 @@ const CASES = [
       ]
     : []),
   { slug: "jestina", brand: "제이에스티나", before: "352%", after: "583%", label: "GA4 ROAS", note: "2025.05 → 07 동일 마감보고 기준 · 전략·측정 75%" },
-  { slug: "newbalance", brand: "뉴발란스", before: "약 2시간", after: "5분 이내", label: "재고·운영 점검 시간", note: "내부 일평균 실측 · 계정 운영 40% · 자동화 100%" },
+  { slug: "newbalance", brand: "뉴발란스", before: "약 2시간", after: "5분 이내", label: "재고·운영 점검 시간", note: "내부 일평균 실측 · 계정 운영 30% · 자동화 100%" },
   { slug: "daekyo", brand: "대교에듀캠프", before: "0.66%", after: "2.24%", label: "같은 표본으로 다시 잰 CVR", note: "서브 브랜드 5개 · 측정 QA 설계 100%" },
   /* 2026.09.24 — 홈 카드와 같이 리포트 원문이 있는 동영상 CTR 로 소개한다(채널 구독자는 원본 캡처 없음) */
   { slug: "dyson", brand: "다이슨", before: "2.16%", after: "3.14%", label: "동영상 광고 CTR", note: "2024.02 → 03 · Google Ads · 공동 기획 40%" },
