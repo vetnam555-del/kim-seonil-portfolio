@@ -23,7 +23,7 @@ export const site = {
    * 공개 저장소 원본에서도 뺐다(2026-10-10 주인 결정, 자비스 공개 원본 P2).
    */
   emailPrimary: "makefair@naver.com",
-  linkedin: "https://www.linkedin.com/in/%EC%84%A0%EC%9D%BC-%EA%B9%80-b28a1021b/",
+  linkedin: "https://www.linkedin.com/in/sunil-kim/",
   url: edition.url,
   /* 웹은 webp(600×800, 약 50KB)로 싣는다 (2026.09.25) — 720×960 jpeg 147KB 가 첫 화면에서 제목 글꼴과 대역폭을 다퉜다. 이력서 PDF 생성기는 같은 폴더의 jpeg 를 쓴다 */
   profileImagePath: "/profile-kim-seonil.webp?v=20260925",
