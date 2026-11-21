@@ -149,14 +149,14 @@ export const otherResultsEn = [
   {
     brand: "Saenghwal Baekseo",
     category: "D2C",
-    period: "2024.09 – 2025.03",
+    period: "2024.09 – 2025.10",
     summary: "I segmented high-intent retargeting with shopping-info ad extensions and GFA custom targeting.",
     metrics: [{ label: "Conversion revenue", value: "+775% (YoY)" }, { label: "Efficiency", value: "CTR 12%\u00a0· CVR 8%" }],
   },
   {
     brand: "FUJIFILM BI",
     category: "B2B Content",
-    period: "2024.09 – 2025.03",
+    period: "2024.09 – 2025.10",
     summary: "Instead of repeating product descriptions, I split message length and follow-up retargeting paths to fit how people use YouTube, Facebook and Instagram.",
     metrics: [{ label: "Avg. video views", value: "~100K" }, { label: "YouTube ad view rate", value: "28%" }, { label: "Subscribers YoY", value: "+16%" }],
   },
