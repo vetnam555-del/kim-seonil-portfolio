@@ -115,7 +115,7 @@ export const coverEn = {
       logo: "hll",
       text: "On top of media buying, I took on measurement standards and operations automation.",
       points: [
-        { lead: "New Balance", text: "KRW 1B+/month, 10-channel account run as part of a team (account\u00a0operations\u00a040%)" },
+        { lead: "New Balance", text: "KRW 500M–1B+/month, 10-channel account run as part of a team (account\u00a0operations\u00a030%)" },
         { lead: "Automation", text: "six inventory, reporting and settlement tools built on my own" },
         { lead: "Gangwon Deep Sea Water", text: "Instagram group-buys opened as a sales channel" },
         { lead: "Daekyo EduCamp", text: "a 'performance dropped' verdict corrected by re-measuring on the same sample" },

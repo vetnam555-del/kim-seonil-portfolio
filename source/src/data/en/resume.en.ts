@@ -31,7 +31,7 @@ export const summaryEn = {
   highlights: [
     {
       axis: "Scale\u00a0· Systems",
-      body: "New Balance, KRW 1B+ a month across 10 channels: inventory rules process up to 900 products per run automatically, and a run stops with 0 changes when data looks wrong",
+      body: "New Balance, KRW 500M–1B+ a month across 10 channels: inventory rules process up to 900 products per run automatically, and a run stops with 0 changes when data looks wrong",
     },
     {
       axis: "Revenue",
@@ -68,13 +68,13 @@ export const careerEn = [
     summary:
       "Beyond running multiple media, I widened my role to own the decision rules that measure content and media performance together, and the automation behind them.",
     work: [
-      "Integrated operation of New Balance's 10 channels at KRW 1B+ a month",
+      "Integrated operation of New Balance's 10 channels at KRW 500M–1B+ a month",
       "Planned and built 6 automations for inventory, reporting, monitoring and settlement",
       "Took part in the in-house AI transformation (AX) project",
     ],
     clients: "New Balance\u00a0· Daekyo EduCamp (5 sub-brands)\u00a0· Gangwon Deep Sea Water Cheonnyeon Dongan",
     highlight:
-      "New Balance, KRW 1B+ a month across 10 channels (account operations 40%)\u00a0· Daekyo EduCamp: re-verified the comparison sample (CVR 0.66% → 2.24% on the same basis, measurement QA design 100%) and reworked the consultation form three times (lead conversion rate 2.84% → 7.55% after the form relaunch, while paid-service conversion went 13.7% → 9.9%; 11.28% after question changes)\u00a0· Designed and built 6 automations alone",
+      "New Balance, KRW 500M–1B+ a month across 10 channels (account operations 30%)\u00a0· Daekyo EduCamp: re-verified the comparison sample (CVR 0.66% → 2.24% on the same basis, measurement QA design 100%) and reworked the consultation form three times (lead conversion rate 2.84% → 7.55% after the form relaunch, while paid-service conversion went 13.7% → 9.9%; 11.28% after question changes)\u00a0· Designed and built 6 automations alone",
   },
   {
     company: "PlayD",

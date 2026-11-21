@@ -285,7 +285,7 @@ async function projectAudit(browser, label, width, height) {
       check("daekyo: 재비교와 폼 효과 분리", data.body.includes("상담 폼 개선의 단독 효과로 해석하지 않았습니다"), "");
     }
     if (label === "1440" && slug === "newbalance") {
-      check("newbalance: 대형 운영과 중단 기준", data.body.includes("월 10억") && data.body.includes("자동 조치 중단"), "");
+      check("newbalance: 대형 운영과 중단 기준", data.body.includes("월 5~10억") && data.body.includes("자동 조치 중단"), "");
       /* 근사값·상한값으로 계산한 파생 수치(115분 · 95.8%)는 싣지 않는다 — 실측 표기만 남긴다 (2026.09.24) */
       check("newbalance: 점검 시간은 실측 표기만", data.body.includes("약 2시간") && data.body.includes("5분 이내") && !data.body.includes("95.8%"), "");
     }

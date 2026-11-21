@@ -65,7 +65,7 @@ export const caseCards: Record<string, CaseCard> = {
     cover: { kind: "wide", sizes: [[800, 201], [800, 201], [800, 201]] },
     contain: true,
     basis: "내부 일평균 실측\u00a0· 자동화 도입 전후",
-    scope: "계정 운영 40%\u00a0· 자동화 설계·구축 100%",
+    scope: "계정 운영 30%\u00a0· 자동화 설계·구축 100%",
   },
   daekyo: {
     capability: "측정 재검증",
