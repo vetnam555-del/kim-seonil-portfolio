@@ -63,7 +63,7 @@ export function SiteFooter({
             <>
               <span className="block">All figures are based on GA4, media reports and operating logs, and public screens are de-identified.</span>
               <span className="block">Figures that can&apos;t be disclosed for advertiser data security are shown as ratios.</span>
-              <span className="block">Contribution is measured against the scope stated in each case: 100% means I handled that scope alone, 35–75% means I led strategy and analysis within a team, and 20% means I owned specific media and analysis within a team. Team sizes are left out because they are client and organization information.</span>
+              <span className="block">Contribution is measured against the scope stated in each case: 100% means I handled that scope alone, 35–75% means I led strategy and analysis within a team, and 20–30% means I owned specific media and analysis within a team. Team sizes are left out because they are client and organization information.</span>
             </>
           ) : (
             <>
@@ -73,7 +73,7 @@ export function SiteFooter({
                   100 / 40–75 / 20 이었는데 지금 값에 동원몰 35%(키워드·소재 재구성 + 자동입찰 결합, 전략 쪽 일)가 있어 35 부터 잡는다.
                   100% 를 "단독 담당 계정"으로 적었다가 범위 기준으로 고쳤다(자비스 검토) — 자동화 100% 는 시스템 6종 범위,
                   대교 100% 는 측정 QA 설계 범위라 계정 전체 단독 운영으로 읽히면 사례에서 나눠 둔 범위를 다시 넓힌다 */}
-              <span className="block">기여도는 사례마다 적은 업무 범위를 기준으로 합니다. 100%는 그 범위를 혼자 맡은 경우, 35–75%는 팀 안에서 전략·분석을 주도한 경우, 20%는 팀 안에서 담당 매체·분석을 맡은 경우입니다. 팀 구성 인원은 광고주·조직 정보라 표기하지 않았습니다.</span>
+              <span className="block">기여도는 사례마다 적은 업무 범위를 기준으로 합니다. 100%는 그 범위를 혼자 맡은 경우, 35–75%는 팀 안에서 전략·분석을 주도한 경우, 20–30%는 팀 안에서 담당 매체·분석을 맡은 경우입니다. 팀 구성 인원은 광고주·조직 정보라 표기하지 않았습니다.</span>
             </>
           )}
         </p>
