@@ -18,15 +18,15 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+# 올리기(build)와 배포(deploy)를 두 작업으로 나눈다(2026-11-21). 한 작업 안에서 올린 직후 배포하면
+# deploy-pages 가 0.4초 뒤에 아티팩트를 찾다가 "Found 0 artifact(s)" 로 실패하는 일이 잦아졌다
+# (#48 · #50 — 같은 오류로 다시 돌려도 세 번 연속 실패, githubstatus 는 정상). GitHub 의 Pages 기본 틀과 같은 두 작업 구조다.
 jobs:
-  deploy:
+  build:
     # 원본 저장소가 비공개가 되면(2026-11-04 주인 결정) 무료 요금제에서는 Pages 를 못 쓴다 — 그때부터는
     # publish-public.yml 이 공개 사이트 저장소(vetnam555-del.github.io)로 올린다. 비공개면 이 작업은 건너뛴다
     if: ${{ !github.event.repository.private }}
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -54,5 +54,13 @@ jobs:
         with:
           path: ${{ runner.temp }}/site
 
+  deploy:
+    needs: build
+    if: ${{ !github.event.repository.private }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - id: deployment
         uses: actions/deploy-pages@v4
