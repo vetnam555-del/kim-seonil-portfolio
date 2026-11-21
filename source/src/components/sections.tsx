@@ -1925,6 +1925,27 @@ const creditRecords = (() => {
   return { marketing, archive };
 })();
 
+/** "A\u00a0· B(C\u00a0· D)" 를 괄호 밖의 구분자에서만 나눈다 — 괄호 안 단서(팀 성과 등)가 따로 떨어지지 않게 */
+function splitOutsideParens(text: string): string[] {
+  const out: string[] = [];
+  let depth = 0;
+  let cur = "";
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (ch === "(") depth++;
+    if (ch === ")") depth = Math.max(0, depth - 1);
+    if (depth === 0 && text.startsWith("\u00a0· ", i)) {
+      out.push(cur);
+      cur = "";
+      i += 2;
+      continue;
+    }
+    cur += ch;
+  }
+  out.push(cur);
+  return out.filter(Boolean);
+}
+
 function RecordLinks({ v, compact = false }: { v: VerificationItem; compact?: boolean }) {
   if (!v.href && !v.secondaryHref) return null;
   const cls = `inline-flex ${compact ? "min-h-[36px]" : "min-h-[44px]"} items-center text-mono text-white underline underline-offset-4`;
@@ -1979,7 +2000,7 @@ export function Credits() {
                   {/* 대표 성과는 가운뎃점으로 이어 쓴 한 문단이었다 — 한 줄에 하나씩(2026.11.21). 아래 연도별 · 업무 줄보다 진하게 */}
                   {c.highlight ? (
                     <ul className="mt-2 flex flex-col gap-1">
-                      {c.highlight.split("\u00a0· ").map((h) => (
+                      {splitOutsideParens(c.highlight).map((h) => (
                         <li
                           key={h}
                           className="relative pl-3 text-mono leading-[1.55] text-white before:absolute before:left-0 before:top-[0.62em] before:h-1 before:w-1 before:rounded-full before:bg-mark"
