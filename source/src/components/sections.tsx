@@ -25,7 +25,6 @@ import {
   activities,
   archiveLead,
   automationCases,
-  awards,
   awardsArchive,
   brands,
   builtGroups,
@@ -56,6 +55,7 @@ import {
   skills,
   story,
   verification,
+  type VerificationItem,
   whatsNext,
   whyStudioLululala,
 } from "@/data/site";
@@ -1898,6 +1898,73 @@ export function WhatsNext() {
 }
 
 /* ═══════════════════ S6. CREDITS — 판권면 ═══════════════════ */
+/**
+ * 공개 기록(verification)을 수상 목록에 붙인다 — 같은 수상을 두 번 적지 않기 위해서다(2026.11.21).
+ * 제목의 '(2021.07)' 같은 연도가 2022 이전이면 마케터 이전 이력의 그 해 줄에, 아니면(또는 연도가 없으면) 광고 운영 칸에 둔다.
+ * 그 해 줄에서 이름이 겹치는 수상 아래에 붙이고, 겹치는 수상이 없는 기록(인터뷰)은 그 해의 줄로 더한다.
+ */
+const recordYear = (t: string) => Number((t.match(/\((\d{4})/) || [])[1] || 0);
+const recordStem = (t: string) => t.replace(/\s*\(.*$/, "").replace(/\s*3관왕$/, "");
+const creditRecords = (() => {
+  const marketing = verification.filter((v) => !recordYear(v.title) || recordYear(v.title) >= 2022);
+  const press = verification.filter((v) => recordYear(v.title) && recordYear(v.title) < 2022);
+  const used = new Set<string>();
+  const archive = awardsArchive.map((a) => {
+    const [from, to] = a.year.split("–").map(Number);
+    const inRange = press.filter((v) => recordYear(v.title) >= from && recordYear(v.title) <= (to || from));
+    const items = a.items.split("\u00a0· ").map((text) => {
+      const record = inRange.find((v) => !used.has(v.title) && text.includes(recordStem(v.title)));
+      if (record) used.add(record.title);
+      return { text, record };
+    });
+    for (const v of inRange) if (!used.has(v.title)) { used.add(v.title); items.push({ text: recordStem(v.title), record: v }); }
+    return { year: a.year, items };
+  });
+  const left = press.filter((v) => !used.has(v.title));
+  if (left.length) throw new Error(`공개 기록이 수상 이력에 붙지 않았다: ${left.map((v) => v.title).join(", ")}`);
+  return { marketing, archive };
+})();
+
+/** "A\u00a0· B(C\u00a0· D)" 를 괄호 밖의 구분자에서만 나눈다 — 괄호 안 단서(팀 성과 등)가 따로 떨어지지 않게 */
+function splitOutsideParens(text: string): string[] {
+  const out: string[] = [];
+  let depth = 0;
+  let cur = "";
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (ch === "(") depth++;
+    if (ch === ")") depth = Math.max(0, depth - 1);
+    if (depth === 0 && text.startsWith("\u00a0· ", i)) {
+      out.push(cur);
+      cur = "";
+      i += 2;
+      continue;
+    }
+    cur += ch;
+  }
+  out.push(cur);
+  return out.filter(Boolean);
+}
+
+function RecordLinks({ v, compact = false }: { v: VerificationItem; compact?: boolean }) {
+  if (!v.href && !v.secondaryHref) return null;
+  const cls = `inline-flex ${compact ? "min-h-[36px]" : "min-h-[44px]"} items-center text-mono text-white underline underline-offset-4`;
+  return (
+    <span className="mt-0.5 flex flex-wrap gap-x-4">
+      {v.href ? (
+        <a href={v.href} target="_blank" rel="noopener" className={cls}>
+          {v.label} ↗
+        </a>
+      ) : null}
+      {v.secondaryHref ? (
+        <a href={v.secondaryHref} target="_blank" rel="noopener" className={cls}>
+          {v.secondaryLabel} ↗
+        </a>
+      ) : null}
+    </span>
+  );
+}
+
 /** Career + Trust + Contact 세 섹션을 한 장으로 대체하되 정보는 줄이지 않는다. */
 export function Credits() {
   return (
@@ -1909,9 +1976,16 @@ export function Credits() {
             같은 id 가 문서에 둘 있으면 목차·헤더 하이라이트가 먼저 만난 쪽으로 붙는다. */}
         <SectionHead kicker={`Credits\u00a0· ${edition.issueLabel}`} title="경력과 수상 내역" onDark />
 
-        <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-8">
+        {/*
+          2026.11.21 다시 짰다(주인 "경력과 수상내역 엉망진창 · 정리가 안 됐다").
+          전에는 세 칸(경력 / 학력·수상 / 공개 기록)이 높이도 내용도 제각각이었고, 같은 수상이 '대표 수상' ·
+          '마케터 이전 아카이브' · '공개 기록' 에 최대 세 번 나왔다(대한민국 인재상 2020 · 디지털 광고 대상 두 해 등).
+          이제 두 줄이다 — ① 경력 | 학력·교육  ② 수상·공개 기록(광고 운영 / 마케터 이전).
+          수상은 한 번만 적고, 보도·명단 링크와 설명은 그 수상 바로 아래에 붙인다. 데이터(site.ts)는 그대로다.
+        */}
+        <div className="mt-10 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
           {/* 경력 */}
-          <div>
+          <div className="lg:col-span-7">
             <p className="font-mono text-[0.6875rem] font-bold tracking-[0.18em] text-mark uppercase">
               Career
             </p>
@@ -1923,7 +1997,19 @@ export function Credits() {
                     {c.company} · {c.title}
                   </p>
                   {/* 대표 성과가 아직 없는 회사(2026.10 리멤버)는 이 줄을 비운다 — 같은 업무 문장이 홈·이력서에 이미 있다 */}
-                  {c.highlight ? <p className="mt-1 text-mono leading-[1.5] text-on-dark">{c.highlight}</p> : null}
+                  {/* 대표 성과는 가운뎃점으로 이어 쓴 한 문단이었다 — 한 줄에 하나씩(2026.11.21). 아래 연도별 · 업무 줄보다 진하게 */}
+                  {c.highlight ? (
+                    <ul className="mt-2 flex flex-col gap-1">
+                      {splitOutsideParens(c.highlight).map((h) => (
+                        <li
+                          key={h}
+                          className="relative pl-3 text-mono leading-[1.55] text-white before:absolute before:left-0 before:top-[0.62em] before:h-1 before:w-1 before:rounded-full before:bg-mark"
+                        >
+                          {h}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
                   {/* 이동 맥락. 데이터에만 있고 화면엔 없던 필드다 — 재직 기간을 보고 생기는
                       "왜 옮기려 하는가"라는 질문에 서류가 먼저 답하게 한다. */}
                   {/*
@@ -1935,7 +2021,7 @@ export function Credits() {
                       {c.timeline.map((t) => (
                         <li
                           key={t}
-                          className="relative pl-3 text-mono leading-[1.55] text-on-dark before:absolute before:left-0 before:top-[0.62em] before:h-1 before:w-1 before:rounded-full before:bg-mark"
+                          className="relative pl-3 text-mono leading-[1.55] text-on-dark before:absolute before:left-0 before:top-[0.78em] before:h-px before:w-1.5 before:bg-on-dark"
                         >
                           {t}
                         </li>
@@ -1943,7 +2029,7 @@ export function Credits() {
                     </ul>
                   ) : null}
                   {c.ladder ? (
-                    <p className="mt-2 border-l border-white/20 pl-2.5 text-mono leading-[1.5] text-white/64">
+                    <p className="mt-2 text-mono leading-[1.5] text-white/64">
                       {c.ladder}
                     </p>
                   ) : null}
@@ -1952,7 +2038,7 @@ export function Credits() {
                       {c.work.map((work) => (
                         <li
                           key={work}
-                          className="relative pl-3 text-mono leading-[1.55] text-on-dark before:absolute before:left-0 before:top-[0.62em] before:h-1 before:w-1 before:rounded-full before:bg-mark"
+                          className="relative pl-3 text-mono leading-[1.55] text-on-dark before:absolute before:left-0 before:top-[0.78em] before:h-px before:w-1.5 before:bg-on-dark"
                         >
                           {work}
                         </li>
@@ -1964,74 +2050,39 @@ export function Credits() {
             </ul>
           </div>
 
-          {/* 학력 · 수상 · 자격 */}
-          <div>
+          {/* 학력 · 교육 · 활동 */}
+          <div className="lg:col-span-5">
             <p className="font-mono text-[0.6875rem] font-bold tracking-[0.18em] text-mark uppercase">
-              Education&nbsp;· Awards
+              Education
             </p>
-            <ul className="mt-4 flex flex-col gap-2.5">
+            <ul className="mt-4">
               {education.map((e) => (
-                <li key={e.school} className="text-mono leading-[1.5] text-on-dark">
-                  <span className="font-bold text-white">{e.school}</span>
-                  {e.major ? <> · {e.major}</> : null}
+                <li key={e.school} className="border-b border-white/14 py-3 first:pt-0 last:border-b-0">
+                  <p className="font-mono text-mono text-on-dark">{e.period}</p>
+                  <p className="mt-1 text-small font-bold text-white">{e.school}</p>
+                  {e.major ? <p className="mt-0.5 text-mono leading-[1.5] text-on-dark">{e.major}</p> : null}
                 </li>
               ))}
             </ul>
-            <ul className="mt-4 flex flex-col gap-2.5 border-t border-white/14 pt-4">
-              {awards.map((a) => (
-                <li key={`${a.year}-${a.name}`} className="text-mono leading-[1.5] text-on-dark">
-                  <span className="font-bold text-white">
-                    {a.year} {a.name}
-                  </span>{" "}
-                  · {a.detail}
-                </li>
-              ))}
-            </ul>
-            {/*
-              전체 수상·선정 이력. 이력서 안에만 있고 홈에는 대표 3건만 있었다 —
-              창업·발명 시기 30여 회는 이 사람의 출발점을 설명하는 근거라 홈에서도 닿아야 한다.
-
-              한동안 <details> 로 접어 뒀는데, 접힌 이력은 없는 이력이나 마찬가지다.
-              읽는 쪽이 클릭해야만 보이는 것을 실적으로 셀 수는 없다.
-              대표 3건과 무게가 같아 보이는 문제는 접어서가 아니라 위계로 푼다 —
-              제목을 달아 '마케터 이전' 구간임을 밝히고, 연도를 왼쪽 열로 빼서
-              위의 대표 이력과 다른 층위임을 배치로 보여준다.
-            */}
-            <div className="mt-4 border-t border-white/14 pt-4">
-              <p className="flex items-baseline justify-between gap-3 font-mono text-mono font-bold text-white">
-                <span>마케터 이전 수상·선정 이력</span>
-                <span className="font-normal text-on-dark">{awardsArchive.length}개 구간</span>
-              </p>
-              <p className="mt-3 text-mono leading-[1.55] text-on-dark">{archiveLead}</p>
-              <ul className="mt-3 flex flex-col gap-2.5">
-                {awardsArchive.map((a) => (
-                  <li
-                    key={a.year}
-                    className="grid grid-cols-[4.5rem_1fr] gap-x-3 text-mono leading-[1.55] text-on-dark"
-                  >
-                    <span className="font-bold text-white">{a.year}</span>
-                    <span>{a.items}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
 
             {/*
               교육 수료 · 대외 활동 (2026.09.24). 수상만 있으면 "상을 받은 사람"으로만 읽히고,
-              마케팅을 어디서 따로 배웠는지가 빠진다. 수상 아카이브와 같은 2열 배치로 둔다.
+              마케팅을 어디서 따로 배웠는지가 빠진다. 학력 바로 아래에 두어 '배운 곳' 한 묶음으로 읽히게 한다.
             */}
-            <div className="mt-4 border-t border-white/14 pt-4">
-              <p className="flex items-baseline justify-between gap-3 font-mono text-mono font-bold text-white">
-                <span>교육·활동</span>
-                <span className="font-normal text-on-dark">{activities.length}건</span>
+            <div className="mt-8 border-t border-white/14 pt-5">
+              <p className="flex items-baseline justify-between gap-3">
+                <span className="font-mono text-[0.6875rem] font-bold tracking-[0.18em] text-mark uppercase">
+                  Training&nbsp;· Activities
+                </span>
+                <span className="font-mono text-mono text-on-dark">{activities.length}건</span>
               </p>
-              <ul className="mt-3 flex flex-col gap-2.5">
+              <ul className="mt-4 flex flex-col gap-2.5">
                 {activities.map((a) => (
                   <li
                     key={a.name}
                     className="grid grid-cols-[4.5rem_1fr] gap-x-3 text-mono leading-[1.55] text-on-dark"
                   >
-                    <span className="font-bold text-white">{a.period}</span>
+                    <span className="font-mono font-bold text-white">{a.period}</span>
                     <span>
                       <span className="text-white">{a.name}</span> · {a.detail}
                     </span>
@@ -2039,48 +2090,65 @@ export function Credits() {
                 ))}
               </ul>
             </div>
-
             {/* 자격증은 SKILLS & STACK 의 CERTIFICATES 가 맡는다 —
                 여기 두면 한 페이지에 같은 4개가 두 번 나온다 */}
           </div>
+        </div>
 
-          {/* 외부 공개 기록 */}
-          <div>
-            <p className="font-mono text-[0.6875rem] font-bold tracking-[0.18em] text-mark uppercase">
-              Public record
-            </p>
-            <ul className="mt-4 flex flex-col gap-4">
-              {verification.map((v) => (
-                <li key={v.title}>
-                  <p className="text-small font-bold text-white">{v.title}</p>
-                  <p className="mt-1 text-mono leading-[1.5] text-on-dark">{v.desc}</p>
-                  {v.href || v.secondaryHref ? (
-                    <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1">
-                      {v.href ? (
-                        <a
-                          href={v.href}
-                          target="_blank"
-                          rel="noopener"
-                          className="inline-flex min-h-[44px] items-center text-mono text-white underline underline-offset-4"
-                        >
-                          {v.label} ↗
-                        </a>
-                      ) : null}
-                      {v.secondaryHref ? (
-                        <a
-                          href={v.secondaryHref}
-                          target="_blank"
-                          rel="noopener"
-                          className="inline-flex min-h-[44px] items-center text-mono text-white underline underline-offset-4"
-                        >
-                          {v.secondaryLabel} ↗
-                        </a>
-                      ) : null}
-                    </div>
-                  ) : null}
-                </li>
-              ))}
-            </ul>
+        {/* 수상 · 공개 기록 — 수상은 한 번만, 출처는 그 수상 바로 아래 */}
+        <div className="mt-12 border-t border-white/14 pt-8">
+          <p className="font-mono text-[0.6875rem] font-bold tracking-[0.18em] text-mark uppercase">
+            Awards&nbsp;· Public record
+          </p>
+          <div className="mt-5 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
+            <div className="lg:col-span-5">
+              <p className="text-small font-bold text-white">광고 운영 수상·게재</p>
+              <ul className="mt-3">
+                {creditRecords.marketing.map((v) => (
+                  <li key={v.title} className="border-b border-white/14 py-3.5 first:pt-1 last:border-b-0">
+                    <p className="text-small font-bold text-white">{v.title}</p>
+                    <p className="mt-1 text-mono leading-[1.5] text-on-dark">{v.desc}</p>
+                    <RecordLinks v={v} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/*
+              전체 수상·선정 이력. 접힌 이력은 없는 이력이나 마찬가지라 펼쳐 둔다(2026.09 판단 그대로).
+              전에는 한 해의 수상을 가운뎃점으로 한 문단에 이어 붙여 읽히지 않았다 — 한 줄에 하나씩 나눈다.
+              보도된 수상은 그 줄 아래에 설명과 출처를 붙인다(예전 '공개 기록' 칸에 따로 있던 것).
+            */}
+            <div className="lg:col-span-7">
+              <p className="flex items-baseline justify-between gap-3">
+                <span className="text-small font-bold text-white">마케터 이전 수상·선정 이력</span>
+                <span className="font-mono text-mono text-on-dark">{awardsArchive.length}개 구간</span>
+              </p>
+              <p className="mt-2 text-mono leading-[1.55] text-on-dark">{archiveLead}</p>
+              <ul className="mt-4">
+                {creditRecords.archive.map((row) => (
+                  <li
+                    key={row.year}
+                    className="grid grid-cols-[4.5rem_1fr] gap-x-3 border-t border-white/14 py-3 text-mono leading-[1.55]"
+                  >
+                    <span className="font-mono font-bold text-white">{row.year}</span>
+                    <ul className="flex flex-col gap-1.5">
+                      {row.items.map((it) => (
+                        <li key={it.text}>
+                          <span className="text-white">{it.text}</span>
+                          {it.record ? (
+                            <>
+                              <span className="mt-0.5 block text-on-dark">{it.record.desc}</span>
+                              <RecordLinks v={it.record} compact />
+                            </>
+                          ) : null}
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 
