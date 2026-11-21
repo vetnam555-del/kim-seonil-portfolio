@@ -1,7 +1,7 @@
 1:"$Sreact.fragment"
 :HL["/kim-seonil-portfolio/_next/static/chunks/2krvl7gyhje4k.css","style"]
 2:T8ad,(function(){var d=document.documentElement,f=document.fonts,K="ksi-fonts",A=[["Pretendard","/kim-seonil-portfolio/fonts/Pretendard-Regular.woff2","woff2",{"weight":"400","display":"swap"}],["Pretendard","/kim-seonil-portfolio/fonts/Pretendard-SemiBold.woff2","woff2",{"weight":"600","display":"swap"}],["Pretendard","/kim-seonil-portfolio/fonts/Pretendard-Bold.woff2","woff2",{"weight":"700","display":"swap"}],["Pretendard","/kim-seonil-portfolio/fonts/Pretendard-Black.woff2","woff2",{"weight":"900","display":"swap"}],["Archivo","/kim-seonil-portfolio/fonts/Archivo-Var.woff2","woff2-variations",{"weight":"600 900","stretch":"100% 125%","display":"swap"}],["JetBrains Mono","/kim-seonil-portfolio/fonts/JetBrainsMono-Var.woff2","woff2-variations",{"weight":"100 800","display":"swap"}]],res,added=0;window.__ksiFontsReady=new Promise(function(r){res=r});d.classList.add("fonts-pending");var release=function(){d.classList.remove("fonts-pending")};function add(){if(added)return;added=1;setTimeout(release,6000);var list=[];try{A.forEach(function(a){var x=new FontFace(a[0],'url("'+a[1]+'") format("'+a[2]+'")',a[3]);f.add(x);list.push(x)})}catch(e){release();res();return}var track=function(){var want=document.querySelector(".folio-hero")?list.filter(function(x){return x.family==="Pretendard"&&(x.weight==="400"||x.weight==="900")}):[];var settle=function(){release();requestAnimationFrame(function(){requestAnimationFrame(function(){f.ready.then(function(){try{if(list.some(function(x){return x.status==="loaded"}))localStorage.setItem(K,"1")}catch(e){}res()})})})};Promise.all(want.map(function(x){return x.load()})).then(settle,settle)};document.readyState==="loading"?addEventListener("DOMContentLoaded",track):track()}var cached=0;try{cached=localStorage.getItem(K)==="1"}catch(e){}if(cached){add();return}var go=function(){setTimeout(add,0)};try{if(PerformanceObserver.supportedEntryTypes.indexOf("paint")>-1){var o=new PerformanceObserver(function(l){l.getEntries().forEach(function(e){if(e.name==="first-contentful-paint"){o.disconnect();go()}})});o.observe({type:"paint",buffered:true})}else addEventListener("DOMContentLoaded",function(){requestAnimationFrame(go)})}catch(e){go()}setTimeout(add,5000)})();3:T46c,<style>@font-face{font-family:"Pretendard";src:url("/kim-seonil-portfolio/fonts/Pretendard-Regular.woff2") format("woff2");font-weight:400;font-display:swap}@font-face{font-family:"Pretendard";src:url("/kim-seonil-portfolio/fonts/Pretendard-SemiBold.woff2") format("woff2");font-weight:600;font-display:swap}@font-face{font-family:"Pretendard";src:url("/kim-seonil-portfolio/fonts/Pretendard-Bold.woff2") format("woff2");font-weight:700;font-display:swap}@font-face{font-family:"Pretendard";src:url("/kim-seonil-portfolio/fonts/Pretendard-Black.woff2") format("woff2");font-weight:900;font-display:swap}@font-face{font-family:"Archivo";src:url("/kim-seonil-portfolio/fonts/Archivo-Var.woff2") format("woff2-variations");font-weight:600 900;font-stretch:100% 125%;font-display:swap}@font-face{font-family:"JetBrains Mono";src:url("/kim-seonil-portfolio/fonts/JetBrainsMono-Var.woff2") format("woff2-variations");font-weight:100 800;font-display:swap}[style*="opacity:0"],[style*="opacity: 0"]{opacity:1!important;transform:none!important}.count-up-visual{display:none!important}.count-up-measure{visibility:visible!important}</style>6:X
-0:{"buildId":"6SgynvuTqGdUL_ANjE96C","data":[{"rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/kim-seonil-portfolio/_next/static/chunks/2krvl7gyhje4k.css","precedence":"next"}],["$","script","script-0",{"src":"/kim-seonil-portfolio/_next/static/chunks/453cd1tlxz5wi.js","async":true}],["$","script","script-1",{"src":"/kim-seonil-portfolio/_next/static/chunks/28z4pmukzfzfi.js","async":true}]],["$","html",null,{"lang":"ko","data-edition":"general","suppressHydrationWarning":true,"children":[["$","head",null,{"children":[["$","script",null,{"dangerouslySetInnerHTML":{"__html":"$2"}}],["$","script",null,{"dangerouslySetInnerHTML":{"__html":"(function(){var d=document.documentElement;d.classList.add(\"folds\");function off(){if(!d.querySelector(\".pfold[data-ready]\"))d.classList.remove(\"folds\")}window.addEventListener(\"load\",function(){setTimeout(off,3000)});setTimeout(off,20000)})()"}}],["$","noscript",null,{"dangerouslySetInnerHTML":{"__html":"$3"}}]]}],"$L4"]}]]}],"isPartial":"$@5","staleTime":"$6","varyParams":null}],"isUpgradeableISRFallback":false,"a":"$@7","rootVaryParams":null,"needsRuntimeRequest":"$@8"}
+0:{"buildId":"4HeJxJMNBDinnmO6hduKD","data":[{"rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/kim-seonil-portfolio/_next/static/chunks/2krvl7gyhje4k.css","precedence":"next"}],["$","script","script-0",{"src":"/kim-seonil-portfolio/_next/static/chunks/453cd1tlxz5wi.js","async":true}],["$","script","script-1",{"src":"/kim-seonil-portfolio/_next/static/chunks/28z4pmukzfzfi.js","async":true}]],["$","html",null,{"lang":"ko","data-edition":"general","suppressHydrationWarning":true,"children":[["$","head",null,{"children":[["$","script",null,{"dangerouslySetInnerHTML":{"__html":"$2"}}],["$","script",null,{"dangerouslySetInnerHTML":{"__html":"(function(){var d=document.documentElement;d.classList.add(\"folds\");function off(){if(!d.querySelector(\".pfold[data-ready]\"))d.classList.remove(\"folds\")}window.addEventListener(\"load\",function(){setTimeout(off,3000)});setTimeout(off,20000)})()"}}],["$","noscript",null,{"dangerouslySetInnerHTML":{"__html":"$3"}}]]}],"$L4"]}]]}],"isPartial":"$@5","staleTime":"$6","varyParams":null}],"isUpgradeableISRFallback":false,"a":"$@7","rootVaryParams":null,"needsRuntimeRequest":"$@8"}
 9:I[19709,["/kim-seonil-portfolio/_next/static/chunks/453cd1tlxz5wi.js","/kim-seonil-portfolio/_next/static/chunks/28z4pmukzfzfi.js"],"MotionRuntime"]
 a:I[42880,["/kim-seonil-portfolio/_next/static/chunks/453cd1tlxz5wi.js","/kim-seonil-portfolio/_next/static/chunks/28z4pmukzfzfi.js"],"default"]
 b:I[10569,["/kim-seonil-portfolio/_next/static/chunks/453cd1tlxz5wi.js","/kim-seonil-portfolio/_next/static/chunks/28z4pmukzfzfi.js"],"default"]
@@ -12,7 +12,79 @@ f:I[39756,["/kim-seonil-portfolio/_next/static/chunks/453cd1tlxz5wi.js","/kim-se
 10:I[37457,["/kim-seonil-portfolio/_next/static/chunks/453cd1tlxz5wi.js","/kim-seonil-portfolio/_next/static/chunks/28z4pmukzfzfi.js"],"default"]
 11:I[22016,["/kim-seonil-portfolio/_next/static/chunks/453cd1tlxz5wi.js","/kim-seonil-portfolio/_next/static/chunks/28z4pmukzfzfi.js","/kim-seonil-portfolio/_next/static/chunks/2jwubkj8eicdb.js"],""]
 12:I[36621,["/kim-seonil-portfolio/_next/static/chunks/453cd1tlxz5wi.js","/kim-seonil-portfolio/_next/static/chunks/28z4pmukzfzfi.js"],"SiteFooter"]
-4:["$","body",null,{"className":"content-protected","children":[["$","$L9",null,{}],["$","$La",null,{}],["$","$Lb",null,{}],["$","div",null,{"className":"scroll-progress","aria-hidden":"true"}],["$","$Lc",null,{}],["$","$Ld",null,{}],["$","$Le",null,{}],["$","main",null,{"id":"main","children":["$","$Lf",null,{"parallelRouterKey":"children","template":["$","$L10",null,{}],"notFound":[["$","section",null,{"className":"flex min-h-[calc(100vh-72px)] items-center bg-bg-alt pt-[72px]","children":["$","div",null,{"className":"mx-auto w-full max-w-[1240px] px-5 sm:px-10 ","children":["$","div",null,{"className":"max-w-[38rem] border-t-2 border-accent py-12 sm:py-16","children":[["$","p",null,{"className":"tnum text-caption font-semibold text-accent","children":"404"}],["$","h1",null,{"className":"mt-4 text-[2rem] leading-[1.25] font-bold tracking-normal sm:text-h1","children":"요청한 페이지를 찾을 수 없습니다."}],["$","p",null,{"className":"mt-4 text-small text-ink-2 sm:text-body","children":[["$","span",null,{"className":"block","children":"주소가 바뀌었거나 삭제된 페이지입니다."}],["$","span",null,{"className":"block","children":"포트폴리오의 대표 사례 목록에서 다시 확인해 주세요."}]]}],["$","$L11",null,{"href":"/#projects","className":"mt-8 inline-flex min-h-[52px] items-center justify-center rounded-card bg-accent px-6 text-small font-semibold text-white transition-colors hover:bg-accent-hover","children":"대표 사례로 돌아가기"}]]}]}]}],[]]}]}],["$","$L12",null,{"name":"김선일","nameEn":"KIM SEONILL","emailPrimary":"makefair@naver.com","linkedin":"https://www.linkedin.com/in/sunil-kim/"}],null]}]
+13:T19f1,(function(){
+var U="https://script.google.com/macros/s/AKfycbyluEFS5alldrSJPXK3XQ7m3knceKLMqITxsEdnNafQGSzSmt746AvPUrToD3hgL8zhIw/exec",S="general";
+try{if(navigator.globalPrivacyControl===true)return}catch(e){}
+var q=[],sid,seq=0,maxD=0,t0=Date.now(),sect="",dd={},wd={};
+try{sid=sessionStorage.getItem("_ins");if(!sid){sid=Date.now().toString(36)+Math.random().toString(36).slice(2,8);sessionStorage.setItem("_ins",sid)}}
+catch(e){sid="x"+Math.random().toString(36).slice(2,8)}
+/* 수신처 코드. 지원처마다 다른 주소(?r=xxxx)를 보내므로, 열린 코드가 곧 누가 봤는지다.
+   IP 로 회사를 추정하는 방법과 달리 헛짚지 않는다 — 그 주소를 받은 곳은 한 곳뿐이기 때문이다.
+   첫 페이지에서만 주소에 붙어 있으므로 sessionStorage 에 넣어 방문 내내 들고 다닌다. */
+var R="";
+try{var m=location.search.match(/[?&]r=([A-Za-z0-9_-]{1,24})/);
+if(m){R=m[1];sessionStorage.setItem("_ins_r",R)}else{R=sessionStorage.getItem("_ins_r")||""}}catch(e){}
+function send(){if(!q.length)return;var b=JSON.stringify({s:S,sid:sid,r:R,tz:-new Date().getTimezoneOffset(),v:q});q=[];
+try{if(navigator.sendBeacon&&navigator.sendBeacon(U,new Blob([b],{type:"text/plain;charset=UTF-8"})))return}catch(e){}
+try{fetch(U,{method:"POST",body:b,mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=UTF-8"}})}catch(e){}}
+function ev(n,d){var o={e:n,t:Date.now()-t0,p:location.pathname,i:++seq};for(var k in d)o[k]=d[k];q.push(o);if(q.length>=14)send()}
+/* 화면 크기는 innerWidth 만 믿으면 안 된다 — 스크립트가 도는 순간 0 이 잡히는 창이 있다.
+   실측에서 w:0,h:0 으로 들어왔다. clientWidth 를 함께 보고 큰 값을 쓴다. */
+var W=0,H2=0;
+function vw(){var v=Math.max(innerWidth||0,(document.documentElement||{}).clientWidth||0);if(v>W)W=v;return v}
+function vh(){var v=Math.max(innerHeight||0,(document.documentElement||{}).clientHeight||0);if(v>H2)H2=v;return v}
+ev("view",{r:(document.referrer||"").slice(0,180),w:vw(),h:vh(),dpr:devicePixelRatio||1,l:(navigator.language||"").slice(0,8)});
+/* 진입은 바로 보낸다. 묶음이 찰 때까지 기다리면, 열자마자 닫은 방문이 통째로 사라진다.
+   그 방문이야말로 알아야 하는 것이다. 이후 20초마다 한 번씩 비운다 — 탭이 강제 종료돼도
+   마지막 20초분만 잃는다. pagehide 하나에만 기대면 모바일에서 통째로 날아간다. */
+send();
+setInterval(send,20000);
+/* 스크롤 깊이. rAF 를 쓰지 않는다 — 그려지지 않는 창에서는 아예 돌지 않는다. */
+var tick=0;
+function depth(){var n=Date.now();if(n-tick<180)return;tick=n;
+var H=document.documentElement.scrollHeight,V=vh(),d=H>V?Math.min(100,Math.round((scrollY+V)/H*100)):100;
+if(d>maxD)maxD=d;
+[25,50,75,100].forEach(function(m){if(maxD>=m&&!dd[m]){dd[m]=1;ev("depth",{d:m})}})}
+addEventListener("scroll",depth,{passive:true});addEventListener("resize",depth,{passive:true});depth();
+/* 체류. 탭이 숨으면 시간을 세지 않는다 — 열어만 두고 안 본 시간을 읽은 시간으로 세면 안 된다. */
+var vis=Date.now(),acc=0;
+function seen(){return Math.round((acc+(document.hidden?0:Date.now()-vis))/1000)}
+setInterval(function(){try{moved()}catch(e){}var s=seen();[10,30,60,180].forEach(function(m){if(s>=m&&!wd[m]){wd[m]=1;ev("dwell",{d:m})}})},2000);
+addEventListener("visibilitychange",function(){if(document.hidden){acc+=Date.now()-vis;send()}else{vis=Date.now()}});
+/* 섹션 도달. 본문에서 실제로 높이가 있는 칸만 본다 — 각주·마퀴 앵커를 세면 퍼널이 더러워진다. */
+try{var io=new IntersectionObserver(function(es){es.forEach(function(x){
+if(x.isIntersecting&&!x.target.__s){x.target.__s=1;sect=x.target.id;ev("sect",{k:x.target.id})}})},{threshold:0.4})}catch(e){}
+function scan(){try{[].forEach.call(document.querySelectorAll("main [id]"),function(el){
+if(!el.__s&&el.getBoundingClientRect().height>=240)io.observe(el)})}catch(e){}}
+scan();
+/* 앱 안 이동(next/link)은 문서를 새로 읽지 않아 이 스크립트가 다시 돌지 않는다. 2026-11-04 실측에서 홈 → 사례로 옮겨 간 뒤
+   사례 화면의 view · sect 가 하나도 없었고 읽은 시간이 홈에 합쳐졌다. 주소가 바뀌면 새 화면의 view 를 남기고
+   깊이 표시를 화면마다 새로 잡고 새 화면의 칸을 다시 찾는다. 유입 경로(r)는 비운다 — 안에서 옮긴 것이라 외부 유입이 아니다.
+   history 를 감싸는 것에 더해, 놓친 이동은 2초마다 도는 체류 확인에서 주소를 비교해 잡는다. */
+var P=location.pathname;
+function moved(){if(location.pathname===P)return;P=location.pathname;maxD=0;dd={};sect="";
+ev("view",{r:"",w:vw(),h:vh(),dpr:devicePixelRatio||1,l:(navigator.language||"").slice(0,8),nav:1});send();
+setTimeout(function(){scan();tick=0;depth()},700);setTimeout(scan,2500)}
+try{["pushState","replaceState"].forEach(function(f){var o=history[f];if(typeof o!=="function")return;
+history[f]=function(){var x=o.apply(this,arguments);try{moved()}catch(e){}return x}})}catch(e){}
+addEventListener("popstate",function(){setTimeout(moved,0)});
+/* 링크 클릭. 어디로 나갔는지가 이 사이트의 전환이다. */
+addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a)return;
+var h=a.getAttribute("href")||"",g=h.toLowerCase(),k="link",F=function(x){return g.indexOf(x)>-1};
+/* 정규식을 쓰지 않는다. 이 문자열은 템플릿 리터럴 안에 있어서 역슬래시가 한 겹 벗겨지고,
+   그러면 //resume/ 이 //resume/ 로 나가 스크립트 전체가 SyntaxError 로 죽는다. 실제로 죽었다. */
+if(g.indexOf("mailto:")===0)k="mail";else if(F(".pdf"))k="pdf";else if(F("/evidence/"))k="evidence";
+else if(F("/resume"))k="resume";else if(F("/projects/"))k="case";
+else if((g.indexOf("http://")===0||g.indexOf("https://")===0)&&h.indexOf(location.host)<0)k="external";
+ev("out",{k:k,u:h.slice(0,140),x:(a.textContent||"").trim().slice(0,40)});if(k!=="case")send()},true);
+/* 이탈. 마지막 깊이·읽은 시간·마지막으로 본 칸을 함께 남긴다. */
+/* pagehide 와 beforeunload 가 둘 다 발화해서 end 가 두 번 들어왔다. 한 번만 남긴다. */
+var done=0;
+/* 화면 크기를 여기서도 보낸다. 진입 순간에는 아직 0 인 창이 있어서 view 만으로는 못 믿는다. */
+function bye(){if(done)return;done=1;vw();vh();ev("end",{d:maxD,sec:seen(),k:sect,w:W,h:H2});send()}
+addEventListener("pagehide",bye);
+addEventListener("beforeunload",bye);
+})();4:["$","body",null,{"className":"content-protected","children":[["$","$L9",null,{}],["$","$La",null,{}],["$","$Lb",null,{}],["$","div",null,{"className":"scroll-progress","aria-hidden":"true"}],["$","$Lc",null,{}],["$","$Ld",null,{}],["$","$Le",null,{}],["$","main",null,{"id":"main","children":["$","$Lf",null,{"parallelRouterKey":"children","template":["$","$L10",null,{}],"notFound":[["$","section",null,{"className":"flex min-h-[calc(100vh-72px)] items-center bg-bg-alt pt-[72px]","children":["$","div",null,{"className":"mx-auto w-full max-w-[1240px] px-5 sm:px-10 ","children":["$","div",null,{"className":"max-w-[38rem] border-t-2 border-accent py-12 sm:py-16","children":[["$","p",null,{"className":"tnum text-caption font-semibold text-accent","children":"404"}],["$","h1",null,{"className":"mt-4 text-[2rem] leading-[1.25] font-bold tracking-normal sm:text-h1","children":"요청한 페이지를 찾을 수 없습니다."}],["$","p",null,{"className":"mt-4 text-small text-ink-2 sm:text-body","children":[["$","span",null,{"className":"block","children":"주소가 바뀌었거나 삭제된 페이지입니다."}],["$","span",null,{"className":"block","children":"포트폴리오의 대표 사례 목록에서 다시 확인해 주세요."}]]}],["$","$L11",null,{"href":"/#projects","className":"mt-8 inline-flex min-h-[52px] items-center justify-center rounded-card bg-accent px-6 text-small font-semibold text-white transition-colors hover:bg-accent-hover","children":"대표 사례로 돌아가기"}]]}]}]}],[]]}]}],["$","$L12",null,{"name":"김선일","nameEn":"KIM SEONILL","emailPrimary":"makefair@naver.com","linkedin":"https://www.linkedin.com/in/sunil-kim/"}],["$","script",null,{"id":"insight","dangerouslySetInnerHTML":{"__html":"$13"}}]]}]
 6:300
 8:true
 6:C

@@ -24,7 +24,7 @@
  * 비어 있으면 꺼진다. 환경변수 NEXT_PUBLIC_INSIGHT_URL 이 있으면 그것이 먼저다(로컬 수집기로 시험할 때) —
  * 그런 산출물은 validate_export 가 일반판에서 막는다(Apps Script 주소가 아니면 배포하지 않는다).
  */
-export const GENERAL_INSIGHT_URL = "";
+export const GENERAL_INSIGHT_URL = "https://script.google.com/macros/s/AKfycbyluEFS5alldrSJPXK3XQ7m3knceKLMqITxsEdnNafQGSzSmt746AvPUrToD3hgL8zhIw/exec";
 export const INSIGHT_URL =
   process.env.NEXT_PUBLIC_INSIGHT_URL ?? (process.env.NEXT_PUBLIC_EDITION === "general" ? GENERAL_INSIGHT_URL : "");
 
@@ -37,6 +37,9 @@ export function insightScript(url: string, site: string): string {
   return `(function(){
 var U=${JSON.stringify(url)},S=${JSON.stringify(site)};
 try{if(navigator.globalPrivacyControl===true)return}catch(e){}
+/* 자동 검수(Playwright · Lighthouse · runtime_evidence)와 로컬 미리보기는 세지 않는다 — 켠 첫날(2026.11.21) 부터 시트가 사람 방문만 담게.
+   자동화된 브라우저는 navigator.webdriver 가 true 다. 사람의 브라우저는 false 다. */
+try{if(navigator.webdriver||["localhost","127.0.0.1","0.0.0.0","[::1]"].indexOf(location.hostname)>-1)return}catch(e){}
 var q=[],sid,seq=0,maxD=0,t0=Date.now(),sect="",dd={},wd={};
 try{sid=sessionStorage.getItem("_ins");if(!sid){sid=Date.now().toString(36)+Math.random().toString(36).slice(2,8);sessionStorage.setItem("_ins",sid)}}
 catch(e){sid="x"+Math.random().toString(36).slice(2,8)}
