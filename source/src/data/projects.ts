@@ -2910,7 +2910,8 @@ export const otherResults: OtherResult[] = [
   {
     category: "D2C",
     brand: "생활백서",
-    period: "2024.09 – 2025.03",
+    /* 끝 달 2025.03 → 2025.10 (2026.11.21 주인 확인 — 통합본보다 주인 말이 우선이다). 아래 후지필름BI 도 같다 */
+    period: "2024.09 – 2025.10",
     contribution: 100,
     summary: "확장소재 쇼핑정보와 GFA 맞춤타겟으로 고관여 리타겟팅 구간을 세분화했습니다.",
     metrics: [
@@ -2921,7 +2922,7 @@ export const otherResults: OtherResult[] = [
   {
     category: "B2B Content",
     brand: "후지필름BI",
-    period: "2024.09 – 2025.03",
+    period: "2024.09 – 2025.10",
     contribution: 100,
     summary:
       "제품 설명만 반복하지 않고 YouTube·Facebook·Instagram의 소비 방식에 맞춰 메시지 길이와 후속 리타겟팅 경로를 분리했습니다.",
