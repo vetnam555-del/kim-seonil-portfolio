@@ -147,8 +147,8 @@
    - 문서: 두 문서를 저장된 글에 맞췄다(`LINKEDIN.md` 는 v5 — 지금 프로필 값이 원문). 붙여넣기 페이지 두 개도 같은 주소에 다시 올리고 지문을 찍었다(a0e04283a391).
    - 이 작업은 주인 Mac 에서 했다 — Node 22 · 파이썬 도구를 세션 폴더에 따로 받아 썼고, 브라우저 검수는 Mac 의 Chrome 으로 돌렸다(`cloud_chromium.sh` 아님).
    - 사이트의 링크드인 주소를 `https://www.linkedin.com/in/sunil-kim/` 으로 바꿨다(`site.ts`). 플랫폼의 뉴발란스 '월 10억+'는 원티드 · 잡코리아 · 사람인(11-22) 모두 '월 5~10억+'로 고쳤다. 소개는 리멤버 · 원티드 · 사람인이 같은 232자 글이다.
-   - 아직 push 하지 못했다 — 이 Mac 에 GitHub 로그인 정보가 없다. 커밋은 브랜치 `claude/newbalance-30-profile-docs` 에 있다.
-   - 남은 것: push(주인 GitHub 로그인) · O-22(원티드 재직 기간 · 경력기술서 판 · 학력 · 자격증 · 덱 PDF 숫자).
+   - 2026-11-22 브랜치 `claude/newbalance-30-profile-docs` 를 push 하고 PR #48 을 열었다(주인 Mac 에서 GitHub 공식 도구 gh 로 기기 인증 — 세션 폴더 `.tools/gh`). 아직 `main` 에 합치지 않았다.
+   - 남은 것: PR #48 검토 · 합치기 · 라이브 확인(`npm run health`) · O-22(원티드 재직 기간 · 경력기술서 판 · 학력 · 자격증 · 덱 PDF 숫자).
 
 ## 다음 할 일
 
