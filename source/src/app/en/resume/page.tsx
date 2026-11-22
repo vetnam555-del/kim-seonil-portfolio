@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { Fragment } from "react";
 import { CTAButton } from "@/components/ui";
+import { splitList } from "@/lib/splitList";
 import { OG_VERSION, robotsFor } from "@/data/edition";
 import { langAlternates } from "@/data/en/alternates";
 import { ogBase } from "@/data/og";
@@ -58,8 +59,8 @@ export const metadata: Metadata = {
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="grid grid-cols-1 gap-1 border-t border-line-2 py-3 sm:grid-cols-[112px_1fr] sm:gap-5">
-      <dt className="text-caption font-semibold text-ink-3">{label}</dt>
+    <div className="grid grid-cols-1 gap-1 border-t border-line-2 py-3 sm:grid-cols-[140px_1fr] sm:gap-5">
+      <dt className="text-caption font-semibold text-ink-3 sm:whitespace-nowrap">{label}</dt>
       <dd className="text-caption sm:text-small">{children}</dd>
     </div>
   );
@@ -223,7 +224,12 @@ export default function ResumePageEn() {
                 {c.clients ? <Row label="Key clients">{c.clients}</Row> : null}
                 {c.highlight ? (
                   <Row label="Key results">
-                    <span className="font-semibold text-up">{c.highlight}</span>
+                    {/* 가운뎃점으로 이은 한 문단이었다 — 한 줄에 하나씩(2026.11.21 · 괄호 안 단서는 나누지 않음) */}
+                    <ul className="flex flex-col gap-1">
+                      {splitList(c.highlight).map((h) => (
+                        <li key={h} className="font-semibold text-up">{h}</li>
+                      ))}
+                    </ul>
                   </Row>
                 ) : null}
               </dl>
@@ -249,8 +255,9 @@ export default function ResumePageEn() {
             </div>
             <p className="mt-2 text-caption text-balance text-ink-2 sm:text-small">{p.tldr}</p>
             <dl className="mt-3">
-              <Row label="Role">
-                {p.role} · Contribution <strong className="font-semibold">{p.contributionNote ?? `${p.contribution}%`}</strong>
+              <Row label="Role">{p.role}</Row>
+              <Row label="Contribution">
+                <strong className="font-semibold">{p.contributionNote ?? `${p.contribution}%`}</strong>
               </Row>
               <Row label={p.contextLabel ?? "Channels"}>{p.channels.join("\u00a0· ")}</Row>
               <Row label="Evidence">{p.evidenceLabel}</Row>
@@ -427,7 +434,8 @@ export default function ResumePageEn() {
         <div className="no-print">
           <H2>Awards&nbsp;· Selections</H2>
           <dl className="mt-4">
-            {awardsEn.map((a) => (
+            {/* 마케터 이전(2022 이전) 수상은 바로 아래 '마케터 이전' 칸에 있다 — 두 번 적지 않는다(2026.11.21) */}
+            {awardsEn.filter((a) => Number(a.year) >= 2022).map((a) => (
               <Row key={`${a.year}-${a.detail}`} label={a.year}>
                 <strong className="font-semibold">{a.name}</strong>
                 <span className="ml-2 text-ink-3">{a.detail}</span>
@@ -441,7 +449,12 @@ export default function ResumePageEn() {
           <dl className="mt-4">
             {awardsArchiveEn.map((a) => (
               <Row key={a.year} label={a.year}>
-                {a.items}
+                {/* 한 해의 수상을 한 문단에 이어 쓰던 것을 한 줄에 하나씩(2026.11.21) */}
+                <ul className="flex flex-col gap-1">
+                  {splitList(a.items).map((it) => (
+                    <li key={it}>{it}</li>
+                  ))}
+                </ul>
               </Row>
             ))}
           </dl>

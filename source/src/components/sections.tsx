@@ -9,6 +9,7 @@ import EmailCopyButton from "@/components/EmailCopyButton";
 import MarqueePause from "@/components/MarqueePause";
 import PhoneFold from "@/components/PhoneFold";
 import { evidenceSize } from "@/lib/evidence-size";
+import { splitList } from "@/lib/splitList";
 import {
   AnchorStub,
   Badge,
@@ -1094,14 +1095,7 @@ export function BuiltByMe() {
                                   {sentence}
                                 </span>
                               ))}
-                              <a
-                                href={w.href}
-                                target="_blank"
-                                rel="noopener"
-                                className="mt-1 inline-block font-semibold text-accent hover:underline"
-                              >
-                                {w.linkLabel} ↗
-                              </a>
+                              {/* 같은 링크가 바로 위 카드와 그림에 이미 있다 — 캡션 끝의 세 번째 링크를 뺐다(2026.11.21) */}
                             </figcaption>
                           ) : null}
                         </figure>
@@ -1912,7 +1906,7 @@ const creditRecords = (() => {
   const archive = awardsArchive.map((a) => {
     const [from, to] = a.year.split("–").map(Number);
     const inRange = press.filter((v) => recordYear(v.title) >= from && recordYear(v.title) <= (to || from));
-    const items = a.items.split("\u00a0· ").map((text) => {
+    const items = splitList(a.items).map((text) => {
       const record = inRange.find((v) => !used.has(v.title) && text.includes(recordStem(v.title)));
       if (record) used.add(record.title);
       return { text, record };
@@ -1924,27 +1918,6 @@ const creditRecords = (() => {
   if (left.length) throw new Error(`공개 기록이 수상 이력에 붙지 않았다: ${left.map((v) => v.title).join(", ")}`);
   return { marketing, archive };
 })();
-
-/** "A\u00a0· B(C\u00a0· D)" 를 괄호 밖의 구분자에서만 나눈다 — 괄호 안 단서(팀 성과 등)가 따로 떨어지지 않게 */
-function splitOutsideParens(text: string): string[] {
-  const out: string[] = [];
-  let depth = 0;
-  let cur = "";
-  for (let i = 0; i < text.length; i++) {
-    const ch = text[i];
-    if (ch === "(") depth++;
-    if (ch === ")") depth = Math.max(0, depth - 1);
-    if (depth === 0 && text.startsWith("\u00a0· ", i)) {
-      out.push(cur);
-      cur = "";
-      i += 2;
-      continue;
-    }
-    cur += ch;
-  }
-  out.push(cur);
-  return out.filter(Boolean);
-}
 
 function RecordLinks({ v, compact = false }: { v: VerificationItem; compact?: boolean }) {
   if (!v.href && !v.secondaryHref) return null;
@@ -2000,7 +1973,7 @@ export function Credits() {
                   {/* 대표 성과는 가운뎃점으로 이어 쓴 한 문단이었다 — 한 줄에 하나씩(2026.11.21). 아래 연도별 · 업무 줄보다 진하게 */}
                   {c.highlight ? (
                     <ul className="mt-2 flex flex-col gap-1">
-                      {splitOutsideParens(c.highlight).map((h) => (
+                      {splitList(c.highlight).map((h) => (
                         <li
                           key={h}
                           className="relative pl-3 text-mono leading-[1.55] text-white before:absolute before:left-0 before:top-[0.62em] before:h-1 before:w-1 before:rounded-full before:bg-mark"

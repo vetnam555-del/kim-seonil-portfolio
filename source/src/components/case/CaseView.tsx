@@ -759,6 +759,18 @@ function ResultChain({ project, detail, t }: { project: Project; detail: Project
     if (!metric) throw new Error(`${project.slug}\u00a0· kpi 라벨 "${label}" 이 results 에 없다`);
     return metric;
   };
+  /*
+   * 2026.11.21 — 아래 상세 격자가 이 카드와 같은 숫자를 한 번 더 그리던 것을 뺐다(주인 "정리 안 된 곳 샅샅이").
+   * 그래서 각 값의 집계 단서(note)를 여기서 보인다. 여러 값이 같은 단서를 쓰면(제이에스티나 증감률 4개)
+   * 값마다 되풀이하지 않고 카드 아래에 한 번만 적는다.
+   */
+  const allLabels = kpi.stages.flatMap((stage) => stage.labels);
+  const noteCount = new Map<string, number>();
+  for (const label of allLabels) {
+    const n = metricOf(label).note;
+    if (n) noteCount.set(n, (noteCount.get(n) ?? 0) + 1);
+  }
+  const sharedNotes = [...noteCount].filter(([, c]) => c > 1).map(([n]) => n);
   return (
     <div className="mb-8">
       <p className="mb-3 text-caption font-semibold text-ink-3">{t.chainTitle}</p>
@@ -783,6 +795,9 @@ function ResultChain({ project, detail, t }: { project: Project; detail: Project
                       {metric.before && metric.before !== "기준" ? `${metric.before} → ` : ""}
                       {metric.after}
                     </dd>
+                    {metric.note && noteCount.get(metric.note) === 1 ? (
+                      <dd className="mt-1 text-caption text-balance text-ink-3">{metric.note}</dd>
+                    ) : null}
                   </div>
                 );
               })}
@@ -790,6 +805,9 @@ function ResultChain({ project, detail, t }: { project: Project; detail: Project
           </li>
         ))}
       </ol>
+      {sharedNotes.map((n) => (
+        <p key={n} className="mt-3 text-caption text-ink-3">{n}</p>
+      ))}
       {kpi.note ? <p className="mt-3 text-caption text-ink-3">{kpi.note}</p> : null}
     </div>
   );
@@ -801,15 +819,20 @@ function ResultsDetails({
   t,
   lang,
   primaryLabels,
+  chainLabels,
 }: {
   project: Project;
   detail: Project["detail"];
   t: CaseLabels;
   lang: Lang;
   primaryLabels: Set<string>;
+  /** 위 단계 카드(ResultChain)에 이미 나온 값 — 아래 격자에서는 다시 그리지 않는다(대표 지표 막대는 그대로) */
+  chainLabels: Set<string>;
 }) {
-  const levels = detail.results.filter((metric) => !isIndexDelta(metric));
-  const deltas = detail.results.filter((metric) => isIndexDelta(metric));
+  const notInChain = (metric: Project["detail"]["results"][number]) =>
+    !chainLabels.has(metric.label) || metric.label === project.keyMetric.label;
+  const levels = detail.results.filter((metric) => !isIndexDelta(metric)).filter(notInChain);
+  const deltas = detail.results.filter((metric) => isIndexDelta(metric)).filter(notInChain);
   const hasChart = canChart(project.keyMetric);
   /*
    * 대표 자리에는 수준값만 둔다 — 전이(352→583%) · 절대값(11.9억) · 수준값(808%).
@@ -829,11 +852,11 @@ function ResultsDetails({
       : detail.results;
   const secondaryMetrics =
     project.slug === "jestina"
-      ? detail.results.filter((metric) => !jestinaPrimary.has(metric.label))
+      ? detail.results.filter((metric) => !jestinaPrimary.has(metric.label)).filter(notInChain)
       : [];
   const gridLevels =
     project.slug === "jestina"
-      ? primaryMetrics.filter((metric) => metric.label !== project.keyMetric.label)
+      ? primaryMetrics.filter((metric) => metric.label !== project.keyMetric.label).filter(notInChain)
       : hasChart && levels[0]?.label === project.keyMetric.label
         ? levels.slice(1)
         : levels;
@@ -882,7 +905,8 @@ function ResultsDetails({
         <div className="mt-9 border-t border-line pt-7">
           <p className="text-caption font-semibold text-ink-3">
             <span className="block">{t.jestinaSecondary[0]}</span>
-            <span className="block">{t.jestinaSecondary[1]}</span>
+            {/* 증감률이 위 단계 카드로 옮겨 가 이 칸에 없으면, 증감률 주의 문장도 이 칸에서는 뺀다 */}
+            {secondaryMetrics.some((metric) => isIndexDelta(metric)) ? <span className="block">{t.jestinaSecondary[1]}</span> : null}
           </p>
           <div className="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {secondaryMetrics.map((metric) => (
@@ -1289,7 +1313,14 @@ export function CaseView({ slug, lang = "ko" }: { slug: string; lang?: Lang }) {
               </Block>
               <Block id="case-results" no={noOf("case-results")} label={t.block.results} lede={ledes.results}>
                 {showKpi ? <ResultChain project={p} detail={d} t={t} /> : null}
-                <ResultsDetails project={p} detail={d} t={t} lang={lang} primaryLabels={new Set(jestinaPrimaryLabels.map(toLang))} />
+                <ResultsDetails
+                  project={p}
+                  detail={d}
+                  t={t}
+                  lang={lang}
+                  primaryLabels={new Set(jestinaPrimaryLabels.map(toLang))}
+                  chainLabels={new Set(showKpi && d.kpi ? d.kpi.stages.flatMap((stage) => stage.labels) : [])}
+                />
                 <PlacedFrameworks detail={d} placement="results" t={t} />
                 <EvidenceGallery evidence={placedEvidence("results")} className="mt-8" t={t} />
               </Block>
