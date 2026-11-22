@@ -1200,7 +1200,23 @@ const SKILL_CAPABILITY: Record<string, number> = {
 /* HOW I WORK 세 원칙이 어느 역량에 속하는지 — 01·02 는 측정·예산, 03 은 시스템 */
 
 
-export function SkillsStack() {
+/*
+ * 같은 숫자는 한 쪽에 한 번만(2026.11.22) — 테스트 기록이 같은 쪽(/about/)에 있으면, 숫자가 모두 테스트 기록에 있는 괄호를
+ * 이 줄에서 걷어 내고 '테스트 기록 ↑' 링크를 단다. 기획·운영 범위의 실무 증빙과 경력 줄이 쓴다.
+ */
+function figureLine(line: string, on: boolean, hover: string) {
+  if (!on) return line;
+  const m = moveFiguresToTestLog(line);
+  if (!m.moved) return line;
+  return (
+    <>
+      {m.text}{" "}
+      <a href="#tests" className={`underline underline-offset-2 ${hover}`}>테스트 기록 ↑</a>
+    </>
+  );
+}
+
+export function SkillsStack({ withTestLog = false }: { withTestLog?: boolean } = {}) {
   const skillBlocks =
     EDITION === "general"
       ? generalCover.capabilities.map((cap, ci) => ({
@@ -1328,7 +1344,7 @@ export function SkillsStack() {
                             className="absolute left-0 top-[0.6em] h-1 w-1 rounded-full bg-signal"
                             aria-hidden="true"
                           />
-                          {x}
+                          {figureLine(x, withTestLog, "hover:text-signal")}
                         </li>
                       ))}
                     </ul>
@@ -1941,18 +1957,7 @@ function RecordLinks({ v, compact = false }: { v: VerificationItem; compact?: bo
 
 /** Career + Trust + Contact 세 섹션을 한 장으로 대체하되 정보는 줄이지 않는다. */
 export function Credits({ withTestLog = false }: { withTestLog?: boolean } = {}) {
-  /* 같은 숫자는 한 쪽에 한 번만 — 테스트 기록이 같은 쪽(/about/)에 있으면 그쪽에 있는 숫자 괄호를 여기서 걷고 링크를 단다(2026.11.22) */
-  const figures = (line: string) => {
-    if (!withTestLog) return line;
-    const m = moveFiguresToTestLog(line);
-    if (!m.moved) return line;
-    return (
-      <>
-        {m.text}{" "}
-        <a href="#tests" className="underline underline-offset-2 hover:text-mark">테스트 기록 ↑</a>
-      </>
-    );
-  };
+  const figures = (line: string) => figureLine(line, withTestLog, "hover:text-mark");
   return (
     <Section id="career" tone="ink">
       <Container>
@@ -1987,7 +1992,6 @@ export function Credits({ withTestLog = false }: { withTestLog?: boolean } = {})
                   {c.highlight ? (
                     <ul className="mt-2 flex flex-col gap-1">
                       {splitList(c.highlight).map((h) => {
-                        /* 같은 숫자는 한 쪽에 한 번만 — 테스트 기록이 같은 쪽에 있으면 그쪽 숫자를 여기서 걷어 낸다(2026.11.22) */
                         return (
                           <li
                             key={h}

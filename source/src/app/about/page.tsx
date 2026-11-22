@@ -79,7 +79,7 @@ export default function AboutPage() {
       <OtherResults />
       <BrandWall />
       <BuiltByMe />
-      <SkillsStack />
+      <SkillsStack withTestLog />
       <MyStory />
       <CreativeHistory />
       <WhatsNext />

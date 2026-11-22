@@ -25,8 +25,8 @@ export const testLog: TestLogRow[] = [
   {
     slug: "newbalance",
     brand: "뉴발란스",
-    period: "2026.08 · 5일",
-    compared: "슈즈위크 카카오 비즈보드 소재를 공통 · 상품별 데이 · 첫구매 세 갈래로 나눠 따로 읽음",
+    period: "2026.08\u00a0· 5일",
+    compared: "슈즈위크 카카오 비즈보드 소재를 공통\u00a0· 상품별 데이\u00a0· 첫구매 세 갈래로 나눠 따로 읽음",
     result: "데이 소재 ROAS 681% / 첫구매 소재 85%",
     verdict: "첫구매 제외 제언",
     next: "다음 집행은 매출 볼륨 상위 매체로 한정하자고 제언",
@@ -36,16 +36,16 @@ export const testLog: TestLogRow[] = [
     brand: "대교에듀캠프",
     period: "2026.07 이후",
     compared: "상담 폼 2·3차 — 자격 질문 1개를 되돌리고 문항 순서를 바꿈",
-    result: "정규 서비스 전환율 9.9% → 11.28%",
+    result: "정규 서비스 전환율 11.28%",
     verdict: "유지",
-    next: "6월에 떨어진 품질 지표가 돌아옴",
+    next: "아래 회차(폼 재도입)에서 떨어진 품질 지표가 돌아옴",
   },
   {
     slug: "daekyo",
     brand: "대교에듀캠프",
     period: "2026.05 → 06",
     compared: "마이페이스 Meta 인스턴트폼 재도입(상담 시간 문항 추가)",
-    result: "광고 DB 전환율 2.84% → 7.55% · CPA −47.6% · 정규 서비스 전환율 13.7% → 9.9%",
+    result: "광고 DB 전환율 2.84% → 7.55%\u00a0· CPA −47.6%\u00a0· 정규 서비스 전환율 13.7% → 9.9%",
     verdict: "문항 다시 조정",
     next: "CVR을 최대로 올리는 폼과 DB 품질을 지키는 폼은 같은 폼이 아니었음",
   },
@@ -64,17 +64,17 @@ export const testLog: TestLogRow[] = [
     period: "2024.08",
     compared: "같은 파워링크 T&D 문안을 키워드 그룹별로 비교",
     result: "주얼리 팔찌 그룹 클릭률 1.88% / 자사명 그룹 0.29%",
-    verdict: "문안 유지 · 그룹 이동",
+    verdict: "문안 유지\u00a0· 그룹 이동",
     next: "문안이 아니라 키워드 그룹과의 조합 문제라 붙일 그룹을 옮김",
   },
   {
     slug: "dyson",
     brand: "다이슨",
     period: "2024.02",
-    compared: "유튜브 DP와 동영상을 같은 기간 · 같은 지표로 비교",
-    result: "DP CTR 0.73% · CPC 637원 / 동영상 CTR 2.16% · CPC 160원",
+    compared: "유튜브 DP와 동영상을 같은 기간\u00a0· 같은 지표로 비교",
+    result: "DP CTR 0.73%\u00a0· CPC 637원 / 동영상 CTR 2.16%\u00a0· CPC 160원",
     verdict: "동영상 비중 확대",
-    next: "2월 23일부터 동영상 비중 확대 · 동영상 광고 CTR 2.16% → 3.14%",
+    next: "2월 23일부터 동영상 비중 확대\u00a0· 그 뒤 동영상 광고 CTR 3.14%",
   },
 ];
 
@@ -86,7 +86,7 @@ export const testLogNotes: { slug: string; text: string }[] = [
   },
   {
     slug: "dyson",
-    text: "다이슨 H2 개선안의 10일 단위 순환 테스트(썸네일 · 재생목록 · 커뮤니티 세 변수를 SET A · B · C로)는 실행 전 계획이라 판정이 없습니다.",
+    text: "다이슨 H2 개선안의 10일 단위 순환 테스트(썸네일\u00a0· 재생목록\u00a0· 커뮤니티 세 변수를 SET A\u00a0· B\u00a0· C로)는 실행 전 계획이라 판정이 없습니다.",
   },
 ];
 
@@ -96,7 +96,7 @@ const NUM = /[−+-]?\d[\d,.]*\s?(?:%p|%|원|일)?/g;
 for (const row of EDITION === "general" ? testLog : []) {
   const p = projects.find((x) => x.slug === row.slug);
   if (!p) throw new Error(`testLog: 사례 ${row.slug} 가 없습니다`);
-  const hay = JSON.stringify(p).replace(/\\u00a0/g, " ");
+  const hay = JSON.stringify(p).replace(/\\u00a0/g, "\u00a0");
   for (const field of [row.result, row.next]) {
     for (const n of field.match(NUM) ?? []) {
       if (!hay.includes(n.trim())) throw new Error(`testLog: ${row.slug} 의 "${n.trim()}" 가 사례 데이터에 없습니다`);
