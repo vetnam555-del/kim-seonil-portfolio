@@ -2,4 +2,4 @@
 :HL["/kim-seonil-portfolio/evidence/cover-jestina-1.webp","image"]
 :HL["/kim-seonil-portfolio/evidence/cover-jestina-2.webp","image"]
 :HL["/kim-seonil-portfolio/evidence/cover-jestina-3.webp","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"projects","param":null,"prefetchHints":4160,"slots":{"children":{"name":"slug","param":{"type":"d","key":"jestina","siblings":[]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"oDRdJ9Mt-U_24iw0_nkk_"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"projects","param":null,"prefetchHints":4160,"slots":{"children":{"name":"slug","param":{"type":"d","key":"jestina","siblings":[]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"KxhkeAKqjM34ivp1pjXv6"}
