@@ -1941,6 +1941,18 @@ function RecordLinks({ v, compact = false }: { v: VerificationItem; compact?: bo
 
 /** Career + Trust + Contact 세 섹션을 한 장으로 대체하되 정보는 줄이지 않는다. */
 export function Credits({ withTestLog = false }: { withTestLog?: boolean } = {}) {
+  /* 같은 숫자는 한 쪽에 한 번만 — 테스트 기록이 같은 쪽(/about/)에 있으면 그쪽에 있는 숫자 괄호를 여기서 걷고 링크를 단다(2026.11.22) */
+  const figures = (line: string) => {
+    if (!withTestLog) return line;
+    const m = moveFiguresToTestLog(line);
+    if (!m.moved) return line;
+    return (
+      <>
+        {m.text}{" "}
+        <a href="#tests" className="underline underline-offset-2 hover:text-mark">테스트 기록 ↑</a>
+      </>
+    );
+  };
   return (
     <Section id="career" tone="ink">
       <Container>
@@ -1976,19 +1988,12 @@ export function Credits({ withTestLog = false }: { withTestLog?: boolean } = {})
                     <ul className="mt-2 flex flex-col gap-1">
                       {splitList(c.highlight).map((h) => {
                         /* 같은 숫자는 한 쪽에 한 번만 — 테스트 기록이 같은 쪽에 있으면 그쪽 숫자를 여기서 걷어 낸다(2026.11.22) */
-                        const m = withTestLog ? moveFiguresToTestLog(h) : { text: h, moved: false };
                         return (
                           <li
                             key={h}
                             className="relative pl-3 text-mono leading-[1.55] text-white before:absolute before:left-0 before:top-[0.62em] before:h-1 before:w-1 before:rounded-full before:bg-mark"
                           >
-                            {m.text}
-                            {m.moved ? (
-                              <>
-                                {" "}
-                                <a href="#tests" className="underline underline-offset-2 hover:text-mark">테스트 기록 ↑</a>
-                              </>
-                            ) : null}
+                            {figures(h)}
                           </li>
                         );
                       })}
@@ -2007,7 +2012,7 @@ export function Credits({ withTestLog = false }: { withTestLog?: boolean } = {})
                           key={t}
                           className="relative pl-3 text-mono leading-[1.55] text-on-dark before:absolute before:left-0 before:top-[0.78em] before:h-px before:w-1.5 before:bg-on-dark"
                         >
-                          {t}
+                          {figures(t)}
                         </li>
                       ))}
                     </ul>
@@ -2024,7 +2029,7 @@ export function Credits({ withTestLog = false }: { withTestLog?: boolean } = {})
                           key={work}
                           className="relative pl-3 text-mono leading-[1.55] text-on-dark before:absolute before:left-0 before:top-[0.78em] before:h-px before:w-1.5 before:bg-on-dark"
                         >
-                          {work}
+                          {figures(work)}
                         </li>
                       ))}
                     </ul>
