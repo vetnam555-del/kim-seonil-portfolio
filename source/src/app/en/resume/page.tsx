@@ -60,7 +60,8 @@ export const metadata: Metadata = {
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="grid grid-cols-1 gap-1 border-t border-line-2 py-3 sm:grid-cols-[140px_1fr] sm:gap-5">
-      <dt className="text-caption font-semibold text-ink-3 sm:whitespace-nowrap">{label}</dt>
+      {/* 기간(2017.03 – 2022.02)만 한 줄로 묶는다 — 긴 브랜드 이름 라벨은 칸 안에서 꺾인다 */}
+      <dt className={`text-caption font-semibold text-ink-3${/^\d{4}/.test(label) ? " sm:whitespace-nowrap" : ""}`}>{label}</dt>
       <dd className="text-caption sm:text-small">{children}</dd>
     </div>
   );
