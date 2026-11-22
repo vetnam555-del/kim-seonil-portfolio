@@ -3,6 +3,7 @@ import Link from "next/link";
 import BrandWall from "@/components/BrandWall";
 import CreativeHistory from "@/components/CreativeHistory";
 import OtherResults from "@/components/OtherResults";
+import TestLog from "@/components/TestLog";
 import { BuiltByMe, Credits, HowIWork, MyStory, SkillsStack, WhatsNext } from "@/components/sections";
 import { Container } from "@/components/ui";
 import { EDITION } from "@/data/edition";
@@ -17,7 +18,7 @@ import { EDITION } from "@/data/edition";
  */
 export const metadata: Metadata = {
   title: "일하는 방식과 경력",
-  description: "일하는 방식, 추가 운영 성과, 운영한 광고주, 업무 자동화 전체, 기획·운영 범위, 걸어온 이야기와 창업 기록, 경력·수상.",
+  description: "일하는 방식, 테스트 기록, 추가 운영 성과, 운영한 광고주, 업무 자동화 전체, 기획·운영 범위, 걸어온 이야기와 창업 기록, 경력·수상.",
   robots: { index: false, follow: false, noarchive: true, nosnippet: true },
 };
 
@@ -36,6 +37,7 @@ export const viewport: Viewport = { themeColor: "#ffffff" };
  */
 const JUMPS = [
   { href: "#method", label: "일하는 방식" },
+  { href: "#tests", label: "테스트 기록" },
   { href: "#more-results", label: "추가 운영 성과" },
   { href: "#brands", label: "운영한 광고주" },
   { href: "#automation", label: "업무 자동화" },
@@ -63,7 +65,7 @@ export default function AboutPage() {
         <div className="folio-wrap">
           <Link href="/" className="folio-link-quiet">← 홈으로</Link>
           <h1 className="folio-h2">일하는 방식과 경력</h1>
-          <p className="folio-lead">일하는 방식, 홈에 싣지 못한 운영 성과와 자동화 전체, 경력과 수상, 여기까지 온 이야기를 모았습니다.</p>
+          <p className="folio-lead">일하는 방식과 테스트 기록, 홈에 싣지 못한 운영 성과와 자동화 전체, 경력과 수상, 여기까지 온 이야기를 모았습니다.</p>
           <nav aria-label="이 페이지 바로가기" className="folio-jumps">
             {JUMPS.map((j) => (
               <a key={j.href} href={j.href}>{j.label}</a>
@@ -72,14 +74,16 @@ export default function AboutPage() {
         </div>
       </section>
       <HowIWork />
+      {/* 2026.11.22 R-11 — 일하는 방식이 말한 테스트를 바로 아래에서 줄로 보여 준다 */}
+      <TestLog />
       <OtherResults />
       <BrandWall />
       <BuiltByMe />
-      <SkillsStack />
+      <SkillsStack withTestLog />
       <MyStory />
       <CreativeHistory />
       <WhatsNext />
-      <Credits />
+      <Credits withTestLog />
     </div>
   );
 }

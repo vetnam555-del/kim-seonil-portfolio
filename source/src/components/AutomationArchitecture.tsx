@@ -60,7 +60,7 @@ const TXT = {
     ],
     systems: [
       "Inventory auto-ops\u00a0· up to 900 per run",
-      "Report engine\u00a0· 38 media aliases mapped",
+      "Report engine\u00a0· 38 ad-platform name variants mapped",
       "Anomaly monitoring\u00a0· 3 checks",
       "Ad-spend settlement\u00a0· up to 84 a month",
       "Monthly report PDF\u00a0· auto-sent",

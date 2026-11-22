@@ -10,6 +10,7 @@ import MarqueePause from "@/components/MarqueePause";
 import PhoneFold from "@/components/PhoneFold";
 import { evidenceSize } from "@/lib/evidence-size";
 import { splitList } from "@/lib/splitList";
+import { moveFiguresToTestLog } from "@/data/testLog";
 import {
   AnchorStub,
   Badge,
@@ -1199,7 +1200,23 @@ const SKILL_CAPABILITY: Record<string, number> = {
 /* HOW I WORK 세 원칙이 어느 역량에 속하는지 — 01·02 는 측정·예산, 03 은 시스템 */
 
 
-export function SkillsStack() {
+/*
+ * 같은 숫자는 한 쪽에 한 번만(2026.11.22) — 테스트 기록이 같은 쪽(/about/)에 있으면, 숫자가 모두 테스트 기록에 있는 괄호를
+ * 이 줄에서 걷어 내고 '테스트 기록 ↑' 링크를 단다. 기획·운영 범위의 실무 증빙과 경력 줄이 쓴다.
+ */
+function figureLine(line: string, on: boolean, hover: string) {
+  if (!on) return line;
+  const m = moveFiguresToTestLog(line);
+  if (!m.moved) return line;
+  return (
+    <>
+      {m.text}{" "}
+      <a href="#tests" className={`underline underline-offset-2 ${hover}`}>테스트 기록 ↑</a>
+    </>
+  );
+}
+
+export function SkillsStack({ withTestLog = false }: { withTestLog?: boolean } = {}) {
   const skillBlocks =
     EDITION === "general"
       ? generalCover.capabilities.map((cap, ci) => ({
@@ -1327,7 +1344,7 @@ export function SkillsStack() {
                             className="absolute left-0 top-[0.6em] h-1 w-1 rounded-full bg-signal"
                             aria-hidden="true"
                           />
-                          {x}
+                          {figureLine(x, withTestLog, "hover:text-signal")}
                         </li>
                       ))}
                     </ul>
@@ -1939,7 +1956,8 @@ function RecordLinks({ v, compact = false }: { v: VerificationItem; compact?: bo
 }
 
 /** Career + Trust + Contact 세 섹션을 한 장으로 대체하되 정보는 줄이지 않는다. */
-export function Credits() {
+export function Credits({ withTestLog = false }: { withTestLog?: boolean } = {}) {
+  const figures = (line: string) => figureLine(line, withTestLog, "hover:text-mark");
   return (
     <Section id="career" tone="ink">
       <Container>
@@ -1973,14 +1991,16 @@ export function Credits() {
                   {/* 대표 성과는 가운뎃점으로 이어 쓴 한 문단이었다 — 한 줄에 하나씩(2026.11.21). 아래 연도별 · 업무 줄보다 진하게 */}
                   {c.highlight ? (
                     <ul className="mt-2 flex flex-col gap-1">
-                      {splitList(c.highlight).map((h) => (
-                        <li
-                          key={h}
-                          className="relative pl-3 text-mono leading-[1.55] text-white before:absolute before:left-0 before:top-[0.62em] before:h-1 before:w-1 before:rounded-full before:bg-mark"
-                        >
-                          {h}
-                        </li>
-                      ))}
+                      {splitList(c.highlight).map((h) => {
+                        return (
+                          <li
+                            key={h}
+                            className="relative pl-3 text-mono leading-[1.55] text-white before:absolute before:left-0 before:top-[0.62em] before:h-1 before:w-1 before:rounded-full before:bg-mark"
+                          >
+                            {figures(h)}
+                          </li>
+                        );
+                      })}
                     </ul>
                   ) : null}
                   {/* 이동 맥락. 데이터에만 있고 화면엔 없던 필드다 — 재직 기간을 보고 생기는
@@ -1996,7 +2016,7 @@ export function Credits() {
                           key={t}
                           className="relative pl-3 text-mono leading-[1.55] text-on-dark before:absolute before:left-0 before:top-[0.78em] before:h-px before:w-1.5 before:bg-on-dark"
                         >
-                          {t}
+                          {figures(t)}
                         </li>
                       ))}
                     </ul>
@@ -2013,7 +2033,7 @@ export function Credits() {
                           key={work}
                           className="relative pl-3 text-mono leading-[1.55] text-on-dark before:absolute before:left-0 before:top-[0.78em] before:h-px before:w-1.5 before:bg-on-dark"
                         >
-                          {work}
+                          {figures(work)}
                         </li>
                       ))}
                     </ul>

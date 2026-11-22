@@ -173,11 +173,11 @@ export const systemsEn: Record<string, { name: string; built: string; effect: st
   S3: {
     name: "Automated report generation",
     built: "Paste three raw media files to generate a dashboard, report and QC sheet.",
-    effect: "38 media aliases\u00a0· 82 audience groups mapped automatically",
+    effect: "38 ad-platform name variants\u00a0· 82 audience groups mapped automatically",
   },
   S2: {
     name: "Three anomaly monitors",
-    built: "Scheduled checks for dead landing pages and stalled spend, plus AI-written daily GA4 comments for 6 media.",
+    built: "Scheduled checks for dead landing pages and stalled spend, plus AI-written daily GA4 comments for six ad platforms.",
     effect: "Alerts only when something is wrong\u00a0· silent when normal",
   },
   S4: {
