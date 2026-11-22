@@ -68,8 +68,8 @@ export const careerEn = [
     summary:
       "Beyond media buying across channels, I widened my role to own the decision rules that measure content and media performance together, and the automation behind them.",
     work: [
-      "Ran New Balance's 10 channels as one account, at KRW 500M–1B+ a month",
-      "Planned and built 6 automations for inventory, reporting, monitoring and settlement",
+      "Ran New Balance's media as one account, including budget and bidding calls",
+      "Planned and built automations for inventory, reporting, monitoring and settlement",
       "Took part in the in-house AI transformation (AX) project",
     ],
     clients: "New Balance\u00a0· Daekyo EduCamp (5 sub-brands)\u00a0· Gangwon Deep Sea Water Cheonnyeon Dongan",

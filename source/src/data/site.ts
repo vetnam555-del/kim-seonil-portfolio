@@ -37,7 +37,7 @@ export const site = {
     "mailto:makefair@naver.com?subject=%EC%9D%B4%EB%A0%A5%EC%84%9C%20%EC%9B%90%EB%B3%B8%20%EC%9A%94%EC%B2%AD%EB%93%9C%EB%A6%BD%EB%8B%88%EB%8B%A4",
   /** 전화번호·주소·생년월일을 제외한 공개용 PDF */
   /* 2026.10.09 문장 다듬기 반영본(scripts/print_resume_reportlab.py) — 캐시를 넘기려고 판 번호를 올린다 */
-  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261121a" : "/kim-seonil-resume-public.pdf",
+  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261122a" : "/kim-seonil-resume-public.pdf",
   /** 웹 포트폴리오의 PDF 공유본 — 일반판은 2026-10-31 부터 사이트에 싣지 않는다(edition.ts portfolioPdfPublic). 다른 판의 경로로만 쓴다 */
   portfolioPdfPath: isGeneralLike ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261025a" : "/kim-seonil-performance-marketing-portfolio.pdf",
 } as const;
@@ -1924,9 +1924,13 @@ export const career: CareerItem[] = [
            맡겠다는 것은 기획이 아니라 그 앞의 근거다. 두 곳의 말을 맞춘다. */
         ? " 이제 같은 회사 안에서 콘텐츠가 시청자에게 닿는 단계를 맡는 역할로 이동하고자 합니다."
         : ""),
+    /*
+     * 2026.11.22 (B-21) — 규모(월 5~10억+ · 10개 채널)와 '6종'은 바로 아래 highlight 가 말한다. 같은 칸에서 두 번 적지 않는다
+     * (플레이디 칸과 같은 규칙). 업무 줄에는 하는 일만 남긴다 — '예산·입찰 판단'은 직접 해본 것(scope)의 말이다.
+     */
     work: [
-      "뉴발란스 월 5~10억+ 규모 10개 채널 통합 운영",
-      "재고·리포트·모니터링·정산 자동화 6종 기획·구축",
+      "뉴발란스 매체 통합 운영과 예산·입찰 판단",
+      "재고·리포트·모니터링·정산 자동화 기획·구축",
       "사내 AI 전환(AX) 프로젝트 참여",
     ],
     clients: "뉴발란스\u00a0· 대교에듀캠프(서브 브랜드 5개)\u00a0· 강원심층수 천년동안",
