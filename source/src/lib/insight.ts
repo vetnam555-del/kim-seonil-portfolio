@@ -24,7 +24,8 @@
  * 비어 있으면 꺼진다. 환경변수 NEXT_PUBLIC_INSIGHT_URL 이 있으면 그것이 먼저다(로컬 수집기로 시험할 때) —
  * 그런 산출물은 validate_export 가 일반판에서 막는다(Apps Script 주소가 아니면 배포하지 않는다).
  */
-export const GENERAL_INSIGHT_URL = "https://script.google.com/macros/s/AKfycbyluEFS5alldrSJPXK3XQ7m3knceKLMqITxsEdnNafQGSzSmt746AvPUrToD3hgL8zhIw/exec";
+/* 2026.11.22 v2(시트에 쓰는 동안 잠금) 새 배포 주소로 바꿨다. 옛 주소(AKfycbyluEFS…)도 같은 시트에 쓰지만 잠금이 없다 */
+export const GENERAL_INSIGHT_URL = "https://script.google.com/macros/s/AKfycbyk2CSVqdr5BCW_ncSV3u8-pbYZuilPecu6FUbbiVYrKxxL_EM_3re2F-RosPxvs8O1Fw/exec";
 export const INSIGHT_URL =
   process.env.NEXT_PUBLIC_INSIGHT_URL ?? (process.env.NEXT_PUBLIC_EDITION === "general" ? GENERAL_INSIGHT_URL : "");
 
