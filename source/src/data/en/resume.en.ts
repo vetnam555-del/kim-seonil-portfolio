@@ -66,9 +66,9 @@ export const careerEn = [
     period: "2025.11 – 2026.09",
     title: "Performance Strategy Division\u00a0· Manager",
     summary:
-      "Beyond running multiple media, I widened my role to own the decision rules that measure content and media performance together, and the automation behind them.",
+      "Beyond media buying across channels, I widened my role to own the decision rules that measure content and media performance together, and the automation behind them.",
     work: [
-      "Integrated operation of New Balance's 10 channels at KRW 500M–1B+ a month",
+      "Ran New Balance's 10 channels as one account, at KRW 500M–1B+ a month",
       "Planned and built 6 automations for inventory, reporting, monitoring and settlement",
       "Took part in the in-house AI transformation (AX) project",
     ],
@@ -182,8 +182,8 @@ export const publicWorkEn = [
   {
     label: "Training tool\u00a0· public web",
     title: "Performance Marketing Practice Hub",
-    desc: "I gathered per-media operating guides and practice tools into one onboarding site, so individual know-how becomes something the team reuses.",
-    facts: ["8 practical tools", "12-week curriculum", "9 media guides"],
+    desc: "I gathered per-platform operating guides and practice tools into one onboarding site, so individual know-how becomes something the team reuses.",
+    facts: ["8 practical tools", "12-week curriculum", "9 ad-platform guides"],
     href: "https://vetnam555-del.github.io/pm-hub/",
   },
 ] as const;
@@ -284,7 +284,7 @@ export const educationEn = [
 
 /* 2026.11.18 one sentence shorter, as in Korean: the first sentence repeated the two rows above it */
 export const educationCaptionEn =
-  "I learned to judge by the numbers in business and to read creative in industrial design; media operations was the work that needed both together.";
+  "I learned to judge by the numbers in business and to read creative in industrial design; media operations was where I needed both at once.";
 
 export const certificationsEn = [
   { name: "GAIQ (Google Analytics), previously certified", when: "" },

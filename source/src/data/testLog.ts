@@ -74,7 +74,7 @@ export const testLog: TestLogRow[] = [
     compared: "유튜브 DP와 동영상을 같은 기간\u00a0· 같은 지표로 비교",
     result: "DP CTR 0.73%\u00a0· CPC 637원 / 동영상 CTR 2.16%\u00a0· CPC 160원",
     verdict: "동영상 비중 확대",
-    next: "2월 23일부터 동영상 비중 확대\u00a0· 그 뒤 동영상 광고 CTR 3.14%",
+    next: "2월 23일부터 적용\u00a0· 그 뒤 동영상 광고 CTR 3.14%",
   },
 ];
 
