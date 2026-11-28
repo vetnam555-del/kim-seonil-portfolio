@@ -90,6 +90,68 @@ export const testLogNotes: { slug: string; text: string }[] = [
   },
 ];
 
+/*
+ * 판정 전에 보는 다섯 가지 (2026.11.28) — 테스트 기록 위에 둔다.
+ * 테스트 결과를 믿기 전에 확인할 것을 한곳에 모은다(주인 요청 · 2026.11.28).
+ * 문장은 새로 썼고, 항목마다 이 사이트에 이미 실린 사례 한 곳을 근거로 단다. 숫자는 넣지 않는다 —
+ * 같은 숫자는 한 쪽에 한 번만(아래 테스트 기록 · 사례에 이미 있다).
+ * anchor 는 그 사례 쪽 안의 자리다. evidence- 로 시작하면 그 증빙 파일이 사례 데이터에 있어야 한다(아래 검사).
+ */
+export interface JudgmentCheck {
+  question: string;
+  slug: string;
+  brand: string;
+  anchor: string;
+  line: string;
+}
+
+export const judgmentChecks: JudgmentCheck[] = [
+  {
+    question: "비교 대상이 같은가",
+    slug: "daekyo",
+    brand: "대교에듀캠프",
+    anchor: "case-analysis",
+    line: "'하락'으로 보인 비교에 소액 소재가 섞여 있어, 그 소재를 빼고 같은 표본으로 재계산",
+  },
+  {
+    question: "정상 구간에서 쟀는가",
+    slug: "dyson",
+    brand: "다이슨",
+    anchor: "evidence-dyson-mar-ctr-improvement",
+    line: "캠페인이 학습 중인 기간을 빼고 안정 구간만 성과로 읽음",
+  },
+  {
+    question: "지표 하나로 정하지 않았는가",
+    slug: "newbalance",
+    brand: "뉴발란스",
+    anchor: "evidence-newbalance-creative-performance",
+    line: "클릭률 1위 소재가 매출 효율 1위는 아니어서, 소재 판정 기준을 CVR\u00a0· ROAS로 옮김",
+  },
+  {
+    question: "앞 단계가 오를 때 뒤 단계도 봤는가",
+    slug: "daekyo",
+    brand: "대교에듀캠프",
+    anchor: "case-results",
+    line: "신청 전환율이 오른 회차에 정규 서비스 전환율이 떨어져, 폼 문항을 다시 조정",
+  },
+  {
+    question: "원인을 하나로 좁혔는가",
+    slug: "gangwon",
+    brand: "강원심층수",
+    anchor: "evidence-gangwon-creative-cvr",
+    line: "소재마다 상품\u00a0· 혜택\u00a0· 랜딩이 달라 순위를 매길 수 없어, 같은 소재로 랜딩만 나눠 비교",
+  },
+];
+
+for (const c of EDITION === "general" ? judgmentChecks : []) {
+  const p = projects.find((x) => x.slug === c.slug);
+  if (!p) throw new Error(`judgmentChecks: 사례 ${c.slug} 가 없습니다`);
+  if (/\d[\d,.]*\s?(%|원|배|건)/.test(c.line)) throw new Error(`judgmentChecks: ${c.slug} 줄에 성과 숫자를 넣지 않는다 — "${c.line}"`);
+  if (c.anchor.startsWith("evidence-") && !JSON.stringify(p).includes(c.anchor.replace(/^evidence-/, "") + ".")) {
+    throw new Error(`judgmentChecks: ${c.slug} 사례에 증빙 ${c.anchor} 가 없습니다`);
+  }
+}
+
 /* ── 빌드 때 검사: 줄에 적은 숫자가 그 사례 데이터에 같은 글자로 있어야 한다 ──
    이 구역은 일반판 /about/ 에만 나온다. 다른 판은 사례 구성이 달라 검사하지 않는다. */
 const NUM = /[−+-]?\d[\d,.]*\s?(?:%p|%|원|일)?/g;
