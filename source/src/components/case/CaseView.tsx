@@ -877,6 +877,10 @@ function ResultsDetails({
           hasChart ? "mt-9 border-t border-line pt-8" : ""
         }`}
       >
+        {/* 격자가 위 대표 막대와 다른 묶음이면 소제목을 단다(대교 · 2026.11.28 — 막대는 CVR 재비교, 격자는 상담 폼 결과) */}
+        {gridLevels[0]?.group ? (
+          <p className="col-span-full -mb-3 text-caption font-semibold text-ink-3">{gridLevels[0].group}</p>
+        ) : null}
         {gridLevels.map((metric, index) => (
           <MetricDelta
             key={metric.label}

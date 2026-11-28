@@ -120,8 +120,8 @@ export const portfolioPdfPublic = EDITION !== "general";
 export const portfolioPdfRequest = {
   href: "mailto:makefair@naver.com?subject=" + encodeURIComponent("포트폴리오 PDF 요청드립니다"),
   hrefEn: "mailto:makefair@naver.com?subject=" + encodeURIComponent("Portfolio PDF request"),
-  label: "포트폴리오 PDF 요청",
-  labelEn: "Request portfolio PDF (Korean)",
+  label: "포트폴리오 PDF 요청 메일",
+  labelEn: "Email to request portfolio PDF (Korean)",
 } as const;
 
 export const portfolioPdfPathForClient =

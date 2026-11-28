@@ -280,7 +280,8 @@ export default function HomeFolio({ lang = "ko" }: { lang?: Lang }) {
             <ul className="folio-proof folio-proofs" aria-label={ui.proofAria} style={{ "--l": display.length + 2 } as CSSProperties}>
               {proof.map((f, i) => (
                 <li key={f.label}>
-                  <a href={f.href}>
+                  {/* 숫자 칸은 그 사례의 결과 구역으로 간다(2026.11.28 · 같은 숫자가 첫 문장에 있다). 수상은 이 쪽 #records */}
+                  <a href={f.href.startsWith("#") ? f.href : `${BASE}${f.href}`}>
                     {/* 값 쪽 · 설명 쪽을 따로 묶는다 — 좁은 화면에서 설명이 두 줄이 돼도 값 아래 선이 밀려 내려가지 않는다 */}
                     <span className="folio-proof-main">
                       <span className="folio-proof-value">
