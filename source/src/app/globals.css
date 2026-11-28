@@ -2629,6 +2629,11 @@ html[data-intro="reveal"] .folio-proofs { animation: hero-rise-now .7s cubic-bez
 .folio-case-title, .loop-panel-line { font-weight: 700; }
 /* 영문 홈 360 – 374px 첫 화면 (2026.11.15 B-17) — 영문 결과 칸의 이름 · 기준 글이 2–3줄이라 360×640 에서만 첫 버튼이 48px 넘쳤다.
    국문은 그대로, 영문만 이 폭에서 칸 사이 · 이름 · 기준 글을 한 단계씩 줄인다(값 칸 폭은 '352% → 583%' 가 한 줄에 드는 만큼). */
+/* 국문 360 – 374px · 짧은 화면 (2026.11.28) — 강원 칸 기준 글에 '공동구매 포함'을 더하자(외부 검토: +397.3%가 광고 성과로 읽힘)
+   기준 글이 두 줄이 돼 360×640 에서 첫 버튼이 3px 넘쳤다. 이 크기에서만 결과 칸 위아래 여백을 2px씩 줄인다. */
+@media (max-width: 374px) and (max-height: 700px) {
+  html[lang="ko"] .folio-proofs a { padding: 6px 0 7px; }
+}
 @media (max-width: 374px) {
   html[lang="en"] .folio-proofs a { grid-template-columns: 8.9rem minmax(0,1fr); column-gap: 10px; padding: 8px 0 9px; }
   html[lang="en"] .folio-proofs .folio-proof-value { font-size: 23px; gap: 0 6px; }

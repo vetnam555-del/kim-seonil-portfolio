@@ -18,7 +18,7 @@ export const coverEn = {
   note: "I've run ads for 30+ brands across 9 industries, including New Balance, Dyson and J.ESTINA. I start by checking the baseline, then improve budget allocation and conversion paths.",
   proof: [
     { before: "352% →", after: "583%", label: "J.ESTINA GA4 ROAS", basis: "May → Jul 2025\u00a0· same closing report", href: "/en/projects/jestina/#case-results", bars: [352, 583] },
-    { after: "+397.3%", label: "Gangwon total store sales", basis: "Jul 2026 vs same period last year\u00a0· incl. group-buys", href: "/en/projects/gangwon/#case-results", bars: [100, 497.3] },
+    { after: "+397.3%", label: "Gangwon store sales", basis: "Jul 2026 vs same period last year\u00a0· incl. group-buys", href: "/en/projects/gangwon/#case-results", bars: [100, 497.3] },
     { after: "2×", label: "Korea Digital Advertising Awards, Excellence", basis: "2 years running\u00a0· 2024 Dongnimmun\u00a0· 2025 J.ESTINA", href: "#records", marks: ["2024", "2025"] },
   ],
   capabilities: [

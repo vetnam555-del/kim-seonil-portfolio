@@ -308,7 +308,7 @@ export const generalCover = {
     /* 2026.11.11 첫 화면 개편 — 값 아래 작은 막대(bars: 기준·결과, 0부터 같은 척도)와 연도 표시(marks). 숫자는 그대로다 */
     { before: "352% →", after: "583%", label: "제이에스티나 GA4 ROAS", basis: "2025.05 → 07\u00a0· 동일 마감보고", href: "/projects/jestina/#case-results", bars: [352, 583] },
     /* 2026.09.26 뉴발란스 점검 5분 → 강원 스토어 매출. 첫 화면에 자동화가 겹쳐 보였다(사용자). 5분은 카드·자동화 구간에 그대로 있다 */
-    { after: "+397.3%", label: "강원심층수 스토어 전체 판매금액", basis: "2026.07\u00a0· 전년 같은 기간 대비\u00a0· 공동구매 포함", href: "/projects/gangwon/#case-results", bars: [100, 497.3] },
+    { after: "+397.3%", label: "강원심층수 스토어 판매금액", basis: "2026.07\u00a0· 전년 같은 기간 대비\u00a0· 공동구매 포함", href: "/projects/gangwon/#case-results", bars: [100, 497.3] },
     { after: "2년 연속", label: "대한민국 디지털 광고 대상 우수상", basis: "2024\u00a0독립문\u00a0· 2025\u00a0제이에스티나", href: "#records", marks: ["2024", "2025"] },
   ],
   /*
