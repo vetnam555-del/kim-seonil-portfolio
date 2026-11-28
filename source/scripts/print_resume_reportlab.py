@@ -78,14 +78,16 @@ def block(title, paragraphs):
 projects = {x['slug']: x for x in D['projects']}
 
 
-def project(slug, metric_labels):
+def project(slug, metric_labels, keep=False):
     x = projects[slug]
     # 제목·기간·요약 첫 두 줄이 들어갈 자리(h3 29 + 기간 18 + 본문 두 줄 33 ≈ 80pt)가 없으면 쪽을 넘긴다 — h3 의 keepWithNext 는 기간 줄까지만 이어져,
     # 요약이 통째로 다음 쪽으로 가면 제목·기간만 앞 쪽 끝에 남았다(2026.10.15 강원심층수, 자비스 f9fe1f9 P3).
     # 셋을 KeepTogether 로 묶으면 요약 전체가 함께 넘어가 이력서가 6쪽이 된다 — 요약은 쪽 경계에서 나뉘어도 된다
     story.append(CondPageBreak(80))
-    add(x['brand'], 'h3'); add(x['period'] + ' | ' + x['contributionNote'], 'small')
-    add(x['tldr'])
+    head = [p(x['brand'], 'h3'), p(x['period'] + ' | ' + x['contributionNote'], 'small'), p(x['tldr'])]
+    # 2026.11.28 외부 검토(코덱스) — 강원심층수 요약이 2쪽 끝 '…공동구매와 나눠' / 3쪽 '다시 계산했고'로 갈렸다.
+    # 쪽 끝에서 요약이 나뉘는 사례만 제목·기간·요약을 함께 다음 쪽으로 넘긴다(keep). 다시 인쇄한 뒤 5쪽인지 확인한다
+    story.extend([KeepTogether(head)] if keep else head)
     add('담당: ' + x['role'], 'small')
     for label in metric_labels:
         m = next(i for i in x['detail']['results'] if i['label'] == label)
@@ -129,7 +131,7 @@ add('기획·중단 조건·실행 결과 검수와 운영은 제가 맡았고 P
 page('대표 프로젝트 2 | 비교 기준과 고객 행동')
 project('daekyo', ['CVR'])
 add('약 9천 원만 쓴 고CTR 소재를 뺀 동일 기준 재비교입니다. 상담 폼 3차 개선은 동일 표본 재검증 뒤에 진행한 후속 개선입니다.', 'small')
-project('gangwon', ['스토어 판매금액'])  # ROAS 201% → 238% 는 요약 문단(tldr)에 이미 있다 — 5쪽 유지
+project('gangwon', ['스토어 판매금액'], keep=True)  # ROAS 201% → 238% 는 요약 문단(tldr)에 이미 있다 — 5쪽 유지
 project('dyson', ['동영상 광고 CTR', 'YouTube 구독자'])
 add('다이슨 매체 집계 구독 전환은 104,257건(2023.12)으로 채널 전체 구독자와는 다른 지표입니다.', 'small')
 
@@ -183,8 +185,10 @@ verification = list(D['verification'])
 if not any('2024kodaf' in v['href'] for v in verification):
     at = next(k for k, v in enumerate(verification) if '2025kodaf' in v['href'])
     verification.insert(at + 1, {'title': '대한민국 디지털 광고 대상 (2024)', 'href': 'https://kodaa.or.kr/2024kodaf'})
-for v in verification:
-    story.append(link(v['title'], v['href']))
+# 한 줄씩이던 링크 여덟 개를 ' · '로 이어 한 문단에 둔다(2026.11.28) — 강원심층수 요약을 쪽 끝에서 나누지 않으려고
+# 3쪽으로 통째로 넘기자 6쪽이 됐다. 링크 수 · 주소는 그대로다
+story.append(Paragraph(' · '.join(
+    f'<link href="{html.escape(v["href"], quote=True)}" color="#B32F1C"><u>{html.escape(v["title"])}</u></link>' for v in verification), S['small']))
 add('출처·집계 기간·기여 범위는 프로젝트마다 적었습니다. 기여도는 그 범위 기준으로 100% 단독 수행, 35–75% 팀 내 전략·분석 주도, 20–30% 담당 매체·분석입니다. 전화번호·주소·생년월일과 광고주 원천 데이터는 싣지 않았습니다.', 'small')
 
 

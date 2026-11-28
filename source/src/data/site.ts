@@ -37,7 +37,7 @@ export const site = {
     "mailto:makefair@naver.com?subject=%EC%9D%B4%EB%A0%A5%EC%84%9C%20%EC%9B%90%EB%B3%B8%20%EC%9A%94%EC%B2%AD%EB%93%9C%EB%A6%BD%EB%8B%88%EB%8B%A4",
   /** 전화번호·주소·생년월일을 제외한 공개용 PDF */
   /* 2026.10.09 문장 다듬기 반영본(scripts/print_resume_reportlab.py) — 캐시를 넘기려고 판 번호를 올린다 */
-  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261122a" : "/kim-seonil-resume-public.pdf",
+  resumePdfPath: isGeneralLike ? "/kim-seonil-resume-public.pdf?v=20261128a" : "/kim-seonil-resume-public.pdf",
   /** 웹 포트폴리오의 PDF 공유본 — 일반판은 2026-10-31 부터 사이트에 싣지 않는다(edition.ts portfolioPdfPublic). 다른 판의 경로로만 쓴다 */
   portfolioPdfPath: isGeneralLike ? "/kim-seonil-performance-marketing-portfolio.pdf?v=20261025a" : "/kim-seonil-performance-marketing-portfolio.pdf",
 } as const;
@@ -306,9 +306,9 @@ export const generalCover = {
    */
   proof: [
     /* 2026.11.11 첫 화면 개편 — 값 아래 작은 막대(bars: 기준·결과, 0부터 같은 척도)와 연도 표시(marks). 숫자는 그대로다 */
-    { before: "352% →", after: "583%", label: "제이에스티나 GA4 ROAS", basis: "2025.05 → 07\u00a0· 동일 마감보고", href: "#case-jestina", bars: [352, 583] },
+    { before: "352% →", after: "583%", label: "제이에스티나 GA4 ROAS", basis: "2025.05 → 07\u00a0· 동일 마감보고", href: "/projects/jestina/#case-results", bars: [352, 583] },
     /* 2026.09.26 뉴발란스 점검 5분 → 강원 스토어 매출. 첫 화면에 자동화가 겹쳐 보였다(사용자). 5분은 카드·자동화 구간에 그대로 있다 */
-    { after: "+397.3%", label: "강원심층수 스토어 판매금액", basis: "2026.07\u00a0· 전년 같은 기간 대비", href: "#case-gangwon", bars: [100, 497.3] },
+    { after: "+397.3%", label: "강원심층수 스토어 전체 판매금액", basis: "2026.07\u00a0· 전년 같은 기간 대비\u00a0· 공동구매 포함", href: "/projects/gangwon/#case-results", bars: [100, 497.3] },
     { after: "2년 연속", label: "대한민국 디지털 광고 대상 우수상", basis: "2024\u00a0독립문\u00a0· 2025\u00a0제이에스티나", href: "#records", marks: ["2024", "2025"] },
   ],
   /*
